@@ -4,15 +4,35 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TabHost;
 
 import com.apps.b3bytes.homefoods.R;
 
 public class DishDesc extends ActionBarActivity {
+    private TabHost host;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dish_desc);
+
+        host = (TabHost)findViewById(R.id.tabDishDesc);
+        host.setup();
+
+        TabHost.TabSpec spec = host.newTabSpec("Tab One");
+        spec.setContent(R.id.tab1);
+        spec.setIndicator("Prep");
+        host.addTab(spec);
+
+        spec = host.newTabSpec("Tab Two");
+        spec.setContent(R.id.tab2);
+        spec.setIndicator("Ingredients");
+        host.addTab(spec);
+
+        spec = host.newTabSpec("Tab Three");
+        spec.setContent(R.id.tab3);
+        spec.setIndicator("Nutrition");
+        host.addTab(spec);
     }
 
     @Override
