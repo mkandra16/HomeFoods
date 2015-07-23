@@ -1,8 +1,28 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
+    </style>
+
+    <color name="KPTheme_AdriftInDreams_colorPrimaryDark">#00796B</color>
+    <color name="KPTheme_AdriftInDreams_colorPrimary">#3B8686</color>
+    <color name="KPTheme_AdriftInDreams_colorAccent">#0B486B</color>
+    <color name="KPTheme_AdriftInDreams_ActionBarText_Color">#FFFFFF</color>
+    <style name="actionbar_r1_titletext" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/KPTheme_AdriftInDreams_ActionBarText_Color</item>
+    </style>
+
+    <style name="KPTheme_AdriftInDreams_ActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="background">@color/KPTheme_AdriftInDreams_colorPrimary</item>
+        <item name="titleTextStyle">@style/actionbar_r1_titletext</item>
+    </style>
+
+    <style name="Theme.KPTheme_AdriftInDreams" parent="Theme.AppCompat.Light">
+        <item name="actionBarStyle">@style/KPTheme_AdriftInDreams_ActionBarStyle</item>
+        <item name="colorPrimary">@color/KPTheme_AdriftInDreams_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/KPTheme_AdriftInDreams_colorPrimaryDark</item>
+        <item name="colorAccent">@color/KPTheme_AdriftInDreams_colorAccent</item>
     </style>
 
 </resources>

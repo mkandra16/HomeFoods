@@ -3,4 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="bDishDescScreenNavigation">Dish Desc</string>
+    <string name="title_activity_dish_desc">HomeFoods</string>
+    <string name="INR">\u20B9 175</string>
 </resources>

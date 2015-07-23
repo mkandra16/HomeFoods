@@ -1,23 +1,24 @@
-package com.apps.b3bytes.homefoods;
+package com.apps.b3bytes.homefoods.activities;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.apps.b3bytes.homefoods.R;
 
-public class WelcomeScreen extends ActionBarActivity {
+public class DishDesc extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome_screen);
+        setContentView(R.layout.activity_dish_desc);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_welcome_screen, menu);
+        getMenuInflater().inflate(R.menu.menu_dish_desc, menu);
         return true;
     }
 
