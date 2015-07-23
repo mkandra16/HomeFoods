@@ -6,6 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#F5F5F5"
     tools:context="com.apps.b3bytes.homefoods.activities.DishDesc">
 
     <TextView
@@ -33,9 +34,118 @@
         android:id="@+id/ivDishImage"
         android:layout_width="fill_parent"
         android:layout_height="180dp"
-        android:adjustViewBounds="true"
         android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvDishPrice"
+        android:adjustViewBounds="true"
         android:background="@drawable/south_indian_breakfast_01"
-        android:scaleType="centerInside"
-        android:layout_below="@+id/tvDishPrice" />
+        android:scaleType="centerInside" />
+
+    <RelativeLayout
+        android:id="@+id/rlDishRatingsReviews_Add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivDishImage"
+        android:paddingTop="2dp">
+
+        <RelativeLayout
+            android:id="@+id/rlDishReviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivReviewsThumbsUp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentStart="true"
+                android:background="@mipmap/ic_review_thumbs_up" />
+
+            <TextView
+                android:id="@+id/tvReviewsThumbsUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/ivReviewsThumbsUp"
+                android:paddingLeft="2dp"
+                android:text="1280"
+                android:textSize="8sp" />
+
+            <ImageView
+                android:id="@+id/ivReviewsThumbsDown"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/tvReviewsThumbsUp"
+                android:background="@mipmap/ic_review_thumbs_down" />
+
+            <TextView
+                android:id="@+id/tvReviewsThumbsDown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/ivReviewsThumbsDown"
+                android:paddingLeft="2dp"
+                android:text="32"
+                android:textSize="8sp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvDishReviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/rlDishReviews"
+            android:layout_marginTop="6dp"
+            android:text="Reviews (450)"
+            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/bAddToBag"
+            style="?bAddToBag"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_alignBottom="@+id/tvDishReviews"
+            android:layout_alignParentEnd="true"
+            android:text="@string/bAddToBag" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlDishDescChef_Chord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlDishRatingsReviews_Add"
+        android:layout_marginTop="5dp"
+        android:background="#FFFFFF" >
+        <ImageView
+            android:id="@+id/ivChefImage"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:background="@mipmap/ic_chef_image" />
+        <TextView
+            android:id="@+id/tvChefName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/ivChefImage"
+            android:text="Chef Name"
+            android:textStyle="bold"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tvChefDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvChefName"
+            android:layout_alignBottom="@+id/ivChefImage"
+            android:layout_alignLeft="@+id/tvChefName"
+            android:paddingTop="2dp"
+            android:text="Short description about the chef in one or two lines followed by eclipses ..."
+            android:textSize="12sp" />
+
+
+    </RelativeLayout>
+
+
 </RelativeLayout>
