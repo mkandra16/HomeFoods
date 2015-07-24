@@ -7,4 +7,5 @@
     <string name="title_activity_dish_desc">HomeFoods</string>
     <string name="INR">\u20B9 175</string>
     <string name="bAddToBag">Add to Bag</string>
+    <string name="title_activity_dish_desc_prep_tab">DishDescPrepTab</string>
 </resources>

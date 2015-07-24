@@ -9,30 +9,35 @@ import android.widget.TabHost;
 import com.apps.b3bytes.homefoods.R;
 
 public class DishDesc extends ActionBarActivity {
-    private TabHost host;
+    private TabHost tabHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dish_desc);
 
-        host = (TabHost)findViewById(R.id.tabDishDesc);
-        host.setup();
+        // create the TabHost that will contain the Tabs
+        tabHost = (TabHost)findViewById(R.id.tabDishDesc);
+        tabHost.setup();
 
-        TabHost.TabSpec spec = host.newTabSpec("Tab One");
-        spec.setContent(R.id.tab1);
-        spec.setIndicator("Prep");
-        host.addTab(spec);
+        TabHost.TabSpec tabSpec1 = tabHost.newTabSpec("Tab One");
+        TabHost.TabSpec tabSpec2 = tabHost.newTabSpec("Tab Two");
+        TabHost.TabSpec tabSpec3 = tabHost.newTabSpec("Tab Three");
 
-        spec = host.newTabSpec("Tab Two");
-        spec.setContent(R.id.tab2);
-        spec.setIndicator("Ingredients");
-        host.addTab(spec);
+        // Set the Tab name and the content
+        tabSpec1.setIndicator("Prep");
+        tabSpec1.setContent(R.id.tab1);
 
-        spec = host.newTabSpec("Tab Three");
-        spec.setContent(R.id.tab3);
-        spec.setIndicator("Nutrition");
-        host.addTab(spec);
+        tabSpec2.setIndicator("Ingredients");
+        tabSpec2.setContent(R.id.tab2);
+
+        tabSpec3.setIndicator("Nutrition");
+        tabSpec3.setContent(R.id.tab3);
+
+        // Add the tabs to the TabHost to display
+        tabHost.addTab(tabSpec1);
+        tabHost.addTab(tabSpec2);
+        tabHost.addTab(tabSpec3);
     }
 
     @Override

@@ -1,196 +1,381 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="#F5F5F5"
-    tools:context="com.apps.b3bytes.homefoods.activities.DishDesc">
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
-    <TextView
-        android:id="@+id/tvDishName"
-        android:layout_width="wrap_content"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:text="South Indian Breakfast"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvDishPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/tvDishName"
-        android:layout_below="@+id/tvDishName"
-        android:text="@string/INR"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/KPTheme_AdriftInDreams_colorAccent" />
-
-    <ImageView
-        android:id="@+id/ivDishImage"
-        android:layout_width="fill_parent"
-        android:layout_height="180dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/tvDishPrice"
-        android:adjustViewBounds="true"
-        android:background="@drawable/south_indian_breakfast_01"
-        android:scaleType="centerInside" />
-
-    <RelativeLayout
-        android:id="@+id/rlDishRatingsReviews_Add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivDishImage"
-        android:paddingTop="2dp">
-
-        <RelativeLayout
-            android:id="@+id/rlDishReviews"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/ivReviewsThumbsUp"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentStart="true"
-                android:background="@mipmap/ic_review_thumbs_up" />
-
-            <TextView
-                android:id="@+id/tvReviewsThumbsUp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/ivReviewsThumbsUp"
-                android:paddingLeft="2dp"
-                android:text="1280"
-                android:textSize="8sp" />
-
-            <ImageView
-                android:id="@+id/ivReviewsThumbsDown"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@+id/tvReviewsThumbsUp"
-                android:background="@mipmap/ic_review_thumbs_down" />
-
-            <TextView
-                android:id="@+id/tvReviewsThumbsDown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/ivReviewsThumbsDown"
-                android:paddingLeft="2dp"
-                android:text="32"
-                android:textSize="8sp" />
-        </RelativeLayout>
+        android:background="#F5F5F5"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.apps.b3bytes.homefoods.activities.DishDesc">
 
         <TextView
-            android:id="@+id/tvDishReviews"
+            android:id="@+id/tvDishName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/rlDishReviews"
-            android:layout_marginTop="6dp"
-            android:text="Reviews (450)"
-            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
-            android:textSize="12sp"
+            android:layout_alignParentTop="true"
+            android:text="South Indian Breakfast"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/bAddToBag"
-            style="?bAddToBag"
+        <TextView
+            android:id="@+id/tvDishPrice"
             android:layout_width="wrap_content"
-            android:layout_height="24dp"
-            android:layout_alignBottom="@+id/tvDishReviews"
-            android:layout_alignParentEnd="true"
-            android:text="@string/bAddToBag" />
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/tvDishName"
+            android:layout_below="@+id/tvDishName"
+            android:text="@string/INR"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent" />
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rlDishDescChef_Chord"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rlDishRatingsReviews_Add"
-        android:layout_marginTop="5dp"
-        android:background="#FFFFFF" >
         <ImageView
-            android:id="@+id/ivChefImage"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:id="@+id/ivDishImage"
+            android:layout_width="fill_parent"
+            android:layout_height="180dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/tvDishPrice"
+            android:adjustViewBounds="true"
+            android:background="@drawable/south_indian_breakfast_01"
+            android:scaleType="centerInside" />
+
+        <RelativeLayout
+            android:id="@+id/rlDishRatingsReviews_Add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivDishImage"
+            android:paddingTop="2dp">
+
+            <RelativeLayout
+                android:id="@+id/rlDishReviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ivReviewsThumbsUp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentStart="true"
+                    android:background="@mipmap/ic_review_thumbs_up" />
+
+                <TextView
+                    android:id="@+id/tvReviewsThumbsUp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/ivReviewsThumbsUp"
+                    android:paddingLeft="2dp"
+                    android:text="1280"
+                    android:textSize="8sp" />
+
+                <ImageView
+                    android:id="@+id/ivReviewsThumbsDown"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/tvReviewsThumbsUp"
+                    android:background="@mipmap/ic_review_thumbs_down" />
+
+                <TextView
+                    android:id="@+id/tvReviewsThumbsDown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/ivReviewsThumbsDown"
+                    android:paddingLeft="2dp"
+                    android:text="32"
+                    android:textSize="8sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvDishReviews"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/rlDishReviews"
+                android:layout_marginTop="6dp"
+                android:text="Reviews (450)"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/bAddToBag"
+                style="?bAddToBag"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_alignBottom="@+id/tvDishReviews"
+                android:layout_alignParentEnd="true"
+                android:text="@string/bAddToBag" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlDishDescChef_Chord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlDishRatingsReviews_Add"
+            android:layout_marginTop="5dp"
+            android:background="#FFFFFF">
+
+            <ImageView
+                android:id="@+id/ivChefImage"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentStart="true"
+                android:background="@mipmap/ic_chef_image" />
+
+            <TextView
+                android:id="@+id/tvChefName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/ivChefImage"
+                android:text="Chef Name"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvChefDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/ivChefImage"
+                android:layout_alignLeft="@+id/tvChefName"
+                android:layout_below="@+id/tvChefName"
+                android:paddingTop="2dp"
+                android:text="Short description about the chef in one or two lines followed by eclipses ..."
+                android:textSize="12sp" />
+
+
+        </RelativeLayout>
+
+        <TabHost
+            android:id="@+id/tabDishDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:background="@mipmap/ic_chef_image" />
-        <TextView
-            android:id="@+id/tvChefName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/ivChefImage"
-            android:text="Chef Name"
-            android:textStyle="bold"
-            android:textSize="15sp" />
+            android:layout_below="@+id/rlDishDescChef_Chord"
+            android:layout_marginTop="5dp"
+            android:background="#FFFFFF">
 
-        <TextView
-            android:id="@+id/tvChefDesc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvChefName"
-            android:layout_alignBottom="@+id/ivChefImage"
-            android:layout_alignLeft="@+id/tvChefName"
-            android:paddingTop="2dp"
-            android:text="Short description about the chef in one or two lines followed by eclipses ..."
-            android:textSize="12sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></TabWidget>
+
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <!--
+                                                    <LinearLayout
+                                                        android:id="@+id/tab1"
+                                                        android:layout_width="match_parent"
+                                                        android:layout_height="wrap_content"
+                                                        android:orientation="vertical">
+
+                                                        <TextView
+                                                            android:id="@+id/tvDishPrepTab"
+                                                            android:layout_width="match_parent"
+                                                            android:layout_height="wrap_content"
+                                                            android:paddingTop="12dp"
+                                                            android:paddingLeft="10dp"
+                                                            android:text="\nDish Preparation Details here \n\nHeat the dosa pan \nTake the batter and uniformly spread it over the pan"/>
+
+                                                    </LinearLayout>
+                    -->
+
+                    <RelativeLayout
+                        android:id="@+id/tab1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tvDishPrepTab"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="6dp"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="6dp"
+                            android:text="\nDish Preparation Details here \n\nHeat the dosa pan \nTake the batter and uniformly spread it over the pan \n" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/tab2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvDishIngredientsTab"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingBottom="6dp"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="6dp"
+                            android:text="\nDish Ingredients Details here \n" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/tab3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvDishNutritionTab"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingBottom="6dp"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="6dp"
+                            android:text="\nDish Nutrition Details here\n" />
+
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+        </TabHost>
+
+        <RelativeLayout
+            android:id="@+id/rlMoreFromThisChef"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tabDishDesc"
+            android:layout_marginTop="5dp"
+            android:background="#FFFFFF">
+
+            <TextView
+                android:id="@+id/tvMoreFromChef"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="3dp"
+                android:paddingTop="6dp"
+                android:text="More from the Chef"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvMoreDishName"
+                android:layout_below="@+id/tvMoreFromChef"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="3dp"
+                android:paddingTop="6dp"
+                android:text="South Indian Breakfast"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvMoreDishPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/INR"
+                android:paddingRight="3dp"
+                android:textSize="12sp"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:layout_below="@+id/tvMoreDishName"
+                android:layout_alignParentEnd="true" />
+
+
+            <ImageView
+                android:id="@+id/ivMoreFromChef"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/tvMoreDishPrice"
+                android:layout_marginTop="3dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/south_indian_breakfast_01"
+                android:scaleType="centerInside" />
+
+            <TextView
+                android:id="@+id/tvMoreDishMoreElipse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="see more ..."
+                android:paddingRight="3dp"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorSeaShowingGreen"
+                android:layout_below="@+id/ivMoreFromChef"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlSimilarDishesNearBy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlMoreFromThisChef"
+            android:layout_marginTop="6dp"
+            android:background="#FFFFFF">
+
+            <TextView
+                android:id="@+id/tvSimilarDishesNearBy"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="3dp"
+                android:paddingTop="6dp"
+                android:text="Similar Dishes Nearby"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvSimilarDishName"
+                android:layout_below="@+id/tvSimilarDishesNearBy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="3dp"
+                android:paddingTop="6dp"
+                android:text="South Indian Breakfast"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvSimilarDishPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/INR"
+                android:paddingRight="3dp"
+                android:textSize="12sp"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:layout_below="@+id/tvSimilarDishName"
+                android:layout_alignParentEnd="true" />
+
+            <ImageView
+                android:id="@+id/ivSimilarDishesNearBy"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/tvSimilarDishPrice"
+                android:layout_marginTop="3dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/south_indian_breakfast_01"
+                android:scaleType="centerInside" />
+
+            <TextView
+                android:id="@+id/tvSimilarDishMoreElipse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="see more ..."
+                android:paddingRight="3dp"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorSeaShowingGreen"
+                android:layout_below="@+id/ivSimilarDishesNearBy"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
-
-    <TabHost
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/tabDishDesc"
-        android:layout_below="@+id/rlDishDescChef_Chord"
-        android:layout_marginTop="5dp"
-        android:layout_alignParentStart="true"
-        android:background="#FFFFFF">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TabWidget
-                android:id="@android:id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></TabWidget>
-
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:id="@+id/tab1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"></LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/tab2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"></LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/tab3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"></LinearLayout>
-            </FrameLayout>
-        </LinearLayout>
-    </TabHost>
-
-
-</RelativeLayout>
+</ScrollView>

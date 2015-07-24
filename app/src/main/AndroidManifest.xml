@@ -19,7 +19,7 @@
         <activity
             android:name=".activities.DishDesc"
             android:label="@string/title_activity_dish_desc"
-            android:theme="@style/Theme.KPTheme_AdriftInDreams"></activity>
+            android:theme="@style/Theme.KPTheme_AdriftInDreams" />
     </application>
 
 </manifest>

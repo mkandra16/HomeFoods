@@ -12,6 +12,9 @@
         <item name="android:background">@drawable/button_wh_normal</item>
     </style>
 
+    <color name="KPTheme_AdriftInDreams_colorSeaFoaming">#A8DBA8</color>
+    <color name="KPTheme_AdriftInDreams_colorSunlitSea">#CFF09E</color>
+    <color name="KPTheme_AdriftInDreams_colorSeaShowingGreen">#79BD9A</color>
     <color name="KPTheme_AdriftInDreams_colorPrimaryDark">#00796B</color>
     <color name="KPTheme_AdriftInDreams_colorPrimary">#3B8686</color>
     <color name="KPTheme_AdriftInDreams_colorAccent">#0B486B</color>
