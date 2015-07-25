@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
 
@@ -38,6 +39,13 @@ public class DishDesc extends ActionBarActivity {
         tabHost.addTab(tabSpec1);
         tabHost.addTab(tabSpec2);
         tabHost.addTab(tabSpec3);
+
+        //http://stackoverflow.com/questions/9826130/tabhost-inside-a-scrollview-forces-it-it-to-scroll-to-the-bottom
+        //http://stackoverflow.com/questions/2014305/tabhost-inside-of-a-scrollview-always-scrolls-down-when-a-tab-is-clicked
+        // Get the first component and make sure it is focusable. Note you have to use setFocusableInTouchMode and not setFocusable for this to work.
+        TextView v = (TextView) findViewById(R.id.tvDishName);
+        v.setFocusableInTouchMode(true);
+        v.requestFocus();
     }
 
     @Override

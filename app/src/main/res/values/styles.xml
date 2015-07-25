@@ -6,8 +6,9 @@
     </style>
 
     <color name="button_text">#0B486B</color>
-    <style name="KPTheme_AdriftInDreams_Button_AddToBag" >
+    <style name="KPTheme_AdriftInDreams_Button_AddToBag" parent="@android:style/Widget.Button">
         <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/button_text</item>
         <item name="android:background">@drawable/button_wh_normal</item>
     </style>

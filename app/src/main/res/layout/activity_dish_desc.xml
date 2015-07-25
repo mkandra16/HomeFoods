@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ivDishImage"
-            android:paddingTop="2dp">
+            android:layout_marginTop="2dp">
 
             <RelativeLayout
                 android:id="@+id/rlDishReviews"
@@ -109,9 +109,9 @@
                 android:id="@+id/bAddToBag"
                 style="?bAddToBag"
                 android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_alignBottom="@+id/tvDishReviews"
+                android:layout_height="32dp"
                 android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
                 android:text="@string/bAddToBag" />
 
         </RelativeLayout>
@@ -268,9 +268,9 @@
 
             <TextView
                 android:id="@+id/tvMoreDishName"
-                android:layout_below="@+id/tvMoreFromChef"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/tvMoreFromChef"
                 android:paddingLeft="3dp"
                 android:paddingTop="6dp"
                 android:text="South Indian Breakfast"
@@ -282,12 +282,12 @@
                 android:id="@+id/tvMoreDishPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/INR"
-                android:paddingRight="3dp"
-                android:textSize="12sp"
-                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:layout_alignParentEnd="true"
                 android:layout_below="@+id/tvMoreDishName"
-                android:layout_alignParentEnd="true" />
+                android:paddingRight="3dp"
+                android:text="@string/INR"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="12sp" />
 
 
             <ImageView
@@ -305,11 +305,11 @@
                 android:id="@+id/tvMoreDishMoreElipse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="see more ..."
-                android:paddingRight="3dp"
-                android:textColor="@color/KPTheme_AdriftInDreams_colorSeaShowingGreen"
+                android:layout_alignParentEnd="true"
                 android:layout_below="@+id/ivMoreFromChef"
-                android:layout_alignParentEnd="true" />
+                android:paddingRight="3dp"
+                android:text="see more ..."
+                android:textColor="@color/KPTheme_AdriftInDreams_colorSeaShowingGreen" />
 
         </RelativeLayout>
 
@@ -333,9 +333,9 @@
 
             <TextView
                 android:id="@+id/tvSimilarDishName"
-                android:layout_below="@+id/tvSimilarDishesNearBy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/tvSimilarDishesNearBy"
                 android:paddingLeft="3dp"
                 android:paddingTop="6dp"
                 android:text="South Indian Breakfast"
@@ -347,12 +347,12 @@
                 android:id="@+id/tvSimilarDishPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/INR"
-                android:paddingRight="3dp"
-                android:textSize="12sp"
-                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:layout_alignParentEnd="true"
                 android:layout_below="@+id/tvSimilarDishName"
-                android:layout_alignParentEnd="true" />
+                android:paddingRight="3dp"
+                android:text="@string/INR"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="12sp" />
 
             <ImageView
                 android:id="@+id/ivSimilarDishesNearBy"
@@ -369,11 +369,11 @@
                 android:id="@+id/tvSimilarDishMoreElipse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="see more ..."
-                android:paddingRight="3dp"
-                android:textColor="@color/KPTheme_AdriftInDreams_colorSeaShowingGreen"
+                android:layout_alignParentEnd="true"
                 android:layout_below="@+id/ivSimilarDishesNearBy"
-                android:layout_alignParentEnd="true" />
+                android:paddingRight="3dp"
+                android:text="see more ..."
+                android:textColor="@color/KPTheme_AdriftInDreams_colorSeaShowingGreen" />
 
         </RelativeLayout>
 
