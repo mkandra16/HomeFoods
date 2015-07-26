@@ -6,15 +6,22 @@ android {
 
     defaultConfig {
         applicationId "com.apps.b3bytes.homefoods"
-        minSdkVersion 18
-        targetSdkVersion 22
+        minSdkVersion 15
+        targetSdkVersion 15
         versionCode 1
         versionName "1.0"
+    }
+    dependencies {
+        compile 'com.parse.bolts:bolts-android:1.+'
+        compile fileTree(dir: 'libs', include: 'Parse-*.jar')
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
         }
     }
 }
