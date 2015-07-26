@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlMoreFromThisChef1"
+    android:layout_width="120dp"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="4dp"
+    android:layout_marginTop="3dp"
+    android:background="#FFFFFF">
+
+    <TextView
+        android:id="@+id/tvMoreDishName"
+        android:layout_width="120dp"
+        android:layout_height="32dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:scrollHorizontally="true"
+        android:text="South Indian Breakfast"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvMoreDishPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/tvMoreDishName"
+        android:layout_below="@+id/tvMoreDishName"
+        android:text="@string/INR"
+        android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+        android:textSize="12sp" />
+
+
+    <ImageView
+        android:id="@+id/ivMoreFromChef"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_below="@+id/tvMoreDishPrice"
+        android:adjustViewBounds="true"
+        android:background="@drawable/south_indian_breakfast_01"
+        android:scaleType="centerCrop" />
+</RelativeLayout>
