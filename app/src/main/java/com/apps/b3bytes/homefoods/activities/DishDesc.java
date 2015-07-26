@@ -46,6 +46,8 @@ public class DishDesc extends ActionBarActivity {
         TextView v = (TextView) findViewById(R.id.tvDishName);
         v.setFocusableInTouchMode(true);
         v.requestFocus();
+
+        //Caused by: java.lang.OutOfMemoryError: Failed to allocate a 12549612 byte allocation with 6968540 free bytes and 6MB until OOM
     }
 
     @Override

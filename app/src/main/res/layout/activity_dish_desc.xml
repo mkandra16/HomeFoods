@@ -237,97 +237,164 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tabDishDesc"
-            android:layout_marginTop="5dp"
-            android:background="#FFFFFF">
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/tvMoreFromChef"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="3dp"
-                android:paddingTop="6dp"
                 android:text="More from the Chef"
                 android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tvMoreDishName"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
                 android:layout_below="@+id/tvMoreFromChef"
-                android:paddingLeft="3dp"
-                android:paddingTop="6dp"
-                android:text="South Indian Breakfast"
-                android:textColor="@android:color/black"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:layout_marginTop="2dp"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvMoreDishPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvMoreDishName"
-                android:paddingRight="3dp"
-                android:text="@string/INR"
-                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
-                android:textSize="12sp"
-                android:layout_alignEnd="@+id/tvMoreDishName" />
+                <HorizontalScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:id="@+id/rlMoreFromThisChef1"
+                            android:layout_width="120dp"
+                            android:layout_height="match_parent"
+                            android:background="#FFFFFF">
+
+                            <TextView
+                                android:id="@+id/tvMoreDishName"
+                                android:layout_width="120dp"
+                                android:layout_height="32dp"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:scrollHorizontally="true"
+                                android:text="South Indian Breakfast"
+                                android:textColor="@android:color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvMoreDishPrice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignEnd="@+id/tvMoreDishName"
+                                android:layout_below="@+id/tvMoreDishName"
+                                android:text="@string/INR"
+                                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                                android:textSize="12sp" />
 
 
-            <ImageView
-                android:id="@+id/ivMoreFromChef"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/tvMoreDishPrice"
-                android:layout_marginTop="3dp"
-                android:adjustViewBounds="true"
-                android:background="@drawable/south_indian_breakfast_01"
-                android:scaleType="centerInside" />
+                            <ImageView
+                                android:id="@+id/ivMoreFromChef"
+                                android:layout_width="120dp"
+                                android:layout_height="120dp"
+                                android:layout_below="@+id/tvMoreDishPrice"
+                                android:adjustViewBounds="true"
+                                android:background="@drawable/south_indian_breakfast_01"
+                                android:scaleType="centerCrop" />
+                        </RelativeLayout>
 
-            <TextView
-                android:id="@+id/tvMoreDishMoreElipse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/ivMoreFromChef"
-                android:paddingRight="3dp"
-                android:text="see more ..."
-                android:textColor="@color/KPTheme_AdriftInDreams_colorSeaShowingGreen" />
+                        <RelativeLayout
+                            android:id="@+id/rlMoreFromThisChef2"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:background="#FFFFFF">
 
+                            <TextView
+                                android:id="@+id/tvMoreDishName2"
+                                android:layout_width="120dp"
+                                android:layout_height="32dp"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:scrollHorizontally="true"
+                                android:text="Chicken 65"
+                                android:textColor="@android:color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
 
+                            <TextView
+                                android:id="@+id/tvMoreDishPrice2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignEnd="@+id/tvMoreDishName2"
+                                android:layout_below="@+id/tvMoreDishName2"
+                                android:text="@string/INR"
+                                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                                android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/tvMoreDishName2"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:text="Chicken 65"
-                android:textColor="@android:color/black"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:layout_below="@+id/tvMoreFromChef"
-                android:layout_alignStart="@+id/ivMoreFromChef2" />
+                            <ImageView
+                                android:id="@+id/ivMoreFromChef2"
+                                android:layout_width="120dp"
+                                android:layout_height="120dp"
+                                android:layout_below="@+id/tvMoreDishPrice2"
+                                android:adjustViewBounds="true"
+                                android:background="@drawable/chicken_65_01"
+                                android:scaleType="centerCrop" />
 
-            <TextView
-                android:id="@+id/tvMoreDishPrice2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingRight="3dp"
-                android:text="@string/INR"
-                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
-                android:textSize="12sp"
-                android:layout_alignBaseline="@+id/tvMoreDishPrice"
-                android:layout_alignBottom="@+id/tvMoreDishPrice"
-                android:layout_alignEnd="@+id/tvMoreDishName2" />
+                        </RelativeLayout>
 
-            <ImageView
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:id="@+id/ivMoreFromChef2"
-                android:layout_alignTop="@+id/ivMoreFromChef"
-                android:layout_toEndOf="@+id/tvMoreDishPrice"
-                android:layout_marginLeft="3dp"
-                android:background="@drawable/chicken_65_01"/>
+                        <RelativeLayout
+                            android:id="@+id/rlMoreFromThisChef3"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:background="#FFFFFF">
+
+                            <TextView
+                                android:id="@+id/tvMoreDishName3"
+                                android:layout_width="120dp"
+                                android:layout_height="32dp"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:scrollHorizontally="true"
+                                android:text="Fresh Vegetables (all sorts of Indian vegetables)"
+                                android:textColor="@android:color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvMoreDishPrice3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignEnd="@+id/tvMoreDishName3"
+                                android:layout_below="@+id/tvMoreDishName3"
+                                android:text="@string/INR"
+                                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                                android:textSize="12sp" />
+
+                            <ImageView
+                                android:id="@+id/ivMoreFromChef3"
+                                android:layout_width="120dp"
+                                android:layout_height="120dp"
+                                android:layout_below="@+id/tvMoreDishPrice3"
+                                android:adjustViewBounds="true"
+                                android:background="@drawable/fresh_vegetables1"
+                                android:scaleType="centerCrop" />
+
+                        </RelativeLayout>
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="See More ..."
+                            android:textAllCaps="false"
+                            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+            </LinearLayout>
 
         </RelativeLayout>
 
@@ -336,62 +403,165 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rlMoreFromThisChef"
-            android:layout_marginTop="6dp"
-            android:background="#FFFFFF">
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/tvSimilarDishesNearBy"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="3dp"
-                android:paddingTop="6dp"
                 android:text="Similar Dishes Nearby"
                 android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tvSimilarDishName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvSimilarDishesNearBy"
-                android:paddingLeft="3dp"
-                android:paddingTop="6dp"
-                android:text="South Indian Breakfast"
-                android:textColor="@android:color/black"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvSimilarDishPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/tvSimilarDishName"
-                android:paddingRight="3dp"
-                android:text="@string/INR"
-                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
-                android:textSize="12sp" />
-
-            <ImageView
-                android:id="@+id/ivSimilarDishesNearBy"
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/tvSimilarDishPrice"
-                android:layout_marginTop="3dp"
-                android:adjustViewBounds="true"
-                android:background="@drawable/south_indian_breakfast_01"
-                android:scaleType="centerInside" />
+                android:layout_height="150dp"
+                android:layout_below="@+id/tvSimilarDishesNearBy"
+                android:layout_marginTop="2dp"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvSimilarDishMoreElipse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/ivSimilarDishesNearBy"
-                android:paddingRight="3dp"
-                android:text="see more ..."
-                android:textColor="@color/KPTheme_AdriftInDreams_colorSeaShowingGreen" />
+                <HorizontalScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:id="@+id/rlSimilarDishesNearBy1"
+                            android:layout_width="120dp"
+                            android:layout_height="match_parent"
+                            android:background="#FFFFFF">
+
+                            <TextView
+                                android:id="@+id/tvSimilarDishName1"
+                                android:layout_width="120dp"
+                                android:layout_height="32dp"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:scrollHorizontally="true"
+                                android:text="Idli on Banana Leaf"
+                                android:textColor="@android:color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvSimilarDishPrice1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignEnd="@+id/tvSimilarDishName1"
+                                android:layout_below="@+id/tvSimilarDishName1"
+                                android:text="@string/INR"
+                                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                                android:textSize="12sp" />
+
+
+                            <ImageView
+                                android:id="@+id/ivSimilarDishesNearBy1"
+                                android:layout_width="120dp"
+                                android:layout_height="120dp"
+                                android:layout_below="@+id/tvSimilarDishPrice1"
+                                android:adjustViewBounds="true"
+                                android:background="@drawable/idli"
+                                android:scaleType="centerCrop" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rlSimilarDishesNearBy2"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:background="#FFFFFF">
+
+                            <TextView
+                                android:id="@+id/tvSimilarDishName2"
+                                android:layout_width="120dp"
+                                android:layout_height="32dp"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:scrollHorizontally="true"
+                                android:text="Medu Vada"
+                                android:textColor="@android:color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvSimilarDishPrice2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignEnd="@+id/tvSimilarDishName2"
+                                android:layout_below="@+id/tvSimilarDishName2"
+                                android:text="@string/INR"
+                                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                                android:textSize="12sp" />
+
+                            <ImageView
+                                android:id="@+id/ivSimilarDishesNearBy2"
+                                android:layout_width="120dp"
+                                android:layout_height="120dp"
+                                android:layout_below="@+id/tvSimilarDishPrice2"
+                                android:adjustViewBounds="true"
+                                android:background="@drawable/fresh_vegetables1"
+                                android:scaleType="centerCrop" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rlSimilarDishesNearBy3"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:background="#FFFFFF">
+
+                            <TextView
+                                android:id="@+id/tvSimilarDishName3"
+                                android:layout_width="120dp"
+                                android:layout_height="32dp"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:scrollHorizontally="true"
+                                android:text="Cone Dosa"
+                                android:textColor="@android:color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvSimilarDishPrice3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignEnd="@+id/tvSimilarDishName3"
+                                android:layout_below="@+id/tvSimilarDishName3"
+                                android:text="@string/INR"
+                                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                                android:textSize="12sp" />
+
+                            <ImageView
+                                android:id="@+id/ivSimilarDishesNearBy3"
+                                android:layout_width="120dp"
+                                android:layout_height="120dp"
+                                android:layout_below="@+id/tvSimilarDishPrice3"
+                                android:adjustViewBounds="true"
+                                android:background="@drawable/dosa_cone"
+                                android:scaleType="centerCrop" />
+
+                        </RelativeLayout>
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="See More ..."
+                            android:textAllCaps="false"
+                            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+            </LinearLayout>
+
 
         </RelativeLayout>
 
