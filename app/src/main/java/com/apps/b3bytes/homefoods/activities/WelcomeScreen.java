@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.apps.b3bytes.homefoods.R;
+import com.parse.Parse;
+import com.parse.ParseObject;
 
 
 public class WelcomeScreen extends ActionBarActivity {
@@ -19,6 +21,15 @@ public class WelcomeScreen extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_screen);
+
+        // Enable Local Datastore.
+        Parse.enableLocalDatastore(this);
+
+        Parse.initialize(this, "ZWqK3UW3ePNeSReJmDGEVk2V5DmulwNOHsNDDsc8", "PThw1qVFNYiKAZ8cdbIECLnJEyakl9nkPDmbLnAD");
+
+        ParseObject testObject = new ParseObject("TestObject");
+        testObject.put("foo", "bar");
+        testObject.saveInBackground();
 
         bDishDescScreenNavigate = (Button) findViewById(R.id.bDishDescScreenNavigate);
 
