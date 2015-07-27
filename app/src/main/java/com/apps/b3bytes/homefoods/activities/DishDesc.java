@@ -29,8 +29,10 @@ public class DishDesc extends ActionBarActivity {
         tabSpec1.setIndicator("Prep");
         tabSpec1.setContent(R.id.tab1);
 
+
         tabSpec2.setIndicator("Ingredients");
         tabSpec2.setContent(R.id.tab2);
+
 
         tabSpec3.setIndicator("Nutrition");
         tabSpec3.setContent(R.id.tab3);
@@ -40,6 +42,16 @@ public class DishDesc extends ActionBarActivity {
         tabHost.addTab(tabSpec2);
         tabHost.addTab(tabSpec3);
 
+        TextView x = (TextView) tabHost.getTabWidget().getChildAt(0).findViewById(android.R.id.title);
+        x.setTextSize(11);
+        x.setAllCaps(false);
+        x = (TextView) tabHost.getTabWidget().getChildAt(1).findViewById(android.R.id.title);
+        x.setTextSize(11);
+        x.setAllCaps(false);
+        x = (TextView) tabHost.getTabWidget().getChildAt(2).findViewById(android.R.id.title);
+        x.setTextSize(11);
+        x.setAllCaps(false);
+
         //http://stackoverflow.com/questions/9826130/tabhost-inside-a-scrollview-forces-it-it-to-scroll-to-the-bottom
         //http://stackoverflow.com/questions/2014305/tabhost-inside-of-a-scrollview-always-scrolls-down-when-a-tab-is-clicked
         // Get the first component and make sure it is focusable. Note you have to use setFocusableInTouchMode and not setFocusable for this to work.
@@ -48,6 +60,12 @@ public class DishDesc extends ActionBarActivity {
         v.requestFocus();
 
         //Caused by: java.lang.OutOfMemoryError: Failed to allocate a 12549612 byte allocation with 6968540 free bytes and 6MB until OOM
+
+        //LinearLayout row1 = (LinearLayout) findViewById(R.id.row1)
+        //TextView text1 = row1.findViewById(R.id.text);
+
+        //LinearLayout row2 = (LinearLayout) findViewById(R.id.row2)
+        //TextView text2 = row2.findViewById(R.id.text);
     }
 
     @Override

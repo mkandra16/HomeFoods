@@ -117,11 +117,49 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/rlDishDescChef_Chord"
+            android:id="@+id/rlDishDescDetails_Chord"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rlDishRatingsReviews_Add"
             android:layout_marginTop="5dp"
+            android:background="#FFFFFF">
+
+            <TextView
+                android:id="@+id/tvDishDetailsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:paddingTop="2dp"
+                android:text="Details"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="12sp" />
+
+
+            <TextView
+                android:id="@+id/tvDishDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvDishDetailsTitle"
+                android:layout_marginLeft="3dp"
+
+                android:paddingTop="2dp"
+                android:text="Idli, Dosa are famous South Indian Dishes\n\nThese dishes are made of rice and urud dal\nThese go very well with Sambar or chutney which are also south Indian specails\n"
+                android:textColor="@android:color/black"
+                android:textSize="10sp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tvDishDetails"
+                android:background="@android:color/darker_gray" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlDishDescChef_Chord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlDishDescDetails_Chord"
             android:background="#FFFFFF">
 
             <ImageView
@@ -129,15 +167,18 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_alignParentStart="true"
+                android:layout_marginTop="5dp"
                 android:background="@mipmap/ic_chef_image" />
 
             <TextView
                 android:id="@+id/tvChefName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/ivChefImage"
                 android:layout_toEndOf="@+id/ivChefImage"
                 android:text="Chef Name"
-                android:textSize="15sp"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -149,7 +190,8 @@
                 android:layout_below="@+id/tvChefName"
                 android:paddingTop="2dp"
                 android:text="Short description about the chef in one or two lines followed by eclipses ..."
-                android:textSize="12sp" />
+                android:textColor="@android:color/black"
+                android:textSize="10sp" />
 
 
         </RelativeLayout>
@@ -178,7 +220,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-
                     <RelativeLayout
                         android:id="@+id/tab1"
                         android:layout_width="match_parent"
@@ -191,6 +232,8 @@
                             android:paddingBottom="6dp"
                             android:paddingLeft="10dp"
                             android:paddingTop="6dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"
                             android:text="\nDish Preparation Details here \n\nHeat the dosa pan \nTake the batter and uniformly spread it over the pan \n" />
 
                     </RelativeLayout>
@@ -208,6 +251,8 @@
                             android:paddingBottom="6dp"
                             android:paddingLeft="10dp"
                             android:paddingTop="6dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"
                             android:text="\nDish Ingredients Details here \n" />
 
                     </LinearLayout>
@@ -225,6 +270,8 @@
                             android:paddingBottom="6dp"
                             android:paddingLeft="10dp"
                             android:paddingTop="6dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"
                             android:text="\nDish Nutrition Details here\n" />
 
                     </LinearLayout>
