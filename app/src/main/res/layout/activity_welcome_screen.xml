@@ -10,6 +10,16 @@
         android:layout_height="wrap_content"
         android:text="@string/bDishDescScreenNavigation"
         android:id="@+id/bDishDescScreenNavigate"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="69dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bCheckoutScreenNavigate"
+        android:id="@+id/bCheckoutScreenNavigate"
+        android:layout_below="@+id/bDishDescScreenNavigate"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="37dp" />
 </RelativeLayout>

@@ -8,4 +8,6 @@
     <string name="INR">\u20B9 175</string>
     <string name="bAddToBag">Add to Bag</string>
     <string name="title_activity_dish_desc_prep_tab">DishDescPrepTab</string>
+    <string name="bCheckoutScreenNavigate">Checkout</string>
+    <string name="title_activity_order_review">HomeFoods</string>
 </resources>

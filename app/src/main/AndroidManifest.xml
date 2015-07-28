@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.apps.b3bytes.homefoods">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,7 +23,10 @@
             android:name=".activities.DishDesc"
             android:label="@string/title_activity_dish_desc"
             android:theme="@style/Theme.KPTheme_AdriftInDreams" />
+        <activity
+            android:name=".activities.OrderReview"
+            android:label="@string/title_activity_order_review"
+            android:theme="@style/Theme.KPTheme_AdriftInDreams"></activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 </manifest>
