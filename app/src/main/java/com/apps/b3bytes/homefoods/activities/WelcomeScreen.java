@@ -9,8 +9,12 @@ import android.view.View;
 import android.widget.Button;
 
 import com.apps.b3bytes.homefoods.R;
-import com.parse.Parse;
-import com.parse.ParseObject;
+import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
+import com.apps.b3bytes.homefoods.models.Foodie;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 
 public class WelcomeScreen extends ActionBarActivity {
@@ -23,14 +27,14 @@ public class WelcomeScreen extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_screen);
 
-        // Enable Local Datastore.
-        Parse.enableLocalDatastore(this);
-
-        Parse.initialize(this, "ZWqK3UW3ePNeSReJmDGEVk2V5DmulwNOHsNDDsc8", "PThw1qVFNYiKAZ8cdbIECLnJEyakl9nkPDmbLnAD");
-
-        ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("foo", "bar");
-        testObject.saveInBackground();
+        // Current Foodie
+        // RegisterFoodie // one time.
+        // If not registered as chef, register as chef.
+        // publishDish(); multiple of them.
+        //
+        Foodie f = Foodie.createDummyFoodie();
+        DataLayer dataLayer = new DataLayer(this);
+        dataLayer.registerFoodie(f);
 
         bDishDescScreenNavigate = (Button) findViewById(R.id.bDishDescScreenNavigate);
 
