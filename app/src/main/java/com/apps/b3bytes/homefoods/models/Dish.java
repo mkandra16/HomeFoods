@@ -20,7 +20,7 @@ public class Dish {
     // private ArrayList<Ingredient> mIngredients;
     private String PrepMethod;
     // private NutrionInfo mNutrition;
-    private int mQty;
+    private double mQty;
     private Unit mUnit;
     private double mPrice;
     private String mCusineId;
@@ -31,6 +31,21 @@ public class Dish {
         return mDishId;
     }
 
+    public static Dish createDummyDish() {
+        Dish d = new Dish();
+        d.setmDishId("1");
+        d.setmDishName("Gongura");
+        d.setmChefId("1");
+        d.setmDishInfo("Andhra mata Gongura pachhadi");
+        d.setPrepMethod("Boil Gongura. fry onions and chilli. Grind boiled Gongura with chillies and onion. Finally add tadka!!!");
+        d.setmQty(100);
+        d.setmUnit(Unit.GRAMS);
+        d.setmPrice(20);
+        d.setmCusineId("Andhra");
+        d.setmThumbsUp(150);
+        d.setmThumbsDown(10);
+        return d;
+    }
     public void setmDishId(String mDishId) {
         this.mDishId = mDishId;
     }
@@ -75,11 +90,11 @@ public class Dish {
         PrepMethod = prepMethod;
     }
 
-    public int getmQty() {
+    public double getmQty() {
         return mQty;
     }
 
-    public void setmQty(int mQty) {
+    public void setmQty(double mQty) {
         this.mQty = mQty;
     }
 

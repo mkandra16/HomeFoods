@@ -2,8 +2,11 @@ package com.apps.b3bytes.homefoods.datalayer.common;
 
 import android.content.Context;
 
+import com.apps.b3bytes.homefoods.datalayer.parse.ParseDishTable;
 import com.apps.b3bytes.homefoods.datalayer.parse.ParseFoodieTable;
+import com.apps.b3bytes.homefoods.models.Dish;
 import com.apps.b3bytes.homefoods.models.Foodie;
+import com.apps.b3bytes.homefoods.models.Listener;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
@@ -19,16 +22,23 @@ public class DataLayer {
     private static final String PARSECLIENTKEY = "PThw1qVFNYiKAZ8cdbIECLnJEyakl9nkPDmbLnAD";
     //private DishTable mDishTable;
     private FoodieTable mFoodieTable;
-
+    private DishTable mDishTable;
     public DataLayer(Context context) {
         assert mCurBackend == Backend.PARSE;
         // Enable Local Datastore.
         Parse.enableLocalDatastore(context);
         Parse.initialize(context, PARSEAPPID, PARSECLIENTKEY);
         mFoodieTable = new ParseFoodieTable();
+        mDishTable = new ParseDishTable();
     }
     public void registerFoodie(Foodie f) {
         mFoodieTable.registerFoodieInBackground(f);
+    }
+    public void signUpAsChef(Foodie f) {
+
+    }
+    public void publishDish(Dish d) {
+        mDishTable.addDishInBackground(d);
     }
     // getNearByDishes();
     // getRelatedDishes(Dish d);

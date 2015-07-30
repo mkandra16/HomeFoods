@@ -92,6 +92,11 @@ public class Foodie {
         }
 
     }
+    public void signUpAsChef() {
+        mChef = new Chef();
+        mChef.setmChefId(mFoodieId);
+        mChef.setmAddr(mAddr);
+    }
     public String getmFoodieId() {
         return mFoodieId;
     }

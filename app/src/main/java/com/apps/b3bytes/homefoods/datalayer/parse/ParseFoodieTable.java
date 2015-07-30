@@ -2,6 +2,7 @@ package com.apps.b3bytes.homefoods.datalayer.parse;
 
 import com.apps.b3bytes.homefoods.datalayer.common.FoodieTable;
 import com.apps.b3bytes.homefoods.models.Foodie;
+import com.apps.b3bytes.homefoods.models.Listener;
 import com.parse.ParseObject;
 
 /**
@@ -40,6 +41,5 @@ public class ParseFoodieTable implements FoodieTable {
             foodieObj.put("FavoriteFoods", foodie.getmFavFoods());
         }
         foodieObj.saveInBackground();
-
     }
 }
