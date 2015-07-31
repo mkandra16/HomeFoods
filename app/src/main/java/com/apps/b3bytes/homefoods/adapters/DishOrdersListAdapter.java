@@ -78,12 +78,23 @@ public class DishOrdersListAdapter extends ArrayAdapter<OneDishOrder> {
                     viewHolder.tvOrderReviewDishQuantityUpdate.setVisibility(View.GONE);
                     viewHolder.tvOrderReviewDishQuantityDelete.setVisibility(View.GONE);
 
-                        /* TODO update the total price */
-                    /* TODO: if the updated quantity is zero, then remove the item from list view */
-                    viewHolder.tvOrderReviewDishQuantityNum.setText(viewHolder.etOrderReviewDishQuantityNum.getText());
-                    list.get(position).setQuantity(Integer.parseInt(viewHolder.tvOrderReviewDishQuantityNum.getText().toString()));
-                    viewHolder.tvOrderReviewDishQuantityChange.setVisibility(View.VISIBLE);
-                    viewHolder.tvOrderReviewDishQuantityNum.setVisibility(View.VISIBLE);
+                    if (Integer.parseInt(viewHolder.etOrderReviewDishQuantityNum.getText().toString()) == 0) {
+                        list.remove(position);
+                        notifyDataSetChanged();
+                        notifyDataSetInvalidated();
+                        viewHolder.etOrderReviewDishQuantityNum.setVisibility(View.GONE);
+                        viewHolder.tvOrderReviewDishQuantityUpdate.setVisibility(View.GONE);
+                        viewHolder.tvOrderReviewDishQuantityDelete.setVisibility(View.GONE);
+                        viewHolder.tvOrderReviewDishQuantityChange.setVisibility(View.VISIBLE);
+                        viewHolder.tvOrderReviewDishQuantityNum.setVisibility(View.VISIBLE);
+                        ListViewHelper.setListViewHeightBasedOnChildren(lvChefOrders);
+                    } else {
+                        viewHolder.tvOrderReviewDishPrice.setText(context.getString(R.string.Rs) + " " + (list.get(position).getQuantity() * list.get(position).getUnitPrice()));
+                        viewHolder.tvOrderReviewDishQuantityNum.setText(viewHolder.etOrderReviewDishQuantityNum.getText());
+                        list.get(position).setQuantity(Integer.parseInt(viewHolder.tvOrderReviewDishQuantityNum.getText().toString()));
+                        viewHolder.tvOrderReviewDishQuantityChange.setVisibility(View.VISIBLE);
+                        viewHolder.tvOrderReviewDishQuantityNum.setVisibility(View.VISIBLE);
+                    }
                 }
             });
 
@@ -112,7 +123,7 @@ public class DishOrdersListAdapter extends ArrayAdapter<OneDishOrder> {
 
         holder.tvOrderReviewDishName.setText(list.get(position).getDishName());
         holder.tvOrderReviewDishQuantityNum.setText("" + list.get(position).getQuantity());
-        holder.tvOrderReviewDishPrice.setText("Rs " + list.get(position).getUnitPrice());
+        holder.tvOrderReviewDishPrice.setText(context.getString(R.string.Rs) + " " + (list.get(position).getQuantity() * list.get(position).getUnitPrice()));
 
         return view;
     }
