@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.adapters.DishOrdersListAdapter;
 import com.apps.b3bytes.homefoods.models.OneDishOrder;
+import com.apps.b3bytes.homefoods.utils.ListViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,29 +69,6 @@ public class OrderReview extends ActionBarActivity {
 
     }
 
-    //http://stackoverflow.com/questions/18367522/android-list-view-inside-a-scroll-view
-    private void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null)
-            return;
-
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
-        int totalHeight = 0;
-        View view = null;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            view = listAdapter.getView(i, view, listView);
-            if (i == 0)
-                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ActionBar.LayoutParams.WRAP_CONTENT));
-
-            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += view.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-    }
-
     private LinearLayout createOneChefOrderLayout(int currentId, int idx) {
 
         LinearLayout llOneChefOrder = (LinearLayout) inflater.inflate(R.layout.one_chef_order, null, false);
@@ -111,7 +89,7 @@ public class OrderReview extends ActionBarActivity {
             list.add(new OneDishOrder(dishNamesArray[idx][i], dishQuantitiesArray[idx][i], dishUnitPriceArray[idx][i]));
         }
         aOneDishOrder.notifyDataSetChanged();
-        setListViewHeightBasedOnChildren(lvChefOrders);
+        ListViewHelper.setListViewHeightBasedOnChildren(lvChefOrders);
 
         return llOneChefOrder;
     }

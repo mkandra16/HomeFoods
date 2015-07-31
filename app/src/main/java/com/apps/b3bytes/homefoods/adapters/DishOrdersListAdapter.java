@@ -13,12 +13,10 @@ import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.models.OneDishOrder;
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.utils.ListViewHelper;
 
 import java.util.List;
 
-/**
- * Created by mohankandra on 7/29/15.
- */
 public class DishOrdersListAdapter extends ArrayAdapter<OneDishOrder> {
 
     private final List<OneDishOrder> list;
@@ -100,8 +98,8 @@ public class DishOrdersListAdapter extends ArrayAdapter<OneDishOrder> {
                     viewHolder.tvOrderReviewDishQuantityDelete.setVisibility(View.GONE);
                     viewHolder.tvOrderReviewDishQuantityChange.setVisibility(View.VISIBLE);
                     viewHolder.tvOrderReviewDishQuantityNum.setVisibility(View.VISIBLE);
-                    setListViewHeightBasedOnChildren(lvChefOrders);
-                    /* TODO, if all the orders are removed then remove the chef entry too */
+                    ListViewHelper.setListViewHeightBasedOnChildren(lvChefOrders);
+                    /* TODO, if al1l the orders are removed then remove the chef entry too */
                 }
             });
 
@@ -119,27 +117,6 @@ public class DishOrdersListAdapter extends ArrayAdapter<OneDishOrder> {
         return view;
     }
 
-    public void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null)
-            return;
-
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
-        int totalHeight = 0;
-        View view = null;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            view = listAdapter.getView(i, view, listView);
-            if (i == 0)
-                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ActionBar.LayoutParams.WRAP_CONTENT));
-
-            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += view.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-    }
 }
 
 
