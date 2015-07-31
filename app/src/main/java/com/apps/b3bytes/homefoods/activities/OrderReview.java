@@ -1,5 +1,6 @@
 package com.apps.b3bytes.homefoods.activities;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
@@ -7,15 +8,32 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.adapters.DishOrdersListAdapter;
+import com.apps.b3bytes.homefoods.models.OneDishOrder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderReview extends ActionBarActivity {
+    private LinearLayout llRoot;
+    private RelativeLayout rlAddNewChef;
+    private int currentId;
+    private Button bAddNewChef;
+    private LayoutInflater inflater;
 
+    private int chefIdx;
     Context context = this;
 
     /* TODO: TEST DATA */
@@ -37,73 +55,65 @@ public class OrderReview extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int currentId = 10;
+        setContentView(R.layout.activity_order_review);
 
-        LayoutInflater inflater = LayoutInflater.from(context);
-        RelativeLayout rlParent = new RelativeLayout(this);
-        ScrollView svParent = new ScrollView(this);
+        inflater = LayoutInflater.from(getApplicationContext());
+        llRoot = (LinearLayout) findViewById(R.id.llRoot);
+        currentId = (int) llRoot.getId();
 
         for (int i = 0; i < chefNamesArray.length; i++) {
-            rlParent.addView(createChefNameLayout(currentId, chefNamesArray[i]));
+            llRoot.addView(createOneChefOrderLayout(currentId, i));
             currentId++;
-
-            int numDishes = dishNamesArray[i].length;
-            for (int j = 0; j < numDishes; j++) {
-                rlParent.addView(createOneDishOrderLayout(inflater, dishNamesArray[i][j], dishQuantitiesArray[i][j], dishUnitPriceArray[i][j], currentId));
-                currentId++;
-            }
         }
-
-        svParent.addView(rlParent);
-
-        setContentView(svParent);
 
     }
 
-    private TextView createChefNameLayout(int currentId, String chefName) {
-        TextView textView = new TextView(this);
-        textView.setText(chefName);
-        textView.setTextColor(Color.BLACK);
-        textView.setId(currentId);
-        RelativeLayout.LayoutParams params =
-                new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                        RelativeLayout.LayoutParams.WRAP_CONTENT);
-        if (currentId == 10) {
-            params.addRule(RelativeLayout.ALIGN_PARENT_TOP, 1);
-        }
-        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 1);
-        params.setMargins(5, 0, 0, 8);
-        params.addRule(RelativeLayout.BELOW, currentId - 1);
-        textView.setLayoutParams(params);
+    //http://stackoverflow.com/questions/18367522/android-list-view-inside-a-scroll-view
+    private void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null)
+            return;
 
-        return textView;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+        View view = null;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            view = listAdapter.getView(i, view, listView);
+            if (i == 0)
+                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ActionBar.LayoutParams.WRAP_CONTENT));
+
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 
-    private RelativeLayout createOneDishOrderLayout(LayoutInflater inflater, String dishName, int quantity, double pricePerUnit, int currentId) {
+    private LinearLayout createOneChefOrderLayout(int currentId, int idx) {
 
-        RelativeLayout rlOneDish = (RelativeLayout) inflater.inflate(R.layout.one_dish_order, null, false);
-        TextView t1 = (TextView) rlOneDish.findViewById(R.id.tvOrderReviewDishName);
-        t1.setText(dishName);
-        t1.setTextSize(17);
-        t1.setTextColor(Color.BLACK);
+        LinearLayout llOneChefOrder = (LinearLayout) inflater.inflate(R.layout.one_chef_order, null, false);
+        RelativeLayout rlOneChefOrder = (RelativeLayout) llOneChefOrder.findViewById(R.id.rlOneChefOrder);
 
-        TextView t2 = (TextView) rlOneDish.findViewById(R.id.tvOrderReviewDishQuantityNum);
-        t2.setText("" + quantity);
-        t2.setTextColor(Color.BLACK);
+        TextView tvChefName = (TextView) rlOneChefOrder.findViewById(R.id.tvChefName);
+        tvChefName.setText(chefNamesArray[idx]);
+        tvChefName.setTextSize(24);
+        tvChefName.setTextColor(Color.BLACK);
 
-        TextView t3 = (TextView) rlOneDish.findViewById(R.id.tvOrderReviewDishPrice);
-        t3.setText("Rs " + pricePerUnit * quantity);
-        t3.setTextColor(Color.BLACK);
+        List<OneDishOrder> list = new ArrayList<OneDishOrder>();
+        ListView lvChefOrders = (ListView) rlOneChefOrder.findViewById(R.id.lvChefOrders);
+        ArrayAdapter<OneDishOrder> aOneDishOrder = new DishOrdersListAdapter(OrderReview.this, list, lvChefOrders);
+        lvChefOrders.setAdapter(aOneDishOrder);
 
-        rlOneDish.setId(currentId);
-        RelativeLayout.LayoutParams rlc3 = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
-        rlc3.addRule(RelativeLayout.BELOW, currentId - 1);
-        rlOneDish.setLayoutParams(rlc3);
-        //rlOneDish.setBackgroundColor(0XF5F5F5);
+        int numDishes = dishNamesArray[idx].length;
+        for (int i = 0; i < numDishes; i++) {
+            list.add(new OneDishOrder(dishNamesArray[idx][i], dishQuantitiesArray[idx][i], dishUnitPriceArray[idx][i]));
+        }
+        aOneDishOrder.notifyDataSetChanged();
+        setListViewHeightBasedOnChildren(lvChefOrders);
 
-        return rlOneDish;
+        return llOneChefOrder;
     }
 
     @Override
