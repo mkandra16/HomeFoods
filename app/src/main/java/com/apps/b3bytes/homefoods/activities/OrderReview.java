@@ -81,7 +81,7 @@ public class OrderReview extends ActionBarActivity {
 
         List<OneDishOrder> list = new ArrayList<OneDishOrder>();
         ListView lvChefOrders = (ListView) rlOneChefOrder.findViewById(R.id.lvChefOrders);
-        ArrayAdapter<OneDishOrder> aOneDishOrder = new DishOrdersListAdapter(OrderReview.this, list, lvChefOrders);
+        ArrayAdapter<OneDishOrder> aOneDishOrder = new DishOrdersListAdapter(OrderReview.this, list, lvChefOrders, llOneChefOrder);
         lvChefOrders.setAdapter(aOneDishOrder);
 
         int numDishes = dishNamesArray[idx].length;

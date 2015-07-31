@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,12 +23,14 @@ public class DishOrdersListAdapter extends ArrayAdapter<OneDishOrder> {
     private final List<OneDishOrder> list;
     private final Activity context;
     private final ListView lvChefOrders;
+    private final LinearLayout llOneChefOrder;
 
-    public DishOrdersListAdapter(Activity context, List<OneDishOrder> list, ListView lvChefOrders) {
+    public DishOrdersListAdapter(Activity context, List<OneDishOrder> list, ListView lvChefOrders, LinearLayout llOneChefOrder) {
         super(context, R.layout.one_dish_order_item, list);
         this.context = context;
         this.list = list;
         this.lvChefOrders = lvChefOrders;
+        this.llOneChefOrder = llOneChefOrder;
     }
 
     static class ViewHolder {
@@ -88,6 +91,9 @@ public class DishOrdersListAdapter extends ArrayAdapter<OneDishOrder> {
                         viewHolder.tvOrderReviewDishQuantityChange.setVisibility(View.VISIBLE);
                         viewHolder.tvOrderReviewDishQuantityNum.setVisibility(View.VISIBLE);
                         ListViewHelper.setListViewHeightBasedOnChildren(lvChefOrders);
+                        if (lvChefOrders.getAdapter().getCount() == 0) {
+                            llOneChefOrder.setVisibility(View.GONE);
+                        }
                     } else {
                         viewHolder.tvOrderReviewDishPrice.setText(context.getString(R.string.Rs) + " " + (list.get(position).getQuantity() * list.get(position).getUnitPrice()));
                         viewHolder.tvOrderReviewDishQuantityNum.setText(viewHolder.etOrderReviewDishQuantityNum.getText());
@@ -110,7 +116,9 @@ public class DishOrdersListAdapter extends ArrayAdapter<OneDishOrder> {
                     viewHolder.tvOrderReviewDishQuantityChange.setVisibility(View.VISIBLE);
                     viewHolder.tvOrderReviewDishQuantityNum.setVisibility(View.VISIBLE);
                     ListViewHelper.setListViewHeightBasedOnChildren(lvChefOrders);
-                    /* TODO, if al1l the orders are removed then remove the chef entry too */
+                    if (lvChefOrders.getAdapter().getCount() == 0) {
+                        llOneChefOrder.setVisibility(View.GONE);
+                    }
                 }
             });
 
