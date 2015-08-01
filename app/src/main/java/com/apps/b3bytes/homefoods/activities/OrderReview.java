@@ -33,6 +33,7 @@ public class OrderReview extends ActionBarActivity {
     private int currentId;
     private Button bAddNewChef;
     private LayoutInflater inflater;
+    double totalPrice = 0;
 
     private int chefIdx;
     Context context = this;
@@ -69,7 +70,6 @@ public class OrderReview extends ActionBarActivity {
             currentId++;
         }
 
-        int totalPrice = 1000; /* TODO: Add all the dish orders price */
         llRoot.addView(createOrderTotalLayout(currentId, totalPrice));
         currentId++;
 
@@ -86,12 +86,12 @@ public class OrderReview extends ActionBarActivity {
         return llOrderProceedToPayment;
     }
 
-    private LinearLayout createOrderTotalLayout(int currentId, int totalPrice) {
+    private LinearLayout createOrderTotalLayout(int currentId, double totalPrice) {
         LinearLayout llOrderTotal = (LinearLayout) inflater.inflate(R.layout.order_total, null, false);
         RelativeLayout rlOrderTotal = (RelativeLayout) llOrderTotal.findViewById(R.id.rlOrderTotal);
 
-        TextView tvChefName = (TextView) rlOrderTotal.findViewById(R.id.tvOrderTotalPrice);
-        tvChefName.setText(context.getString(R.string.Rs) + " " + totalPrice);
+        TextView tvOrderTotalPrice = (TextView) rlOrderTotal.findViewById(R.id.tvOrderTotalPrice);
+        tvOrderTotalPrice.setText(context.getString(R.string.Rs) + " " + totalPrice);
 
         return llOrderTotal;
     }
@@ -120,6 +120,7 @@ public class OrderReview extends ActionBarActivity {
         int numDishes = dishNamesArray[idx].length;
         for (int i = 0; i < numDishes; i++) {
             list.add(new OneDishOrder(dishNamesArray[idx][i], dishQuantitiesArray[idx][i], dishUnitPriceArray[idx][i]));
+            totalPrice += (dishQuantitiesArray[idx][i] * dishUnitPriceArray[idx][i]);
         }
         aOneDishOrder.notifyDataSetChanged();
         ListViewHelper.setListViewHeightBasedOnChildren(lvChefOrders);

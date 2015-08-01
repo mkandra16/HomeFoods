@@ -11,4 +11,6 @@
     <string name="title_activity_dish_desc_prep_tab">DishDescPrepTab</string>
     <string name="bCheckoutScreenNavigate">Checkout</string>
     <string name="title_activity_order_review">HomeFoods</string>
+    <string name="title_activity_chef_order_delivery">ChefOrderDelivery</string>
+    <string name="bChefDeliveryScreenNavigate">Chef Delivery Page</string>
 </resources>

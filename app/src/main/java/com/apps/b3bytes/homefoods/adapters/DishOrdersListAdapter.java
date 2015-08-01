@@ -104,6 +104,7 @@ public class DishOrdersListAdapter extends ArrayAdapter<OneDishOrder> {
                         viewHolder.tvOrderReviewDishQuantityChange.setVisibility(View.VISIBLE);
                         viewHolder.tvOrderReviewDishQuantityNum.setVisibility(View.VISIBLE);
                     }
+                    /* TODO: update total price */
                 }
             });
 
@@ -122,6 +123,7 @@ public class DishOrdersListAdapter extends ArrayAdapter<OneDishOrder> {
                     if (lvChefOrders.getAdapter().getCount() == 0) {
                         llOneChefOrder.setVisibility(View.GONE);
                     }
+                    /* TODO: update total price */
                 }
             });
 

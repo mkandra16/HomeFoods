@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlChefDeliverListViewEntry"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp">
+
+    <TextView
+        android:id="@+id/tvChefDeliverDishPrice"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="3dp"
+        android:gravity="right"
+        android:text="@string/INR"
+        android:textColor="@android:color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvChefDeliverDishQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvChefDeliverDishPrice"
+        android:layout_marginRight="12dp"
+        android:layout_toLeftOf="@+id/tvChefDeliverDishPrice"
+        android:text="Quantity"
+        android:textColor="@android:color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvChefDeliverDishName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvChefDeliverDishQuantity"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="12dp"
+        android:layout_toLeftOf="@+id/tvChefDeliverDishQuantity"
+        android:text="Dish Name"
+        android:textColor="@android:color/black"
+        android:textSize="12sp" />
+
+
+    <!--    <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/tvOrderReviewDishQuantityChange"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/darker_gray" />-->
+
+</RelativeLayout>
