@@ -35,7 +35,9 @@ public class ChefMenuGridViewAdapter extends ArrayAdapter<OneDishOrder> {
 
     static class ViewHolder {
         protected TextView tvMenuGridDishName;
-        protected TextView tvMenuGridDishQuantity;
+        protected TextView tvMenuGridDishQuantityPosted;
+        protected TextView tvMenuGridDishQuantityDelivered;
+        protected TextView tvMenuGridDishQuantityPending;
         protected TextView tvMenuGridDishPrice;
         protected ImageView ivMenuGridDishImage;
     }
@@ -56,7 +58,9 @@ public class ChefMenuGridViewAdapter extends ArrayAdapter<OneDishOrder> {
             view = inflator.inflate(R.layout.chef_menu_grid_item, null);
             final ViewHolder viewHolder = new ViewHolder();
             viewHolder.tvMenuGridDishName = (TextView) view.findViewById(R.id.tvMenuGridDishName);
-            viewHolder.tvMenuGridDishQuantity = (TextView) view.findViewById(R.id.tvMenuGridDishQuantity);
+            viewHolder.tvMenuGridDishQuantityPosted = (TextView) view.findViewById(R.id.tvMenuGridDishQuantityPosted);
+            viewHolder.tvMenuGridDishQuantityDelivered = (TextView) view.findViewById(R.id.tvMenuGridDishQuantityDelivered);
+            viewHolder.tvMenuGridDishQuantityPending = (TextView) view.findViewById(R.id.tvMenuGridDishQuantityPending);
             viewHolder.tvMenuGridDishPrice = (TextView) view.findViewById(R.id.tvMenuGridDishPrice);
             viewHolder.ivMenuGridDishImage = (ImageView) view.findViewById(R.id.ivMenuGridDishImage);
 
@@ -68,7 +72,9 @@ public class ChefMenuGridViewAdapter extends ArrayAdapter<OneDishOrder> {
         ViewHolder holder = (ViewHolder) view.getTag();
 
         holder.tvMenuGridDishName.setText(list.get(position).getDishName());
-        holder.tvMenuGridDishQuantity.setText("" + list.get(position).getQuantity());
+        holder.tvMenuGridDishQuantityPosted.setText("Posted " + list.get(position).getQuantity());
+        holder.tvMenuGridDishQuantityDelivered.setText("Delivered " + list.get(position).getQuantityDelivered());
+        holder.tvMenuGridDishQuantityPending.setText("Pending " + list.get(position).getQuantityPending());
         holder.tvMenuGridDishPrice.setText(context.getString(R.string.Rs) + " " + (list.get(position).getUnitPrice()));
         holder.ivMenuGridDishImage.setImageResource(R.drawable.south_indian_breakfast_01);
 
