@@ -4,25 +4,25 @@
     android:id="@+id/llOrderProceedToPayment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="12dp"
+    android:paddingTop="10dp">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/rlOrderProceedToPayment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <Button
             android:id="@+id/bOrderProceedToPayment"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:text="Proceed to Payment >"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
-
+            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent" />
 
     </RelativeLayout>
-
 
 </LinearLayout>

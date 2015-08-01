@@ -2,6 +2,7 @@ package com.apps.b3bytes.homefoods.adapters;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -134,6 +135,12 @@ public class DishOrdersListAdapter extends ArrayAdapter<OneDishOrder> {
         holder.tvOrderReviewDishName.setText(list.get(position).getDishName());
         holder.tvOrderReviewDishQuantityNum.setText("" + list.get(position).getQuantity());
         holder.tvOrderReviewDishPrice.setText(context.getString(R.string.Rs) + " " + (list.get(position).getQuantity() * list.get(position).getUnitPrice()));
+
+/*        if (position % 2 == 1) {
+            view.setBackgroundColor(Color.BLUE);
+        } else {
+            view.setBackgroundColor(Color.CYAN);
+        }*/
 
         return view;
     }

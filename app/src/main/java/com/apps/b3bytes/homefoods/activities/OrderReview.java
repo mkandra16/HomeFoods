@@ -92,8 +92,6 @@ public class OrderReview extends ActionBarActivity {
 
         TextView tvChefName = (TextView) rlOrderTotal.findViewById(R.id.tvOrderTotalPrice);
         tvChefName.setText(context.getString(R.string.Rs) + " " + totalPrice);
-        tvChefName.setTextSize(24);
-        tvChefName.setTextColor(Color.BLACK);
 
         return llOrderTotal;
     }
@@ -113,8 +111,6 @@ public class OrderReview extends ActionBarActivity {
 
         TextView tvChefName = (TextView) rlOneChefOrder.findViewById(R.id.tvChefName);
         tvChefName.setText(chefNamesArray[idx]);
-        tvChefName.setTextSize(24);
-        tvChefName.setTextColor(Color.BLACK);
 
         List<OneDishOrder> list = new ArrayList<OneDishOrder>();
         ListView lvChefOrders = (ListView) rlOneChefOrder.findViewById(R.id.lvChefOrders);

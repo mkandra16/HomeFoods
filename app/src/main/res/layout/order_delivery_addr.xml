@@ -9,41 +9,49 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/rlDeliveryAddrDetails"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/tvDeliveryAddrTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginTop="10dp"
             android:text="Delivery address:"
-            android:textColor="@android:color/black"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/rlDeliveryAddr"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvDeliveryAddrTitle"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="24dp"
-            android:text="Edit"
-            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
-            android:textSize="10sp"
-            android:textStyle="bold"
-            android:id="@+id/tvDeliveryAddrEdit" />
+            android:layout_marginTop="3dp"
+            android:background="#FFFFFF">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_below="@+id/tvDeliveryAddrEdit"
-            android:layout_marginLeft="24dp"
-            android:textColor="@android:color/black"
-            android:text="No 1234\nStreet Name\nCity Name\n987654\n\nContact: 123456789"
-            android:id="@+id/tvDeliveryAddr" />
+            <TextView
+                android:id="@+id/tvDeliveryAddrEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="3dp"
+                android:text="Edit"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDeliveryAddr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvDeliveryAddrEdit"
+                android:text="No 1234\nStreet Name\nCity Name\n987654\n\nContact: 123456789"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

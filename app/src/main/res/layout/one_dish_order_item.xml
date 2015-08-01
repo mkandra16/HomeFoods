@@ -10,10 +10,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="3dp"
         android:text="@string/INR"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="12sp"
         android:textColor="@android:color/black" />
 
     <TextView
@@ -24,7 +24,7 @@
         android:layout_marginRight="32dp"
         android:layout_toLeftOf="@+id/tvOrderReviewDishPrice"
         android:text="Quantity"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="12sp"
         android:textColor="@android:color/black" />
 
     <TextView
@@ -33,11 +33,10 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/tvOrderReviewDishQuantity"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="8dp"
         android:layout_marginRight="32dp"
         android:layout_toLeftOf="@+id/tvOrderReviewDishQuantity"
         android:text="Dish Name"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="12sp"
         android:textColor="@android:color/black" />
 
     <TextView
@@ -88,7 +87,7 @@
         android:clickable="true"
         android:text="Update"
         android:textColor="@android:color/holo_blue_dark"
-        android:textSize="8sp"
+        android:textSize="10sp"
         android:textStyle="bold"
         android:visibility="gone" />
 
@@ -102,7 +101,7 @@
         android:clickable="true"
         android:text="Delete"
         android:textColor="@android:color/holo_blue_dark"
-        android:textSize="8sp"
+        android:textSize="10sp"
         android:textStyle="bold"
         android:visibility="gone" />
 
