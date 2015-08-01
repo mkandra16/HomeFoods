@@ -60,7 +60,9 @@ public class OrderReview extends ActionBarActivity {
 
         inflater = LayoutInflater.from(getApplicationContext());
         llRoot = (LinearLayout) findViewById(R.id.llRoot);
-        currentId = (int) llRoot.getId();
+        TextView tvOrderSummary = (TextView) findViewById(R.id.tvOrderSummary);
+
+        currentId = (int) tvOrderSummary.getId();
 
         for (int i = 0; i < chefNamesArray.length; i++) {
             llRoot.addView(createOneChefOrderLayout(currentId, i));

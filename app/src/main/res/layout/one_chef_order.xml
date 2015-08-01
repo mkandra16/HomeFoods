@@ -32,26 +32,37 @@
             android:layout_marginLeft="24dp"
             android:layout_marginRight="8dp" />
 
-        <Button
-            android:id="@+id/bPickup"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/lvChefOrders"
             android:layout_below="@+id/lvChefOrders"
-            android:layout_marginLeft="12dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="12dp"
-            android:text="Pick Up" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/bDelivery"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/bPickup"
-            android:layout_alignRight="@+id/lvChefOrders"
-            android:layout_marginRight="12dp"
-            android:text="Delivery" />
+            <Button
+                android:id="@+id/bPickup"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="12dp"
+                android:layout_weight="1"
+                android:text="Pick Up" />
+
+            <Button
+                android:id="@+id/bDelivery"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24dp"
+                android:layout_marginLeft="12dp"
+                android:layout_weight="1"
+                android:text="Delivery" />
+
+
+        </LinearLayout>
+
 
     </RelativeLayout>
 </LinearLayout>
