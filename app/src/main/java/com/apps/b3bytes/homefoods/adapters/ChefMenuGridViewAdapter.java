@@ -1,9 +1,14 @@
 package com.apps.b3bytes.homefoods.adapters;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Point;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -38,6 +43,13 @@ public class ChefMenuGridViewAdapter extends ArrayAdapter<OneDishOrder> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view = null;
+
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int screenWidth = size.x;
+        int halfScreenWidth = (int)(screenWidth *0.5);
 
         if (convertView == null) {
             LayoutInflater inflator = context.getLayoutInflater();
