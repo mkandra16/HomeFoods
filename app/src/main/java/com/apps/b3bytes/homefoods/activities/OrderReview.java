@@ -67,6 +67,41 @@ public class OrderReview extends ActionBarActivity {
             currentId++;
         }
 
+        int totalPrice = 1000; /* TODO: Add all the dish orders price */
+        llRoot.addView(createOrderTotalLayout(currentId, totalPrice));
+        currentId++;
+
+        llRoot.addView(createDeliveryAddrLayout(currentId));
+        currentId++;
+
+        llRoot.addView(createProceedToPaymentLayout(currentId));
+        currentId++;
+    }
+
+    private LinearLayout createProceedToPaymentLayout(int currentId) {
+        LinearLayout llOrderProceedToPayment = (LinearLayout) inflater.inflate(R.layout.order_proceed_to_payment, null, false);
+
+        return llOrderProceedToPayment;
+    }
+
+    private LinearLayout createOrderTotalLayout(int currentId, int totalPrice) {
+        LinearLayout llOrderTotal = (LinearLayout) inflater.inflate(R.layout.order_total, null, false);
+        RelativeLayout rlOrderTotal = (RelativeLayout) llOrderTotal.findViewById(R.id.rlOrderTotal);
+
+        TextView tvChefName = (TextView) rlOrderTotal.findViewById(R.id.tvOrderTotalPrice);
+        tvChefName.setText(context.getString(R.string.Rs) + " " + totalPrice);
+        tvChefName.setTextSize(24);
+        tvChefName.setTextColor(Color.BLACK);
+
+        return llOrderTotal;
+    }
+
+    private LinearLayout createDeliveryAddrLayout(int currentId) {
+        LinearLayout llOrderTotal = (LinearLayout) inflater.inflate(R.layout.order_delivery_addr, null, false);
+
+        /* TODO: populate address */
+
+        return llOrderTotal;
     }
 
     private LinearLayout createOneChefOrderLayout(int currentId, int idx) {
