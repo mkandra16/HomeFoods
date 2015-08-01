@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:padding="3dp">
+
+    <TextView
+        android:id="@+id/tvMenuGridDishName"
+        android:layout_width="120dp"
+        android:layout_height="32dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="South Indian Breakfast"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/ivMenuGridDishImage"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_below="@+id/tvMenuGridDishName"
+        android:adjustViewBounds="true"
+        android:background="@drawable/south_indian_breakfast_01"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/tvMenuGridDishQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/ivMenuGridDishImage"
+        android:layout_below="@+id/ivMenuGridDishImage"
+        android:text="25"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvMenuGridDishPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvMenuGridDishQuantity"
+        android:layout_alignEnd="@+id/ivMenuGridDishImage"
+        android:layout_below="@+id/ivMenuGridDishImage"
+        android:text="@string/INR"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
+
+
+

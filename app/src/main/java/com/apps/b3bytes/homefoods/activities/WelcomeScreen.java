@@ -16,12 +16,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-
 public class WelcomeScreen extends ActionBarActivity {
 
     private Button bDishDescScreenNavigate;
     private Button bCheckoutScreenNavigate;
     private Button bChefDeliveryScreenNavigate;
+    private Button bChefMenuScreenNavigate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +72,19 @@ public class WelcomeScreen extends ActionBarActivity {
                 WelcomeScreen.this.startActivity(i);
             }
         });
+
+        bChefMenuScreenNavigate = (Button) findViewById(R.id.bChefMenuScreenNavigate);
+
+        bChefMenuScreenNavigate.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+
+                Intent i = new Intent(WelcomeScreen.this, ChefMenu.class);
+
+                WelcomeScreen.this.startActivity(i);
+            }
+        });
+
 
     }
 

@@ -13,4 +13,6 @@
     <string name="title_activity_order_review">HomeFoods</string>
     <string name="title_activity_chef_order_delivery">ChefOrderDelivery</string>
     <string name="bChefDeliveryScreenNavigate">Chef Delivery Page</string>
+    <string name="title_activity_chef_menu">ChefMenu</string>
+    <string name="bChefMenuScreenNavigate">Chef Menu</string>
 </resources>
