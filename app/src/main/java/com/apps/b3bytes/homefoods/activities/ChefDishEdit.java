@@ -2,6 +2,7 @@ package com.apps.b3bytes.homefoods.activities;
 
 import android.app.DatePickerDialog;
 import android.app.FragmentTransaction;
+import android.app.TimePickerDialog;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -13,19 +14,21 @@ import android.widget.DatePicker;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.fragments.DatePickerDialogFragment;
+import com.apps.b3bytes.homefoods.fragments.TimePickerDialogFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class ChefDishEdit extends ActionBarActivity implements DatePickerDialog.OnDateSetListener {
+public class ChefDishEdit extends ActionBarActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     private RelativeLayout lDishEditFromDatePicker;
     private RelativeLayout lDishEditToDatePicker;
     private int datePickerInput;
-    public static final int DATE_DIALOG_FRAGMENT = 1;
+    private int timePickerInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +44,28 @@ public class ChefDishEdit extends ActionBarActivity implements DatePickerDialog.
         lDishEditFromDatePicker = (RelativeLayout) findViewById(R.id.lDishEditFromDatePicker);
         TextView tvDishEditFromDateHdr = (TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditDateHdr);
         tvDishEditFromDateHdr.setText("AVILABLE FROM");
-        TextView tvDishEditFromDatePicker = (TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker);
 
+        TextView tvDishEditFromDatePicker = (TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker);
         tvDishEditFromDatePicker.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 datePickerInput = lDishEditFromDatePicker.getId();
                 DialogFragment newFragment = new DatePickerDialogFragment();
-                newFragment.show(getSupportFragmentManager(), "From");
+                newFragment.show(getSupportFragmentManager(), "DatePicker");
             }
         });
+
+        TextView tvDishEditFromTimePicker = (TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditTimePicker);
+        tvDishEditFromTimePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                timePickerInput = lDishEditFromDatePicker.getId();
+                DialogFragment newFragment = new TimePickerDialogFragment();
+                newFragment.show(getSupportFragmentManager(), "TimePicker");
+            }
+        });
+
 
         lDishEditToDatePicker = (RelativeLayout) findViewById(R.id.lDishEditToDatePicker);
         TextView tvDishEditToDateHdr = (TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditDateHdr);
@@ -63,7 +77,17 @@ public class ChefDishEdit extends ActionBarActivity implements DatePickerDialog.
             public void onClick(View v) {
                 datePickerInput = lDishEditToDatePicker.getId();
                 DialogFragment newFragment = new DatePickerDialogFragment();
-                newFragment.show(getSupportFragmentManager(), "To");
+                newFragment.show(getSupportFragmentManager(), "DatePicker");
+            }
+        });
+
+        TextView tvDishEditToTimePicker = (TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditTimePicker);
+        tvDishEditToTimePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                timePickerInput = lDishEditToDatePicker.getId();
+                DialogFragment newFragment = new TimePickerDialogFragment();
+                newFragment.show(getSupportFragmentManager(), "TimePicker");
             }
         });
     }
@@ -83,6 +107,31 @@ public class ChefDishEdit extends ActionBarActivity implements DatePickerDialog.
         else if (datePickerInput == lDishEditToDatePicker.getId())
             ((TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditDatePicker)).setText(formattedDate);
 
+    }
+
+    //onTimeSet() callback method
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        //Get the AM or PM for current time
+        String aMpM = "AM";
+        if (hourOfDay > 11) {
+            aMpM = "PM";
+        }
+
+        //Make the 24 hour time format to 12 hour time format
+        int currentHour;
+        if (hourOfDay > 11) {
+            currentHour = hourOfDay - 12;
+        } else {
+            currentHour = hourOfDay;
+        }
+
+        //Display the user changed time on TextView
+        if (datePickerInput == lDishEditFromDatePicker.getId())
+            ((TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditTimePicker)).setText(String.valueOf(currentHour)
+                    + " : " + String.valueOf(minute) + " " + aMpM);
+        else if (datePickerInput == lDishEditToDatePicker.getId())
+            ((TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditTimePicker)).setText(String.valueOf(currentHour)
+                    + " : " + String.valueOf(minute) + " " + aMpM);
     }
 
     @Override
