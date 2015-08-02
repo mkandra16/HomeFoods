@@ -22,6 +22,7 @@ public class WelcomeScreen extends ActionBarActivity {
     private Button bCheckoutScreenNavigate;
     private Button bChefDeliveryScreenNavigate;
     private Button bChefMenuScreenNavigate;
+    private Button bChefDishEditScreenNavigate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +86,17 @@ public class WelcomeScreen extends ActionBarActivity {
             }
         });
 
+        bChefDishEditScreenNavigate = (Button) findViewById(R.id.bChefDishEditScreenNavigate);
+
+        bChefDishEditScreenNavigate.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+
+                Intent i = new Intent(WelcomeScreen.this, ChefDishEdit.class);
+
+                WelcomeScreen.this.startActivity(i);
+            }
+        });
 
     }
 

@@ -15,4 +15,18 @@
     <string name="bChefDeliveryScreenNavigate">Chef Delivery Page</string>
     <string name="title_activity_chef_menu">ChefMenu</string>
     <string name="bChefMenuScreenNavigate">Chef Menu</string>
+    <string name="title_activity_chef_dish_edit">ChefDishEdit</string>
+    <string name="bChefDishEditScreenNavigate">Chef Dish Edit</string>
+    <string name="etDishEditDishNameHint">Dish Name</string>
+
+
+    <string-array name="cuisine_picker_array">
+        <item>Indian</item>
+        <item>Thai</item>
+        <item>Chinese</item>
+        <item>Mexican</item>
+        <item>American</item>
+        <item>Italian</item>
+    </string-array>
+
 </resources>

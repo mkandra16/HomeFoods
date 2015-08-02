@@ -1,0 +1,76 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.apps.b3bytes.homefoods.activities.ChefDishEdit">
+
+    <EditText
+        android:id="@+id/etDishEditDishName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:singleLine="true"
+        android:layout_alignParentLeft="true"
+        android:hint="@string/etDishEditDishNameHint" />
+
+    <Spinner
+        android:id="@+id/spDishEditCuisine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/etDishEditDishName"
+        android:layout_below="@+id/etDishEditDishName"
+        android:layout_marginTop="12dp" />
+
+
+    <CheckBox
+        android:id="@+id/cbDishEditVegan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/spDishEditCuisine"
+        android:layout_below="@+id/spDishEditCuisine"
+        android:layout_marginTop="24dp"
+        android:text="Yes" />
+
+
+    <EditText
+        android:id="@+id/etDishEditPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/cbDishEditVegan"
+        android:layout_marginTop="24dp"
+        android:hint="Price per unit"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/etDishEditQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/etDishEditPrice"
+        android:layout_marginTop="24dp"
+        android:singleLine="true"
+        android:hint="Number of units available"/>
+
+    <TextView
+        android:id="@+id/tvDishEditDatePicker"
+
+        style="@android:style/Widget.Holo.Light.Spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/etDishEditQuantity"
+        android:layout_marginTop="24dp"
+        android:text="Date"
+        android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+        android:textSize="16sp"
+        android:hint="date" />
+
+    <!--style="@android:style/Widget.DeviceDefault.Light.Spinner"-->
+
+
+</RelativeLayout>
