@@ -3,14 +3,28 @@ package com.apps.b3bytes.homefoods.activities;
 import android.app.DatePickerDialog;
 import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -19,27 +33,41 @@ import android.widget.TimePicker;
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.fragments.DatePickerDialogFragment;
 import com.apps.b3bytes.homefoods.fragments.TimePickerDialogFragment;
+import com.apps.b3bytes.homefoods.utils.DishImageHelper;
 
+import java.io.File;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Locale;
 
 public class ChefDishEdit extends ActionBarActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     private RelativeLayout lDishEditFromDatePicker;
     private RelativeLayout lDishEditToDatePicker;
+    private EditText etDishEditPrice;
+    private ImageView ivDishEditDishImage;
     private int datePickerInput;
     private int timePickerInput;
+    private Uri outputFileUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chef_dish_edit);
 
-        Spinner food = (Spinner) findViewById(R.id.spDishEditCuisine);
-        ArrayAdapter<CharSequence> foodadapter = ArrayAdapter.createFromResource(
-                this, R.array.cuisine_picker_array, R.layout.spinner_layout);
-        foodadapter.setDropDownViewResource(R.layout.spinner_layout);
-        food.setAdapter(foodadapter);
+        AutoCompleteTextView acTvDishEditCuisine = (AutoCompleteTextView) findViewById(R.id.acTvDishEditCuisine);
+        ArrayAdapter<CharSequence> aCuisine = ArrayAdapter.createFromResource(
+                this, R.array.cuisine_picker_array, android.R.layout.simple_dropdown_item_1line);
+        acTvDishEditCuisine.setAdapter(aCuisine);
+
+
+        etDishEditPrice = (EditText) findViewById(R.id.etDishEditPrice);
+        /* Set Text Watcher listener */
+        etDishEditPrice.addTextChangedListener(dishPriceWatcher);
 
         lDishEditFromDatePicker = (RelativeLayout) findViewById(R.id.lDishEditFromDatePicker);
         TextView tvDishEditFromDateHdr = (TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditDateHdr);
@@ -90,7 +118,155 @@ public class ChefDishEdit extends ActionBarActivity implements DatePickerDialog.
                 newFragment.show(getSupportFragmentManager(), "TimePicker");
             }
         });
+
+        TextView tvDishEditDishImage = (TextView) findViewById(R.id.tvDishEditDishImage);
+        ivDishEditDishImage = (ImageView) findViewById(R.id.ivDishEditDishImage);
+        tvDishEditDishImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // DishImageHelper.setDishImage(ivDishEditDishImage, getApplicationContext());
+/*                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image*//*");
+                startActivityForResult(photoPickerIntent, 1);*/
+
+/*                Intent pickIntent = new Intent();
+                pickIntent.setType("image*//*");
+                pickIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+                Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                String pickTitle = "Select or take a new Picture"; // Or get from strings.xml
+                Intent chooserIntent = Intent.createChooser(pickIntent, pickTitle);
+                chooserIntent.putExtra
+                        (
+                                Intent.EXTRA_INITIAL_INTENTS,
+                                new Intent[] { takePhotoIntent }
+                        );
+
+                startActivityForResult(chooserIntent, 1);*/
+
+
+                // Determine Uri of camera image to save.
+                final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "MyDir" + File.separator);
+                root.mkdirs();
+                final String fname = "img_" + System.currentTimeMillis() + ".jpg"; //Utils.getUniqueImageFilename();
+                final File sdImageMainDirectory = new File(root, fname);
+                outputFileUri = Uri.fromFile(sdImageMainDirectory);
+
+                // Camera.
+                final List<Intent> cameraIntents = new ArrayList<Intent>();
+                final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                final PackageManager packageManager = getPackageManager();
+                final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+                for (ResolveInfo res : listCam) {
+                    final String packageName = res.activityInfo.packageName;
+                    final Intent intent = new Intent(captureIntent);
+                    intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+                    intent.setPackage(packageName);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+                    cameraIntents.add(intent);
+                }
+
+                // Filesystem.
+                final Intent galleryIntent = new Intent();
+                //galleryIntent.setType("image*/*");
+                //galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setAction(Intent.ACTION_PICK);
+
+                // Chooser of filesystem options.
+                final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
+
+                // Add the camera options.
+                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
+
+                startActivityForResult(chooserIntent, 120);
+            }
+        });
     }
+
+/*    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            Uri photoUri = data.getData();
+            if (photoUri != null) {
+                try {
+                    Bitmap currentImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
+                    ivDishEditDishImage.setImageBitmap(currentImage);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }*/
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 120) {
+                final boolean isCamera;
+                if (data == null) {
+                    isCamera = true;
+                } else {
+                    final String action = data.getAction();
+                    if (action == null) {
+                        isCamera = false;
+                    } else {
+                        isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    }
+                }
+
+                Uri selectedImageUri;
+                if (isCamera) {
+                    selectedImageUri = outputFileUri;
+                } else {
+                    selectedImageUri = data == null ? null : data.getData();
+                }
+                if (selectedImageUri != null) {
+                    ivDishEditDishImage.setImageURI(null);
+                    ivDishEditDishImage.setImageURI(selectedImageUri);
+                }
+            }
+        }
+    }
+
+    private final TextWatcher dishPriceWatcher = new TextWatcher() {
+        DecimalFormat dec = new DecimalFormat("0.00");
+
+        @Override
+        public void afterTextChanged(Editable arg0) {
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start,
+                                      int count, int after) {
+        }
+
+        private String current = "";
+
+        @Override
+        public void onTextChanged(CharSequence s, int start,
+                                  int before, int count) {
+
+            if (!s.toString().equals(current)) {
+                etDishEditPrice.removeTextChangedListener(this);
+
+                /*String replaceable = String.format("[%s,.]", NumberFormat.getCurrencyInstance().getCurrency().getSymbol());*/
+                String cleanString = s.toString().replaceAll("[^0-9]", "");
+
+                double parsed = Double.parseDouble(cleanString);
+                String formatted = NumberFormat.getCurrencyInstance(new Locale("en", "in")).format((parsed / 100));
+                /* String formatted = NumberFormat.getCurrencyInstance().format((parsed / 100)); */
+
+                current = formatted;
+                etDishEditPrice.setText(formatted);
+                etDishEditPrice.setSelection(formatted.length());
+
+                etDishEditPrice.addTextChangedListener(this);
+            }
+        }
+    };
 
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear,
