@@ -12,10 +12,10 @@
         android:id="@+id/etDishEditDishName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:singleLine="true"
         android:layout_alignParentLeft="true"
-        android:hint="@string/etDishEditDishNameHint" />
+        android:layout_alignParentTop="true"
+        android:hint="@string/etDishEditDishNameHint"
+        android:singleLine="true" />
 
     <Spinner
         android:id="@+id/spDishEditCuisine"
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/cbDishEditVegan"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="12dp"
         android:hint="Price per unit"
         android:singleLine="true" />
 
@@ -52,25 +52,27 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/etDishEditPrice"
-        android:layout_marginTop="24dp"
-        android:singleLine="true"
-        android:hint="Number of units available"/>
+        android:layout_marginTop="12dp"
+        android:hint="Number of units available"
+        android:singleLine="true" />
 
-    <TextView
-        android:id="@+id/tvDishEditDatePicker"
-
-        style="@android:style/Widget.Holo.Light.Spinner"
-        android:layout_width="match_parent"
+    <include
+        layout="@layout/date_time_picker_views"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/etDishEditQuantity"
-        android:layout_marginTop="24dp"
-        android:text="Date"
-        android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
-        android:textSize="16sp"
-        android:hint="date" />
+        android:layout_marginTop="12dp"
+        android:id="@+id/lDishEditFromDatePicker"
+        android:layout_below="@+id/etDishEditQuantity" />
 
-    <!--style="@android:style/Widget.DeviceDefault.Light.Spinner"-->
+    <include
+        layout="@layout/date_time_picker_views"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lDishEditToDatePicker"
+        android:layout_marginTop="12dp"
+        android:layout_below="@+id/lDishEditFromDatePicker" />
+
+
 
 
 </RelativeLayout>
