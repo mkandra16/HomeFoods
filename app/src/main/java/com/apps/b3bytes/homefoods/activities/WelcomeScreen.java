@@ -18,6 +18,8 @@ import com.apps.b3bytes.homefoods.models.Listener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 
 public class WelcomeScreen extends ActionBarActivity {
 
@@ -63,7 +65,8 @@ public class WelcomeScreen extends ActionBarActivity {
                                 "Welcome " + f.getmUserName(), Toast.LENGTH_LONG);
                         t.show();
 
- //                       dataLayer.addFewDishes(getApplicationContext());
+ //                       dataLayer.addFewDishes_sample(getApplicationContext());
+                        dataLayer.queryFewDishes_sample(getApplicationContext());
                     } else {
                         Toast t = Toast.makeText(getApplicationContext(), "SignIn failed", Toast.LENGTH_LONG);
                         t.show();

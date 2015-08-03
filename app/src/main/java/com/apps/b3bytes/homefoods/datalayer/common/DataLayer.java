@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class DataLayer {
 // Sample functions
-    public void addFewDishes(final Context context){
+    public void addFewDishes_sample(final Context context){
         String dishes[][] = {
                 {"Gongura", "AndhraMata Gongura", "Boil Gongura. Grind it along with onions and chillies. Add Tadka!!!", "20"},
                 {"Pappu", "Served with YUMMYYY chintakaya pachaddi", "Home made fresh chintakaya pachhadi with fresh ingredients", "10"},
@@ -51,24 +51,42 @@ public class DataLayer {
         for (int i = 0; i <= 25; i++) {
             Dish d = Dish.createDummyDish(dishes[i][0], dishes[i][1], dishes[i][2], Integer.parseInt(dishes[i][3]));
                 publishDish(d, new DataLayer.DishPublishCallback() {
-                @Override
-                public void done(Dish d, Exception e) {
-                    if (e == null) {
-                        Toast t = Toast.makeText(context,
-                                "Published Dish " + d.getmDishName(), Toast.LENGTH_LONG);
-                        t.show();
-                    } else {
-                        Toast t = Toast.makeText(context,
-                                "Failed to publish dish" + d.getmDishName(), Toast.LENGTH_LONG);
-                        t.show();
+                    @Override
+                    public void done(Dish d, Exception e) {
+                        if (e == null) {
+                            Toast t = Toast.makeText(context,
+                                    "Published Dish " + d.getmDishName(), Toast.LENGTH_LONG);
+                            t.show();
+                        } else {
+                            Toast t = Toast.makeText(context,
+                                    "Failed to publish dish" + d.getmDishName(), Toast.LENGTH_LONG);
+                            t.show();
+                        }
                     }
-                }
-            });
+                });
         }
         return;
     }
 
-
+    public void queryFewDishes_sample(final Context context) {
+        getNearByDishes(10, new DataLayer.DishQueryCallback() {
+            @Override
+            public void done(ArrayList<Dish> list, Exception e) {
+                if (e == null) {
+                    Toast t = Toast.makeText(context,
+                            "Received Dishes, count " + list.size(), Toast.LENGTH_LONG);
+                    t.show();
+                    for (Dish d : list) {
+                        Toast.makeText(context, d.getmDishName(), Toast.LENGTH_SHORT);
+                    }
+                } else {
+                    Toast t = Toast.makeText(context,
+                            "Failed to Retrieve dishes", Toast.LENGTH_LONG);
+                    t.show();
+                }
+            }
+        });
+    }
     public static abstract class SignInCallback {
         public abstract void done(Foodie f, Exception e);
     };
@@ -109,7 +127,9 @@ public class DataLayer {
     public void publishDish(Dish d, DishPublishCallback c) {
         mDishTable.addDishInBackground(d, c);
     }
-    // getNearByDishes();
+    public void getNearByDishes(int radius, DishQueryCallback callback) {
+        mDishTable.getNearbyDishes(radius, callback);
+    };
     // getRelatedDishes(Dish d);
     // getDishesByChef(String chefId);
 
