@@ -10,6 +10,6 @@ import com.apps.b3bytes.homefoods.models.Listener;
  */
 public interface DishTable {
 
-    public abstract  void addDishInBackground(Dish dish);
-    // public abstract void getDishesByChef(String chefId, ResultObject...);
+    public abstract  void addDishInBackground(Dish dish, DataLayer.DishPublishCallback c);
+    public abstract void getNearbyDishes(int radius, DataLayer.DishQueryCallback callback);
 }

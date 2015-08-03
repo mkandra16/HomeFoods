@@ -3,6 +3,9 @@ package com.apps.b3bytes.homefoods.models;
 import com.apps.b3bytes.homefoods.utils.Address;
 import com.apps.b3bytes.homefoods.utils.ContactDetails;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -12,10 +15,10 @@ import java.util.ArrayList;
  */
 public class Dish {
     public enum Unit {GRAMS, LITERS};
-    private String mDishId;
+    private int mDishId;
     private String mDishName;
     private String mImageURL;
-    private String mChefId;
+    private int mChefId;
     private String mDishInfo;
     // private ArrayList<Ingredient> mIngredients;
     private String PrepMethod;
@@ -23,30 +26,49 @@ public class Dish {
     private double mQty;
     private Unit mUnit;
     private double mPrice;
-    private String mCusineId;
+    private int mCusineId;
     private int mThumbsUp;
     private int mThumbsDown;
 
-    public String getmDishId() {
+    public int getmDishId() {
         return mDishId;
     }
 
-    public static Dish createDummyDish() {
+    public static Dish createDummyDish(String name, String info, String method, int price) {
         Dish d = new Dish();
-        d.setmDishId("1");
-        d.setmDishName("Gongura");
-        d.setmChefId("1");
-        d.setmDishInfo("Andhra mata Gongura pachhadi");
-        d.setPrepMethod("Boil Gongura. fry onions and chilli. Grind boiled Gongura with chillies and onion. Finally add tadka!!!");
+        d.setmDishId(1);
+        d.setmDishName(name);
+        d.setmChefId(1);
+        d.setmDishInfo(info);
+        d.setPrepMethod(method);
         d.setmQty(100);
         d.setmUnit(Unit.GRAMS);
-        d.setmPrice(20);
-        d.setmCusineId("Andhra");
+        d.setmPrice(price);
+        d.setmCusineId(1);
         d.setmThumbsUp(150);
         d.setmThumbsDown(10);
         return d;
     }
-    public void setmDishId(String mDishId) {
+    public Dish() {}
+
+    public Dish(JSONObject object) {
+        try {
+            mDishId = object.getInt("DishId");
+        mDishName = object.getString("DishName");
+        mDishInfo =     object.getString("DishInfo");
+        mImageURL = object.getString("ImageURL");
+        mQty = object.getDouble("Qty");
+        mUnit = Unit.valueOf(object.getString("Unit"));
+        mPrice = object.getDouble("Price");
+        mThumbsUp = object.getInt("ThumbsUp");
+        mThumbsDown = object.getInt("ThumbsDown");
+        mCusineId = object.getInt("CusineId");
+        mChefId = object.getInt("ChefId");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public void setmDishId(int mDishId) {
         this.mDishId = mDishId;
     }
 
@@ -66,11 +88,11 @@ public class Dish {
         this.mImageURL = mImageURL;
     }
 
-    public String getmChefId() {
+    public int getmChefId() {
         return mChefId;
     }
 
-    public void setmChefId(String mChefId) {
+    public void setmChefId(int mChefId) {
         this.mChefId = mChefId;
     }
 
@@ -114,11 +136,11 @@ public class Dish {
         this.mPrice = mPrice;
     }
 
-    public String getmCusineId() {
+    public int getmCusineId() {
         return mCusineId;
     }
 
-    public void setmCusineId(String mCusineId) {
+    public void setmCusineId(int mCusineId) {
         this.mCusineId = mCusineId;
     }
 

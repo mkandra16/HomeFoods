@@ -8,15 +8,15 @@ import java.util.ArrayList;
  * Created by sindhu on 7/26/2015.
  */
 public class Chef {
-    private String mChefId;
+    private int mChefId;
     private ArrayList<String> mPayrollOptions;
     private Address mAddr;
 
-    public String getmChefId() {
+    public int getmChefId() {
         return mChefId;
     }
 
-    public void setmChefId(String mChefId) {
+    public void setmChefId(int mChefId) {
         this.mChefId = mChefId;
     }
 

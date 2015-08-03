@@ -13,10 +13,12 @@ import java.util.ArrayList;
  */
 public class Foodie {
 
-    private String mFoodieId;
+    private int mFoodieId;
     private String mFirstName;
     private String mMiddleName;
     private String mLastName;
+    private String mUserName;
+    private String mPassword;
     private String mImageURL;
     private Address mAddr;
     private ContactDetails mContact;
@@ -24,11 +26,28 @@ public class Foodie {
     private ArrayList<String> mPayOptions;
     private Chef mChef; // when set can be same as FoodieId
 
+    public String getmUserName() {
+        return mUserName;
+    }
+
+    public void setmUserName(String mUserName) {
+        this.mUserName = mUserName;
+    }
+
+    public String getmPassword() {
+        return mPassword;
+    }
+
+    public void setmPassword(String mPassword) {
+        this.mPassword = mPassword;
+    }
+
     public static Foodie createDummyFoodie() {
         JSONObject addr =  new JSONObject();
+
         try {
-            addr.put("AddrLine1", "1234 Kiely Blvd")
-                    .put("AddrZip", 95129)
+            addr.put("AddrLine1", "34113 Via Lucca")
+                    .put("AddrZip", 94555)
                     .put("AddrState", "CA")
                     .put("AddrCountry", "US");
         } catch (JSONException e) {
@@ -38,18 +57,20 @@ public class Foodie {
         try {
             contact.put("HomePh", "1234567890")
                     .put("Mobile", "1234567890")
-                    .put("EmailId", "mohan.kandra@somemail.com");
+                    .put("EmailId", "patibandla@gmail.com");
         } catch (JSONException e) {
             e.printStackTrace();
         }
         JSONObject foodie = new JSONObject();
         try {
-            foodie.put("FoodieId", 1)
-                    .put("FirstName", "Mohan")
-                    .put("LastName", "Kandra")
+            foodie.put("FoodieId", -1)
+                    .put("FirstName", "Pavan")
+                    .put("LastName", "Patibandla")
+                    .put("UserName", "Pavan")
+                    .put("Password", "welcome")
                     .put("Address", addr)
                     .put("ContactDetails", contact)
-                    .put("FavoriteFoods", "Dosa, Sambar");
+                    .put("FavoriteFoods", "Kakarakai");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -60,7 +81,9 @@ public class Foodie {
 
     public Foodie(JSONObject f) {
         try {
-            mFoodieId = f.getString("FoodieId");
+            mFoodieId = f.getInt("FoodieId");
+            mUserName = f.getString("UserName");
+//            mPassword = f.getString("Password");
         } catch (JSONException e) {
             e.printStackTrace();
             throw new RuntimeException("Crash!");
@@ -97,11 +120,11 @@ public class Foodie {
         mChef.setmChefId(mFoodieId);
         mChef.setmAddr(mAddr);
     }
-    public String getmFoodieId() {
+    public int getmFoodieId() {
         return mFoodieId;
     }
 
-    public void setmFoodieId(String mFoodieId) {
+    public void setmFoodieId(int mFoodieId) {
         this.mFoodieId = mFoodieId;
     }
 
@@ -116,18 +139,11 @@ public class Foodie {
     public Chef getmChef() {
         return mChef;
     }
-
+/*
     public void setmChef(Chef mChef) {
         this.mChef = mChef;
     }
-
-    public String getnfId() {
-        return mFoodieId;
-    }
-
-    public void setmfId(String mfId) {
-        this.mFoodieId = mfId;
-    }
+    */
 
     public String getmFirstName() {
         return mFirstName;
@@ -185,11 +201,7 @@ public class Foodie {
         this.mPayOptions = mPayOptions;
     }
 
-    public String getmChefId() {
-        return mChef.getmChefId();
-    }
-
-    public void setmChefId(String mChefId) {
+ /*   public void setmChefId(String mChefId) {
         this.mChef.setmChefId(mChefId);
-    }
+    }*/
 }

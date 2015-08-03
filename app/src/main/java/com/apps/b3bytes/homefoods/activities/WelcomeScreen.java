@@ -7,10 +7,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
+import com.apps.b3bytes.homefoods.models.Dish;
 import com.apps.b3bytes.homefoods.models.Foodie;
+import com.apps.b3bytes.homefoods.models.Listener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,7 +24,7 @@ public class WelcomeScreen extends ActionBarActivity {
 
     private Button bDishDescScreenNavigate;
     private Button bCheckoutScreenNavigate;
-
+    private DataLayer dataLayer = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,10 +35,43 @@ public class WelcomeScreen extends ActionBarActivity {
         // If not registered as chef, register as chef.
         // publishDish(); multiple of them.
         //
-        Foodie f = Foodie.createDummyFoodie();
-        DataLayer dataLayer = new DataLayer(this);
-        dataLayer.registerFoodie(f);
+        if (dataLayer == null) {
+//            Foodie f = Foodie.createDummyFoodie();
+            dataLayer = new DataLayer(this);
+/*            dataLayer.registerFoodie(f, new DataLayer.RegistrationCallback() {
 
+                @Override
+                public void done(Foodie f, Exception e) {
+                    if (e == null) {
+                        Toast t = Toast.makeText(getApplicationContext(),
+                                "Registration successful, FoodieId" + f.getmFoodieId(), Toast.LENGTH_LONG);
+                    } else {
+                        Toast t = Toast.makeText(getApplicationContext(), "Registration failed", Toast.LENGTH_LONG);
+
+                    }
+                }
+            });
+*/
+            dataLayer.signInFoodie("Mohan", "welcome", new DataLayer.SignInCallback() {
+                @Override
+                public void done(Foodie f, Exception e) {
+                    if (e == null) {
+                        Toast t = Toast.makeText(getApplicationContext(),
+                                "Welcome " + f.getmUserName(), Toast.LENGTH_LONG);
+                        t.show();
+
+ //                       dataLayer.addFewDishes(getApplicationContext());
+                    } else {
+                        Toast t = Toast.makeText(getApplicationContext(), "SignIn failed", Toast.LENGTH_LONG);
+                        t.show();
+                    }
+                }
+            });
+        }
+  //      if(f.getmChef() == null) {
+  //          f.signUpAsChef();
+  //          dataLayer.signUpAsChef(f);
+  //      }
         bDishDescScreenNavigate = (Button) findViewById(R.id.bDishDescScreenNavigate);
 
         bDishDescScreenNavigate.setOnClickListener(new View.OnClickListener() {
