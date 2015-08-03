@@ -19,12 +19,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-
 public class WelcomeScreen extends ActionBarActivity {
 
     private Button bDishDescScreenNavigate;
     private Button bCheckoutScreenNavigate;
+    private Button bChefDeliveryScreenNavigate;
+    private Button bChefMenuScreenNavigate;
+    private Button bChefDishEditScreenNavigate;
     private DataLayer dataLayer = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +99,41 @@ public class WelcomeScreen extends ActionBarActivity {
             }
         });
 
+        bChefDeliveryScreenNavigate = (Button) findViewById(R.id.bChefDeliveryScreenNavigate);
+
+        bChefDeliveryScreenNavigate.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+
+                Intent i = new Intent(WelcomeScreen.this, ChefOrderDelivery.class);
+
+                WelcomeScreen.this.startActivity(i);
+            }
+        });
+
+        bChefMenuScreenNavigate = (Button) findViewById(R.id.bChefMenuScreenNavigate);
+
+        bChefMenuScreenNavigate.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+
+                Intent i = new Intent(WelcomeScreen.this, ChefMenu.class);
+
+                WelcomeScreen.this.startActivity(i);
+            }
+        });
+
+        bChefDishEditScreenNavigate = (Button) findViewById(R.id.bChefDishEditScreenNavigate);
+
+        bChefDishEditScreenNavigate.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+
+                Intent i = new Intent(WelcomeScreen.this, ChefDishEdit.class);
+
+                WelcomeScreen.this.startActivity(i);
+            }
+        });
 
     }
 

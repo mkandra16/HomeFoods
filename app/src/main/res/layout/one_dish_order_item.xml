@@ -7,13 +7,14 @@
 
     <TextView
         android:id="@+id/tvOrderReviewDishPrice"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
+        android:gravity="right"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="3dp"
         android:text="@string/INR"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="12sp"
         android:textColor="@android:color/black" />
 
     <TextView
@@ -21,10 +22,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/tvOrderReviewDishPrice"
-        android:layout_marginRight="32dp"
+        android:layout_marginRight="12dp"
         android:layout_toLeftOf="@+id/tvOrderReviewDishPrice"
         android:text="Quantity"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="12sp"
         android:textColor="@android:color/black" />
 
     <TextView
@@ -33,11 +34,10 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/tvOrderReviewDishQuantity"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="32dp"
+        android:layout_marginRight="12dp"
         android:layout_toLeftOf="@+id/tvOrderReviewDishQuantity"
         android:text="Dish Name"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="12sp"
         android:textColor="@android:color/black" />
 
     <TextView
@@ -58,11 +58,53 @@
         android:layout_alignTop="@+id/tvOrderReviewDishQuantityNum"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@+id/tvOrderReviewDishQuantityNum"
+        android:clickable="true"
         android:paddingBottom="16dp"
         android:text="Change"
         android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
         android:textSize="10sp"
         android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etOrderReviewDishQuantityNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvOrderReviewDishQuantityUpdate"
+        android:layout_below="@+id/tvOrderReviewDishName"
+        android:layout_marginRight="16dp"
+        android:layout_toStartOf="@+id/tvOrderReviewDishQuantity"
+        android:ems="3"
+        android:inputType="number"
+        android:textSize="10sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvOrderReviewDishQuantityUpdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvOrderReviewDishQuantity"
+        android:layout_marginTop="12dp"
+        android:layout_toRightOf="@+id/etOrderReviewDishQuantityNum"
+        android:clickable="true"
+        android:text="Update"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvOrderReviewDishQuantityDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvOrderReviewDishQuantityUpdate"
+        android:layout_marginLeft="5dp"
+        android:layout_toEndOf="@+id/tvOrderReviewDishQuantityUpdate"
+        android:clickable="true"
+        android:text="Delete"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <!--    <View
             android:layout_width="fill_parent"

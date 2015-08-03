@@ -4,6 +4,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:allowBackup="true"
@@ -26,7 +31,21 @@
         <activity
             android:name=".activities.OrderReview"
             android:label="@string/title_activity_order_review"
-            android:theme="@style/Theme.KPTheme_AdriftInDreams"></activity>
+            android:theme="@style/Theme.KPTheme_AdriftInDreams" />
+        <activity
+            android:name=".activities.ChefOrderDelivery"
+            android:label="@string/title_activity_chef_order_delivery"
+            android:theme="@style/Theme.KPTheme_AdriftInDreams" />
+        <activity
+            android:name=".activities.ChefMenu"
+            android:label="@string/title_activity_chef_menu"
+            android:theme="@style/Theme.KPTheme_AdriftInDreams" />
+        <activity
+            android:name=".activities.ChefDishEdit"
+            android:label="@string/title_activity_chef_dish_edit"
+            android:theme="@style/Theme.KPTheme_AdriftInDreams" />
+
+
     </application>
 
 </manifest>

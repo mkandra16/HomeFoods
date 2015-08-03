@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llDeliveryAddrDetails"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/rlDeliveryAddrDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvDeliveryAddrTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:text="Delivery address:"
+            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/rlDeliveryAddr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvDeliveryAddrTitle"
+            android:layout_marginTop="3dp"
+            android:background="#FFFFFF">
+
+            <TextView
+                android:id="@+id/tvDeliveryAddrEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="3dp"
+                android:text="Edit"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDeliveryAddr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvDeliveryAddrEdit"
+                android:text="No 1234\nStreet Name\nCity Name\n987654\n\nContact: 123456789"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -1,5 +1,6 @@
 package com.apps.b3bytes.homefoods.activities;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
@@ -7,15 +8,34 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.adapters.DishOrdersListAdapter;
+import com.apps.b3bytes.homefoods.models.OneDishOrder;
+import com.apps.b3bytes.homefoods.utils.ListViewHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderReview extends ActionBarActivity {
+    private LinearLayout llRoot;
+    private RelativeLayout rlAddNewChef;
+    private int currentId;
+    private Button bAddNewChef;
+    private LayoutInflater inflater;
+    double totalPrice = 0;
 
+    private int chefIdx;
     Context context = this;
 
     /* TODO: TEST DATA */
@@ -37,73 +57,75 @@ public class OrderReview extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int currentId = 10;
+        setContentView(R.layout.activity_order_review);
 
-        LayoutInflater inflater = LayoutInflater.from(context);
-        RelativeLayout rlParent = new RelativeLayout(this);
-        ScrollView svParent = new ScrollView(this);
+        inflater = LayoutInflater.from(getApplicationContext());
+        llRoot = (LinearLayout) findViewById(R.id.llRoot);
+        TextView tvOrderSummary = (TextView) findViewById(R.id.tvOrderSummary);
+
+        currentId = (int) tvOrderSummary.getId();
 
         for (int i = 0; i < chefNamesArray.length; i++) {
-            rlParent.addView(createChefNameLayout(currentId, chefNamesArray[i]));
+            llRoot.addView(createOneChefOrderLayout(currentId, i));
             currentId++;
-
-            int numDishes = dishNamesArray[i].length;
-            for (int j = 0; j < numDishes; j++) {
-                rlParent.addView(createOneDishOrderLayout(inflater, dishNamesArray[i][j], dishQuantitiesArray[i][j], dishUnitPriceArray[i][j], currentId));
-                currentId++;
-            }
         }
 
-        svParent.addView(rlParent);
+        llRoot.addView(createOrderTotalLayout(currentId, totalPrice));
+        currentId++;
 
-        setContentView(svParent);
+        llRoot.addView(createDeliveryAddrLayout(currentId));
+        currentId++;
 
+        llRoot.addView(createProceedToPaymentLayout(currentId));
+        currentId++;
     }
 
-    private TextView createChefNameLayout(int currentId, String chefName) {
-        TextView textView = new TextView(this);
-        textView.setText(chefName);
-        textView.setTextColor(Color.BLACK);
-        textView.setId(currentId);
-        RelativeLayout.LayoutParams params =
-                new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                        RelativeLayout.LayoutParams.WRAP_CONTENT);
-        if (currentId == 10) {
-            params.addRule(RelativeLayout.ALIGN_PARENT_TOP, 1);
+    private LinearLayout createProceedToPaymentLayout(int currentId) {
+        LinearLayout llOrderProceedToPayment = (LinearLayout) inflater.inflate(R.layout.order_proceed_to_payment, null, false);
+
+        return llOrderProceedToPayment;
+    }
+
+    private LinearLayout createOrderTotalLayout(int currentId, double totalPrice) {
+        LinearLayout llOrderTotal = (LinearLayout) inflater.inflate(R.layout.order_total, null, false);
+        RelativeLayout rlOrderTotal = (RelativeLayout) llOrderTotal.findViewById(R.id.rlOrderTotal);
+
+        TextView tvOrderTotalPrice = (TextView) rlOrderTotal.findViewById(R.id.tvOrderTotalPrice);
+        tvOrderTotalPrice.setText(context.getString(R.string.Rs) + " " + totalPrice);
+
+        return llOrderTotal;
+    }
+
+    private LinearLayout createDeliveryAddrLayout(int currentId) {
+        LinearLayout llOrderTotal = (LinearLayout) inflater.inflate(R.layout.order_delivery_addr, null, false);
+
+        /* TODO: populate address */
+
+        return llOrderTotal;
+    }
+
+    private LinearLayout createOneChefOrderLayout(int currentId, int idx) {
+
+        LinearLayout llOneChefOrder = (LinearLayout) inflater.inflate(R.layout.one_chef_order, null, false);
+        RelativeLayout rlOneChefOrder = (RelativeLayout) llOneChefOrder.findViewById(R.id.rlOneChefOrder);
+
+        TextView tvChefName = (TextView) rlOneChefOrder.findViewById(R.id.tvChefName);
+        tvChefName.setText(chefNamesArray[idx]);
+
+        List<OneDishOrder> list = new ArrayList<OneDishOrder>();
+        ListView lvChefOrders = (ListView) rlOneChefOrder.findViewById(R.id.lvChefOrders);
+        ArrayAdapter<OneDishOrder> aOneDishOrder = new DishOrdersListAdapter(OrderReview.this, list, lvChefOrders, llOneChefOrder);
+        lvChefOrders.setAdapter(aOneDishOrder);
+
+        int numDishes = dishNamesArray[idx].length;
+        for (int i = 0; i < numDishes; i++) {
+            list.add(new OneDishOrder(dishNamesArray[idx][i], dishQuantitiesArray[idx][i], dishUnitPriceArray[idx][i]));
+            totalPrice += (dishQuantitiesArray[idx][i] * dishUnitPriceArray[idx][i]);
         }
-        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 1);
-        params.setMargins(5, 0, 0, 8);
-        params.addRule(RelativeLayout.BELOW, currentId - 1);
-        textView.setLayoutParams(params);
+        aOneDishOrder.notifyDataSetChanged();
+        ListViewHelper.setListViewHeightBasedOnChildren(lvChefOrders);
 
-        return textView;
-    }
-
-    private RelativeLayout createOneDishOrderLayout(LayoutInflater inflater, String dishName, int quantity, double pricePerUnit, int currentId) {
-
-        RelativeLayout rlOneDish = (RelativeLayout) inflater.inflate(R.layout.one_dish_order, null, false);
-        TextView t1 = (TextView) rlOneDish.findViewById(R.id.tvOrderReviewDishName);
-        t1.setText(dishName);
-        t1.setTextSize(17);
-        t1.setTextColor(Color.BLACK);
-
-        TextView t2 = (TextView) rlOneDish.findViewById(R.id.tvOrderReviewDishQuantityNum);
-        t2.setText("" + quantity);
-        t2.setTextColor(Color.BLACK);
-
-        TextView t3 = (TextView) rlOneDish.findViewById(R.id.tvOrderReviewDishPrice);
-        t3.setText("Rs " + pricePerUnit * quantity);
-        t3.setTextColor(Color.BLACK);
-
-        rlOneDish.setId(currentId);
-        RelativeLayout.LayoutParams rlc3 = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
-        rlc3.addRule(RelativeLayout.BELOW, currentId - 1);
-        rlOneDish.setLayoutParams(rlc3);
-        //rlOneDish.setBackgroundColor(0XF5F5F5);
-
-        return rlOneDish;
+        return llOneChefOrder;
     }
 
     @Override
