@@ -28,5 +28,7 @@
         <item>American</item>
         <item>Italian</item>
     </string-array>
+    <string name="title_activity_chef_home_page">ChefHomePage</string>
+    <string name="bChefHomePageScreenNavigate">Chef Home Page</string>
 
 </resources>

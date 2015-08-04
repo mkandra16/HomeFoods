@@ -28,6 +28,7 @@ public class WelcomeScreen extends ActionBarActivity {
     private Button bChefDeliveryScreenNavigate;
     private Button bChefMenuScreenNavigate;
     private Button bChefDishEditScreenNavigate;
+    private Button bChefHomePageScreenNavigate;
     private DataLayer dataLayer = null;
 
     @Override
@@ -137,6 +138,20 @@ public class WelcomeScreen extends ActionBarActivity {
                 WelcomeScreen.this.startActivity(i);
             }
         });
+
+        bChefHomePageScreenNavigate = (Button) findViewById(R.id.bChefHomePageScreenNavigate);
+
+        bChefHomePageScreenNavigate.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+
+                Intent i = new Intent(WelcomeScreen.this, ChefHomePage.class);
+
+                WelcomeScreen.this.startActivity(i);
+            }
+        });
+
+
 
     }
 
