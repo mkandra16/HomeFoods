@@ -2,6 +2,8 @@ package com.apps.b3bytes.homefoods.activities;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
@@ -9,13 +11,21 @@ import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
 
-public class DishDesc extends ActionBarActivity {
+public class DishDesc extends AppCompatActivity {
     private TabHost tabHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dish_desc);
+
+        Toolbar toolBar = (Toolbar) findViewById(R.id.toolBar);
+        setSupportActionBar(toolBar);
+        getSupportActionBar().setTitle("Dish Desc");
+        // enabling action bar app icon and behaving it as toggle button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
 
         // create the TabHost that will contain the Tabs
         tabHost = (TabHost)findViewById(R.id.tabDishDesc);
@@ -84,6 +94,11 @@ public class DishDesc extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == android.R.id.home) {
+            finish();
             return true;
         }
 

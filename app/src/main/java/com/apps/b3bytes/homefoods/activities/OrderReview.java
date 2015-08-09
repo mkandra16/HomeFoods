@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +29,7 @@ import com.apps.b3bytes.homefoods.utils.ListViewHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderReview extends ActionBarActivity {
+public class OrderReview extends AppCompatActivity {
     private LinearLayout llRoot;
     private RelativeLayout rlAddNewChef;
     private int currentId;
@@ -58,6 +60,13 @@ public class OrderReview extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_review);
+
+        Toolbar toolBar = (Toolbar) findViewById(R.id.toolBar);
+        setSupportActionBar(toolBar);
+        getSupportActionBar().setTitle("Checkout");
+        // enabling action bar app icon and behaving it as toggle button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         inflater = LayoutInflater.from(getApplicationContext());
         llRoot = (LinearLayout) findViewById(R.id.llRoot);
@@ -144,6 +153,11 @@ public class OrderReview extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == android.R.id.home) {
+            finish();
             return true;
         }
 

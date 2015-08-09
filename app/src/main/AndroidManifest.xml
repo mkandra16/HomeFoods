@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.apps.b3bytes.homefoods" >
+    package="com.apps.b3bytes.homefoods">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -14,10 +14,10 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/KPThemeAdriftInDreams">
         <activity
             android:name=".activities.WelcomeScreen"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,33 +26,26 @@
         </activity>
         <activity
             android:name=".activities.DishDesc"
-            android:label="@string/title_activity_dish_desc"
-            android:theme="@style/Theme.KPTheme_AdriftInDreams" />
+            android:label="@string/title_activity_dish_desc" />
         <activity
             android:name=".activities.OrderReview"
-            android:label="@string/title_activity_order_review"
-            android:theme="@style/Theme.KPTheme_AdriftInDreams" />
+            android:label="@string/title_activity_order_review" />
         <activity
             android:name=".activities.ChefOrderDelivery"
-            android:label="@string/title_activity_chef_order_delivery"
-            android:theme="@style/Theme.KPTheme_AdriftInDreams" />
+            android:label="@string/title_activity_chef_order_delivery" />
         <activity
             android:name=".activities.ChefMenu"
-            android:label="@string/title_activity_chef_menu"
-            android:theme="@style/Theme.KPTheme_AdriftInDreams" />
+            android:label="@string/title_activity_chef_menu" />
         <activity
             android:name=".activities.ChefDishEdit"
-            android:label="@string/title_activity_chef_dish_edit"
-            android:theme="@style/Theme.KPTheme_AdriftInDreams" />
+            android:label="@string/title_activity_chef_dish_edit" />
         <activity
             android:name=".activities.ChefHomePage"
-            android:label="@string/title_activity_chef_home_page"
-            android:theme="@style/Theme.KPTheme_AdriftInDreams" >
+            android:label="@string/title_activity_chef_home_page">
         </activity>
         <activity
             android:name=".activities.FoodieResults"
-            android:label="@string/title_activity_foodie_results"
-            android:theme="@style/Theme.KPTheme_AdriftInDreams">
+            android:label="@string/title_activity_foodie_results">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.apps.b3bytes.homefoods.activities.WelcomeScreen" />

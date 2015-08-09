@@ -1,102 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:orientation="vertical">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/toolbar" />
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#F5F5F5"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="com.apps.b3bytes.homefoods.activities.ChefOrderDelivery">
+        android:layout_height="match_parent"
+        android:background="#F5F5F5">
 
-        <TextView
-            android:id="@+id/tvOrderNumHdr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:text="Order Number"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvOrderNumVal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/tvOrderNumHdr"
-            android:layout_alignParentRight="true"
-            android:text="135792468"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
-            android:textStyle="bold" />
-
-        <ListView
-            android:id="@+id/lvChefDeliveryOrders"
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/tvOrderNumHdr"
-            android:layout_below="@+id/tvOrderNumHdr"
-            android:layout_marginTop="5dp" />
+            android:background="#F5F5F5"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            tools:context="com.apps.b3bytes.homefoods.activities.ChefOrderDelivery">
 
-        <TextView
-            android:id="@+id/tvChefDeliveryTotalHdr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/tvChefDeliveryTotalPriceVal"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/lvChefDeliveryOrders"
-            android:layout_marginRight="12dp"
-            android:layout_toLeftOf="@+id/tvChefDeliveryTotalNumDishes"
-            android:text="Total"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tvOrderNumHdr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="Order Number"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvChefDeliveryTotalNumDishes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/tvChefDeliveryTotalPriceVal"
-            android:layout_marginRight="12dp"
-            android:layout_toLeftOf="@+id/tvChefDeliveryTotalPriceVal"
-            android:text="N"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black" />
+            <TextView
+                android:id="@+id/tvOrderNumVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvOrderNumHdr"
+                android:layout_alignParentRight="true"
+                android:text="135792468"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvChefDeliveryTotalPriceVal"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/lvChefDeliveryOrders"
-            android:layout_marginRight="3dp"
-            android:layout_marginTop="12dp"
-            android:gravity="right"
-            android:text="@string/INR"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
+            <ListView
+                android:id="@+id/lvChefDeliveryOrders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/tvOrderNumHdr"
+                android:layout_below="@+id/tvOrderNumHdr"
+                android:layout_marginTop="5dp" />
 
-        <Button
-            android:id="@+id/bChefDeliveryDone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvChefDeliveryTotalPriceVal"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="12dp"
-            android:text="Deliver"
-            android:textAllCaps="true"
-            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tvChefDeliveryTotalHdr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvChefDeliveryTotalPriceVal"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/lvChefDeliveryOrders"
+                android:layout_marginRight="12dp"
+                android:layout_toLeftOf="@+id/tvChefDeliveryTotalNumDishes"
+                android:text="Total"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
 
-    </RelativeLayout>
-</ScrollView>
+            <TextView
+                android:id="@+id/tvChefDeliveryTotalNumDishes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvChefDeliveryTotalPriceVal"
+                android:layout_marginRight="12dp"
+                android:layout_toLeftOf="@+id/tvChefDeliveryTotalPriceVal"
+                android:text="N"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/tvChefDeliveryTotalPriceVal"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/lvChefDeliveryOrders"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="12dp"
+                android:gravity="right"
+                android:text="@string/INR"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/bChefDeliveryDone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvChefDeliveryTotalPriceVal"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="12dp"
+                android:text="Deliver"
+                android:textAllCaps="true"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+    </ScrollView>
+</LinearLayout>
