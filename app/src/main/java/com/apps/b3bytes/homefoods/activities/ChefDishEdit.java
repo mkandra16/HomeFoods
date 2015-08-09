@@ -15,6 +15,8 @@ import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -45,7 +47,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
-public class ChefDishEdit extends ActionBarActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class ChefDishEdit extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     private RelativeLayout lDishEditFromDatePicker;
     private RelativeLayout lDishEditToDatePicker;
     private EditText etDishEditPrice;
@@ -58,6 +60,13 @@ public class ChefDishEdit extends ActionBarActivity implements DatePickerDialog.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chef_dish_edit);
+
+        Toolbar toolBar = (Toolbar) findViewById(R.id.toolBar);
+        setSupportActionBar(toolBar);
+        getSupportActionBar().setTitle("Dish Edit");
+        // enabling action bar app icon and behaving it as toggle button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         AutoCompleteTextView acTvDishEditCuisine = (AutoCompleteTextView) findViewById(R.id.acTvDishEditCuisine);
         ArrayAdapter<CharSequence> aCuisine = ArrayAdapter.createFromResource(
@@ -326,6 +335,11 @@ public class ChefDishEdit extends ActionBarActivity implements DatePickerDialog.
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == android.R.id.home) {
+            finish();
             return true;
         }
 

@@ -3,6 +3,7 @@ package com.apps.b3bytes.homefoods.activities;
 import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -30,6 +31,13 @@ public class ChefOrderDelivery extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chef_order_delivery);
+
+        Toolbar toolBar = (Toolbar) findViewById(R.id.toolBar);
+        setSupportActionBar(toolBar);
+        getSupportActionBar().setTitle("Order Deliver");
+        // enabling action bar app icon and behaving it as toggle button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         TextView tvChefDeliveryTotalNumDishes = (TextView) findViewById(R.id.tvChefDeliveryTotalNumDishes);
         TextView tvChefDeliveryTotalPriceVal = (TextView) findViewById(R.id.tvChefDeliveryTotalPriceVal);
@@ -71,6 +79,11 @@ public class ChefOrderDelivery extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == android.R.id.home) {
+            finish();
             return true;
         }
 

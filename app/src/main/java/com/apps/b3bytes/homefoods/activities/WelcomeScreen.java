@@ -3,6 +3,7 @@ package com.apps.b3bytes.homefoods.activities;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,12 +30,27 @@ public class WelcomeScreen extends ActionBarActivity {
     private Button bChefMenuScreenNavigate;
     private Button bChefDishEditScreenNavigate;
     private Button bChefHomePageScreenNavigate;
-    private DataLayer dataLayer = null;
+    public static DataLayer dataLayer = null; // move these kind of data to application context
+
+    // nav drawer title
+    private CharSequence mPageTitle;
+    // used to store app title
+    private CharSequence mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_screen);
+
+        Toolbar toolBar = (Toolbar) findViewById(R.id.toolBar);
+        //Toolbar will now take on default actionbar characteristics
+        setSupportActionBar(toolBar);
+        getSupportActionBar().setTitle("Home Foods");
+        mTitle = mPageTitle = getTitle();
+
+        // enabling action bar app icon and behaving it as toggle button
+/*        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);*/
 
         // Current Foodie
         // RegisterFoodie // one time.
@@ -156,6 +172,12 @@ public class WelcomeScreen extends ActionBarActivity {
     }
 
     @Override
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        getSupportActionBar().setTitle(mTitle);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_welcome_screen, menu);
@@ -175,5 +197,11 @@ public class WelcomeScreen extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getSupportActionBar().setTitle("Home Foods");
     }
 }
