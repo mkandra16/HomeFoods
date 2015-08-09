@@ -47,7 +47,15 @@
         <activity
             android:name=".activities.ChefHomePage"
             android:label="@string/title_activity_chef_home_page"
+            android:theme="@style/Theme.KPTheme_AdriftInDreams" >
+        </activity>
+        <activity
+            android:name=".activities.FoodieResults"
+            android:label="@string/title_activity_foodie_results"
             android:theme="@style/Theme.KPTheme_AdriftInDreams">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.apps.b3bytes.homefoods.activities.WelcomeScreen" />
         </activity>
     </application>
 

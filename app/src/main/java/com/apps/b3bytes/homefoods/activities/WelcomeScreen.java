@@ -29,6 +29,7 @@ public class WelcomeScreen extends ActionBarActivity {
     private Button bChefMenuScreenNavigate;
     private Button bChefDishEditScreenNavigate;
     private Button bChefHomePageScreenNavigate;
+    private Button bFoodieReultsNavigate;
     private DataLayer dataLayer = null;
 
     @Override
@@ -151,6 +152,16 @@ public class WelcomeScreen extends ActionBarActivity {
             }
         });
 
+        bFoodieReultsNavigate = (Button) findViewById(R.id.bFoodieResultsScreenNavigate);
+
+        bFoodieReultsNavigate.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+                Toast.makeText(getApplicationContext(), "Clicked Foodie Results button", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(WelcomeScreen.this, FoodieResults.class);
+                WelcomeScreen.this.startActivity(i);
+            }
+        });
 
 
     }

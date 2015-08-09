@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    >
+    <!-- A CardView that contains a TextView -->
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="4dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+            <TextView
+                android:id="@+id/tvDishName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="South Indian Breakfast"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDishPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/tvDishName"
+                android:layout_below="@+id/tvDishName"
+                android:text="@string/INR"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent" />
+
+            <ImageView
+                android:id="@+id/ivDishImage"
+                android:layout_width="fill_parent"
+                android:layout_height="180dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/tvDishPrice"
+                android:adjustViewBounds="true"
+                android:background="@drawable/south_indian_breakfast_01"
+                android:scaleType="centerInside" />
+
+            <RelativeLayout
+                android:id="@+id/rlDishRatingsReviews_Add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivDishImage"
+                android:layout_marginTop="2dp">
+
+                <RelativeLayout
+                    android:id="@+id/rlDishReviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/ivReviewsThumbsUp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentStart="true"
+                        android:background="@mipmap/ic_review_thumbs_up" />
+
+                    <TextView
+                        android:id="@+id/tvReviewsThumbsUp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/ivReviewsThumbsUp"
+                        android:paddingLeft="2dp"
+                        android:text="1280"
+                        android:textSize="8sp" />
+
+                    <ImageView
+                        android:id="@+id/ivReviewsThumbsDown"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_toEndOf="@+id/tvReviewsThumbsUp"
+                        android:background="@mipmap/ic_review_thumbs_down" />
+
+                    <TextView
+                        android:id="@+id/tvReviewsThumbsDown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/ivReviewsThumbsDown"
+                        android:paddingLeft="2dp"
+                        android:text="32"
+                        android:textSize="8sp" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tvDishReviews"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/rlDishReviews"
+                    android:layout_marginTop="6dp"
+                    android:text="Reviews (450)"
+                    android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/bAddToBag"
+                    style="?bAddToBag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:text="@string/bAddToBag" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
