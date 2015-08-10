@@ -1,27 +1,16 @@
 package com.apps.b3bytes.homefoods.activities;
 
-import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.adapters.FoodieResultsAdapter;
-import com.apps.b3bytes.homefoods.models.Dish;
-import com.apps.b3bytes.homefoods.models.OneDishOrder;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 public class FoodieResults extends AppCompatActivity {
     private RecyclerView mRecyclerView;
@@ -33,7 +22,15 @@ public class FoodieResults extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Toast.makeText(this, "FoodieResults activity", Toast.LENGTH_SHORT).show();
-        setContentView(R.layout.foodie_results);
+        setContentView(R.layout.activity_foodie_results);
+
+        Toolbar toolBar = (Toolbar) findViewById(R.id.toolBar);
+        setSupportActionBar(toolBar);
+        getSupportActionBar().setTitle("Foodie Results");
+        // enabling action bar app icon and behaving it as toggle button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
         mRecyclerView = (RecyclerView) findViewById(R.id.results_recycler_view);
 
         // use this setting to improve performance if you know that changes
