@@ -65,12 +65,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/tvMenuGridDishQuantityPosted"
-        android:layout_alignEnd="@+id/ivMenuGridDishImage"
         android:layout_below="@+id/ivMenuGridDishImage"
         android:text="@string/INR"
         android:textColor="@android:color/black"
         android:textSize="12sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_alignRight="@+id/ivMenuGridDishImage" />
 
 </RelativeLayout>
 

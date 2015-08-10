@@ -22,11 +22,11 @@
         android:id="@+id/tvMoreDishPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/tvMoreDishName"
         android:layout_below="@+id/tvMoreDishName"
         android:text="@string/INR"
         android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:layout_alignParentRight="true" />
 
 
     <ImageView

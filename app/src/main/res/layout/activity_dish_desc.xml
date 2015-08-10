@@ -21,15 +21,12 @@
             android:background="#F5F5F5"
             tools:context="com.apps.b3bytes.homefoods.activities.DishDesc">
 
-
-
             <TextView
                 android:id="@+id/tvDishName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
                 android:text="South Indian Breakfast"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="bold" />
@@ -38,11 +35,11 @@
                 android:id="@+id/tvDishPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/tvDishName"
                 android:layout_below="@+id/tvDishName"
                 android:text="@string/INR"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent" />
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:layout_alignParentRight="true" />
 
             <ImageView
                 android:id="@+id/ivDishImage"
@@ -78,28 +75,29 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/ivReviewsThumbsUp"
                         android:paddingLeft="2dp"
                         android:text="1280"
-                        android:textSize="8sp" />
+                        android:textSize="8sp"
+                        android:layout_toRightOf="@+id/ivReviewsThumbsUp" />
 
                     <ImageView
                         android:id="@+id/ivReviewsThumbsDown"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_toEndOf="@+id/tvReviewsThumbsUp"
-                        android:background="@mipmap/ic_review_thumbs_down" />
+                        android:background="@mipmap/ic_review_thumbs_down"
+                        android:layout_alignParentTop="true"
+                        android:layout_toRightOf="@+id/tvReviewsThumbsUp"
+                        android:layout_marginLeft="10dp" />
 
                     <TextView
                         android:id="@+id/tvReviewsThumbsDown"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/ivReviewsThumbsDown"
                         android:paddingLeft="2dp"
                         android:text="32"
-                        android:textSize="8sp" />
+                        android:textSize="8sp"
+                        android:layout_toRightOf="@+id/ivReviewsThumbsDown" />
                 </RelativeLayout>
 
                 <TextView
@@ -119,9 +117,9 @@
                     style="?bAddToBag"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerInParent="true"
-                    android:text="@string/bAddToBag" />
+                    android:text="@string/bAddToBag"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true" />
 
             </RelativeLayout>
 
@@ -150,7 +148,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvDishDetailsTitle"
                     android:layout_marginLeft="3dp"
-
                     android:paddingTop="2dp"
                     android:text="Idli, Dosa are famous South Indian Dishes\n\nThese dishes are made of rice and urud dal\nThese go very well with Sambar or chutney which are also south Indian specails\n"
                     android:textColor="@android:color/black"
@@ -184,7 +181,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/ivChefImage"
-                    android:layout_toEndOf="@+id/ivChefImage"
+                    android:layout_toRightOf="@+id/ivChefImage"
                     android:text="Chef Name"
                     android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
                     android:textSize="14sp"
@@ -222,7 +219,7 @@
                     <TabWidget
                         android:id="@android:id/tabs"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"></TabWidget>
+                        android:layout_height="wrap_content"/>
 
                     <FrameLayout
                         android:id="@android:id/tabcontent"
