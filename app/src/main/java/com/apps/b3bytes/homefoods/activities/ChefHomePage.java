@@ -1,8 +1,10 @@
 package com.apps.b3bytes.homefoods.activities;
 
 import android.content.Context;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,14 +14,21 @@ import android.widget.ListView;
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.adapters.ChefDeliveryOrdersListAdapter;
 import com.apps.b3bytes.homefoods.adapters.ChefHomePageOrdersListAdapter;
+import com.apps.b3bytes.homefoods.adapters.viewPagerChefHomeAdapter;
 import com.apps.b3bytes.homefoods.models.OneDishOrder;
 import com.apps.b3bytes.homefoods.utils.ListViewHelper;
+import com.apps.b3bytes.homefoods.widgets.SlidingTabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChefHomePage extends ActionBarActivity {
+public class ChefHomePage extends AppCompatActivity {
     Context context = this;
+    ViewPager pager;
+    viewPagerChefHomeAdapter viewPagerAdapter;
+    SlidingTabLayout tabs;
+    CharSequence Titles[] = {"Orders", "Snapshot"};
+    int Numboftabs = 2;
 
     /* TODO: TEST DATA */
     String[] dishNamesArray = {"Roti Paratha", "Curd Rice", "South Indian Breakfast", "Salad", "Chicken Tikka", "Biryani", "Pizza", "Cupcakes", "Sandwhich", "Burger", "PanCake"};
@@ -39,7 +48,29 @@ public class ChefHomePage extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        List<OneDishOrder> list = new ArrayList<OneDishOrder>();
+        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
+        viewPagerAdapter = new viewPagerChefHomeAdapter(getSupportFragmentManager(), Titles, Numboftabs);
+
+        // Assigning ViewPager View and setting the adapter
+        pager = (ViewPager) findViewById(R.id.viewPagerChefHome);
+        pager.setAdapter(viewPagerAdapter);
+
+        // Assiging the Sliding Tab Layout View
+        tabs = (SlidingTabLayout) findViewById(R.id.slidingTabs);
+        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+
+        // Setting Custom Color for the Scroll bar indicator of the Tab View
+        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.KPTheme_AdriftInDreams_colorAccent);
+            }
+        });
+
+        // Setting the ViewPager For the SlidingTabsLayout
+        tabs.setViewPager(pager);
+
+/*        List<OneDishOrder> list = new ArrayList<OneDishOrder>();
         ListView lvChefHomePagePendingOrders = (ListView) findViewById(R.id.lvChefHomePagePendingOrders);
         ArrayAdapter<OneDishOrder> aOneDishOrder = new ChefHomePageOrdersListAdapter(ChefHomePage.this, list, lvChefHomePagePendingOrders);
         lvChefHomePagePendingOrders.setAdapter(aOneDishOrder);
@@ -50,7 +81,7 @@ public class ChefHomePage extends ActionBarActivity {
         }
 
         aOneDishOrder.notifyDataSetChanged();
-        ListViewHelper.setListViewHeightBasedOnChildren(lvChefHomePagePendingOrders);
+        ListViewHelper.setListViewHeightBasedOnChildren(lvChefHomePagePendingOrders);*/
     }
 
     @Override

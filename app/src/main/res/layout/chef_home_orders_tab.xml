@@ -1,0 +1,25 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    tools:context="com.apps.b3bytes.homefoods.activities.ChefHomePage">
+
+    <ListView
+        android:id="@+id/lvChefHomePageOrders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="3dp"
+        android:divider="#F5F5F5"
+        android:dividerHeight="8px" />
+
+    <!--    <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/lvChefHomePagePendingOrders"
+            android:background="@android:color/darker_gray" />-->
+
+</RelativeLayout>

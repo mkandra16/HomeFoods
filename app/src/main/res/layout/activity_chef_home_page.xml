@@ -7,52 +7,65 @@
         android:id="@+id/toolBar"
         layout="@layout/toolbar" />
 
+    <com.apps.b3bytes.homefoods.widgets.SlidingTabLayout
+        android:id="@+id/slidingTabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/KPTheme_AdriftInDreams_colorAccent"
+        android:elevation="2dp" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPagerChefHome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
     <!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/svRoot"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#F5F5F5">-->
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="com.apps.b3bytes.homefoods.activities.ChefHomePage">
+    <!--   <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+           xmlns:tools="http://schemas.android.com/tools"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:paddingBottom="@dimen/activity_vertical_margin"
+           android:paddingLeft="@dimen/activity_horizontal_margin"
+           android:paddingRight="@dimen/activity_horizontal_margin"
+           android:paddingTop="@dimen/activity_vertical_margin"
+           tools:context="com.apps.b3bytes.homefoods.activities.ChefHomePage">
 
 
-        <TextView
-            android:id="@+id/tvChefHomePagePendingOrders"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:text="Orders to deliver"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textStyle="bold" />
+           <TextView
+               android:id="@+id/tvChefHomePagePendingOrders"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_alignParentEnd="true"
+               android:layout_alignParentStart="true"
+               android:layout_alignParentTop="true"
+               android:text="Orders to deliver"
+               android:textAppearance="?android:attr/textAppearanceLarge"
+               android:textStyle="bold" />
 
-        <ListView
-            android:id="@+id/lvChefHomePagePendingOrders"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/tvChefHomePagePendingOrders"
-            android:layout_below="@+id/tvChefHomePagePendingOrders"
-            android:layout_marginTop="12dp"
-            android:divider="#F5F5F5"
-            android:dividerHeight="8px" />
+           <ListView
+               android:id="@+id/lvChefHomePagePendingOrders"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_alignLeft="@+id/tvChefHomePagePendingOrders"
+               android:layout_below="@+id/tvChefHomePagePendingOrders"
+               android:layout_marginTop="12dp"
+               android:divider="#F5F5F5"
+               android:dividerHeight="8px" />
 
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/lvChefHomePagePendingOrders"
-            android:background="@android:color/darker_gray" />
+           <View
+               android:layout_width="fill_parent"
+               android:layout_height="1dp"
+               android:layout_below="@+id/lvChefHomePagePendingOrders"
+               android:background="@android:color/darker_gray" />
 
-    </RelativeLayout>
+       </RelativeLayout>-->
 
     <!--
     </ScrollView>-->
