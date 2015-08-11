@@ -18,6 +18,7 @@ import java.util.ArrayList;
  */
 public class DataLayer {
 // Sample functions
+    // Usage: dataLayer.addFewDishes_sample(getApplicationContext());
     public void addFewDishes_sample(final Context context){
         String dishes[][] = {
                 {"Gongura", "AndhraMata Gongura", "Boil Gongura. Grind it along with onions and chillies. Add Tadka!!!", "20"},
@@ -68,6 +69,7 @@ public class DataLayer {
         return;
     }
 
+    // Usage :  dataLayer.queryFewDishes_sample(getApplicationContext());
     public void queryFewDishes_sample(final Context context) {
         getNearByDishes(10, new DataLayer.DishQueryCallback() {
             @Override
@@ -116,13 +118,32 @@ public class DataLayer {
         mDishTable = new ParseDishTable();
     }
     public void registerFoodie(Foodie f,RegistrationCallback callback) {
+        // Sample Code
+        //            Foodie f = Foodie.createDummyFoodie();
+/*            dataLayer.registerFoodie(f, new DataLayer.RegistrationCallback() {
+
+                @Override
+                public void done(Foodie f, Exception e) {
+                    if (e == null) {
+                        Toast t = Toast.makeText(getApplicationContext(),
+                                "Registration successful, FoodieId" + f.getmFoodieId(), Toast.LENGTH_LONG);
+                    } else {
+                        Toast t = Toast.makeText(getApplicationContext(), "Registration failed", Toast.LENGTH_LONG);
+
+                    }
+                }
+            });
+*/
         mFoodieTable.registerFoodieInBackground(f, callback);
     }
     public void signInFoodie(String UserName, String password, SignInCallback callback) {
         mFoodieTable.signInFoodie(UserName, password, callback);
     }
     public void signUpAsChef(Foodie f) {
-
+        //      if(f.getmChef() == null) {
+        //          f.signUpAsChef();
+        //          dataLayer.signUpAsChef(f);
+        //      }
     }
     public void publishDish(Dish d, DishPublishCallback c) {
         mDishTable.addDishInBackground(d, c);

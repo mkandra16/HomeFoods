@@ -32,7 +32,7 @@ public class ParseDishTable implements DishTable {
                     .put("ImageURL", object.getString("ImageURL"))
                     .put("Qty", object.getInt("Qty"))
                     .put("Unit", object.getString("Unit"))
-                    .put("Price", object.getString("Price"))
+                    .put("Price", object.getDouble("Price"))
                     .put("ThumbsUp", object.getInt("ThumbsUp"))
                     .put("ThumbsDown", object.getInt("ThumbsDown"))
                     .put("CusineId", object.getInt("CusineId"))

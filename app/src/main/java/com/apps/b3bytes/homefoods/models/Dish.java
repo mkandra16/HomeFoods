@@ -56,7 +56,7 @@ public class Dish {
             mDishId = object.getInt("DishId");
         mDishName = object.getString("DishName");
         mDishInfo =     object.getString("DishInfo");
-        mImageURL = object.getString("ImageURL");
+//        mImageURL = object.getString("ImageURL");
         mQty = object.getDouble("Qty");
         mUnit = Unit.valueOf(object.getString("Unit"));
         mPrice = object.getDouble("Price");

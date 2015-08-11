@@ -42,7 +42,7 @@ public class FoodieResults extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new FoodieResultsAdapter(names);
+        mAdapter = new FoodieResultsAdapter(FoodieResults.this);
         mRecyclerView.setAdapter(mAdapter);
 
 /*

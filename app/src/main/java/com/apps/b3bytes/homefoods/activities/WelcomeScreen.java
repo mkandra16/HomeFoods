@@ -59,22 +59,7 @@ public class WelcomeScreen extends ActionBarActivity {
         // publishDish(); multiple of them.
         //
         if (dataLayer == null) {
-//            Foodie f = Foodie.createDummyFoodie();
             dataLayer = new DataLayer(this);
-/*            dataLayer.registerFoodie(f, new DataLayer.RegistrationCallback() {
-
-                @Override
-                public void done(Foodie f, Exception e) {
-                    if (e == null) {
-                        Toast t = Toast.makeText(getApplicationContext(),
-                                "Registration successful, FoodieId" + f.getmFoodieId(), Toast.LENGTH_LONG);
-                    } else {
-                        Toast t = Toast.makeText(getApplicationContext(), "Registration failed", Toast.LENGTH_LONG);
-
-                    }
-                }
-            });
-*/
             dataLayer.signInFoodie("Mohan", "welcome", new DataLayer.SignInCallback() {
                 @Override
                 public void done(Foodie f, Exception e) {
@@ -82,9 +67,7 @@ public class WelcomeScreen extends ActionBarActivity {
                         Toast t = Toast.makeText(getApplicationContext(),
                                 "Welcome " + f.getmUserName(), Toast.LENGTH_LONG);
                         t.show();
-
- //                       dataLayer.addFewDishes_sample(getApplicationContext());
-                        dataLayer.queryFewDishes_sample(getApplicationContext());
+                        displayContent();
                     } else {
                         Toast t = Toast.makeText(getApplicationContext(), "SignIn failed", Toast.LENGTH_LONG);
                         t.show();
@@ -92,10 +75,10 @@ public class WelcomeScreen extends ActionBarActivity {
                 }
             });
         }
-  //      if(f.getmChef() == null) {
-  //          f.signUpAsChef();
-  //          dataLayer.signUpAsChef(f);
-  //      }
+    }
+
+    private void displayContent() {
+
         bDishDescScreenNavigate = (Button) findViewById(R.id.bDishDescScreenNavigate);
 
         bDishDescScreenNavigate.setOnClickListener(new View.OnClickListener() {
