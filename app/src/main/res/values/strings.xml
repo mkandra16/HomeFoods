@@ -31,5 +31,9 @@
     <string name="title_activity_chef_home_page">ChefHomePage</string>
     <string name="bChefHomePageScreenNavigate">Chef Home Page</string>
     <string name="title_activity_foodie_results">Search Results</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="bRegister">Register</string>
+    <string name="bSignIn">Sign In</string>
+    <string name="title_activity_log_in">LogIn</string>
 
 </resources>

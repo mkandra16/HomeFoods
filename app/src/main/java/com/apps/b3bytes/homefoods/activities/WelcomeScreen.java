@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.models.Dish;
 import com.apps.b3bytes.homefoods.models.Foodie;
@@ -31,7 +32,6 @@ public class WelcomeScreen extends ActionBarActivity {
     private Button bChefDishEditScreenNavigate;
     private Button bChefHomePageScreenNavigate;
     private Button bFoodieReultsNavigate;
-    public static DataLayer dataLayer = null; // move these kind of data to application context
 
     // nav drawer title
     private CharSequence mPageTitle;
@@ -52,32 +52,8 @@ public class WelcomeScreen extends ActionBarActivity {
         // enabling action bar app icon and behaving it as toggle button
 /*        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);*/
-
-        // Current Foodie
-        // RegisterFoodie // one time.
-        // If not registered as chef, register as chef.
-        // publishDish(); multiple of them.
-        //
-        if (dataLayer == null) {
-            dataLayer = new DataLayer(this);
-            dataLayer.signInFoodie("Mohan", "welcome", new DataLayer.SignInCallback() {
-                @Override
-                public void done(Foodie f, Exception e) {
-                    if (e == null) {
-                        Toast t = Toast.makeText(getApplicationContext(),
-                                "Welcome " + f.getmUserName(), Toast.LENGTH_LONG);
-                        t.show();
-                        displayContent();
-                    } else {
-                        Toast t = Toast.makeText(getApplicationContext(), "SignIn failed", Toast.LENGTH_LONG);
-                        t.show();
-                    }
-                }
-            });
-        }
-    }
-
-    private void displayContent() {
+        // This is first Screen, initialize global state of the App.
+        AppGlobalState.initialize(getApplicationContext());
 
         bDishDescScreenNavigate = (Button) findViewById(R.id.bDishDescScreenNavigate);
 
@@ -162,6 +138,28 @@ public class WelcomeScreen extends ActionBarActivity {
             }
         });
 
+
+        Button bRegister = (Button) findViewById(R.id.bRegisterFoodie);
+
+        bRegister.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+                Toast.makeText(getApplicationContext(), "Request to register foodie", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(WelcomeScreen.this, RegisterActivity.class);
+                WelcomeScreen.this.startActivity(i);
+            }
+        });
+
+
+        Button bSignIn = (Button) findViewById(R.id.bSignInFoodie);
+
+        bSignIn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+                Intent i = new Intent(WelcomeScreen.this, LogIn.class);
+                WelcomeScreen.this.startActivity(i);
+            }
+        });
 
     }
 

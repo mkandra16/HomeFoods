@@ -1,26 +1,32 @@
 package com.apps.b3bytes.homefoods.models;
 
 public class OneDishOrder {
-    private String dishName;
+    private Dish mDish;
     private int quantity; //posted
     private int quantityDelivered;
     private int quantityPending;
-    private double unitPrice;
 
     public OneDishOrder(String dishName, int quantity, double unitPrice) {
-        this.dishName = dishName;
+        mDish = Dish.createDummyDish(dishName, "OneDishOrder", "OneDishOrder Method", 0);
+        mDish.setmPrice(unitPrice);
         this.quantity = quantity;
-        this.unitPrice = unitPrice;
         this.quantityDelivered = 0;
         this.quantityPending = quantity;
     }
 
+    public OneDishOrder(Dish dish, int qty ) {
+        mDish = dish;
+        this.quantity = qty;
+        this.quantityDelivered = 0;
+        this.quantityPending = 1;
+    }
+
     public String getDishName() {
-        return dishName;
+        return mDish.getmDishName();
     }
 
     public void setDishName(String dishName) {
-        this.dishName = dishName;
+        mDish.setmDishName(dishName);
     }
 
     public int getQuantity() {
@@ -32,11 +38,11 @@ public class OneDishOrder {
     }
 
     public double getUnitPrice() {
-        return unitPrice;
+        return mDish.getmPrice();
     }
 
     public void setUnitPrice(double unitPrice) {
-        this.unitPrice = unitPrice;
+        mDish.setmPrice(unitPrice);
     }
 
     public int getQuantityDelivered() {

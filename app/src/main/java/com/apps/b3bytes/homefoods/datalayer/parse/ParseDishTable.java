@@ -5,6 +5,7 @@ import android.util.Log;
 import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.datalayer.common.DishTable;
 import com.apps.b3bytes.homefoods.models.Dish;
+import com.apps.b3bytes.homefoods.models.Foodie;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
@@ -23,25 +24,24 @@ import java.util.List;
  * Created by sindhu on 7/26/2015.
  */
 public class ParseDishTable implements DishTable {
-    private Dish ParseObject2Dish(ParseObject object) {
-        JSONObject dish = new JSONObject();
-        try {
-            dish.put("DishId", object.getInt("DishId"))
-                    .put("DishName", object.getString("DishName"))
-                    .put("DishInfo", object.getString("DishInfo"))
-                    .put("ImageURL", object.getString("ImageURL"))
-                    .put("Qty", object.getInt("Qty"))
-                    .put("Unit", object.getString("Unit"))
-                    .put("Price", object.getDouble("Price"))
-                    .put("ThumbsUp", object.getInt("ThumbsUp"))
-                    .put("ThumbsDown", object.getInt("ThumbsDown"))
-                    .put("CusineId", object.getInt("CusineId"))
-                    .put("ChefId", object.getInt("ChefId"));
-            ;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return new Dish(dish);
+    public static  Dish ParseObject2Dish(ParseObject object) {
+        ParseUser chef = object.getParseUser("Chef");
+        Dish dish = new Dish();
+
+        dish.setmDishId(object.getInt("DishId"));
+        dish.setmDishName(object.getString("DishName"));
+        dish.setmDishInfo(object.getString("DishInfo"));
+        dish.setmImageURL(object.getString("ImageURL"));
+        dish.setmQty(object.getInt("Qty"));
+        dish.setmUnit(object.getString("Unit"));
+        dish.setmPrice(object.getDouble("Price"));
+        dish.setmThumbsUp(object.getInt("ThumbsUp"));
+        dish.setmThumbsDown(object.getInt("ThumbsDown"));
+        dish.setmCusineId(object.getInt("CusineId"));
+        dish.setmChefId(object.getInt("ChefId"));
+        Foodie f = new Foodie(ParseFoodieTable.parseUser2JSONObject(chef));
+        dish.setmChef(f);
+        return dish;
     }
     private ArrayList<Dish> ParseList2DishList(List<ParseObject> list) {
         ArrayList<Dish> al = new ArrayList<Dish>();
@@ -87,6 +87,7 @@ public class ParseDishTable implements DishTable {
         ParseGeoPoint loc = new ParseGeoPoint(40,50);
         ParseQuery query = ParseQuery.getQuery("Dish");
         query.whereWithinMiles("DeliveryLoc", loc, radius);
+        query.include("Chef");
         query.setLimit(20);
         query.findInBackground(new FindCallback<ParseObject>() {
                                    public void done(List<ParseObject> dishList, ParseException e) {

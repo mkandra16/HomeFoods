@@ -10,6 +10,7 @@ import com.apps.b3bytes.homefoods.models.Foodie;
 import com.apps.b3bytes.homefoods.models.Listener;
 import com.parse.Parse;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
@@ -144,6 +145,9 @@ public class DataLayer {
         //          f.signUpAsChef();
         //          dataLayer.signUpAsChef(f);
         //      }
+    }
+    public void signOut() {
+        ParseUser.logOut();
     }
     public void publishDish(Dish d, DishPublishCallback c) {
         mDishTable.addDishInBackground(d, c);

@@ -29,6 +29,30 @@ public class Dish {
     private int mCusineId;
     private int mThumbsUp;
     private int mThumbsDown;
+    private Foodie mChef;
+
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof Dish)) {
+            return false;
+        }
+
+        Dish that = (Dish) other;
+
+        // Custom equality check here.
+        return this.mDishName.equals(that.mDishName)
+                && this.mChef.getmUserName().equals(that.mChef.getmUserName());
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = 1;
+
+        hashCode = hashCode * 37 + this.mDishName.hashCode();
+        hashCode = hashCode * 37 + this.mChef.getmUserName().hashCode();
+
+        return hashCode;
+    }
 
     public int getmDishId() {
         return mDishId;
@@ -51,7 +75,7 @@ public class Dish {
     }
     public Dish() {}
 
-    public Dish(JSONObject object) {
+ /*   public Dish(JSONObject object) {
         try {
             mDishId = object.getInt("DishId");
         mDishName = object.getString("DishName");
@@ -67,7 +91,7 @@ public class Dish {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
+    }*/
     public void setmDishId(int mDishId) {
         this.mDishId = mDishId;
     }
@@ -127,6 +151,9 @@ public class Dish {
     public void setmUnit(Unit mUnit) {
         this.mUnit = mUnit;
     }
+    public void setmUnit(String mUnit) {
+        this.mUnit = Unit.valueOf(mUnit);
+    }
 
     public double getmPrice() {
         return mPrice;
@@ -159,4 +186,10 @@ public class Dish {
     public void setmThumbsDown(int mThumbsDown) {
         this.mThumbsDown = mThumbsDown;
     }
+
+    public void setmChef(Foodie f) {
+        mChef = f;
+    }
+
+    public Foodie getmChef() { return mChef; }
 }

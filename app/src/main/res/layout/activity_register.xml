@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:hint="First Name"
+                android:ems="10"
+                android:id="@+id/etFirstName"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="16sp"
+                android:layout_gravity="center_horizontal" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:hint="Middle Name"
+                android:ems="10"
+                android:id="@+id/etMiddleName"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="16sp"
+                android:layout_gravity="center_horizontal" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:hint="Last Name"
+                android:ems="10"
+                android:id="@+id/etLastName"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="16sp"
+                android:layout_gravity="center_horizontal" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:hint="User Id"
+                android:ems="10"
+                android:id="@+id/etUserId"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="16sp"
+                android:layout_gravity="center_horizontal" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="Password"
+                android:ems="10"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="16sp"
+                android:id="@+id/etPassword" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="Email Id"
+                android:ems="10"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="16sp"
+                android:id="@+id/etEmailId" />
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:ems="10"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="16sp"
+                android:hint="Street Address"
+                android:id="@+id/etStreetAddress"
+                android:layout_gravity="center_horizontal" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:ems="10"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="16sp"
+                android:hint="City"
+                android:id="@+id/etCity"
+                android:layout_gravity="center_horizontal" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:ems="10"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="16sp"
+                android:hint="State"
+                android:id="@+id/etState"
+                android:layout_gravity="center_horizontal" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="Zip Code"
+                android:ems="5"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="16sp"
+                android:id="@+id/etZip" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:hint="Home Phone"
+                android:ems="10"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="16sp"
+                android:id="@+id/etHomePhone" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:hint="Moblie"
+                android:ems="10"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="16sp"
+                android:id="@+id/etMobile" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="16sp"
+                android:hint="Favorite Foods(separated by comma)"
+                android:id="@+id/etFavFoods" />
+
+            <Button
+                style="?bAddToBag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bRegister"
+                android:id="@+id/bRegister"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

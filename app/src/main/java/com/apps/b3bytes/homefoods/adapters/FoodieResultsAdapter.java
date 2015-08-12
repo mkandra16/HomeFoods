@@ -11,9 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.activities.WelcomeScreen;
 import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.models.Dish;
+import com.apps.b3bytes.homefoods.models.OneDishOrder;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -53,7 +55,7 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
         }
         public void bindView(Dish dish) {
             mTVDishName.setText(dish.getmDishName());
-            mTVDishPrice.setText(new DecimalFormat("#0.00").format(dish.getmPrice()));
+            mTVDishPrice.setText(mContext.getString(R.string.Rs) + new DecimalFormat("#0.00").format(dish.getmPrice()));
             mThumbsUp.setText(String.valueOf(dish.getmThumbsUp()));
             mThumbsDown.setText(String.valueOf(dish.getmThumbsDown()));//
 //            mView.setTag(dish);
@@ -63,6 +65,12 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
                 public void onClick(View v) {
 //                    Dish d = (Dish) v.getTag();
                     Toast.makeText(mContext, "Recived Click on Dish : " + mDish.getmDishName(), Toast.LENGTH_SHORT).show();
+                    int qty = 1;
+                    if (AppGlobalState.gCart.containsKey(mDish)) {
+                        qty = AppGlobalState.gCart.get(mDish).intValue() + qty;
+                        AppGlobalState.gCart.remove(mDish);
+                    }
+                    AppGlobalState.gCart.put(mDish, qty);
                 }
             });
         }
@@ -75,7 +83,7 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
         mdishes = new ArrayList<Dish>();
         // Fist query dishes from Parse
         // After response display Foodie results page.
-        WelcomeScreen.dataLayer.getNearByDishes(10, new DataLayer.DishQueryCallback() {
+        AppGlobalState.gDataLayer.getNearByDishes(10, new DataLayer.DishQueryCallback() {
             @Override
             public void done(ArrayList<Dish> list, Exception e) {
                 if (e == null) {

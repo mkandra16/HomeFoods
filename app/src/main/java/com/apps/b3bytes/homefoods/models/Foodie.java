@@ -25,6 +25,26 @@ public class Foodie {
     private String mFavFoods;
     private ArrayList<String> mPayOptions;
     private Chef mChef; // when set can be same as FoodieId
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof Foodie)) {
+            return false;
+        }
+
+        Foodie that = (Foodie) other;
+
+        // Custom equality check here.
+        return getmUserName().equals(that.getmUserName());
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = 1;
+
+        hashCode = hashCode * 37 + getmUserName().hashCode();
+
+        return hashCode;
+    }
 
     public String getmUserName() {
         return mUserName;
@@ -83,12 +103,15 @@ public class Foodie {
         try {
             mFoodieId = f.getInt("FoodieId");
             mUserName = f.getString("UserName");
-//            mPassword = f.getString("Password");
         } catch (JSONException e) {
             e.printStackTrace();
             throw new RuntimeException("Crash!");
         }
-
+        try {
+            mPassword = f.getString("Password");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         try {
             mMiddleName = f.getString("MiddleName");
         } catch (JSONException e) {

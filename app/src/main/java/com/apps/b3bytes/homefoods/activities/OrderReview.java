@@ -22,11 +22,15 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.adapters.DishOrdersListAdapter;
+import com.apps.b3bytes.homefoods.models.Dish;
+import com.apps.b3bytes.homefoods.models.Foodie;
 import com.apps.b3bytes.homefoods.models.OneDishOrder;
 import com.apps.b3bytes.homefoods.utils.ListViewHelper;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class OrderReview extends AppCompatActivity {
@@ -74,8 +78,18 @@ public class OrderReview extends AppCompatActivity {
 
         currentId = (int) tvOrderSummary.getId();
 
-        for (int i = 0; i < chefNamesArray.length; i++) {
-            llRoot.addView(createOneChefOrderLayout(currentId, i));
+        // Identify chef count.
+        // Create ChefOrderLayout for each chef.
+        // Shouldn't the delivery layout be different for each chef?
+        //
+        HashSet<Foodie> chefIds = new HashSet<Foodie>();
+
+        for (Dish d : AppGlobalState.gCart.keySet()) {
+            chefIds.add(d.getmChef());
+        }
+
+        for (Foodie c : chefIds) {
+            llRoot.addView(createOneChefOrderLayout(c));
             currentId++;
         }
 
@@ -113,23 +127,24 @@ public class OrderReview extends AppCompatActivity {
         return llOrderTotal;
     }
 
-    private LinearLayout createOneChefOrderLayout(int currentId, int idx) {
+    private LinearLayout createOneChefOrderLayout(Foodie chef) {
 
         LinearLayout llOneChefOrder = (LinearLayout) inflater.inflate(R.layout.one_chef_order, null, false);
         RelativeLayout rlOneChefOrder = (RelativeLayout) llOneChefOrder.findViewById(R.id.rlOneChefOrder);
 
         TextView tvChefName = (TextView) rlOneChefOrder.findViewById(R.id.tvChefName);
-        tvChefName.setText(chefNamesArray[idx]);
+        tvChefName.setText(chef.getmUserName());
 
         List<OneDishOrder> list = new ArrayList<OneDishOrder>();
         ListView lvChefOrders = (ListView) rlOneChefOrder.findViewById(R.id.lvChefOrders);
         ArrayAdapter<OneDishOrder> aOneDishOrder = new DishOrdersListAdapter(OrderReview.this, list, lvChefOrders, llOneChefOrder);
         lvChefOrders.setAdapter(aOneDishOrder);
 
-        int numDishes = dishNamesArray[idx].length;
-        for (int i = 0; i < numDishes; i++) {
-            list.add(new OneDishOrder(dishNamesArray[idx][i], dishQuantitiesArray[idx][i], dishUnitPriceArray[idx][i]));
-            totalPrice += (dishQuantitiesArray[idx][i] * dishUnitPriceArray[idx][i]);
+        for (Dish d : AppGlobalState.gCart.keySet()) {
+            if (d.getmChef().equals(chef)) {
+                list.add(new OneDishOrder(d, AppGlobalState.gCart.get(d)));
+                totalPrice += (d.getmPrice() * AppGlobalState.gCart.get(d));
+            }
         }
         aOneDishOrder.notifyDataSetChanged();
         ListViewHelper.setListViewHeightBasedOnChildren(lvChefOrders);

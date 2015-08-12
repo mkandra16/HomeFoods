@@ -8,17 +8,17 @@ import org.json.JSONObject;
  */
 public class Address {
     private String mLine1;
-    private String mLine2;
+    private String mCity;
     private int mZip;
     private String mState;
     private String mCountry;
 
     public Address(JSONObject addr) {
         try {
-            mLine2 = addr.getString("AddrLine2");
+            mCity = addr.getString("AddrLine2");
         } catch (JSONException e) {
             // nothing to do...
-            mLine2 = new String();
+            mCity = new String();
         }
 
         try {
@@ -49,12 +49,12 @@ public class Address {
         this.mLine1 = mLine1;
     }
 
-    public String getmLine2() {
-        return mLine2;
+    public String getmCity() {
+        return mCity;
     }
 
-    public void setmLine2(String mLine2) {
-        this.mLine2 = mLine2;
+    public void setmCity(String mCity) {
+        this.mCity = mCity;
     }
 
     public int getmZip() {

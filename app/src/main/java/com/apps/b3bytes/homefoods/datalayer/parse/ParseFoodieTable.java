@@ -1,27 +1,22 @@
 package com.apps.b3bytes.homefoods.datalayer.parse;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.datalayer.common.FoodieTable;
 import com.apps.b3bytes.homefoods.models.Foodie;
-import com.apps.b3bytes.homefoods.models.Listener;
 import com.parse.LogInCallback;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-
 /**
  * Created by sindhu on 7/28/2015.
  */
 public class ParseFoodieTable implements FoodieTable {
-    private JSONObject parseUser2JSONObject(ParseUser user) {
+    public static JSONObject parseUser2JSONObject(ParseUser user) {
         JSONObject addr = new JSONObject();
         try {
             addr.put("AddrLine1", user.getString("AddrLine1"))
@@ -65,6 +60,7 @@ public class ParseFoodieTable implements FoodieTable {
         }
         return foodie;
     }
+
     @Override
     public  void signInFoodie(String userName, String password, final DataLayer.SignInCallback callback) {
         ParseUser.logInInBackground(userName, password, new LogInCallback() {
@@ -99,8 +95,8 @@ public class ParseFoodieTable implements FoodieTable {
         }
 
         user.put("AddrLine1", foodie.getmAddr().getmLine1());
-        if (! foodie.getmAddr().getmLine2().isEmpty()) {
-            user.put("AddrLine2", foodie.getmAddr().getmLine2());
+        if (! foodie.getmAddr().getmCity().isEmpty()) {
+            user.put("AddrLine2", foodie.getmAddr().getmCity());
         }
         user.put("Zip", foodie.getmAddr().getmZip());
         user.put("State", foodie.getmAddr().getmState());

@@ -11,6 +11,29 @@ public class Chef {
     private int mChefId;
     private ArrayList<String> mPayrollOptions;
     private Address mAddr;
+/*
+
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof Chef)) {
+            return false;
+        }
+
+        Chef that = (Chef) other;
+
+        // Custom equality check here.
+        return getmChefId().equals(that.getmChefId());
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = 1;
+
+        hashCode = hashCode * 37 + this.mChefId.hashCode();
+
+        return hashCode;
+    }
+*/
 
     public int getmChefId() {
         return mChefId;
