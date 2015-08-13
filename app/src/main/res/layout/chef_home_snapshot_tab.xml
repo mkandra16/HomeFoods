@@ -9,7 +9,7 @@
     tools:context="com.apps.b3bytes.homefoods.activities.ChefHomePage">
 
 
-    <ListView
+<!--    <ListView
         android:id="@+id/lvChefHomePagePendingOrders"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +17,16 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="12dp"
         android:divider="#F5F5F5"
-        android:dividerHeight="8px" />
+        android:dividerHeight="8px" />-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvChefOrdersSnapshot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:choiceMode="singleChoice"
+        android:scrollbars="vertical" />
 
     <!--    <View
             android:layout_width="fill_parent"
