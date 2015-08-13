@@ -8,13 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import com.apps.b3bytes.homefoods.R;
-import com.apps.b3bytes.homefoods.adapters.ChefHomePageOrdersListAdapter;
 import com.apps.b3bytes.homefoods.adapters.ChefTodaysOrdersSnapshotRVAdapter;
 import com.apps.b3bytes.homefoods.models.OneDishOrder;
-import com.apps.b3bytes.homefoods.utils.ListViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="3dp">
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/cv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/colorBar"
+                android:layout_width="3dp"
+                android:layout_height="match_parent"
+                android:background="#478848" />
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rlOrderDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
+                android:background="#FFFFFF">
+
+                <TextView
+                    android:id="@+id/tvOrderNumVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="135792468"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvOrderTimeHdr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tvOrderNumVal"
+                    android:layout_below="@+id/tvOrderNumVal"
+                    android:layout_marginTop="5dp"
+                    android:text="Order time"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/tvOrderTimeVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tvOrderTimeHdr"
+                    android:layout_alignLeft="@+id/tvNumberOfDishesVal"
+                    android:text="4:30 PM"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvNumberOfDishesHdr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tvOrderTimeHdr"
+                    android:layout_below="@+id/tvOrderTimeHdr"
+                    android:layout_marginTop="5dp"
+                    android:text="Number of dishes"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/tvNumberOfDishesVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tvNumberOfDishesHdr"
+                    android:layout_marginLeft="12dp"
+                    android:layout_toRightOf="@+id/tvNumberOfDishesHdr"
+                    android:text="12"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvDishesNamesHdr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tvNumberOfDishesHdr"
+                    android:layout_below="@+id/tvNumberOfDishesHdr"
+                    android:layout_marginTop="5dp"
+                    android:text="Dishes:"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/tvDishesNamesVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tvDishesNamesHdr"
+                    android:layout_alignBottom="@+id/tvDishesNamesHdr"
+                    android:layout_alignLeft="@+id/tvNumberOfDishesVal"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:scrollHorizontally="false"
+                    android:singleLine="false"
+                    android:text="Dish name 1, Dish name 2, Dish_name_3, Dish name 4, Dish name 5, Dish name 6, Dish name 7"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvTotalPriceHdr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tvDishesNamesHdr"
+                    android:layout_below="@+id/tvDishesNamesHdr"
+                    android:layout_marginTop="5dp"
+                    android:text="Total Price"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/tvTotalPriceVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tvTotalPriceHdr"
+                    android:layout_alignBottom="@+id/tvDishesNamesVal"
+                    android:layout_alignLeft="@+id/tvDishesNamesVal"
+                    android:text="@string/INR"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ivPickupDelivery"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginTop="3dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_delivery" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>
+

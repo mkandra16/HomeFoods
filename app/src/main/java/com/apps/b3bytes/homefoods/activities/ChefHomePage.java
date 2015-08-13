@@ -2,25 +2,15 @@ package com.apps.b3bytes.homefoods.activities;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.apps.b3bytes.homefoods.R;
-import com.apps.b3bytes.homefoods.adapters.ChefDeliveryOrdersListAdapter;
-import com.apps.b3bytes.homefoods.adapters.ChefHomePageOrdersListAdapter;
 import com.apps.b3bytes.homefoods.adapters.viewPagerChefHomeAdapter;
-import com.apps.b3bytes.homefoods.models.OneDishOrder;
-import com.apps.b3bytes.homefoods.utils.ListViewHelper;
 import com.apps.b3bytes.homefoods.widgets.SlidingTabLayout;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ChefHomePage extends AppCompatActivity {
     Context context = this;
@@ -70,18 +60,6 @@ public class ChefHomePage extends AppCompatActivity {
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
 
-/*        List<OneDishOrder> list = new ArrayList<OneDishOrder>();
-        ListView lvChefHomePagePendingOrders = (ListView) findViewById(R.id.lvChefHomePagePendingOrders);
-        ArrayAdapter<OneDishOrder> aOneDishOrder = new ChefHomePageOrdersListAdapter(ChefHomePage.this, list, lvChefHomePagePendingOrders);
-        lvChefHomePagePendingOrders.setAdapter(aOneDishOrder);
-
-        int numOrders = dishNamesArray.length;
-        for (int i = 0; i < numOrders; i++) {
-            list.add(new OneDishOrder(dishNamesArray[i], dishQuantitiesArray[i], dishUnitPriceArray[i]));
-        }
-
-        aOneDishOrder.notifyDataSetChanged();
-        ListViewHelper.setListViewHeightBasedOnChildren(lvChefHomePagePendingOrders);*/
     }
 
     @Override
