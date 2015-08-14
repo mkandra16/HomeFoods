@@ -82,13 +82,8 @@ public class OrderReview extends AppCompatActivity {
         // Create ChefOrderLayout for each chef.
         // Shouldn't the delivery layout be different for each chef?
         //
-        HashSet<Foodie> chefIds = new HashSet<Foodie>();
 
-        for (Dish d : AppGlobalState.gCart.keySet()) {
-            chefIds.add(d.getmChef());
-        }
-
-        for (Foodie c : chefIds) {
+        for (Foodie c : AppGlobalState.chefsInCart()) {
             llRoot.addView(createOneChefOrderLayout(c));
             currentId++;
         }
@@ -140,11 +135,10 @@ public class OrderReview extends AppCompatActivity {
         ArrayAdapter<OneDishOrder> aOneDishOrder = new DishOrdersListAdapter(OrderReview.this, list, lvChefOrders, llOneChefOrder);
         lvChefOrders.setAdapter(aOneDishOrder);
 
-        for (Dish d : AppGlobalState.gCart.keySet()) {
-            if (d.getmChef().equals(chef)) {
-                list.add(new OneDishOrder(d, AppGlobalState.gCart.get(d)));
-                totalPrice += (d.getmPrice() * AppGlobalState.gCart.get(d));
-            }
+        for (Dish d : AppGlobalState.chefDishesInCart(chef)) {
+            int qty = AppGlobalState.dishQtyInCart(d);
+            list.add(new OneDishOrder(d, qty));
+            totalPrice += (d.getmPrice() * qty);
         }
         aOneDishOrder.notifyDataSetChanged();
         ListViewHelper.setListViewHeightBasedOnChildren(lvChefOrders);
