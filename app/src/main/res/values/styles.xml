@@ -39,6 +39,11 @@
     <color name="KPTheme_AdriftInDreams_colorPrimary">#3B8686</color>
     <color name="KPTheme_AdriftInDreams_colorAccent">#0B486B</color>
     <color name="KPTheme_AdriftInDreams_ActionBarText_Color">#FFFFFF</color>
+    <color name="list_background">#FFFFFF</color>
+    <color name="list_background_pressed">#EEEEEE</color>
+    <color name="list_divider">#BDBDBD</color>
+    <color name="list_item_title">#0F0F0F</color>
+    <color name="nav_drawer_profile_background">#80CBC4</color>
 
     <style name="actionbar_r1_titletext" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/KPTheme_AdriftInDreams_ActionBarText_Color</item>

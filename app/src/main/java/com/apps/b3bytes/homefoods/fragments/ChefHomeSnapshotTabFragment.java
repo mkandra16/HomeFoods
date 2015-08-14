@@ -10,29 +10,27 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.apps.b3bytes.homefoods.R;
-import com.apps.b3bytes.homefoods.adapters.ChefTodaysOrdersRVAdapter;
+import com.apps.b3bytes.homefoods.adapters.ChefTodaysOrdersSnapshotRVAdapter;
 import com.apps.b3bytes.homefoods.models.OneDishOrder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChefHomeOrdersFragment extends Fragment {
+public class ChefHomeSnapshotTabFragment extends Fragment {
     /* TODO: TEST DATA */
     String[] dishNamesArray = {"Roti Paratha", "Curd Rice", "South Indian Breakfast", "Salad", "Chicken Tikka", "Biryani", "Pizza", "Cupcakes", "Sandwhich", "Burger", "PanCake"};
     int[] dishQuantitiesArray = {2, 1, 3, 1, 2, 4, 1, 12, 3, 4, 10};
     double[] dishUnitPriceArray = {75, 120, 175, 90, 125, 150, 250, 25, 75, 80, 40};
     /* TODO: END TEST DATA */
 
-    protected RecyclerView rvChefHomePageOrders;
-
+    protected RecyclerView rvChefOrdersSnapshot;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.chef_home_orders_tab, container, false);
-        rvChefHomePageOrders = (RecyclerView) v.findViewById(R.id.rvChefHomePageOrders);
+        View v =inflater.inflate(R.layout.chef_home_snapshot_tab, container, false);
+        rvChefOrdersSnapshot = (RecyclerView) v.findViewById(R.id.rvChefOrdersSnapshot);
 
         return v;
     }
-
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -44,18 +42,17 @@ public class ChefHomeOrdersFragment extends Fragment {
             list.add(new OneDishOrder(dishNamesArray[i], dishQuantitiesArray[i], dishUnitPriceArray[i]));
         }
 
-        ChefTodaysOrdersRVAdapter adapter = new ChefTodaysOrdersRVAdapter(list);
-        rvChefHomePageOrders.setAdapter(adapter);
+
+        ChefTodaysOrdersSnapshotRVAdapter adapter = new ChefTodaysOrdersSnapshotRVAdapter(list);
+        rvChefOrdersSnapshot.setAdapter(adapter);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        rvChefHomePageOrders.setLayoutManager(layoutManager);
-        adapter.SetOnItemClickListener(new ChefTodaysOrdersRVAdapter.ItemClickListener() {
+        rvChefOrdersSnapshot.setLayoutManager(layoutManager);
+        adapter.SetOnItemClickListener(new ChefTodaysOrdersSnapshotRVAdapter.ItemClickListener() {
             @Override
             public void onItemClick(OneDishOrder item, int position) {
                 // Do Nothing for now
             }
         });
-
     }
-
 }
