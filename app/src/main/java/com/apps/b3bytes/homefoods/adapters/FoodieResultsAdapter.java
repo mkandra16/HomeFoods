@@ -58,19 +58,12 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
             mTVDishPrice.setText(mContext.getString(R.string.Rs) + new DecimalFormat("#0.00").format(dish.getmPrice()));
             mThumbsUp.setText(String.valueOf(dish.getmThumbsUp()));
             mThumbsDown.setText(String.valueOf(dish.getmThumbsDown()));//
-//            mView.setTag(dish);
             mDish = dish;
             mOrderButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Dish d = (Dish) v.getTag();
                     Toast.makeText(mContext, "Recived Click on Dish : " + mDish.getmDishName(), Toast.LENGTH_SHORT).show();
-                    int qty = 1;
-                    if (AppGlobalState.gCart.containsKey(mDish)) {
-                        qty = AppGlobalState.gCart.get(mDish).intValue() + qty;
-                        AppGlobalState.gCart.remove(mDish);
-                    }
-                    AppGlobalState.gCart.put(mDish, qty);
+                    AppGlobalState.add_to_bag(mDish);
                 }
             });
         }
