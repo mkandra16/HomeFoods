@@ -15,7 +15,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="90dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/south_indian_breakfast_01" />
+        android:src="@mipmap/ic_chef_image" />
 
     <TextView
         android:id="@+id/tvUserName"

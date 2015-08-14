@@ -28,7 +28,6 @@ public class WelcomeScreen extends ActionBarActivity {
     private Button bDishDescScreenNavigate;
     private Button bCheckoutScreenNavigate;
     private Button bChefDeliveryScreenNavigate;
-    private Button bChefMenuScreenNavigate;
     private Button bChefDishEditScreenNavigate;
     private Button bChefHomePageScreenNavigate;
     private Button bFoodieReultsNavigate;
@@ -86,18 +85,6 @@ public class WelcomeScreen extends ActionBarActivity {
                 // Perform action on click
 
                 Intent i = new Intent(WelcomeScreen.this, ChefOrderDelivery.class);
-
-                WelcomeScreen.this.startActivity(i);
-            }
-        });
-
-        bChefMenuScreenNavigate = (Button) findViewById(R.id.bChefMenuScreenNavigate);
-
-        bChefMenuScreenNavigate.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-
-                Intent i = new Intent(WelcomeScreen.this, ChefMenu.class);
 
                 WelcomeScreen.this.startActivity(i);
             }

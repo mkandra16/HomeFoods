@@ -34,9 +34,6 @@
             android:name=".activities.ChefOrderDelivery"
             android:label="@string/title_activity_chef_order_delivery" />
         <activity
-            android:name=".activities.ChefMenu"
-            android:label="@string/title_activity_chef_menu" />
-        <activity
             android:name=".activities.ChefDishEdit"
             android:label="@string/title_activity_chef_dish_edit" />
         <activity

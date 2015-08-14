@@ -22,6 +22,7 @@ import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.adapters.NavDrawerRVAdapter;
 import com.apps.b3bytes.homefoods.adapters.viewPagerChefHomeAdapter;
 import com.apps.b3bytes.homefoods.fragments.ChefHomeFragment;
+import com.apps.b3bytes.homefoods.fragments.ChefMenuFragment;
 import com.apps.b3bytes.homefoods.models.NavDrawerItem;
 import com.apps.b3bytes.homefoods.widgets.SlidingTabLayout;
 
@@ -77,8 +78,9 @@ public class ChefHomePage extends AppCompatActivity {
         navDrawerItems = new ArrayList<NavDrawerItem>();
 
         // adding nav drawer items to array
-        // Home
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
+        for (int i = 0; i < navMenuTitles.length; i++) {
+            navDrawerItems.add(new NavDrawerItem(navMenuTitles[i], navMenuIcons.getResourceId(i, -1)));
+        }
 
         // Recycle the typed array
         navMenuIcons.recycle();
@@ -131,7 +133,9 @@ public class ChefHomePage extends AppCompatActivity {
             case 0:
                 fragment = new ChefHomeFragment();
                 break;
-
+            case 1:
+                fragment = new ChefMenuFragment();
+                break;
 
             default:
                 break;
