@@ -40,7 +40,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class ChefDishEditFragment extends Fragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class ChefDishEditFragment extends Fragment {
     private FragmentActivity mContext;
     private RelativeLayout lDishEditFromDatePicker;
     private RelativeLayout lDishEditToDatePicker;
@@ -108,7 +108,8 @@ public class ChefDishEditFragment extends Fragment implements DatePickerDialog.O
             @Override
             public void onClick(View v) {
                 datePickerInput = lDishEditFromDatePicker.getId();
-                DialogFragment newFragment = new DatePickerDialogFragment();
+                DatePickerDialogFragment newFragment = new DatePickerDialogFragment();
+                newFragment.setCallback(ondate);
                 newFragment.show(mContext.getSupportFragmentManager(), "DatePicker");
             }
         });
@@ -118,7 +119,8 @@ public class ChefDishEditFragment extends Fragment implements DatePickerDialog.O
             @Override
             public void onClick(View view) {
                 timePickerInput = lDishEditFromDatePicker.getId();
-                DialogFragment newFragment = new TimePickerDialogFragment();
+                TimePickerDialogFragment newFragment = new TimePickerDialogFragment();
+                newFragment.setCallback(onTime);
                 newFragment.show(mContext.getSupportFragmentManager(), "TimePicker");
             }
         });
@@ -132,7 +134,8 @@ public class ChefDishEditFragment extends Fragment implements DatePickerDialog.O
             @Override
             public void onClick(View v) {
                 datePickerInput = lDishEditToDatePicker.getId();
-                DialogFragment newFragment = new DatePickerDialogFragment();
+                DatePickerDialogFragment newFragment = new DatePickerDialogFragment();
+                newFragment.setCallback(ondate);
                 newFragment.show(mContext.getSupportFragmentManager(), "DatePicker");
             }
         });
@@ -142,7 +145,8 @@ public class ChefDishEditFragment extends Fragment implements DatePickerDialog.O
             @Override
             public void onClick(View view) {
                 timePickerInput = lDishEditToDatePicker.getId();
-                DialogFragment newFragment = new TimePickerDialogFragment();
+                TimePickerDialogFragment newFragment = new TimePickerDialogFragment();
+                newFragment.setCallback(onTime);
                 newFragment.show(mContext.getSupportFragmentManager(), "TimePicker");
             }
         });
@@ -249,47 +253,51 @@ public class ChefDishEditFragment extends Fragment implements DatePickerDialog.O
         }
     };
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int monthOfYear,
-                          int dayOfMonth) {
+    DatePickerDialog.OnDateSetListener ondate = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
 
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        cal.set(Calendar.MONTH, monthOfYear);
-        String formattedDate = new SimpleDateFormat("E, MMM d, yyyy").format(cal.getTime());
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.YEAR, year);
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            cal.set(Calendar.MONTH, monthOfYear);
+            String formattedDate = new SimpleDateFormat("E, MMM d, yyyy").format(cal.getTime());
 
-        if (datePickerInput == lDishEditFromDatePicker.getId())
-            ((TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker)).setText(formattedDate);
-        else if (datePickerInput == lDishEditToDatePicker.getId())
-            ((TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditDatePicker)).setText(formattedDate);
+            if (datePickerInput == lDishEditFromDatePicker.getId())
+                ((TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker)).setText(formattedDate);
+            else if (datePickerInput == lDishEditToDatePicker.getId())
+                ((TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditDatePicker)).setText(formattedDate);
 
-    }
-
-    //onTimeSet() callback method
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        //Get the AM or PM for current time
-        String aMpM = "AM";
-        if (hourOfDay > 11) {
-            aMpM = "PM";
         }
+    };
 
-        //Make the 24 hour time format to 12 hour time format
-        int currentHour;
-        if (hourOfDay > 11) {
-            currentHour = hourOfDay - 12;
-        } else {
-            currentHour = hourOfDay;
+    TimePickerDialog.OnTimeSetListener onTime = new TimePickerDialog.OnTimeSetListener() {
+        //onTimeSet() callback method
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            //Get the AM or PM for current time
+            String aMpM = "AM";
+            if (hourOfDay > 11) {
+                aMpM = "PM";
+            }
+
+            //Make the 24 hour time format to 12 hour time format
+            int currentHour;
+            if (hourOfDay > 11) {
+                currentHour = hourOfDay - 12;
+            } else {
+                currentHour = hourOfDay;
+            }
+
+            //Display the user changed time on TextView
+            if (datePickerInput == lDishEditFromDatePicker.getId())
+                ((TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditTimePicker)).setText(String.valueOf(currentHour)
+                        + " : " + String.valueOf(minute) + " " + aMpM);
+            else if (datePickerInput == lDishEditToDatePicker.getId())
+                ((TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditTimePicker)).setText(String.valueOf(currentHour)
+                        + " : " + String.valueOf(minute) + " " + aMpM);
         }
-
-        //Display the user changed time on TextView
-        if (datePickerInput == lDishEditFromDatePicker.getId())
-            ((TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditTimePicker)).setText(String.valueOf(currentHour)
-                    + " : " + String.valueOf(minute) + " " + aMpM);
-        else if (datePickerInput == lDishEditToDatePicker.getId())
-            ((TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditTimePicker)).setText(String.valueOf(currentHour)
-                    + " : " + String.valueOf(minute) + " " + aMpM);
-    }
+    };
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
