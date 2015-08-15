@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -27,7 +28,8 @@ public class ChefMenuFragment extends Fragment {
     private FragmentActivity mContext;
     GridView gvChefMenu;
     FloatingActionButton fabAddDish;
-    public static final int DISH_EDIT_CHILD = 1337;
+    public static final int DISH_EDIT_CHILD = 1005;
+    public static final int DISH_GRID_VIEW_CHILD = 1005;
 
     /* TODO: TEST DATA */
     String[] dishNamesArray = {"Roti Paratha", "Curd Rice", "South Indian Breakfast", "Salad", "Chicken Tikka", "Biryani", "Pizza", "Cupcakes", "Sandwhich", "Burger", "PanCake"};
@@ -69,6 +71,16 @@ public class ChefMenuFragment extends Fragment {
         gvChefMenu.setAdapter(aOneDishOrder);
         aOneDishOrder.notifyDataSetChanged();
 
+        gvChefMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent in = new Intent(getActivity(),
+                        ChefDishDesc.class);
+                //TODO: populate the data from gridview item clicked
+                in.putExtra("mode", false);
+                startActivityForResult(in, DISH_GRID_VIEW_CHILD);
+            }
+        });
 
         fabAddDish.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +95,11 @@ public class ChefMenuFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == DISH_EDIT_CHILD) {
+        if (requestCode == DISH_GRID_VIEW_CHILD) {
+            if (resultCode == Activity.RESULT_OK) {
+                Toast.makeText(mContext, "Successfully Viewed/Edited", Toast.LENGTH_LONG).show();
+            }
+        } else if (requestCode == DISH_EDIT_CHILD) {
             if (resultCode == Activity.RESULT_OK) {
                 Toast.makeText(mContext, "Successfully Added", Toast.LENGTH_LONG).show();
             }

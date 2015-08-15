@@ -78,12 +78,6 @@ public class ChefMenuGridViewAdapter extends ArrayAdapter<OneDishOrder> {
         holder.tvMenuGridDishPrice.setText(context.getString(R.string.Rs) + " " + (list.get(position).getUnitPrice()));
         holder.ivMenuGridDishImage.setImageResource(R.drawable.south_indian_breakfast_01);
 
-/*        if (position % 2 == 1) {
-            view.setBackgroundColor(Color.BLUE);
-        } else {
-            view.setBackgroundColor(Color.CYAN);
-        }*/
-
         return view;
     }
 
