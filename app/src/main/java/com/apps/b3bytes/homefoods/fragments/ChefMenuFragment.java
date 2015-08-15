@@ -1,17 +1,22 @@
 package com.apps.b3bytes.homefoods.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.activities.ChefDishEdit;
 import com.apps.b3bytes.homefoods.adapters.ChefMenuGridViewAdapter;
 import com.apps.b3bytes.homefoods.models.OneDishOrder;
 
@@ -22,6 +27,7 @@ public class ChefMenuFragment extends Fragment {
     private FragmentActivity mContext;
     GridView gvChefMenu;
     FloatingActionButton fabAddDish;
+    public static final int DISH_EDIT_CHILD = 1337;
 
     /* TODO: TEST DATA */
     String[] dishNamesArray = {"Roti Paratha", "Curd Rice", "South Indian Breakfast", "Salad", "Chicken Tikka", "Biryani", "Pizza", "Cupcakes", "Sandwhich", "Burger", "PanCake"};
@@ -67,12 +73,21 @@ public class ChefMenuFragment extends Fragment {
         fabAddDish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ChefDishEditFragment dishEditFragment= new ChefDishEditFragment();
-                mContext.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frame_container, dishEditFragment)
-                        .addToBackStack(null)
-                        .commit();
+                Intent i = new Intent(getActivity(),
+                        ChefDishEdit.class);
+                startActivityForResult(i, DISH_EDIT_CHILD);
             }
         });
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == DISH_EDIT_CHILD) {
+            if (resultCode == Activity.RESULT_OK) {
+                Toast.makeText(mContext, "Successfully Added", Toast.LENGTH_LONG).show();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 }

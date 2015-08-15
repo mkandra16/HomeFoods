@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -15,7 +16,9 @@ import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -64,9 +67,8 @@ public class ChefDishEdit extends AppCompatActivity implements DatePickerDialog.
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolBar);
         getSupportActionBar().setTitle("Dish Edit");
-        // enabling action bar app icon and behaving it as toggle button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(android.R.drawable.ic_menu_close_clear_cancel);
 
         AutoCompleteTextView acTvDishEditCuisine = (AutoCompleteTextView) findViewById(R.id.acTvDishEditCuisine);
         ArrayAdapter<CharSequence> aCuisine = ArrayAdapter.createFromResource(
@@ -322,7 +324,7 @@ public class ChefDishEdit extends AppCompatActivity implements DatePickerDialog.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_chef_dish_edit, menu);
+        getMenuInflater().inflate(R.menu.save_menu, menu);
         return true;
     }
 
@@ -334,15 +336,37 @@ public class ChefDishEdit extends AppCompatActivity implements DatePickerDialog.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.save) {
+            Intent data = new Intent();
+            //data.putExtra("dish", dish); //Dish implements Parcelable
+            setResult(RESULT_OK, data);
+            finish();
             return true;
         }
-
         if (id == android.R.id.home) {
-            finish();
+            //http://stackoverflow.com/questions/30180052/you-need-to-use-a-theme-appcompat-theme-or-descendant-with-this-activity-chan
+            AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
+            builder.setMessage("Discard changes?").setPositiveButton("YES", dialogClickListener)
+                    .setNegativeButton("NO", dialogClickListener).show();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    //Yes button clicked
+                    finish();
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        }
+    };
 }

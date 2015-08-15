@@ -45,6 +45,10 @@
     <color name="list_item_title">#0F0F0F</color>
     <color name="nav_drawer_profile_background">#80CBC4</color>
 
+    <style name="myDialog" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <style name="actionbar_r1_titletext" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/KPTheme_AdriftInDreams_ActionBarText_Color</item>
     </style>

@@ -99,7 +99,7 @@ public class ChefHomePage extends AppCompatActivity {
         });
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                //R.mipmap.ic_drawer, //nav menu toggle icon
+                toolBar, //nav menu toggle icon
                 R.string.app_name, // nav drawer open - description for accessibility
                 R.string.app_name // nav drawer close - description for accessibility
         ) {
@@ -211,7 +211,7 @@ public class ChefHomePage extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggls
+        // Pass any configuration change to the drawer toggle
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 }
