@@ -2,6 +2,7 @@ package com.apps.b3bytes.homefoods.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import java.util.List;
 public class ChefMenuFragment extends Fragment {
     private FragmentActivity mContext;
     GridView gvChefMenu;
+    FloatingActionButton fabAddDish;
 
     /* TODO: TEST DATA */
     String[] dishNamesArray = {"Roti Paratha", "Curd Rice", "South Indian Breakfast", "Salad", "Chicken Tikka", "Biryani", "Pizza", "Cupcakes", "Sandwhich", "Burger", "PanCake"};
@@ -36,6 +38,7 @@ public class ChefMenuFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_chef_menu, container, false);
         gvChefMenu = (GridView) rootView.findViewById(R.id.gvChefMenu);
+        fabAddDish = (FloatingActionButton) rootView.findViewById(R.id.fabAddDish);
 
         return rootView;
     }
@@ -58,7 +61,14 @@ public class ChefMenuFragment extends Fragment {
 
         ArrayAdapter<OneDishOrder> aOneDishOrder = new ChefMenuGridViewAdapter(mContext, list, gvChefMenu);
         gvChefMenu.setAdapter(aOneDishOrder);
-
         aOneDishOrder.notifyDataSetChanged();
+
+
+        fabAddDish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
+            }
+        });
     }
 }
