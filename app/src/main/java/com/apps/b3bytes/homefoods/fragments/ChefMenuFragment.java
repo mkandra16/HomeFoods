@@ -67,7 +67,11 @@ public class ChefMenuFragment extends Fragment {
         fabAddDish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                ChefDishEditFragment dishEditFragment= new ChefDishEditFragment();
+                mContext.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame_container, dishEditFragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
     }
