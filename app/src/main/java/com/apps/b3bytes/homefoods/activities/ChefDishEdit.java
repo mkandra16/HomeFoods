@@ -58,84 +58,95 @@ public class ChefDishEdit extends AppCompatActivity implements DatePickerDialog.
     private int datePickerInput;
     private int timePickerInput;
     private Uri outputFileUri;
+    private boolean editMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chef_dish_edit);
 
+        editMode = getIntent().getBooleanExtra("mode", false);
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolBar);
-        getSupportActionBar().setTitle("Dish Edit");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(android.R.drawable.ic_menu_close_clear_cancel);
 
-        AutoCompleteTextView acTvDishEditCuisine = (AutoCompleteTextView) findViewById(R.id.acTvDishEditCuisine);
-        ArrayAdapter<CharSequence> aCuisine = ArrayAdapter.createFromResource(
-                this, R.array.cuisine_picker_array, android.R.layout.simple_dropdown_item_1line);
-        acTvDishEditCuisine.setAdapter(aCuisine);
+        if (editMode == false) {
+            setContentView(R.layout.activity_chef_dish_read_only);
+            getSupportActionBar().setTitle("Dish Name");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_back);
+
+        } else {
+
+            setContentView(R.layout.activity_chef_dish_edit);
+            getSupportActionBar().setTitle("Dish Edit");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(android.R.drawable.ic_menu_close_clear_cancel);
+
+            AutoCompleteTextView acTvDishEditCuisine = (AutoCompleteTextView) findViewById(R.id.acTvDishEditCuisine);
+            ArrayAdapter<CharSequence> aCuisine = ArrayAdapter.createFromResource(
+                    this, R.array.cuisine_picker_array, android.R.layout.simple_dropdown_item_1line);
+            acTvDishEditCuisine.setAdapter(aCuisine);
 
 
-        etDishEditPrice = (EditText) findViewById(R.id.etDishEditPrice);
+            etDishEditPrice = (EditText) findViewById(R.id.etDishEditPrice);
         /* Set Text Watcher listener */
-        etDishEditPrice.addTextChangedListener(dishPriceWatcher);
+            etDishEditPrice.addTextChangedListener(dishPriceWatcher);
 
-        lDishEditFromDatePicker = (RelativeLayout) findViewById(R.id.lDishEditFromDatePicker);
-        TextView tvDishEditFromDateHdr = (TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditDateHdr);
-        tvDishEditFromDateHdr.setText("AVILABLE FROM");
+            lDishEditFromDatePicker = (RelativeLayout) findViewById(R.id.lDishEditFromDatePicker);
+            TextView tvDishEditFromDateHdr = (TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditDateHdr);
+            tvDishEditFromDateHdr.setText("AVILABLE FROM");
 
-        TextView tvDishEditFromDatePicker = (TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker);
-        tvDishEditFromDatePicker.setOnClickListener(new View.OnClickListener() {
+            TextView tvDishEditFromDatePicker = (TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker);
+            tvDishEditFromDatePicker.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                datePickerInput = lDishEditFromDatePicker.getId();
-                DialogFragment newFragment = new DatePickerDialogFragment();
-                newFragment.show(getSupportFragmentManager(), "DatePicker");
-            }
-        });
+                @Override
+                public void onClick(View v) {
+                    datePickerInput = lDishEditFromDatePicker.getId();
+                    DialogFragment newFragment = new DatePickerDialogFragment();
+                    newFragment.show(getSupportFragmentManager(), "DatePicker");
+                }
+            });
 
-        TextView tvDishEditFromTimePicker = (TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditTimePicker);
-        tvDishEditFromTimePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                timePickerInput = lDishEditFromDatePicker.getId();
-                DialogFragment newFragment = new TimePickerDialogFragment();
-                newFragment.show(getSupportFragmentManager(), "TimePicker");
-            }
-        });
+            TextView tvDishEditFromTimePicker = (TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditTimePicker);
+            tvDishEditFromTimePicker.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    timePickerInput = lDishEditFromDatePicker.getId();
+                    DialogFragment newFragment = new TimePickerDialogFragment();
+                    newFragment.show(getSupportFragmentManager(), "TimePicker");
+                }
+            });
 
 
-        lDishEditToDatePicker = (RelativeLayout) findViewById(R.id.lDishEditToDatePicker);
-        TextView tvDishEditToDateHdr = (TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditDateHdr);
-        tvDishEditToDateHdr.setText("TO");
-        TextView tvDishEditToDatePicker = (TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditDatePicker);
-        tvDishEditToDatePicker.setOnClickListener(new View.OnClickListener() {
+            lDishEditToDatePicker = (RelativeLayout) findViewById(R.id.lDishEditToDatePicker);
+            TextView tvDishEditToDateHdr = (TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditDateHdr);
+            tvDishEditToDateHdr.setText("TO");
+            TextView tvDishEditToDatePicker = (TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditDatePicker);
+            tvDishEditToDatePicker.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                datePickerInput = lDishEditToDatePicker.getId();
-                DialogFragment newFragment = new DatePickerDialogFragment();
-                newFragment.show(getSupportFragmentManager(), "DatePicker");
-            }
-        });
+                @Override
+                public void onClick(View v) {
+                    datePickerInput = lDishEditToDatePicker.getId();
+                    DialogFragment newFragment = new DatePickerDialogFragment();
+                    newFragment.show(getSupportFragmentManager(), "DatePicker");
+                }
+            });
 
-        TextView tvDishEditToTimePicker = (TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditTimePicker);
-        tvDishEditToTimePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                timePickerInput = lDishEditToDatePicker.getId();
-                DialogFragment newFragment = new TimePickerDialogFragment();
-                newFragment.show(getSupportFragmentManager(), "TimePicker");
-            }
-        });
+            TextView tvDishEditToTimePicker = (TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditTimePicker);
+            tvDishEditToTimePicker.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    timePickerInput = lDishEditToDatePicker.getId();
+                    DialogFragment newFragment = new TimePickerDialogFragment();
+                    newFragment.show(getSupportFragmentManager(), "TimePicker");
+                }
+            });
 
-        TextView tvDishEditDishImage = (TextView) findViewById(R.id.tvDishEditDishImage);
-        ivDishEditDishImage = (ImageView) findViewById(R.id.ivDishEditDishImage);
-        tvDishEditDishImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // DishImageHelper.setDishImage(ivDishEditDishImage, getApplicationContext());
+            TextView tvDishEditDishImage = (TextView) findViewById(R.id.tvDishEditDishImage);
+            ivDishEditDishImage = (ImageView) findViewById(R.id.ivDishEditDishImage);
+            tvDishEditDishImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // DishImageHelper.setDishImage(ivDishEditDishImage, getApplicationContext());
 /*                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image*//*");
                 startActivityForResult(photoPickerIntent, 1);*/
@@ -157,42 +168,43 @@ public class ChefDishEdit extends AppCompatActivity implements DatePickerDialog.
                 startActivityForResult(chooserIntent, 1);*/
 
 
-                // Determine Uri of camera image to save.
-                final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "MyDir" + File.separator);
-                root.mkdirs();
-                final String fname = "img_" + System.currentTimeMillis() + ".jpg"; //Utils.getUniqueImageFilename();
-                final File sdImageMainDirectory = new File(root, fname);
-                outputFileUri = Uri.fromFile(sdImageMainDirectory);
+                    // Determine Uri of camera image to save.
+                    final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "MyDir" + File.separator);
+                    root.mkdirs();
+                    final String fname = "img_" + System.currentTimeMillis() + ".jpg"; //Utils.getUniqueImageFilename();
+                    final File sdImageMainDirectory = new File(root, fname);
+                    outputFileUri = Uri.fromFile(sdImageMainDirectory);
 
-                // Camera.
-                final List<Intent> cameraIntents = new ArrayList<Intent>();
-                final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                final PackageManager packageManager = getPackageManager();
-                final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-                for (ResolveInfo res : listCam) {
-                    final String packageName = res.activityInfo.packageName;
-                    final Intent intent = new Intent(captureIntent);
-                    intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-                    intent.setPackage(packageName);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-                    cameraIntents.add(intent);
+                    // Camera.
+                    final List<Intent> cameraIntents = new ArrayList<Intent>();
+                    final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    final PackageManager packageManager = getPackageManager();
+                    final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+                    for (ResolveInfo res : listCam) {
+                        final String packageName = res.activityInfo.packageName;
+                        final Intent intent = new Intent(captureIntent);
+                        intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+                        intent.setPackage(packageName);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+                        cameraIntents.add(intent);
+                    }
+
+                    // Filesystem.
+                    final Intent galleryIntent = new Intent();
+                    //galleryIntent.setType("image*/*");
+                    //galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                    galleryIntent.setAction(Intent.ACTION_PICK);
+
+                    // Chooser of filesystem options.
+                    final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
+
+                    // Add the camera options.
+                    chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
+
+                    startActivityForResult(chooserIntent, 120);
                 }
-
-                // Filesystem.
-                final Intent galleryIntent = new Intent();
-                //galleryIntent.setType("image*/*");
-                //galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setAction(Intent.ACTION_PICK);
-
-                // Chooser of filesystem options.
-                final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
-
-                // Add the camera options.
-                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
-
-                startActivityForResult(chooserIntent, 120);
-            }
-        });
+            });
+        }
     }
 
 /*    @Override
@@ -324,7 +336,10 @@ public class ChefDishEdit extends AppCompatActivity implements DatePickerDialog.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.save_menu, menu);
+        if (editMode == false)
+            getMenuInflater().inflate(R.menu.save_menu, menu);
+        else
+            getMenuInflater().inflate(R.menu.edit_menu, menu);
         return true;
     }
 

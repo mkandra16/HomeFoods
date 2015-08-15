@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvDishEditDateHdr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:paddingLeft="4dp"
+        android:text="FROM" />
+
+    <TextView
+        android:id="@+id/tvDishEditDatePicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvDishEditTimePicker"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvDishEditDateHdr"
+        android:layout_marginRight="12dp"
+        android:layout_toLeftOf="@+id/tvDishEditTimePicker"
+        android:text="Date"
+        android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvDishEditTimePicker"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvDishEditDateHdr"
+        android:text="Time"
+        android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+        android:textSize="16sp" />
+
+</RelativeLayout>
