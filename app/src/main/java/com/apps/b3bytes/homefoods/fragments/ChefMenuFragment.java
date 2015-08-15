@@ -16,7 +16,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
-import com.apps.b3bytes.homefoods.activities.ChefDishEdit;
+import com.apps.b3bytes.homefoods.activities.ChefDishDesc;
 import com.apps.b3bytes.homefoods.adapters.ChefMenuGridViewAdapter;
 import com.apps.b3bytes.homefoods.models.OneDishOrder;
 
@@ -74,7 +74,8 @@ public class ChefMenuFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(),
-                        ChefDishEdit.class);
+                        ChefDishDesc.class);
+                i.putExtra("mode", true);
                 startActivityForResult(i, DISH_EDIT_CHILD);
             }
         });

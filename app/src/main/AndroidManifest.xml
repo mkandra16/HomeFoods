@@ -34,10 +34,11 @@
             android:name=".activities.ChefOrderDelivery"
             android:label="@string/title_activity_chef_order_delivery" />
         <activity
-            android:name=".activities.ChefDishEdit"
-            android:label="@string/title_activity_chef_dish_edit" />
-        <activity
             android:name=".activities.ChefHomePage"
+            android:label="@string/title_activity_chef_home_page" >
+        </activity>
+        <activity
+            android:name=".activities.ChefDishDesc"
             android:label="@string/title_activity_chef_home_page" >
         </activity>
         <activity
