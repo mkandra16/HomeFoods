@@ -5,7 +5,6 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -24,13 +23,11 @@ import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.adapters.NavDrawerRVAdapter;
-import com.apps.b3bytes.homefoods.adapters.viewPagerChefHomeAdapter;
 import com.apps.b3bytes.homefoods.fragments.ChefHomeFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefMenuFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieCheckoutFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieHomeFragment;
 import com.apps.b3bytes.homefoods.models.NavDrawerItem;
-import com.apps.b3bytes.homefoods.widgets.SlidingTabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +64,7 @@ public class HomePage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chef_home_page);
+        setContentView(R.layout.activity_home_page);
 
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolBar);

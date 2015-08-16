@@ -17,7 +17,6 @@ import com.apps.b3bytes.homefoods.State.AppGlobalState;
 public class WelcomeScreen extends ActionBarActivity {
 
     private Button bDishDescScreenNavigate;
-    private Button bCheckoutScreenNavigate;
     private Button bChefDeliveryScreenNavigate;
     private Button bHomePageScreenNavigate;
 
@@ -50,18 +49,6 @@ public class WelcomeScreen extends ActionBarActivity {
                 // Perform action on click
 
                 Intent i = new Intent(WelcomeScreen.this, DishDesc.class);
-
-                WelcomeScreen.this.startActivity(i);
-            }
-        });
-
-        bCheckoutScreenNavigate = (Button) findViewById(R.id.bCheckoutScreenNavigate);
-
-        bCheckoutScreenNavigate.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-
-                Intent i = new Intent(WelcomeScreen.this, OrderReview.class);
 
                 WelcomeScreen.this.startActivity(i);
             }

@@ -4,33 +4,46 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
-import com.apps.b3bytes.homefoods.adapters.viewPagerChefHomeAdapter;
-import com.apps.b3bytes.homefoods.widgets.SlidingTabLayout;
+import com.apps.b3bytes.homefoods.State.AppGlobalState;
+import com.apps.b3bytes.homefoods.adapters.DishOrdersListAdapter;
+import com.apps.b3bytes.homefoods.models.Dish;
+import com.apps.b3bytes.homefoods.models.Foodie;
+import com.apps.b3bytes.homefoods.models.OneDishOrder;
+import com.apps.b3bytes.homefoods.utils.ListViewHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FoodieCheckoutFragment extends Fragment {
     private FragmentActivity mContext;
+    private LayoutInflater mInflater;
 
-    ViewPager pager;
-    viewPagerChefHomeAdapter viewPagerAdapter;
-    SlidingTabLayout tabs;
-    CharSequence Titles[] = {"Orders", "Snapshot"};
-    int Numboftabs = 2;
+    private LinearLayout llRoot;
+    private TextView tvOrderSummary;
+    private int currentId;
+
 
     public FoodieCheckoutFragment(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View rootView = inflater.inflate(R.layout.fragment_chef_home_page, container, false);
-        pager = (ViewPager) rootView.findViewById(R.id.viewPagerChefHome);
-        tabs = (SlidingTabLayout) rootView.findViewById(R.id.slidingTabs);
+        mInflater = inflater;
+        View rootView = inflater.inflate(R.layout.fragment_order_review, container, false);
+        llRoot = (LinearLayout) rootView.findViewById(R.id.llRoot);
+        tvOrderSummary = (TextView) rootView.findViewById(R.id.tvOrderSummary);
 
         return rootView;
     }
@@ -45,24 +58,82 @@ public class FoodieCheckoutFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        viewPagerAdapter = new viewPagerChefHomeAdapter(mContext.getSupportFragmentManager(), Titles, Numboftabs);
+        currentId = (int) tvOrderSummary.getId();
 
-        // Assigning ViewPager View and setting the adapter
-        pager.setAdapter(viewPagerAdapter);
+        // Identify chef count.
+        // Create ChefOrderLayout for each chef.
+        // Shouldn't the delivery layout be different for each chef?
+        //
 
-        // Assiging the Sliding Tab Layout View
-        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+        for (Foodie c : AppGlobalState.gCart.chefsInCart()) {
+            llRoot.addView(createOneChefOrderLayout(c));
+            currentId++;
+        }
 
-        // Setting Custom Color for the Scroll bar indicator of the Tab View
-        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+        llRoot.addView(createOrderTotalLayout(currentId, AppGlobalState.gCart.getGrandTotal()));
+        currentId++;
+
+        llRoot.addView(createDeliveryAddrLayout(currentId));
+        currentId++;
+
+        llRoot.addView(createProceedToPaymentLayout(currentId));
+        currentId++;
+
+    }
+
+    private LinearLayout createProceedToPaymentLayout(int currentId) {
+        LinearLayout llOrderProceedToPayment = (LinearLayout) mInflater.inflate(R.layout.order_proceed_to_payment, null, false);
+        Button bCheckOut = (Button) llOrderProceedToPayment.findViewById(R.id.bOrderProceedToPayment);
+        bCheckOut.setOnClickListener(new View.OnClickListener() {
             @Override
-            public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.KPTheme_AdriftInDreams_colorAccent);
+            public void onClick(View v) {
+
+                Toast.makeText(mContext, "Requested CheckOut", Toast.LENGTH_SHORT).show();
+                AppGlobalState.checkOutCart();
             }
         });
-
-        // Setting the ViewPager For the SlidingTabsLayout
-        tabs.setViewPager(pager);
+        return llOrderProceedToPayment;
     }
+
+    private LinearLayout createOrderTotalLayout(int currentId, double totalPrice) {
+        LinearLayout llOrderTotal = (LinearLayout) mInflater.inflate(R.layout.order_total, null, false);
+        RelativeLayout rlOrderTotal = (RelativeLayout) llOrderTotal.findViewById(R.id.rlOrderTotal);
+
+        TextView tvOrderTotalPrice = (TextView) rlOrderTotal.findViewById(R.id.tvOrderTotalPrice);
+        tvOrderTotalPrice.setText(mContext.getString(R.string.Rs) + " " + totalPrice);
+
+        return llOrderTotal;
+    }
+
+    private LinearLayout createDeliveryAddrLayout(int currentId) {
+        LinearLayout llOrderTotal = (LinearLayout) mInflater.inflate(R.layout.order_delivery_addr, null, false);
+
+        /* TODO: populate address */
+
+        return llOrderTotal;
+    }
+
+    private LinearLayout createOneChefOrderLayout(Foodie chef) {
+
+        LinearLayout llOneChefOrder = (LinearLayout) mInflater.inflate(R.layout.one_chef_order, null, false);
+        RelativeLayout rlOneChefOrder = (RelativeLayout) llOneChefOrder.findViewById(R.id.rlOneChefOrder);
+
+        TextView tvChefName = (TextView) rlOneChefOrder.findViewById(R.id.tvChefName);
+        tvChefName.setText(chef.getmUserName());
+
+        List<OneDishOrder> list = new ArrayList<OneDishOrder>();
+        ListView lvChefOrders = (ListView) rlOneChefOrder.findViewById(R.id.lvChefOrders);
+        ArrayAdapter<OneDishOrder> aOneDishOrder = new DishOrdersListAdapter(mContext, list, lvChefOrders, llOneChefOrder);
+        lvChefOrders.setAdapter(aOneDishOrder);
+
+        for (Dish d : AppGlobalState.gCart.chefDishesInCart(chef)) {
+            int qty = AppGlobalState.gCart.dishQtyInCart(d);
+            list.add(new OneDishOrder(d, qty));
+        }
+        aOneDishOrder.notifyDataSetChanged();
+        ListViewHelper.setListViewHeightBasedOnChildren(lvChefOrders);
+
+        return llOneChefOrder;
+    }
+
 }
