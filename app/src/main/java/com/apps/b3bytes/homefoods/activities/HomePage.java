@@ -17,24 +17,31 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.Switch;
+import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.adapters.NavDrawerRVAdapter;
 import com.apps.b3bytes.homefoods.adapters.viewPagerChefHomeAdapter;
 import com.apps.b3bytes.homefoods.fragments.ChefHomeFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefMenuFragment;
+import com.apps.b3bytes.homefoods.fragments.FoodieCheckoutFragment;
+import com.apps.b3bytes.homefoods.fragments.FoodieHomeFragment;
 import com.apps.b3bytes.homefoods.models.NavDrawerItem;
 import com.apps.b3bytes.homefoods.widgets.SlidingTabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChefHomePage extends AppCompatActivity {
+public class HomePage extends AppCompatActivity {
     Context context = this;
+    private boolean chefMode = false;
     private DrawerLayout mDrawerLayout;
     private LinearLayout llSliderMenu;
     private ActionBarDrawerToggle mDrawerToggle;
+    private Switch swChefFoodie;
 
     // nav drawer title
     private CharSequence mDrawerTitle;
@@ -43,11 +50,15 @@ public class ChefHomePage extends AppCompatActivity {
     private CharSequence mTitle;
 
     // slide menu items
-    private String[] navMenuTitles;
-    private TypedArray navMenuIcons;
+    private String[] navChefMenuTitles;
+    private TypedArray navChefMenuIcons;
+    private List<NavDrawerItem> navChefDrawerItems;
+    private String[] navFoodieMenuTitles;
+    private TypedArray navFoodieMenuIcons;
+    private List<NavDrawerItem> navFoodieDrawerItems;
 
-    private List<NavDrawerItem> navDrawerItems;
-    private NavDrawerRVAdapter adapter;
+    private NavDrawerRVAdapter chefAdapter;
+    private NavDrawerRVAdapter foodieAdapter;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -68,36 +79,78 @@ public class ChefHomePage extends AppCompatActivity {
         mTitle = mDrawerTitle = getTitle();
 
         // load slide menu items
-        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
-
+        navChefMenuTitles = getResources().getStringArray(R.array.nav_drawer_chef_items);
         // nav drawer icons from resources
-        navMenuIcons = getResources()
-                .obtainTypedArray(R.array.nav_drawer_icons);
+        navChefMenuIcons = getResources()
+                .obtainTypedArray(R.array.nav_drawer_chef_icons);
+        navChefDrawerItems = new ArrayList<NavDrawerItem>();
+        // adding nav drawer items to array
+        for (int i = 0; i < navChefMenuTitles.length; i++) {
+            navChefDrawerItems.add(new NavDrawerItem(navChefMenuTitles[i], navChefMenuIcons.getResourceId(i, -1)));
+        }
+        // Recycle the typed array
+        navChefMenuIcons.recycle();
+
+        // load slide menu items
+        navFoodieMenuTitles = getResources().getStringArray(R.array.nav_drawer_foodie_items);
+        // nav drawer icons from resources
+        navFoodieMenuIcons = getResources()
+                .obtainTypedArray(R.array.nav_drawer_foodie_icons);
+        navFoodieDrawerItems = new ArrayList<NavDrawerItem>();
+        // adding nav drawer items to array
+        for (int i = 0; i < navFoodieMenuTitles.length; i++) {
+            navFoodieDrawerItems.add(new NavDrawerItem(navFoodieMenuTitles[i], navFoodieMenuIcons.getResourceId(i, -1)));
+        }
+        // Recycle the typed array
+        navFoodieMenuIcons.recycle();
+
+        chefAdapter = new NavDrawerRVAdapter(navChefDrawerItems);
+        foodieAdapter = new NavDrawerRVAdapter(navFoodieDrawerItems);
+
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_slidermenu);
         llSliderMenu = (LinearLayout) findViewById(R.id.llSliderMenu);
+        swChefFoodie = (Switch) findViewById(R.id.swChefFoodie);
 
-        navDrawerItems = new ArrayList<NavDrawerItem>();
-
-        // adding nav drawer items to array
-        for (int i = 0; i < navMenuTitles.length; i++) {
-            navDrawerItems.add(new NavDrawerItem(navMenuTitles[i], navMenuIcons.getResourceId(i, -1)));
-        }
-
-        // Recycle the typed array
-        navMenuIcons.recycle();
+        chefMode = swChefFoodie.isChecked();
+        swChefFoodie.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                Toast.makeText(getApplicationContext(), "The Switch is " + (isChecked ? "on" : "off"),
+                        Toast.LENGTH_SHORT).show();
+                if (isChecked) {
+                    //do stuff when Switch is ON
+                    chefMode = true;
+                    mRecyclerView.swapAdapter(chefAdapter, false);
+                } else {
+                    //do stuff when Switch if OFF
+                    chefMode = false;
+                    mRecyclerView.swapAdapter(foodieAdapter, false);
+                }
+            }
+        });
 
         // setting the nav drawer list adapter
-        adapter = new NavDrawerRVAdapter(navDrawerItems);
-        mRecyclerView.setAdapter(adapter);
+        if (chefMode == true)
+            mRecyclerView.setAdapter(chefAdapter);
+        else
+            mRecyclerView.setAdapter(foodieAdapter);
+
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-        adapter.SetOnItemClickListener(new NavDrawerRVAdapter.ItemClickListener() {
+        chefAdapter.SetOnItemClickListener(new NavDrawerRVAdapter.ItemClickListener() {
             @Override
             public void onItemClick(NavDrawerItem item, int position) {
                 displayView(position);
+            }
+        });
+
+        foodieAdapter.SetOnItemClickListener(new NavDrawerRVAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(NavDrawerItem item, int position) {
+                displayFoodieView(position);
             }
         });
 
@@ -129,6 +182,40 @@ public class ChefHomePage extends AppCompatActivity {
     /**
      * Diplaying fragment view for selected nav drawer list item
      */
+    private void displayFoodieView(int position) {
+        // update the main content by replacing fragments
+        Fragment fragment = null;
+        switch (position) {
+            case 0:
+                fragment = new FoodieHomeFragment();
+                break;
+            case 1:
+                fragment = new FoodieCheckoutFragment();
+                break;
+
+            default:
+                break;
+        }
+
+        if (fragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.frame_container, fragment).commit();
+
+            // update selected item and title, then close the drawer
+/*            mDrawerList.setItemChecked(position, true);
+            mDrawerList.setSelection(position);*/
+            setTitle(navFoodieMenuTitles[position]);
+            mDrawerLayout.closeDrawer(llSliderMenu);
+        } else {
+            // error in creating fragment
+            Log.e("MainActivity", "Error in creating fragment");
+        }
+    }
+
+    /**
+     * Diplaying fragment view for selected nav drawer list item
+     */
     private void displayView(int position) {
         // update the main content by replacing fragments
         Fragment fragment = null;
@@ -152,7 +239,7 @@ public class ChefHomePage extends AppCompatActivity {
             // update selected item and title, then close the drawer
 /*            mDrawerList.setItemChecked(position, true);
             mDrawerList.setSelection(position);*/
-            setTitle(navMenuTitles[position]);
+            setTitle(navChefMenuTitles[position]);
             mDrawerLayout.closeDrawer(llSliderMenu);
         } else {
             // error in creating fragment

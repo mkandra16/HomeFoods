@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="5dp"
     android:paddingRight="5dp"
-    tools:context="com.apps.b3bytes.homefoods.activities.ChefHomePage">
+    tools:context="com.apps.b3bytes.homefoods.activities.HomePage">
 
 
     <android.support.v7.widget.RecyclerView
