@@ -1,19 +1,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/llProfile"
-    android:layout_width="match_parent"
+    android:layout_width="240dp"
     android:layout_height="180dp"
     android:layout_gravity="start"
-    android:background="@color/nav_drawer_profile_background"
-    android:orientation="horizontal">
+    android:background="@color/nav_drawer_profile_background">
 
     <ImageView
         android:id="@+id/ivUserProfile"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="8dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="90dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_chef_image" />
 
@@ -41,4 +39,14 @@
         android:text="test@gmail.com"
         android:textColor="@android:color/black"
         android:textSize="12sp" />
+
+    <Switch
+        android:id="@+id/swChefFoodie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ivUserProfile"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:textOff="Foodie"
+        android:textOn="Chef" />
 </RelativeLayout>

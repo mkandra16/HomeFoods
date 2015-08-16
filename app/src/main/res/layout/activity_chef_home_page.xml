@@ -19,17 +19,29 @@
             android:layout_height="match_parent" />
     </LinearLayout>
 
-    <!-- Listview to display slider menu -->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_slidermenu"
+    <LinearLayout
+        android:id="@+id/llSliderMenu"
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/list_background"
-        android:choiceMode="singleChoice"
-        android:divider="@color/list_divider"
-        android:dividerHeight="1dp"
-        android:listSelector="@drawable/list_selector"
-        android:scrollbars="vertical" />
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/userProfileHdr"
+            layout="@layout/slider_menu_header" />
+
+        <!-- Listview to display slider menu -->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_slidermenu"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/list_background"
+            android:choiceMode="singleChoice"
+            android:divider="@color/list_divider"
+            android:dividerHeight="1dp"
+            android:listSelector="@drawable/list_selector"
+            android:scrollbars="vertical" />
+    </LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>

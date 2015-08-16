@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.adapters.NavDrawerRVAdapter;
@@ -32,6 +33,7 @@ import java.util.List;
 public class ChefHomePage extends AppCompatActivity {
     Context context = this;
     private DrawerLayout mDrawerLayout;
+    private LinearLayout llSliderMenu;
     private ActionBarDrawerToggle mDrawerToggle;
 
     // nav drawer title
@@ -74,6 +76,7 @@ public class ChefHomePage extends AppCompatActivity {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_slidermenu);
+        llSliderMenu = (LinearLayout) findViewById(R.id.llSliderMenu);
 
         navDrawerItems = new ArrayList<NavDrawerItem>();
 
@@ -94,7 +97,7 @@ public class ChefHomePage extends AppCompatActivity {
         adapter.SetOnItemClickListener(new NavDrawerRVAdapter.ItemClickListener() {
             @Override
             public void onItemClick(NavDrawerItem item, int position) {
-                displayView(position - 1);
+                displayView(position);
             }
         });
 
@@ -150,7 +153,7 @@ public class ChefHomePage extends AppCompatActivity {
 /*            mDrawerList.setItemChecked(position, true);
             mDrawerList.setSelection(position);*/
             setTitle(navMenuTitles[position]);
-            mDrawerLayout.closeDrawer(mRecyclerView);
+            mDrawerLayout.closeDrawer(llSliderMenu);
         } else {
             // error in creating fragment
             Log.e("MainActivity", "Error in creating fragment");
@@ -185,7 +188,7 @@ public class ChefHomePage extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // if nav drawer is opened, hide the action items
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mRecyclerView);
+        boolean drawerOpen = mDrawerLayout.isDrawerOpen(llSliderMenu);
         menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }
