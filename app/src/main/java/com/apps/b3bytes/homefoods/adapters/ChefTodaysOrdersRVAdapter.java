@@ -9,17 +9,31 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.State.AppGlobalState;
+import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
+import com.apps.b3bytes.homefoods.models.ChefOrder;
+import com.apps.b3bytes.homefoods.models.DishOrder;
+import com.apps.b3bytes.homefoods.models.Foodie;
 import com.apps.b3bytes.homefoods.models.OneDishOrder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class ChefTodaysOrdersRVAdapter extends RecyclerView.Adapter<ChefTodaysOrdersRVAdapter.ViewHolder> {
-    private List<OneDishOrder> items;
+    private ArrayList<ChefOrder> items;
     private ItemClickListener itemClickListener;
 
-    public ChefTodaysOrdersRVAdapter(List<OneDishOrder> objects) {
-        this.items = objects;
+    public ChefTodaysOrdersRVAdapter() {
+        this.items = new ArrayList<ChefOrder>();
+        // Todo : Get Orders received by current User.
+        AppGlobalState.gDataLayer.getOrdersForChef(Foodie.createDummyFoodie(), new DataLayer.getChefOrdersCallback() {
+            @Override
+            public void done(ArrayList<ChefOrder> orders, Exception e) {
+                items = orders;
+                notifyDataSetChanged();
+            }
+        });
     }
 
     public void SetOnItemClickListener(final ItemClickListener mItemClickListener) {
@@ -27,7 +41,7 @@ public class ChefTodaysOrdersRVAdapter extends RecyclerView.Adapter<ChefTodaysOr
     }
 
     public interface ItemClickListener {
-        public void onItemClick(OneDishOrder item, int position);
+        public void onItemClick(ChefOrder item, int position);
     }
 
     @Override
@@ -44,10 +58,10 @@ public class ChefTodaysOrdersRVAdapter extends RecyclerView.Adapter<ChefTodaysOr
     }
 
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        final OneDishOrder item;
+        final ChefOrder item;
         final int pos = position;
         item = items.get(position);
-        //viewHolder.setOrderNumVal(item.getDishName());
+        viewHolder.bindView(item);
         //TODO: set other views
         viewHolder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,28 +83,38 @@ public class ChefTodaysOrdersRVAdapter extends RecyclerView.Adapter<ChefTodaysOr
 
     public static final class ViewHolder extends RecyclerView.ViewHolder {
         private View parent;
-        protected TextView tvOrderNumHdr;
         protected TextView tvOrderNumVal;
-        protected ImageView ivPickupDelivery;
-
+        protected TextView tvNumberOfDishesVal;
+        protected TextView tvDishesNamesVal;
+        protected TextView tvTotalPriceVal;
         public static ViewHolder newInstance(View parent, int viewType) {
-            TextView tvOrderNumHdr = (TextView) parent.findViewById(R.id.tvOrderNumHdr);
-            TextView tvOrderNumVal = (TextView) parent.findViewById(R.id.tvOrderNumVal);
             ImageView ivPickupDelivery = (ImageView) parent.findViewById(R.id.ivPickupDelivery);
 
-            return new ViewHolder(parent, tvOrderNumHdr, tvOrderNumVal, ivPickupDelivery);
+            return new ViewHolder(parent);
         }
 
-        private ViewHolder(View parent, TextView tvOrderNumHdr, TextView tvOrderNumVal, ImageView ivPickupDelivery) {
+        private ViewHolder(View parent) {
             super(parent);
             this.parent = parent;
-            this.tvOrderNumHdr = tvOrderNumHdr;
-            this.tvOrderNumVal = tvOrderNumVal;
-            this.ivPickupDelivery = ivPickupDelivery;
+            tvOrderNumVal = (TextView) parent.findViewById(R.id.tvOrderNumVal);
+            tvNumberOfDishesVal = (TextView) parent.findViewById(R.id.tvNumberOfDishesVal);
+            tvDishesNamesVal = (TextView) parent.findViewById(R.id.tvDishesNamesVal);
+            tvTotalPriceVal = (TextView) parent.findViewById(R.id.tvTotalPriceVal);
         }
 
-        public void setOrderNumVal(int orderNum) {
-            tvOrderNumVal.setText("" + orderNum);
+        public void bindView(ChefOrder order) {
+            tvOrderNumVal.setText("" + order.getmTag());
+            tvNumberOfDishesVal.setText("" + order.getmDishOrders().size());
+            tvTotalPriceVal.setText("" + order.getmTotal());
+            String dishesStr = new String();
+            for (DishOrder d : order.getmDishOrders()) {
+                if (! dishesStr.isEmpty()) {
+                    dishesStr += ",";
+                }
+                dishesStr += d.getmDish().getmDishName();
+            }
+            tvDishesNamesVal.setText("" + dishesStr);
+
         }
 
         public void setOnClickListener(View.OnClickListener listener) {
