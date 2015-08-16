@@ -30,6 +30,17 @@ public class Dish {
     private int mThumbsUp;
     private int mThumbsDown;
     private Foodie mChef;
+    private String mTag;
+
+    public void setmTag(String mTag) {
+        this.mTag = mTag;
+    }
+
+
+    public String getmTag() {
+        return mTag;
+    }
+
 
     @Override
     public boolean equals(Object other) {

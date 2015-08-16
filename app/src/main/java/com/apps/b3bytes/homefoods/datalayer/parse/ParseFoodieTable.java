@@ -69,6 +69,7 @@ public class ParseFoodieTable implements FoodieTable {
                 if (e == null) {
 
                     Foodie f = new Foodie(parseUser2JSONObject(parseUser));
+                    f.setmTag(parseUser.getObjectId());
                     callback.done(f, null);
                 } else {
                     Log.e("Error", "Failed to login");
@@ -119,6 +120,8 @@ public class ParseFoodieTable implements FoodieTable {
                     // Hooray! Let them use the app now.
                     Log.i("Info", "SignUP succesful");
                     foodie.setmFoodieId(user.getInt("FoodieId"));
+                    foodie.setmTag(user.getObjectId());
+
                     callback.done(foodie, null);
                 } else {
                     Log.e("Error", "SignUP failed");

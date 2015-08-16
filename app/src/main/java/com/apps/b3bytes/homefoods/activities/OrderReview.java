@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
@@ -39,7 +40,6 @@ public class OrderReview extends AppCompatActivity {
     private int currentId;
     private Button bAddNewChef;
     private LayoutInflater inflater;
-    double totalPrice = 0;
 
     private int chefIdx;
     Context context = this;
@@ -83,12 +83,12 @@ public class OrderReview extends AppCompatActivity {
         // Shouldn't the delivery layout be different for each chef?
         //
 
-        for (Foodie c : AppGlobalState.chefsInCart()) {
+        for (Foodie c : AppGlobalState.gCart.chefsInCart()) {
             llRoot.addView(createOneChefOrderLayout(c));
             currentId++;
         }
 
-        llRoot.addView(createOrderTotalLayout(currentId, totalPrice));
+        llRoot.addView(createOrderTotalLayout(currentId, AppGlobalState.gCart.getGrandTotal()));
         currentId++;
 
         llRoot.addView(createDeliveryAddrLayout(currentId));
@@ -100,7 +100,15 @@ public class OrderReview extends AppCompatActivity {
 
     private LinearLayout createProceedToPaymentLayout(int currentId) {
         LinearLayout llOrderProceedToPayment = (LinearLayout) inflater.inflate(R.layout.order_proceed_to_payment, null, false);
+        Button bCheckOut = (Button) llOrderProceedToPayment.findViewById(R.id.bOrderProceedToPayment);
+        bCheckOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Toast.makeText(getApplicationContext(), "Requested CheckOut", Toast.LENGTH_SHORT).show();
+                AppGlobalState.checkOutCart();
+            }
+        });
         return llOrderProceedToPayment;
     }
 
@@ -135,10 +143,9 @@ public class OrderReview extends AppCompatActivity {
         ArrayAdapter<OneDishOrder> aOneDishOrder = new DishOrdersListAdapter(OrderReview.this, list, lvChefOrders, llOneChefOrder);
         lvChefOrders.setAdapter(aOneDishOrder);
 
-        for (Dish d : AppGlobalState.chefDishesInCart(chef)) {
-            int qty = AppGlobalState.dishQtyInCart(d);
+        for (Dish d : AppGlobalState.gCart.chefDishesInCart(chef)) {
+            int qty = AppGlobalState.gCart.dishQtyInCart(d);
             list.add(new OneDishOrder(d, qty));
-            totalPrice += (d.getmPrice() * qty);
         }
         aOneDishOrder.notifyDataSetChanged();
         ListViewHelper.setListViewHeightBasedOnChildren(lvChefOrders);

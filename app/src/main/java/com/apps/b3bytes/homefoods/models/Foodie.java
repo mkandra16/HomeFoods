@@ -25,6 +25,16 @@ public class Foodie {
     private String mFavFoods;
     private ArrayList<String> mPayOptions;
     private Chef mChef; // when set can be same as FoodieId
+    private String mTag;
+
+    public String getmTag() {
+        return mTag;
+    }
+
+    public void setmTag(String mTag) {
+        this.mTag = mTag;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (!(other instanceof Foodie)) {

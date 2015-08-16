@@ -63,7 +63,7 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(mContext, "Recived Click on Dish : " + mDish.getmDishName(), Toast.LENGTH_SHORT).show();
-                    AppGlobalState.add_to_bag(mDish);
+                    AppGlobalState.gCart.add_to_bag(mDish);
                 }
             });
         }
