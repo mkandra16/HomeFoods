@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
+import com.apps.b3bytes.homefoods.models.Foodie;
 
 
 public class WelcomeScreen extends ActionBarActivity {
@@ -98,6 +99,15 @@ public class WelcomeScreen extends ActionBarActivity {
                 // Perform action on click
                 Intent i = new Intent(WelcomeScreen.this, LogIn.class);
                 WelcomeScreen.this.startActivity(i);
+            }
+        });
+
+        Button bTester = (Button) findViewById(R.id.bTester);
+
+        bTester.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+                AppGlobalState.gDataLayer.getOrdersForChef(Foodie.createDummyFoodie());
             }
         });
 

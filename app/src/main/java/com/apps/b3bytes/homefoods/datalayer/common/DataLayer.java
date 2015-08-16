@@ -218,4 +218,8 @@ public class DataLayer {
     private void addFinalFoodieOrder(final Cart cart, final OrderCallback cb) {
         mOrderTable.placeFoodieOrder(cart.getAllChefOrderIds(), cart.getGrandTotal(), cb);
     }
+
+    public void getOrdersForChef(Foodie chef) {
+        mOrderTable.getOrdersForChef(chef);
+    }
 }
