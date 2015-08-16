@@ -13,11 +13,8 @@
     <string name="title_activity_chef_order_delivery">ChefOrderDelivery</string>
     <string name="bChefDeliveryScreenNavigate">Chef Delivery Page</string>
     <string name="title_activity_chef_menu">ChefMenu</string>
-    <string name="bChefMenuScreenNavigate">Chef Menu</string>
     <string name="title_activity_chef_dish_edit">ChefDishEdit</string>
-    <string name="bChefDishEditScreenNavigate">Chef Dish Edit</string>
     <string name="etDishEditDishNameHint">Dish Name</string>
-    <string name="bFoodieResultsScreenNavigate">Foodie Results</string>
 
 
     <string-array name="cuisine_picker_array">
@@ -28,8 +25,8 @@
         <item>American</item>
         <item>Italian</item>
     </string-array>
-    <string name="title_activity_chef_home_page">ChefHomePage</string>
-    <string name="bChefHomePageScreenNavigate">Chef Home Page</string>
+    <string name="title_activity_chef_home_page">Home Page</string>
+    <string name="bHomePageScreenNavigate">Home Page</string>
     <string name="title_activity_foodie_results">Search Results</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="bRegister">Register</string>

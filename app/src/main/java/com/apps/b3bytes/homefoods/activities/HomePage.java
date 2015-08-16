@@ -35,7 +35,7 @@ import com.apps.b3bytes.homefoods.widgets.SlidingTabLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChefHomePage extends AppCompatActivity {
+public class HomePage extends AppCompatActivity {
     Context context = this;
     private boolean chefMode = false;
     private DrawerLayout mDrawerLayout;

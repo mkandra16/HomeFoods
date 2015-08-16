@@ -34,7 +34,7 @@
             android:name=".activities.ChefOrderDelivery"
             android:label="@string/title_activity_chef_order_delivery" />
         <activity
-            android:name=".activities.ChefHomePage"
+            android:name=".activities.HomePage"
             android:label="@string/title_activity_chef_home_page" >
         </activity>
         <activity

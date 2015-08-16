@@ -12,15 +12,6 @@ import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
-import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
-import com.apps.b3bytes.homefoods.models.Dish;
-import com.apps.b3bytes.homefoods.models.Foodie;
-import com.apps.b3bytes.homefoods.models.Listener;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 
 public class WelcomeScreen extends ActionBarActivity {
@@ -28,7 +19,7 @@ public class WelcomeScreen extends ActionBarActivity {
     private Button bDishDescScreenNavigate;
     private Button bCheckoutScreenNavigate;
     private Button bChefDeliveryScreenNavigate;
-    private Button bChefHomePageScreenNavigate;
+    private Button bHomePageScreenNavigate;
 
     // nav drawer title
     private CharSequence mPageTitle;
@@ -88,13 +79,13 @@ public class WelcomeScreen extends ActionBarActivity {
             }
         });
 
-        bChefHomePageScreenNavigate = (Button) findViewById(R.id.bChefHomePageScreenNavigate);
+        bHomePageScreenNavigate = (Button) findViewById(R.id.bHomePageScreenNavigate);
 
-        bChefHomePageScreenNavigate.setOnClickListener(new View.OnClickListener() {
+        bHomePageScreenNavigate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
 
-                Intent i = new Intent(WelcomeScreen.this, ChefHomePage.class);
+                Intent i = new Intent(WelcomeScreen.this, HomePage.class);
 
                 WelcomeScreen.this.startActivity(i);
             }
