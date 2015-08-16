@@ -158,6 +158,10 @@ public class HomePage extends AppCompatActivity {
         ) {
             public void onDrawerClosed(View view) {
                 getSupportActionBar().setTitle(mTitle);
+                if (chefMode == true)
+                    displayView(0);
+                else
+                    displayFoodieView(0);
                 // calling onPrepareOptionsMenu() to show action bar icons
                 invalidateOptionsMenu();
             }
