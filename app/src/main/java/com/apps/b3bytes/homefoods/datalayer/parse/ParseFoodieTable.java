@@ -6,6 +6,7 @@ import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.datalayer.common.FoodieTable;
 import com.apps.b3bytes.homefoods.models.Foodie;
 import com.parse.LogInCallback;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -61,6 +62,10 @@ public class ParseFoodieTable implements FoodieTable {
         return foodie;
     }
 
+    public static Foodie parseUser2Foodie(ParseUser obj) {
+        Foodie f = new Foodie(parseUser2JSONObject(obj));
+        return f;
+    }
     @Override
     public  void signInFoodie(String userName, String password, final DataLayer.SignInCallback callback) {
         ParseUser.logInInBackground(userName, password, new LogInCallback() {
