@@ -39,7 +39,9 @@ public class ParseDishTable implements DishTable {
         dish.setmThumbsDown(object.getInt("ThumbsDown"));
         dish.setmCusineId(object.getInt("CusineId"));
         dish.setmChefId(object.getInt("ChefId"));
+        dish.setmTag(object.getObjectId());
         Foodie f = new Foodie(ParseFoodieTable.parseUser2JSONObject(chef));
+        f.setmTag(chef.getObjectId());
         dish.setmChef(f);
         return dish;
     }
