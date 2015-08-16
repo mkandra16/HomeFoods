@@ -29,7 +29,6 @@ public class WelcomeScreen extends ActionBarActivity {
     private Button bCheckoutScreenNavigate;
     private Button bChefDeliveryScreenNavigate;
     private Button bChefHomePageScreenNavigate;
-    private Button bFoodieReultsNavigate;
 
     // nav drawer title
     private CharSequence mPageTitle;
@@ -97,17 +96,6 @@ public class WelcomeScreen extends ActionBarActivity {
 
                 Intent i = new Intent(WelcomeScreen.this, ChefHomePage.class);
 
-                WelcomeScreen.this.startActivity(i);
-            }
-        });
-
-        bFoodieReultsNavigate = (Button) findViewById(R.id.bFoodieResultsScreenNavigate);
-
-        bFoodieReultsNavigate.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-                Toast.makeText(getApplicationContext(), "Clicked Foodie Results button", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(WelcomeScreen.this, FoodieResults.class);
                 WelcomeScreen.this.startActivity(i);
             }
         });
