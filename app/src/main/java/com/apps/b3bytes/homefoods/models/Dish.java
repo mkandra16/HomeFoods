@@ -1,5 +1,8 @@
 package com.apps.b3bytes.homefoods.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.apps.b3bytes.homefoods.utils.Address;
 import com.apps.b3bytes.homefoods.utils.ContactDetails;
 
@@ -13,7 +16,7 @@ import java.util.ArrayList;
  *
  * Model representing Dish for rest of the UI code.
  */
-public class Dish {
+public class Dish implements Parcelable {
     public enum Unit {GRAMS, LITERS};
     private int mDishId;
     private String mDishName;
@@ -203,4 +206,27 @@ public class Dish {
     }
 
     public Foodie getmChef() { return mChef; }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(getmDishId());
+        dest.writeString(getmDishName());
+        dest.writeString(getmImageURL());
+        dest.writeInt(getmChefId());
+        dest.writeString(getmDishInfo());
+        dest.writeString(getPrepMethod());
+        dest.writeDouble(getmQty());
+        dest.writeString("" + getmUnit());
+        dest.writeDouble(getmPrice());
+        dest.writeInt(getmCusineId());
+        dest.writeInt(getmThumbsUp());
+        dest.writeInt(getmThumbsDown());
+        dest.writeString(getmTag());
+    }
+
 }

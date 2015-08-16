@@ -7,9 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.models.Dish;
 
 public class ChefDishReadonlyFragment extends Fragment {
-    public ChefDishReadonlyFragment(){}
+    private Dish mDish;
+
+    public ChefDishReadonlyFragment(){
+        mDish = null;
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

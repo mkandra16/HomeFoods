@@ -106,7 +106,8 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.foodie_result_card, parent, false);
         // set the view's size, margins, paddings and layout parameters
-
+//http://stackoverflow.com/questions/24885223/why-doesnt-recyclerview-have-onitemclicklistener-and-how-recyclerview-is-dif
+        
         DishViewHolder vh = new DishViewHolder(v, mContext);
         return vh;
     }
