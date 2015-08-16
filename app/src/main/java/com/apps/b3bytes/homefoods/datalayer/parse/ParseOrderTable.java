@@ -1,15 +1,20 @@
 package com.apps.b3bytes.homefoods.datalayer.parse;
 
+import android.util.Log;
+
 import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.datalayer.common.OrderTable;
 import com.apps.b3bytes.homefoods.models.Dish;
 import com.apps.b3bytes.homefoods.models.Foodie;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -73,6 +78,30 @@ public class ParseOrderTable implements OrderTable {
                 cb.done(foodieOrder.getObjectId(), e);
             }
         });
+    }
+
+    @Override
+    public void getOrdersForChef(Foodie chef) {
+        ParseQuery query = ParseQuery.getQuery("ChefOrder");
+        query.include("DishOrders");
+        query.include("DishOrder.Dish");
+        query.include("Foodie");
+        ParseObject chefObj = ParseUser.createWithoutData("_User", "WW2iTg5tqL");
+        query.whereEqualTo("Chef", chefObj);
+        query.orderByDescending("createdAt");
+        query.findInBackground(new FindCallback<ParseObject>() {
+                                   public void done(List<ParseObject> chefOrders, ParseException e) {
+                                       if (e == null) {
+                                           Log.d("score", "Retrieved " + chefOrders.size() + " orders");
+
+//                                           callback.done(ParseList2DishList(dishList), e);
+                                       } else {
+                                           Log.d("score", "Error: " + e.getMessage());
+                                       }
+                                   }
+                               }
+        );
+
     }
 
 }
