@@ -172,7 +172,10 @@ public class HomePage extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             // on first time display view for first nav item
-            displayView(0);
+            if (chefMode == true)
+                displayView(0);
+            else
+                displayFoodieView(0);
         }
     }
 
