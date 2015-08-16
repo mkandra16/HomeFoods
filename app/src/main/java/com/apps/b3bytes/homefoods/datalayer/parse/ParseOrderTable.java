@@ -4,7 +4,9 @@ import android.util.Log;
 
 import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.datalayer.common.OrderTable;
+import com.apps.b3bytes.homefoods.models.ChefOrder;
 import com.apps.b3bytes.homefoods.models.Dish;
+import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.Foodie;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -80,23 +82,58 @@ public class ParseOrderTable implements OrderTable {
         });
     }
 
+    private DishOrder ParseObj2DishOrder(ParseObject object) {
+        DishOrder order = new DishOrder();
+        order.setmQty(object.getInt("Qty"));
+        order.setmDish(ParseDishTable.ParseObject2Dish(object.getParseObject("Dish")));
+        order.setmFoodie(ParseFoodieTable.parseUser2Foodie(object.getParseUser("Foodie")));
+        order.setmTag(object.getObjectId());
+        return order;
+    }
+    private ChefOrder ParseObj2ChefOrder(ParseObject obj) {
+        ChefOrder order = new ChefOrder();
+        order.setmTotal(obj.getDouble("ChefTotal"));
+        order.setmChef(ParseFoodieTable.parseUser2Foodie(obj.getParseUser("Chef")));
+        order.setmFoodie(ParseFoodieTable.parseUser2Foodie(obj.getParseUser("Foodie")));
+        order.setmTag(obj.getObjectId());
+        List<ParseObject> dishOrders = obj.getList("DishOrders");
+        for (ParseObject dishOrderobj : dishOrders){
+            order.addDishOrder(ParseObj2DishOrder(dishOrderobj));
+        }
+        return order;
+    }
+    private ArrayList<ChefOrder> convert2ChefOrders(List<ParseObject> parseChefOrders) {
+        ArrayList<ChefOrder> chefOrders = new ArrayList<ChefOrder>();
+        for (ParseObject obj : parseChefOrders) {
+            chefOrders.add(ParseObj2ChefOrder(obj));
+        }
+        return chefOrders;
+    }
     @Override
-    public void getOrdersForChef(Foodie chef) {
+    public void getOrdersForChef(Foodie chef, final DataLayer.getChefOrdersCallback cb) {
         ParseQuery query = ParseQuery.getQuery("ChefOrder");
         query.include("DishOrders");
-        query.include("DishOrder.Dish");
+        query.include("DishOrders.Dish");
+        query.include("DishOrders.Dish.Chef");
+        query.include("DishOrders.Foodie");
         query.include("Foodie");
+        query.include("Chef");
         ParseObject chefObj = ParseUser.createWithoutData("_User", "WW2iTg5tqL");
+//         ParseObject chefObj = ParseUser.createWithoutData("_User", "WW2iTg5pqr");
+
         query.whereEqualTo("Chef", chefObj);
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
                                    public void done(List<ParseObject> chefOrders, ParseException e) {
                                        if (e == null) {
                                            Log.d("score", "Retrieved " + chefOrders.size() + " orders");
-
+                                            ArrayList<ChefOrder> orders = convert2ChefOrders(chefOrders);
+                                            cb.done(orders, e);
 //                                           callback.done(ParseList2DishList(dishList), e);
                                        } else {
                                            Log.d("score", "Error: " + e.getMessage());
+                                           ArrayList<ChefOrder> orders = new ArrayList<ChefOrder>();
+                                           cb.done(orders, e);
                                        }
                                    }
                                }

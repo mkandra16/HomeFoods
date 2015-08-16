@@ -7,6 +7,7 @@ import com.apps.b3bytes.homefoods.datalayer.parse.ParseDishTable;
 import com.apps.b3bytes.homefoods.datalayer.parse.ParseFoodieTable;
 import com.apps.b3bytes.homefoods.datalayer.parse.ParseOrderTable;
 import com.apps.b3bytes.homefoods.models.Cart;
+import com.apps.b3bytes.homefoods.models.ChefOrder;
 import com.apps.b3bytes.homefoods.models.Dish;
 import com.apps.b3bytes.homefoods.models.Foodie;
 import com.parse.Parse;
@@ -219,7 +220,11 @@ public class DataLayer {
         mOrderTable.placeFoodieOrder(cart.getAllChefOrderIds(), cart.getGrandTotal(), cb);
     }
 
-    public void getOrdersForChef(Foodie chef) {
-        mOrderTable.getOrdersForChef(chef);
+    public static abstract class getChefOrdersCallback {
+        public abstract void done(ArrayList<ChefOrder> orders, Exception e);
+    }
+
+    public void getOrdersForChef(Foodie chef, getChefOrdersCallback cb) {
+        mOrderTable.getOrdersForChef(chef, cb);
     }
 }

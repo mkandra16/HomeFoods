@@ -12,7 +12,11 @@ import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
+import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
+import com.apps.b3bytes.homefoods.models.ChefOrder;
 import com.apps.b3bytes.homefoods.models.Foodie;
+
+import java.util.ArrayList;
 
 
 public class WelcomeScreen extends ActionBarActivity {
@@ -107,7 +111,12 @@ public class WelcomeScreen extends ActionBarActivity {
         bTester.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
-                AppGlobalState.gDataLayer.getOrdersForChef(Foodie.createDummyFoodie());
+                AppGlobalState.gDataLayer.getOrdersForChef(Foodie.createDummyFoodie(), new DataLayer.getChefOrdersCallback() {
+                    @Override
+                    public void done(ArrayList<ChefOrder> orders, Exception e) {
+
+                    }
+                });
             }
         });
 
