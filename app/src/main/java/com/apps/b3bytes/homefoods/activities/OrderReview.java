@@ -36,29 +36,10 @@ import java.util.List;
 
 public class OrderReview extends AppCompatActivity {
     private LinearLayout llRoot;
-    private RelativeLayout rlAddNewChef;
     private int currentId;
-    private Button bAddNewChef;
     private LayoutInflater inflater;
 
-    private int chefIdx;
     Context context = this;
-
-    /* TODO: TEST DATA */
-    String[] chefNamesArray = {"Chef Name1", "Chef Name2", "Chef Name 3", "Chef Name 4"};
-    String[][] dishNamesArray = {{"Roti Paratha", "Curd Rice"},
-            {"South Indian Breakfast"},
-            {"Salad", "Chicken Tikka", "Biryani"},
-            {"Pizza", "Cupcakes", "Sandwhich", "Burger", "PanCake"}};
-    int[][] dishQuantitiesArray = {{2, 1},
-            {3},
-            {1, 2, 4},
-            {1, 12, 3, 4, 10}};
-    double[][] dishUnitPriceArray = {{75, 120},
-            {175},
-            {90, 125, 150},
-            {250, 25, 75, 80, 40}};
-    /* TODO: END TEST DATA */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
