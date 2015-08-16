@@ -120,10 +120,12 @@ public class HomePage extends AppCompatActivity {
                     //do stuff when Switch is ON
                     chefMode = true;
                     mRecyclerView.swapAdapter(chefAdapter, false);
+                    displayView(0);
                 } else {
                     //do stuff when Switch if OFF
                     chefMode = false;
                     mRecyclerView.swapAdapter(foodieAdapter, false);
+                    displayFoodieView(0);
                 }
             }
         });
