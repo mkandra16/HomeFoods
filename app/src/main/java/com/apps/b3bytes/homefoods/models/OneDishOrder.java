@@ -1,6 +1,9 @@
 package com.apps.b3bytes.homefoods.models;
 
-public class OneDishOrder {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class OneDishOrder implements Parcelable {
     private Dish mDish;
     private int quantity; //posted
     private int quantityDelivered;
@@ -14,7 +17,7 @@ public class OneDishOrder {
         this.quantityPending = quantity;
     }
 
-    public OneDishOrder(Dish dish, int qty ) {
+    public OneDishOrder(Dish dish, int qty) {
         mDish = dish;
         this.quantity = qty;
         this.quantityDelivered = 0;
@@ -23,6 +26,14 @@ public class OneDishOrder {
 
     public String getDishName() {
         return mDish.getmDishName();
+    }
+
+    public Dish getmDish() {
+        return mDish;
+    }
+
+    public void setmDish(Dish mDish) {
+        this.mDish = mDish;
     }
 
     public void setDishName(String dishName) {
@@ -60,4 +71,36 @@ public class OneDishOrder {
     public void setQuantityPending(int quantityPending) {
         this.quantityPending = quantityPending;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(mDish, flags);
+        dest.writeInt(getQuantity());
+        dest.writeInt(getQuantityDelivered());
+        dest.writeInt(getQuantityPending());
+    }
+
+    public static final Parcelable.Creator<OneDishOrder> CREATOR = new Parcelable.Creator<OneDishOrder>() {
+        public OneDishOrder createFromParcel(Parcel in) {
+            OneDishOrder dish = new OneDishOrder(in);
+            return dish;
+        }
+
+        public OneDishOrder[] newArray(int size) {
+            return new OneDishOrder[size];
+        }
+    };
+
+    public OneDishOrder(Parcel in) {
+        setmDish((Dish) in.readParcelable(Dish.class.getClassLoader()));
+        setQuantity(in.readInt());
+        setQuantityDelivered(in.readInt());
+        setQuantityPending(in.readInt());
+    }
+
 }

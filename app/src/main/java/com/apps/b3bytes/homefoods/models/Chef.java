@@ -1,5 +1,8 @@
 package com.apps.b3bytes.homefoods.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.apps.b3bytes.homefoods.utils.Address;
 
 import java.util.ArrayList;
@@ -7,9 +10,9 @@ import java.util.ArrayList;
 /**
  * Created by sindhu on 7/26/2015.
  */
-public class Chef {
+public class Chef implements Parcelable {
     private int mChefId;
-    private ArrayList<String> mPayrollOptions;
+    //private ArrayList<String> mPayrollOptions;
     private Address mAddr;
 
 /*
@@ -44,13 +47,13 @@ public class Chef {
         this.mChefId = mChefId;
     }
 
-    public ArrayList<String> getmPayrollOptions() {
+/*    public ArrayList<String> getmPayrollOptions() {
         return mPayrollOptions;
     }
 
     public void setmPayrollOptions(ArrayList<String> mPayrollOptions) {
         this.mPayrollOptions = mPayrollOptions;
-    }
+    }*/
 
     public Address getmAddr() {
         return mAddr;
@@ -59,4 +62,17 @@ public class Chef {
     public void setmAddr(Address mAddr) {
         this.mAddr = mAddr;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(getmChefId());
+        //dest.writeStringList(getmPayrollOptions()); // TODO: Check this? will it work for ArrayList?
+        dest.writeParcelable(getmAddr(), flags);
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.apps.b3bytes.homefoods.activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -16,20 +17,25 @@ import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.fragments.ChefDishEditFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefDishReadonlyFragment;
 import com.apps.b3bytes.homefoods.models.Dish;
+import com.apps.b3bytes.homefoods.models.OneDishOrder;
+import com.apps.b3bytes.homefoods.utils.Address;
 
 
 public class ChefDishDesc extends AppCompatActivity {
     private boolean editMode = false;
     private ChefDishEditFragment editFragment = null;
     private ChefDishReadonlyFragment readonlyFragment = null;
-    private Dish dish;
+    private OneDishOrder dish;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chef_dish_desc);
 
-        editMode = getIntent().getBooleanExtra("mode", false);
+        Intent in = getIntent();
+        Bundle bundle = in.getExtras();
+        editMode = bundle.getBoolean("mode");
+        dish = (OneDishOrder) bundle.getParcelable("dish");
 
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolBar);
@@ -49,7 +55,7 @@ public class ChefDishDesc extends AppCompatActivity {
             getSupportActionBar().setTitle("Dish Name");
         } else {
             Bundle args = new Bundle();
-            args.putParcelable("dish", dish);
+            args.putParcelable("dish", null);
             editFragment.setArguments(args);
             ft.replace(R.id.flContainer, editFragment);
             getSupportActionBar().setTitle("Edit Dish");
@@ -125,6 +131,10 @@ public class ChefDishDesc extends AppCompatActivity {
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if (editMode) {
+            dish = readonlyFragment.getDish();
+            Bundle args = new Bundle();
+            args.putParcelable("dish", dish);
+            editFragment.setArguments(args);
             ft.replace(R.id.flContainer, editFragment);
         } else {
             editFragment.saveDish();

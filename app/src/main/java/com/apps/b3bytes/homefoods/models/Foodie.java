@@ -1,5 +1,8 @@
 package com.apps.b3bytes.homefoods.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.apps.b3bytes.homefoods.utils.Address;
 import com.apps.b3bytes.homefoods.utils.ContactDetails;
 
@@ -11,7 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by sindhu on 7/26/2015.
  */
-public class Foodie {
+public class Foodie implements Parcelable {
 
     private int mFoodieId;
     private String mFirstName;
@@ -23,9 +26,9 @@ public class Foodie {
     private Address mAddr;
     private ContactDetails mContact;
     private String mFavFoods;
-    private ArrayList<String> mPayOptions;
-    private Chef mChef; // when set can be same as FoodieId
+    //private ArrayList<String> mPayOptions;
     private String mTag;
+    private Chef mChef; // when set can be same as FoodieId
 
     public String getmTag() {
         return mTag;
@@ -172,11 +175,10 @@ public class Foodie {
     public Chef getmChef() {
         return mChef;
     }
-/*
+
     public void setmChef(Chef mChef) {
         this.mChef = mChef;
     }
-    */
 
     public String getmFirstName() {
         return mFirstName;
@@ -226,15 +228,64 @@ public class Foodie {
         this.mFavFoods = mFavFoods;
     }
 
-    public ArrayList<String> getmPayOptions() {
+/*    public ArrayList<String> getmPayOptions() {
         return mPayOptions;
     }
 
     public void setmPayOptions(ArrayList<String> mPayOptions) {
         this.mPayOptions = mPayOptions;
-    }
+    }*/
 
  /*   public void setmChefId(String mChefId) {
         this.mChef.setmChefId(mChefId);
     }*/
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(getmFoodieId());
+        dest.writeString(getmFirstName());
+        dest.writeString(getmMiddleName());
+        dest.writeString(getmLastName());
+        dest.writeString(getmUserName());
+        dest.writeString(getmPassword());
+        dest.writeString(getmImageURL());
+        dest.writeParcelable(getmAddr(), flags);
+        dest.writeParcelable(getmContact(), flags);
+        dest.writeString(getmFavFoods());
+        //dest.writeStringList(getmPayOptions()); // TODO: Check this? will it work for ArrayList?
+        dest.writeString(getmTag());
+        dest.writeParcelable(mChef, flags);
+    }
+
+    public static final Parcelable.Creator<Foodie> CREATOR = new Parcelable.Creator<Foodie>() {
+        public Foodie createFromParcel(Parcel in) {
+            Foodie foodie = new Foodie(in);
+            return foodie;
+        }
+
+        public Foodie[] newArray(int size) {
+            return new Foodie[size];
+        }
+    };
+
+    public Foodie(Parcel in) {
+        setmFoodieId(in.readInt());
+        setmFirstName(in.readString());
+        setmMiddleName(in.readString());
+        setmLastName(in.readString());
+        setmUserName(in.readString());
+        setmPassword(in.readString());
+        setmImageURL(in.readString());
+        setmAddr((Address) in.readParcelable(Address.class.getClassLoader()));
+        setmContact((ContactDetails) in.readParcelable(ContactDetails.class.getClassLoader()));
+        setmFavFoods(in.readString());
+        setmTag(in.readString());
+        setmChef((Chef) in.readParcelable(Chef.class.getClassLoader()));
+    }
+
 }

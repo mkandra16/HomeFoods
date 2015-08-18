@@ -29,11 +29,11 @@ public class Dish implements Parcelable {
     private double mQty;
     private Unit mUnit;
     private double mPrice;
-    private int mCusineId;
+    private int mCusineId; //TODO: why is this int?
     private int mThumbsUp;
     private int mThumbsDown;
-    private Foodie mChef;
     private String mTag;
+    private Foodie mChef;
 
     public void setmTag(String mTag) {
         this.mTag = mTag;
@@ -227,6 +227,36 @@ public class Dish implements Parcelable {
         dest.writeInt(getmThumbsUp());
         dest.writeInt(getmThumbsDown());
         dest.writeString(getmTag());
+        dest.writeParcelable(mChef, flags);
+    }
+
+
+    public static final Parcelable.Creator<Dish> CREATOR = new Parcelable.Creator<Dish>() {
+        public Dish createFromParcel(Parcel in) {
+            Dish dish = new Dish(in);
+            return dish;
+        }
+
+        public Dish[] newArray(int size) {
+            return new Dish[size];
+        }
+    };
+
+    public Dish(Parcel in) {
+        setmDishId(in.readInt());
+        setmDishName(in.readString());
+        setmImageURL(in.readString());
+        setmChefId(in.readInt());
+        setmDishInfo(in.readString());
+        setPrepMethod(in.readString());
+        setmQty(in.readDouble());
+        setmUnit(in.readString());
+        setmPrice(in.readDouble());
+        setmCusineId(in.readInt());
+        setmThumbsUp(in.readInt());
+        setmThumbsDown(in.readInt());
+        setmTag(in.readString());
+        setmChef((Foodie) in.readParcelable(Foodie.class.getClassLoader()));
     }
 
 }

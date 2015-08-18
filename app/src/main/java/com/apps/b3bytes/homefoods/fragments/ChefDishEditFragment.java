@@ -31,6 +31,7 @@ import android.widget.TimePicker;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.models.Dish;
+import com.apps.b3bytes.homefoods.models.OneDishOrder;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -53,7 +54,7 @@ public class ChefDishEditFragment extends Fragment {
     private Uri outputFileUri;
     private AutoCompleteTextView acTvDishEditCuisine;
     private TextView tvDishEditDishImage;
-    private Dish mDish;
+    private OneDishOrder mDish;
     private View rootView;
 
     public ChefDishEditFragment() {
@@ -62,8 +63,10 @@ public class ChefDishEditFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        mDish = getArguments().getParcelable("dish");
         super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null)
+            mDish = (OneDishOrder) bundle.getParcelable("dish");
     }
 
     @Override
@@ -84,6 +87,7 @@ public class ChefDishEditFragment extends Fragment {
     }
 
     public void initFields() {
+        //TODO: populate  fields if applicable. i.e. mDish != null
     }
 
     @Override
@@ -96,7 +100,8 @@ public class ChefDishEditFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        etDishEditDishName = initTextView(rootView, R.id.etDishEditDishName, mDish.getmDishName());
+        //TODO: populate other fields if applicable
+        etDishEditDishName = initTextView(rootView, R.id.etDishEditDishName, mDish.getmDish().getmDishName());
 
         ArrayAdapter<CharSequence> aCuisine = ArrayAdapter.createFromResource(
                 mContext, R.array.cuisine_picker_array, android.R.layout.simple_dropdown_item_1line);
