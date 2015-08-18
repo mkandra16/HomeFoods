@@ -101,7 +101,7 @@ public class ChefDishEditFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //TODO: populate other fields if applicable
-        etDishEditDishName = initTextView(rootView, R.id.etDishEditDishName, mDish.getmDish().getmDishName());
+        etDishEditDishName = initTextView(rootView, R.id.etDishEditDishName, (mDish != null) ? mDish.getmDish().getmDishName() : "");
 
         ArrayAdapter<CharSequence> aCuisine = ArrayAdapter.createFromResource(
                 mContext, R.array.cuisine_picker_array, android.R.layout.simple_dropdown_item_1line);
