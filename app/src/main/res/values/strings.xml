@@ -15,6 +15,13 @@
     <string name="title_activity_chef_menu">ChefMenu</string>
     <string name="title_activity_chef_dish_edit">ChefDishEdit</string>
     <string name="etDishEditDishNameHint">Dish Name</string>
+    <string name="etDishEditDishInfoHint">Dish Info</string>
+    <string name="etDishEditDishPrepHint">Dish Preparation Method</string>
+    <string name="unit_prompt">Choose Unit</string>
+    <string-array name="unit_array">
+        <item>Grams</item>
+        <item>Liters</item>
+    </string-array>
 
 
     <string-array name="cuisine_picker_array">

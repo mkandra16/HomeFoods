@@ -28,12 +28,34 @@
                 android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
                 android:textSize="16sp" />
 
+            <EditText
+                android:id="@+id/etDishEditDishInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/etDishEditDishInfoHint"
+                android:singleLine="true"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="16sp"
+                android:layout_below="@+id/etDishEditDishName"
+                android:layout_alignParentLeft="true" />
+
+            <EditText
+                android:id="@+id/etDishEditDishPrepMethod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/etDishEditDishPrepHint"
+                android:singleLine="true"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textSize="16sp"
+                android:layout_below="@+id/etDishEditDishInfo"
+                android:layout_alignParentLeft="true" />
+
             <AutoCompleteTextView
                 android:id="@+id/acTvDishEditCuisine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/etDishEditDishName"
-                android:layout_below="@+id/etDishEditDishName"
+                android:layout_below="@+id/etDishEditDishPrepMethod"
                 android:layout_marginTop="12dp"
                 android:hint="Cuisine"
                 android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
@@ -51,38 +73,76 @@
                 android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
                 android:textSize="16sp" />
 
-
-            <EditText
-                android:id="@+id/etDishEditPrice"
+            <LinearLayout
+                android:id="@+id/llUnit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/cbDishEditVegan"
-                android:layout_marginTop="12dp"
-                android:hint="Price per unit"
-                android:inputType="numberDecimal"
-                android:singleLine="true"
-                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
-                android:textSize="16sp" />
+                >
+                <EditText
+                    android:id="@+id/etDishQtyPerUnit"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginTop="12dp"
+                    android:hint="Quantity per Unit"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                    android:textSize="16sp" />
+
+                <Spinner
+                    android:id="@+id/spDishUnit"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                    android:entries="@array/unit_array"
+                    android:prompt="@string/unit_prompt">
+                </Spinner>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/llPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/llUnit"
+                >
+            <EditText
+                    android:id="@+id/etDishEditPrice"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="Price per unit"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                    android:textSize="16sp" />
+
 
             <EditText
                 android:id="@+id/etDishEditQuantity"
-                android:layout_width="match_parent"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@+id/etDishEditPrice"
+                android:layout_below="@+id/llUnit"
                 android:layout_marginTop="12dp"
                 android:hint="Number of units available"
                 android:singleLine="true"
                 android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
                 android:textSize="16sp" />
+            </LinearLayout>
 
             <include
                 android:id="@+id/lDishEditFromDatePicker"
                 layout="@layout/date_time_picker_views"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/etDishEditQuantity"
+                android:layout_below="@+id/llPrice"
                 android:layout_marginTop="12dp" />
 
             <include
@@ -149,6 +209,7 @@
                     android:src="@drawable/south_indian_breakfast_01" />
 
             </RelativeLayout>
+
         </RelativeLayout>
     </ScrollView>
 </LinearLayout>

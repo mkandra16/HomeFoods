@@ -1,7 +1,7 @@
 package com.apps.b3bytes.homefoods.datalayer.common;
 
 import com.apps.b3bytes.homefoods.models.Dish;
-import com.apps.b3bytes.homefoods.models.Listener;
+import com.apps.b3bytes.homefoods.models.DishOnSale;
 
 /**
  * Created by Pavan on 7/26/2015
@@ -10,6 +10,7 @@ import com.apps.b3bytes.homefoods.models.Listener;
  */
 public interface DishTable {
 
-    public abstract  void addDishInBackground(Dish dish, DataLayer.DishPublishCallback c);
+    public abstract  void addDishInBackground(Dish dish, DataLayer.PublishCallback c);
     public abstract void getNearbyDishes(int radius, DataLayer.DishQueryCallback callback);
+    public abstract void putDishOnSale(DishOnSale dish, DataLayer.PublishCallback cb);
 }

@@ -9,11 +9,15 @@ import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.State.AppGlobalState;
+import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.fragments.ChefDishEditFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefDishReadonlyFragment;
+import com.apps.b3bytes.homefoods.models.DishOnSale;
 
 
 public class ChefDishDesc extends AppCompatActivity {
@@ -114,12 +118,26 @@ public class ChefDishDesc extends AppCompatActivity {
     private void switchEditMode() {
         editMode = !editMode;
 
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if (editMode) {
             ft.replace(R.id.flContainer, editFragment);
         } else {
-            // TODO: Save DISH
-            ft.replace(R.id.flContainer, readonlyFragment);
+            final DishOnSale dishOnSale = editFragment.getDishDetails();
+            AppGlobalState.gDataLayer.putDishOnSale(dishOnSale, new DataLayer.PublishCallback() {
+                @Override
+                public void done(Exception e) {
+                    if (e == null) {
+                        Toast.makeText(getApplicationContext(),
+                                "Posted Dish for sale. Name : " + dishOnSale.getmDish().getmDishName(),
+                                Toast.LENGTH_SHORT).show();
+                        ft.replace(R.id.flContainer, readonlyFragment);
+                    } else {
+                        Toast.makeText(getApplicationContext(),
+                                "Failed to post Dish for sale. Name : " + dishOnSale.getmDish().getmDishName(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
         ft.commit();
     }

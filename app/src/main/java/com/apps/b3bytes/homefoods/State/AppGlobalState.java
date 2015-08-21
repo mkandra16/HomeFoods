@@ -1,8 +1,10 @@
 package com.apps.b3bytes.homefoods.State;
 
 import android.content.Context;
+import android.content.Intent;
 import android.widget.Toast;
 
+import com.apps.b3bytes.homefoods.activities.WelcomeScreen;
 import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.models.Cart;
 import com.apps.b3bytes.homefoods.models.Dish;
@@ -25,6 +27,15 @@ public final class AppGlobalState {
     // All orders grouped by chef
     private static HashMap<Foodie, Vector<String>> chefOrders;
     private static Context mContext;
+    private static Foodie mCurrentFoodie;
+
+    public static Foodie getmCurrentFoodie() {
+        return mCurrentFoodie;
+    }
+
+    public static void setmCurrentFoodie(Foodie mCurrentFoodie) {
+        AppGlobalState.mCurrentFoodie = mCurrentFoodie;
+    }
 
     public static void initialize(final Context context) {
         mContext = context;
@@ -34,7 +45,24 @@ public final class AppGlobalState {
         }
 
     }
+    public static void signIn(String uid, String password, final DataLayer.SignInCallback cb) {
+        gDataLayer.signInFoodie(uid, password, new DataLayer.SignInCallback() {
+            @Override
+            public void done(Foodie f, Exception e) {
+                if (e == null) {
+                    Toast t = Toast.makeText(mContext,
+                            "Welcome " + f.getmUserName(), Toast.LENGTH_LONG);
+                    t.show();
+                    mCurrentFoodie = f;
+                    cb.done(f, e);
+                } else {
+                    Toast t = Toast.makeText(mContext, "SignIn failed", Toast.LENGTH_LONG);
+                    t.show();
+                }
+            }
+        });
 
+    }
 
     public static void checkOutCart() {
         gDataLayer.checkOutCart(gCart, new DataLayer.OrderCallback() {

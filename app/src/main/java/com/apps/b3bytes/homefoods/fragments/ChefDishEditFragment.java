@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
@@ -22,14 +21,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.State.AppGlobalState;
+import com.apps.b3bytes.homefoods.models.Dish;
+import com.apps.b3bytes.homefoods.models.DishOnSale;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -51,8 +55,18 @@ public class ChefDishEditFragment extends Fragment {
     private Uri outputFileUri;
     private AutoCompleteTextView acTvDishEditCuisine;
     private TextView tvDishEditDishImage;
-
+    private EditText etDishEditDishName;
+    private EditText etDishEditQuantity;
+    private CheckBox cbVegitarian;
+    private boolean mexistingDish;
+    private CheckBox cbDishEditPickUp;
+    private CheckBox cbDishEditDelivery;
+    private EditText etDishEditDishInfo;
+    private EditText etDishEditDishPrepMethod;
+    private EditText etDishQtyPerUnit;
+    private Spinner spDishUnit;
     public ChefDishEditFragment() {
+        mexistingDish = false;
     }
 
     @Override
@@ -67,19 +81,63 @@ public class ChefDishEditFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_chef_dish_edit, container, false);
         acTvDishEditCuisine = (AutoCompleteTextView) rootView.findViewById(R.id.acTvDishEditCuisine);
+        etDishEditDishName = (EditText) rootView.findViewById(R.id.etDishEditDishName);
+        etDishEditDishInfo = (EditText) rootView.findViewById(R.id.etDishEditDishInfo);
+        etDishEditDishPrepMethod = (EditText) rootView.findViewById(R.id.etDishEditDishPrepMethod);
+
+        cbVegitarian = (CheckBox) rootView.findViewById(R.id.cbDishEditVegan);
         etDishEditPrice = (EditText) rootView.findViewById(R.id.etDishEditPrice);
+        etDishEditQuantity = (EditText) rootView.findViewById(R.id.etDishEditQuantity);
         lDishEditFromDatePicker = (RelativeLayout) rootView.findViewById(R.id.lDishEditFromDatePicker);
         lDishEditToDatePicker = (RelativeLayout) rootView.findViewById(R.id.lDishEditToDatePicker);
+        cbDishEditPickUp = (CheckBox) rootView.findViewById(R.id.cbDishEditPickUp);
+        cbDishEditDelivery = (CheckBox) rootView.findViewById(R.id.cbDishEditDelivery);
+        etDishQtyPerUnit = (EditText) rootView.findViewById(R.id.etDishQtyPerUnit);
+        spDishUnit = (Spinner) rootView.findViewById(R.id.spDishUnit);
         tvDishEditDishImage = (TextView) rootView.findViewById(R.id.tvDishEditDishImage);
         ivDishEditDishImage = (ImageView) rootView.findViewById(R.id.ivDishEditDishImage);
-
-        readFields();
-
         return rootView;
     }
 
-    public void readFields() {
+    public DishOnSale getDishDetails() {
+        // for now assume it's a new dish.
+        assert mexistingDish == false;
 
+        DishOnSale dishOnSale = new DishOnSale();
+        String dishName = etDishEditDishName.getText().toString();
+        String dishInfo = etDishEditDishInfo.getText().toString();
+        String dishPrepMethod = etDishEditDishPrepMethod.getText().toString();
+
+        String dishCusine = acTvDishEditCuisine.getText().toString();
+        boolean vegitarian = cbVegitarian.isChecked();
+        String dishPriceStr = etDishEditPrice.getText().toString().replaceAll("[^0-9]", "");
+        double dishPrice = Double.valueOf(dishPriceStr)/100;
+        int dishQty = Integer.valueOf(etDishEditQuantity.getText().toString());
+        boolean pickup = cbDishEditPickUp.isChecked();
+        boolean delivery = cbDishEditDelivery.isChecked();
+        String mToDate = ((TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditDatePicker)).getText().toString();
+        String mToTime = ((TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker)).getText().toString();
+        double qtyPerUnit = Double.valueOf(etDishQtyPerUnit.getText().toString());
+        String mUnit = spDishUnit.getSelectedItem().toString();
+
+//        Date date = lDishEditToDatePicker.get
+        dishOnSale.setmUnitPrice(dishPrice);
+        dishOnSale.setmUnitsOnSale(dishQty);
+        dishOnSale.setmPickUp(pickup);
+        dishOnSale.setmDelivery(delivery);
+        dishOnSale.setmToDate(mToDate);
+        dishOnSale.setmToTime(mToTime);
+        dishOnSale.setmUnit(mUnit);
+        dishOnSale.setmQtyPerUnit(qtyPerUnit);
+        Dish dish = dishOnSale.getmDish();
+        dish.setmChef(AppGlobalState.getmCurrentFoodie());
+        dish.setmDishName(dishName);
+        dish.setmCusine(dishCusine);
+        dish.setmDishInfo(dishInfo);
+        dish.setmPrepMethod(dishPrepMethod);
+        dish.setmVegitarian(vegitarian);
+
+        return dishOnSale;
     }
 
     @Override

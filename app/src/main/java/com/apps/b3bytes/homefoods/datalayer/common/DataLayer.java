@@ -9,12 +9,12 @@ import com.apps.b3bytes.homefoods.datalayer.parse.ParseOrderTable;
 import com.apps.b3bytes.homefoods.models.Cart;
 import com.apps.b3bytes.homefoods.models.ChefOrder;
 import com.apps.b3bytes.homefoods.models.Dish;
+import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.Foodie;
 import com.parse.Parse;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 /**
  * Created by sindhu on 7/26/2015.
@@ -53,10 +53,10 @@ public class DataLayer {
                 {"Curry26", "Made with fresh long beans", " Garnished with Home made spices with cocunt powder", "40"}
         };
         for (int i = 0; i <= 25; i++) {
-            Dish d = Dish.createDummyDish(dishes[i][0], dishes[i][1], dishes[i][2], Integer.parseInt(dishes[i][3]));
-            publishDish(d, new DataLayer.DishPublishCallback() {
+            final Dish d = Dish.createDummyDish(dishes[i][0], dishes[i][1], dishes[i][2], Integer.parseInt(dishes[i][3]));
+            publishDish(d, new com.apps.b3bytes.homefoods.datalayer.common.DataLayer.PublishCallback() {
                 @Override
-                public void done(Dish d, Exception e) {
+                public void done(Exception e) {
                     if (e == null) {
                         Toast t = Toast.makeText(context,
                                 "Published Dish " + d.getmDishName(), Toast.LENGTH_LONG);
@@ -105,8 +105,8 @@ public class DataLayer {
 
     ;
 
-    public static abstract class DishPublishCallback {
-        public abstract void done(Dish d, Exception e);
+    public static abstract class PublishCallback {
+        public abstract void done(Exception e);
     }
 
     public static abstract class DishQueryCallback {
@@ -155,8 +155,21 @@ public class DataLayer {
         ParseUser.logOut();
     }
 
-    public void publishDish(Dish d, DishPublishCallback c) {
+    public void publishDish(Dish d, com.apps.b3bytes.homefoods.datalayer.common.DataLayer.PublishCallback c) {
         mDishTable.addDishInBackground(d, c);
+    }
+    public void putDishOnSale(final DishOnSale d, final PublishCallback cb) {
+        // first publish Dish
+        publishDish(d.getmDish(), new com.apps.b3bytes.homefoods.datalayer.common.DataLayer.PublishCallback() {
+            @Override
+            public void done(Exception e) {
+                if (e == null) {
+                    mDishTable.putDishOnSale(d, cb);
+                } else {
+                    cb.done(e);
+                }
+            }
+        });
     }
 
     public void getNearByDishes(int radius, DishQueryCallback callback) {

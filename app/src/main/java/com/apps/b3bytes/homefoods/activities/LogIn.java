@@ -28,22 +28,18 @@ public class LogIn extends ActionBarActivity {
             public void onClick(View v) {
                 String uid = ((EditText) findViewById(R.id.etUserId)).getText().toString();
                 String password = ((EditText) findViewById(R.id.etPassword)).getText().toString();
-                AppGlobalState.gDataLayer.signInFoodie(uid, password, new DataLayer.SignInCallback() {
-                    @Override
+                AppGlobalState.signIn(uid, password, new DataLayer.SignInCallback() {
                     public void done(Foodie f, Exception e) {
                         if (e == null) {
-                            Toast t = Toast.makeText(getApplication(),
-                                    "Welcome " + f.getmUserName(), Toast.LENGTH_LONG);
-                            t.show();
                             Intent i = new Intent(LogIn.this, WelcomeScreen.class);
                             LogIn.this.startActivity(i);
                         } else {
                             Toast t = Toast.makeText(getApplicationContext(), "SignIn failed", Toast.LENGTH_LONG);
                             t.show();
                         }
+
                     }
                 });
-
             }
         });
     }

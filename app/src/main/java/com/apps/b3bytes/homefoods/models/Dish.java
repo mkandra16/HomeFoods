@@ -1,36 +1,114 @@
 package com.apps.b3bytes.homefoods.models;
 
-import com.apps.b3bytes.homefoods.utils.Address;
-import com.apps.b3bytes.homefoods.utils.ContactDetails;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
 /**
  * Created by Pavan on 7/26/2015.
  *
  * Model representing Dish for rest of the UI code.
  */
 public class Dish {
-    public enum Unit {GRAMS, LITERS};
     private int mDishId;
     private String mDishName;
     private String mImageURL;
-    private int mChefId;
     private String mDishInfo;
+    private boolean mVegitarian;
+    private boolean mGlutenFree;
+    private boolean mRedMeat;
+    private boolean mVegan;
     // private ArrayList<Ingredient> mIngredients;
-    private String PrepMethod;
+    private String mPrepMethod;
     // private NutrionInfo mNutrition;
     private double mQty;
-    private Unit mUnit;
     private double mPrice;
     private int mCusineId;
+    private String mCusine;
     private int mThumbsUp;
     private int mThumbsDown;
+
+    private int mChefId;
     private Foodie mChef;
     private String mTag;
+
+    public boolean ismVegitarian() {
+        return mVegitarian;
+    }
+
+    public void setmVegitarian(boolean mVegitarian) {
+        this.mVegitarian = mVegitarian;
+    }
+
+    public boolean ismGlutenFree() {
+        return mGlutenFree;
+    }
+
+    public void setmGlutenFree(boolean mGlutenFree) {
+        this.mGlutenFree = mGlutenFree;
+    }
+
+    public boolean ismRedMeat() {
+        return mRedMeat;
+    }
+
+    public void setmRedMeat(boolean mRedMeat) {
+        this.mRedMeat = mRedMeat;
+    }
+
+    public boolean ismVegan() {
+        return mVegan;
+    }
+
+    public void setmVegan(boolean mVegan) {
+        this.mVegan = mVegan;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Dish dish = (Dish) o;
+
+        if (mDishId != dish.mDishId) return false;
+        if (mChefId != dish.mChefId) return false;
+        if (Double.compare(dish.mQty, mQty) != 0) return false;
+        if (Double.compare(dish.mPrice, mPrice) != 0) return false;
+        if (mCusineId != dish.mCusineId) return false;
+        if (mThumbsUp != dish.mThumbsUp) return false;
+        if (mThumbsDown != dish.mThumbsDown) return false;
+        if (mDishName != null ? !mDishName.equals(dish.mDishName) : dish.mDishName != null)
+            return false;
+        if (mImageURL != null ? !mImageURL.equals(dish.mImageURL) : dish.mImageURL != null)
+            return false;
+        if (mDishInfo != null ? !mDishInfo.equals(dish.mDishInfo) : dish.mDishInfo != null)
+            return false;
+        if (mPrepMethod != null ? !mPrepMethod.equals(dish.mPrepMethod) : dish.mPrepMethod != null)
+            return false;
+        if (mChef != null ? !mChef.equals(dish.mChef) : dish.mChef != null) return false;
+        return !(mTag != null ? !mTag.equals(dish.mTag) : dish.mTag != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = mDishId;
+        result = 31 * result + (mDishName != null ? mDishName.hashCode() : 0);
+        result = 31 * result + (mImageURL != null ? mImageURL.hashCode() : 0);
+        result = 31 * result + mChefId;
+        result = 31 * result + (mDishInfo != null ? mDishInfo.hashCode() : 0);
+        result = 31 * result + (mPrepMethod != null ? mPrepMethod.hashCode() : 0);
+        temp = Double.doubleToLongBits(mQty);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(mPrice);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + mCusineId;
+        result = 31 * result + mThumbsUp;
+        result = 31 * result + mThumbsDown;
+        result = 31 * result + (mChef != null ? mChef.hashCode() : 0);
+        result = 31 * result + (mTag != null ? mTag.hashCode() : 0);
+        return result;
+    }
+
 
     public void setmTag(String mTag) {
         this.mTag = mTag;
@@ -41,6 +119,17 @@ public class Dish {
         return mTag;
     }
 
+    public String getmCusine() {
+        return mCusine;
+    }
+
+    public void setmCusine(String mCusine) {
+        this.mCusine = mCusine;
+    }
+
+
+
+/*
 
     @Override
     public boolean equals(Object other) {
@@ -64,6 +153,7 @@ public class Dish {
 
         return hashCode;
     }
+*/
 
     public int getmDishId() {
         return mDishId;
@@ -75,16 +165,18 @@ public class Dish {
         d.setmDishName(name);
         d.setmChefId(1);
         d.setmDishInfo(info);
-        d.setPrepMethod(method);
+        d.setmPrepMethod(method);
         d.setmQty(100);
-        d.setmUnit(Unit.GRAMS);
         d.setmPrice(price);
         d.setmCusineId(1);
         d.setmThumbsUp(150);
         d.setmThumbsDown(10);
         return d;
     }
-    public Dish() {}
+    public Dish() {
+        mThumbsDown = 0;
+        mThumbsUp = 0;
+    }
 
  /*   public Dish(JSONObject object) {
         try {
@@ -93,7 +185,7 @@ public class Dish {
         mDishInfo =     object.getString("DishInfo");
 //        mImageURL = object.getString("ImageURL");
         mQty = object.getDouble("Qty");
-        mUnit = Unit.valueOf(object.getString("Unit"));
+        mUnit = Measure.valueOf(object.getString("Measure"));
         mPrice = object.getDouble("Price");
         mThumbsUp = object.getInt("ThumbsUp");
         mThumbsDown = object.getInt("ThumbsDown");
@@ -139,12 +231,12 @@ public class Dish {
         this.mDishInfo = mDishInfo;
     }
 
-    public String getPrepMethod() {
-        return PrepMethod;
+    public String getmPrepMethod() {
+        return mPrepMethod;
     }
 
-    public void setPrepMethod(String prepMethod) {
-        PrepMethod = prepMethod;
+    public void setmPrepMethod(String mPrepMethod) {
+        this.mPrepMethod = mPrepMethod;
     }
 
     public double getmQty() {
@@ -153,17 +245,6 @@ public class Dish {
 
     public void setmQty(double mQty) {
         this.mQty = mQty;
-    }
-
-    public Unit getmUnit() {
-        return mUnit;
-    }
-
-    public void setmUnit(Unit mUnit) {
-        this.mUnit = mUnit;
-    }
-    public void setmUnit(String mUnit) {
-        this.mUnit = Unit.valueOf(mUnit);
     }
 
     public double getmPrice() {
