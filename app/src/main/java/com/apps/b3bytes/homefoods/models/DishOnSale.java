@@ -4,7 +4,7 @@ package com.apps.b3bytes.homefoods.models;
  * Created by sindhu on 8/16/2015.
  */
 public class DishOnSale {
-    public enum Measure {GRAMS, LITERS};
+    public enum Measure {Grams, Liters};
     private Dish mDish;
     private Measure mMeasure;
     // amount per single order 100 gms or 1 ltr etc...
