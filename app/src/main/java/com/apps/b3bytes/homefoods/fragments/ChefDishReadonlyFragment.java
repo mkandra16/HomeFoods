@@ -8,10 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
-import com.apps.b3bytes.homefoods.models.Dish;
 import com.apps.b3bytes.homefoods.models.OneDishOrder;
 
-import org.w3c.dom.Text;
 
 public class ChefDishReadonlyFragment extends Fragment {
     private OneDishOrder mDish;

@@ -58,25 +58,10 @@ public class ChefMenuFragment extends Fragment {
         return rootView;
     }
 
-    // Set up an interface to allow the activity to handle navigation.
-    public interface HomeFragmentListener {
-        public void onNewGameClicked();
-    }
-
-    // Reference to the activity
-    private HomeFragmentListener callback;
-
     @Override
     public void onAttach(Activity activity) {
         mContext = (FragmentActivity) activity;
         super.onAttach(activity);
-
-        // Check to make sure the activity implements the listener interface.
-        try {
-            callback = (HomeFragmentListener) activity;
-        } catch (ClassCastException e) {
-            Log.d("HomeFragment", String.format("%s does not implement HomeFragmentListener", activity));
-        }
     }
 
     @Override
