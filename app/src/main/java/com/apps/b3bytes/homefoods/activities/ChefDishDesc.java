@@ -19,14 +19,13 @@ import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.fragments.ChefDishEditFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefDishReadonlyFragment;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
-import com.apps.b3bytes.homefoods.models.OneDishOrder;
 
 
 public class ChefDishDesc extends AppCompatActivity {
     private boolean editMode = false;
     private ChefDishEditFragment editFragment = null;
     private ChefDishReadonlyFragment readonlyFragment = null;
-    private OneDishOrder dish;
+    private DishOnSale dish;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,7 @@ public class ChefDishDesc extends AppCompatActivity {
         Intent in = getIntent();
         Bundle bundle = in.getExtras();
         editMode = bundle.getBoolean("mode");
-        dish = (OneDishOrder) bundle.getParcelable("dish");
+        dish = (DishOnSale) bundle.getParcelable("dish");
 
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolBar);

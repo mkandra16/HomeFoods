@@ -1,14 +1,14 @@
 package com.apps.b3bytes.homefoods.models;
 
-/**
- * Created by sindhu on 8/16/2015.
- */
-public class DishOnSale {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class DishOnSale implements Parcelable {
     public enum Measure {Grams, Liters};
     private Dish mDish;
     private Measure mMeasure;
     // amount per single order 100 gms or 1 ltr etc...
-    private double mQtyPerUnit;
+    private double mQtyPerUnit; // TODO: why is this double???????
     private double mUnitPrice;
     private int mUnitsOnSale;
     private int mUnitsOrdered;
@@ -42,6 +42,13 @@ public class DishOnSale {
 
     public void setmMeasure(Measure mMeasure) {
         this.mMeasure = mMeasure;
+    }
+
+    public void setmMeasure(String mUnit) {
+        if (mUnit != null && !mUnit.isEmpty()) {
+            //TODO
+//            this.mMeasure = Measure.valueOf(mUnit);
+        }
     }
 
     public double getmQtyPerUnit() {
@@ -108,6 +115,15 @@ public class DishOnSale {
         mDish = new Dish();
     }
 
+    public DishOnSale(String dishName, int quantity, double unitPrice) {
+        mDish = Dish.createDummyDish(dishName, "DishOnSale", "DishOnSale Method", 0);
+        mDish.setmPrice(unitPrice);
+        this.mQtyPerUnit = quantity;
+        this.mUnitsOrdered = 0;
+        this.mUnitsDelivered = quantity;
+    }
+
+
     public String getmTag() {
         return mTag;
     }
@@ -155,4 +171,52 @@ public class DishOnSale {
     public void setmUnitsDelivered(int mUnitsDelivered) {
         this.mUnitsDelivered = mUnitsDelivered;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(mDish, flags);
+        dest.writeString("" + getmMeasure());
+        dest.writeDouble(getmQtyPerUnit());
+        dest.writeDouble(getmUnitPrice());
+        dest.writeInt(getmUnitsOnSale());
+        dest.writeInt(getmUnitsOrdered());
+        dest.writeInt(getmUnitsDelivered());
+        dest.writeString(getmTag());
+        dest.writeInt(ismPickUp() ? 1 : 0);
+        dest.writeInt(ismDelivery() ? 1 : 0);
+        dest.writeString(getmToDate());
+        dest.writeString(getmToTime());
+    }
+
+    public static final Parcelable.Creator<DishOnSale> CREATOR = new Parcelable.Creator<DishOnSale>() {
+        public DishOnSale createFromParcel(Parcel in) {
+            DishOnSale dish = new DishOnSale(in);
+            return dish;
+        }
+
+        public DishOnSale[] newArray(int size) {
+            return new DishOnSale[size];
+        }
+    };
+
+    public DishOnSale(Parcel in) {
+        setmDish((Dish) in.readParcelable(Dish.class.getClassLoader()));
+        setmMeasure(in.readString());
+        setmQtyPerUnit(in.readDouble());
+        setmUnitPrice(in.readDouble());
+        setmUnitsOnSale(in.readInt());
+        setmUnitsOrdered(in.readInt());
+        setmUnitsDelivered(in.readInt());
+        setmTag(in.readString());
+        setmPickUp((in.readInt() == 1) ? true : false);
+        setmDelivery((in.readInt() == 1) ? true : false);
+        setmToDate(in.readString());
+        setmToTime(in.readString());
+    }
+
 }

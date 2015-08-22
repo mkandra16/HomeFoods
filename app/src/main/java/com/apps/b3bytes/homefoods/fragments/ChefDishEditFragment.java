@@ -25,6 +25,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -47,27 +48,31 @@ import java.util.Locale;
 
 public class ChefDishEditFragment extends Fragment {
     private FragmentActivity mContext;
-    private RelativeLayout lDishEditFromDatePicker;
-    private RelativeLayout lDishEditToDatePicker;
+    private View rootView;
+
+    private EditText etDishEditDishName;
+    private AutoCompleteTextView acTvDishEditCuisine;
+    private CheckBox cbVegitarian;
     private EditText etDishEditPrice;
+    private EditText etDishEditQuantity;
+    private RelativeLayout rlDishEditFromDatePicker;
+    private RelativeLayout rlDishEditToDatePicker;
+    private LinearLayout llDishEditPickupDelivery;
+    private CheckBox cbDishEditPickUp;
+    private CheckBox cbDishEditDelivery;
+    private TextView tvDishEditDishImage;
     private ImageView ivDishEditDishImage;
+
     private int datePickerInput;
     private int timePickerInput;
     private Uri outputFileUri;
-    private AutoCompleteTextView acTvDishEditCuisine;
-    private TextView tvDishEditDishImage;
-    private EditText etDishEditDishName;
-    private EditText etDishEditQuantity;
-    private CheckBox cbVegitarian;
     private boolean mexistingDish;
-    private CheckBox cbDishEditPickUp;
-    private CheckBox cbDishEditDelivery;
     private EditText etDishEditDishInfo;
     private EditText etDishEditDishPrepMethod;
     private EditText etDishQtyPerUnit;
     private Spinner spDishUnit;
-    private View rootView;
-    private OneDishOrder mDish;
+    private DishOnSale mDish;
+
     public ChefDishEditFragment() {
         mexistingDish = false;
     }
@@ -77,7 +82,7 @@ public class ChefDishEditFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null)
-            mDish = (OneDishOrder) bundle.getParcelable("dish");
+            mDish = (DishOnSale) bundle.getParcelable("dish");
     }
 
     @Override
@@ -93,8 +98,9 @@ public class ChefDishEditFragment extends Fragment {
         cbVegitarian = (CheckBox) rootView.findViewById(R.id.cbDishEditVegan);
         etDishEditPrice = (EditText) rootView.findViewById(R.id.etDishEditPrice);
         etDishEditQuantity = (EditText) rootView.findViewById(R.id.etDishEditQuantity);
-        lDishEditFromDatePicker = (RelativeLayout) rootView.findViewById(R.id.lDishEditFromDatePicker);
-        lDishEditToDatePicker = (RelativeLayout) rootView.findViewById(R.id.lDishEditToDatePicker);
+        rlDishEditFromDatePicker = (RelativeLayout) rootView.findViewById(R.id.rlDishEditFromDatePicker);
+        rlDishEditToDatePicker = (RelativeLayout) rootView.findViewById(R.id.rlDishEditToDatePicker);
+        llDishEditPickupDelivery = (LinearLayout) rootView.findViewById(R.id.llDishEditPickupDelivery);
         cbDishEditPickUp = (CheckBox) rootView.findViewById(R.id.cbDishEditPickUp);
         cbDishEditDelivery = (CheckBox) rootView.findViewById(R.id.cbDishEditDelivery);
         etDishQtyPerUnit = (EditText) rootView.findViewById(R.id.etDishQtyPerUnit);
@@ -121,25 +127,25 @@ public class ChefDishEditFragment extends Fragment {
         if (dishPriceStr != "") {
             dishPrice = Double.valueOf(dishPriceStr) / 100;
         }
-        int dishQty = 0;
+        Double dishQty = 0.0;
         String quantity = etDishEditQuantity.getText().toString();
-        if(quantity != null && !quantity.isEmpty()) {
-            dishQty = Integer.valueOf(quantity);
+        if (quantity != null && !quantity.isEmpty()) {
+            dishQty = Double.valueOf(quantity);
         }
         boolean pickup = cbDishEditPickUp.isChecked();
         boolean delivery = cbDishEditDelivery.isChecked();
-        String mToDate = ((TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditDatePicker)).getText().toString();
-        String mToTime = ((TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker)).getText().toString();
+        String mToDate = ((TextView) rlDishEditToDatePicker.findViewById(R.id.tvDishEditDatePicker)).getText().toString();
+        String mToTime = ((TextView) rlDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker)).getText().toString();
         double qtyPerUnit = 0;
         String qPerUnit = etDishQtyPerUnit.getText().toString();
-        if(qPerUnit != null && !qPerUnit.isEmpty()) {
+        if (qPerUnit != null && !qPerUnit.isEmpty()) {
             qtyPerUnit = Double.valueOf(qPerUnit);
         }
         String mUnit = spDishUnit.getSelectedItem().toString();
 
 //        Date date = lDishEditToDatePicker.get
         dishOnSale.setmUnitPrice(dishPrice);
-        dishOnSale.setmUnitsOnSale(dishQty);
+        dishOnSale.setmUnitsOnSale(dishQty.intValue()); // TODO.... maintain int for all quantities
         dishOnSale.setmPickUp(pickup);
         dishOnSale.setmDelivery(delivery);
         dishOnSale.setmToDate(mToDate);
@@ -157,8 +163,40 @@ public class ChefDishEditFragment extends Fragment {
         return dishOnSale;
     }
 
+    private void initAutoCompleteTextView(AutoCompleteTextView acTvView, String text) {
+        if (text != null && !text.isEmpty()) {
+            acTvView.setText(text);
+        }
+    }
+
+    private void initTextView(EditText etView, String text) {
+        if (text != null && !text.isEmpty()) {
+            etView.setText(text);
+        }
+    }
+
     public void initFields() {
         //TODO: populate  fields if applicable. i.e. mDish != null
+        TextView tvDishEditDateHdr = (TextView) (rlDishEditFromDatePicker.findViewById(R.id.tvDishEditDateHdr));
+        tvDishEditDateHdr.setText("FROM");
+        //populate  fields if applicable. i.e. mDish != null
+        if (mDish != null) {
+            initTextView(etDishEditDishName, mDish.getmDish().getmDishName());
+            initAutoCompleteTextView(acTvDishEditCuisine, "" + mDish.getmDish().getmCusineId());
+            //if (mDish.getmDish().getmIsVegan() == true) //TODO: enable this after Dish model is updated
+            cbVegitarian.setChecked(true);
+            initTextView(etDishEditPrice, "" + mDish.getmDish().getmPrice());
+            initTextView(etDishEditQuantity, "" + mDish.getmDish().getmQty());
+
+/*            private RelativeLayout rlDishEditFromDatePicker;
+            private RelativeLayout rlDishEditToDatePicker;
+            private LinearLayout llDishEditPickupDelivery;
+            private CheckBox cbDishEditPickUp;
+            private CheckBox cbDishEditDelivery;
+            private TextView tvDishEditDishImage;
+            private ImageView ivDishEditDishImage;*/
+
+        }
     }
 
     @Override
@@ -181,26 +219,26 @@ public class ChefDishEditFragment extends Fragment {
         /* Set Text Watcher listener */
         etDishEditPrice.addTextChangedListener(dishPriceWatcher);
 
-        TextView tvDishEditFromDateHdr = (TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditDateHdr);
+        TextView tvDishEditFromDateHdr = (TextView) rlDishEditFromDatePicker.findViewById(R.id.tvDishEditDateHdr);
         tvDishEditFromDateHdr.setText("AVILABLE FROM");
 
-        TextView tvDishEditFromDatePicker = (TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker);
+        TextView tvDishEditFromDatePicker = (TextView) rlDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker);
         tvDishEditFromDatePicker.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                datePickerInput = lDishEditFromDatePicker.getId();
+                datePickerInput = rlDishEditFromDatePicker.getId();
                 DatePickerDialogFragment newFragment = new DatePickerDialogFragment();
                 newFragment.setCallback(ondate);
                 newFragment.show(mContext.getSupportFragmentManager(), "DatePicker");
             }
         });
 
-        TextView tvDishEditFromTimePicker = (TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditTimePicker);
+        TextView tvDishEditFromTimePicker = (TextView) rlDishEditFromDatePicker.findViewById(R.id.tvDishEditTimePicker);
         tvDishEditFromTimePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                timePickerInput = lDishEditFromDatePicker.getId();
+                timePickerInput = rlDishEditFromDatePicker.getId();
                 TimePickerDialogFragment newFragment = new TimePickerDialogFragment();
                 newFragment.setCallback(onTime);
                 newFragment.show(mContext.getSupportFragmentManager(), "TimePicker");
@@ -208,25 +246,25 @@ public class ChefDishEditFragment extends Fragment {
         });
 
 
-        TextView tvDishEditToDateHdr = (TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditDateHdr);
+        TextView tvDishEditToDateHdr = (TextView) rlDishEditToDatePicker.findViewById(R.id.tvDishEditDateHdr);
         tvDishEditToDateHdr.setText("TO");
-        TextView tvDishEditToDatePicker = (TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditDatePicker);
+        TextView tvDishEditToDatePicker = (TextView) rlDishEditToDatePicker.findViewById(R.id.tvDishEditDatePicker);
         tvDishEditToDatePicker.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                datePickerInput = lDishEditToDatePicker.getId();
+                datePickerInput = rlDishEditToDatePicker.getId();
                 DatePickerDialogFragment newFragment = new DatePickerDialogFragment();
                 newFragment.setCallback(ondate);
                 newFragment.show(mContext.getSupportFragmentManager(), "DatePicker");
             }
         });
 
-        TextView tvDishEditToTimePicker = (TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditTimePicker);
+        TextView tvDishEditToTimePicker = (TextView) rlDishEditToDatePicker.findViewById(R.id.tvDishEditTimePicker);
         tvDishEditToTimePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                timePickerInput = lDishEditToDatePicker.getId();
+                timePickerInput = rlDishEditToDatePicker.getId();
                 TimePickerDialogFragment newFragment = new TimePickerDialogFragment();
                 newFragment.setCallback(onTime);
                 newFragment.show(mContext.getSupportFragmentManager(), "TimePicker");
@@ -353,10 +391,10 @@ public class ChefDishEditFragment extends Fragment {
             cal.set(Calendar.MONTH, monthOfYear);
             String formattedDate = new SimpleDateFormat("E, MMM d, yyyy").format(cal.getTime());
 
-            if (datePickerInput == lDishEditFromDatePicker.getId())
-                ((TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker)).setText(formattedDate);
-            else if (datePickerInput == lDishEditToDatePicker.getId())
-                ((TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditDatePicker)).setText(formattedDate);
+            if (datePickerInput == rlDishEditFromDatePicker.getId())
+                ((TextView) rlDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker)).setText(formattedDate);
+            else if (datePickerInput == rlDishEditToDatePicker.getId())
+                ((TextView) rlDishEditToDatePicker.findViewById(R.id.tvDishEditDatePicker)).setText(formattedDate);
 
         }
     };
@@ -379,11 +417,11 @@ public class ChefDishEditFragment extends Fragment {
             }
 
             //Display the user changed time on TextView
-            if (datePickerInput == lDishEditFromDatePicker.getId())
-                ((TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditTimePicker)).setText(String.valueOf(currentHour)
+            if (timePickerInput == rlDishEditFromDatePicker.getId())
+                ((TextView) rlDishEditFromDatePicker.findViewById(R.id.tvDishEditTimePicker)).setText(String.valueOf(currentHour)
                         + " : " + String.valueOf(minute) + " " + aMpM);
-            else if (datePickerInput == lDishEditToDatePicker.getId())
-                ((TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditTimePicker)).setText(String.valueOf(currentHour)
+            else if (timePickerInput == rlDishEditToDatePicker.getId())
+                ((TextView) rlDishEditToDatePicker.findViewById(R.id.tvDishEditTimePicker)).setText(String.valueOf(currentHour)
                         + " : " + String.valueOf(minute) + " " + aMpM);
         }
     };

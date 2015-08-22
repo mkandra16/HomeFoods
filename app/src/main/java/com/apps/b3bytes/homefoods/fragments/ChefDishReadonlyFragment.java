@@ -8,11 +8,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.OneDishOrder;
 
 
 public class ChefDishReadonlyFragment extends Fragment {
-    private OneDishOrder mDish;
+    private DishOnSale mDish;
 
 
     public ChefDishReadonlyFragment(){
@@ -26,7 +27,7 @@ public class ChefDishReadonlyFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null)
-            mDish = (OneDishOrder) bundle.getParcelable("dish");
+            mDish = (DishOnSale) bundle.getParcelable("dish");
     }
 
     @Override
@@ -52,7 +53,7 @@ public class ChefDishReadonlyFragment extends Fragment {
         }
     }
 
-    public OneDishOrder getDish() {
+    public DishOnSale getDish() {
         return mDish;
     }
 }

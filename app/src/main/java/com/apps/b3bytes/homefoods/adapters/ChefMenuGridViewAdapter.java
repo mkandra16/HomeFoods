@@ -16,17 +16,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
-import com.apps.b3bytes.homefoods.models.OneDishOrder;
+import com.apps.b3bytes.homefoods.models.DishOnSale;
 
 import java.util.List;
 
-public class ChefMenuGridViewAdapter extends ArrayAdapter<OneDishOrder> {
+public class ChefMenuGridViewAdapter extends ArrayAdapter<DishOnSale> {
 
-    private final List<OneDishOrder> list;
+    private final List<DishOnSale> list;
     private final Activity context;
     private final GridView gvChefMenu;
 
-    public ChefMenuGridViewAdapter(Activity context, List<OneDishOrder> list, GridView gvChefMenu) {
+    public ChefMenuGridViewAdapter(Activity context, List<DishOnSale> list, GridView gvChefMenu) {
         super(context, R.layout.chef_menu_grid_item, list);
         this.context = context;
         this.list = list;
@@ -71,11 +71,11 @@ public class ChefMenuGridViewAdapter extends ArrayAdapter<OneDishOrder> {
 
         ViewHolder holder = (ViewHolder) view.getTag();
 
-        holder.tvMenuGridDishName.setText(list.get(position).getDishName());
-        holder.tvMenuGridDishQuantityPosted.setText("Posted " + list.get(position).getQuantity());
-        holder.tvMenuGridDishQuantityDelivered.setText("Delivered " + list.get(position).getQuantityDelivered());
-        holder.tvMenuGridDishQuantityPending.setText("Pending " + list.get(position).getQuantityPending());
-        holder.tvMenuGridDishPrice.setText(context.getString(R.string.Rs) + " " + (list.get(position).getUnitPrice()));
+        holder.tvMenuGridDishName.setText(list.get(position).getmDish().getmDishName());
+        holder.tvMenuGridDishQuantityPosted.setText("Posted " + list.get(position).getmQtyPerUnit());
+        holder.tvMenuGridDishQuantityDelivered.setText("Delivered " + list.get(position).getmUnitsDelivered());
+        holder.tvMenuGridDishQuantityPending.setText("Pending " + list.get(position).getmUnitsOrdered());
+        holder.tvMenuGridDishPrice.setText(context.getString(R.string.Rs) + " " + (list.get(position).getmUnitPrice()));
         holder.ivMenuGridDishImage.setImageResource(R.drawable.south_indian_breakfast_01);
 
         return view;

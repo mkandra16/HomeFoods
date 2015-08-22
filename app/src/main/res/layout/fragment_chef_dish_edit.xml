@@ -138,7 +138,7 @@
             </LinearLayout>
 
             <include
-                android:id="@+id/lDishEditFromDatePicker"
+                android:id="@+id/rlDishEditFromDatePicker"
                 layout="@layout/date_time_picker_views"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -146,19 +146,19 @@
                 android:layout_marginTop="12dp" />
 
             <include
-                android:id="@+id/lDishEditToDatePicker"
+                android:id="@+id/rlDishEditToDatePicker"
                 layout="@layout/date_time_picker_views"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lDishEditFromDatePicker"
+                android:layout_below="@+id/rlDishEditFromDatePicker"
                 android:layout_marginTop="12dp" />
 
             <LinearLayout
                 android:id="@+id/llDishEditPickupDelivery"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/lDishEditToDatePicker"
-                android:layout_below="@+id/lDishEditToDatePicker"
+                android:layout_alignLeft="@+id/rlDishEditToDatePicker"
+                android:layout_below="@+id/rlDishEditToDatePicker"
                 android:layout_marginTop="12dp"
                 android:orientation="horizontal"
                 android:weightSum="2">

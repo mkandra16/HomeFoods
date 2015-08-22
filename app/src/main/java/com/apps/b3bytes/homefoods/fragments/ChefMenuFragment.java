@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.activities.ChefDishDesc;
 import com.apps.b3bytes.homefoods.adapters.ChefMenuGridViewAdapter;
+import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.OneDishOrder;
 import com.apps.b3bytes.homefoods.utils.Address;
 
@@ -68,10 +69,10 @@ public class ChefMenuFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        List<OneDishOrder> list = new ArrayList<OneDishOrder>();
+        List<DishOnSale> list = new ArrayList<DishOnSale>();
         int numDishes = dishNamesArray.length;
         for (int i = 0; i < numDishes; i++) {
-            list.add(new OneDishOrder(dishNamesArray[i], dishQuantitiesArray[i], dishUnitPriceArray[i]));
+            list.add(new DishOnSale(dishNamesArray[i], dishQuantitiesArray[i], dishUnitPriceArray[i]));
         }
 
         aChefMenuGridView = new ChefMenuGridViewAdapter(mContext, list, gvChefMenu);
@@ -82,7 +83,7 @@ public class ChefMenuFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Intent in = new Intent(getActivity(), ChefDishDesc.class);
-                OneDishOrder dish = aChefMenuGridView.getItem(position);
+                DishOnSale dish = aChefMenuGridView.getItem(position);
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("mode", false);
                 bundle.putParcelable("dish", dish);
