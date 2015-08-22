@@ -8,6 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +21,19 @@ import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.activities.ChefDishDesc;
 import com.apps.b3bytes.homefoods.adapters.ChefMenuGridViewAdapter;
 import com.apps.b3bytes.homefoods.models.OneDishOrder;
+import com.apps.b3bytes.homefoods.utils.Address;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChefMenuFragment extends Fragment {
     private FragmentActivity mContext;
-    GridView gvChefMenu;
-    FloatingActionButton fabAddDish;
+    private GridView gvChefMenu;
+    private FloatingActionButton fabAddDish;
+    private ChefMenuGridViewAdapter aChefMenuGridView;
     public static final int DISH_EDIT_CHILD = 1005;
     public static final int DISH_GRID_VIEW_CHILD = 1005;
 
@@ -48,6 +54,7 @@ public class ChefMenuFragment extends Fragment {
         gvChefMenu = (GridView) rootView.findViewById(R.id.gvChefMenu);
         fabAddDish = (FloatingActionButton) rootView.findViewById(R.id.fabAddDish);
 
+
         return rootView;
     }
 
@@ -67,17 +74,20 @@ public class ChefMenuFragment extends Fragment {
             list.add(new OneDishOrder(dishNamesArray[i], dishQuantitiesArray[i], dishUnitPriceArray[i]));
         }
 
-        ArrayAdapter<OneDishOrder> aOneDishOrder = new ChefMenuGridViewAdapter(mContext, list, gvChefMenu);
-        gvChefMenu.setAdapter(aOneDishOrder);
-        aOneDishOrder.notifyDataSetChanged();
+        aChefMenuGridView = new ChefMenuGridViewAdapter(mContext, list, gvChefMenu);
+        gvChefMenu.setAdapter(aChefMenuGridView);
+        aChefMenuGridView.notifyDataSetChanged();
 
         gvChefMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent in = new Intent(getActivity(),
-                        ChefDishDesc.class);
-                //TODO: populate the data from gridview item clicked
-                in.putExtra("mode", false);
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Intent in = new Intent(getActivity(), ChefDishDesc.class);
+                OneDishOrder dish = aChefMenuGridView.getItem(position);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("mode", false);
+                bundle.putParcelable("dish", dish);
+                in.putExtras(bundle);
+
                 startActivityForResult(in, DISH_GRID_VIEW_CHILD);
             }
         });
@@ -87,7 +97,11 @@ public class ChefMenuFragment extends Fragment {
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(),
                         ChefDishDesc.class);
-                i.putExtra("mode", true);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("mode", true);
+                bundle.putParcelable("dish", null);
+                i.putExtras(bundle);
+
                 startActivityForResult(i, DISH_EDIT_CHILD);
             }
         });

@@ -1,6 +1,7 @@
 package com.apps.b3bytes.homefoods.activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -18,19 +19,24 @@ import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.fragments.ChefDishEditFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefDishReadonlyFragment;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
+import com.apps.b3bytes.homefoods.models.OneDishOrder;
 
 
 public class ChefDishDesc extends AppCompatActivity {
     private boolean editMode = false;
     private ChefDishEditFragment editFragment = null;
     private ChefDishReadonlyFragment readonlyFragment = null;
+    private OneDishOrder dish;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chef_dish_desc);
 
-        editMode = getIntent().getBooleanExtra("mode", false);
+        Intent in = getIntent();
+        Bundle bundle = in.getExtras();
+        editMode = bundle.getBoolean("mode");
+        dish = (OneDishOrder) bundle.getParcelable("dish");
 
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolBar);
@@ -43,9 +49,15 @@ public class ChefDishDesc extends AppCompatActivity {
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if (editMode == false) {
+            Bundle args = new Bundle();
+            args.putParcelable("dish", dish);
+            readonlyFragment.setArguments(args);
             ft.replace(R.id.flContainer, readonlyFragment);
             getSupportActionBar().setTitle("Dish Name");
         } else {
+            Bundle args = new Bundle();
+            args.putParcelable("dish", null);
+            editFragment.setArguments(args);
             ft.replace(R.id.flContainer, editFragment);
             getSupportActionBar().setTitle("Edit Dish");
         }
@@ -120,6 +132,10 @@ public class ChefDishDesc extends AppCompatActivity {
 
         final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if (editMode) {
+            dish = readonlyFragment.getDish();
+            Bundle args = new Bundle();
+            args.putParcelable("dish", dish);
+            editFragment.setArguments(args);
             ft.replace(R.id.flContainer, editFragment);
         } else {
             final DishOnSale dishOnSale = editFragment.getDishDetails();

@@ -1,12 +1,17 @@
 package com.apps.b3bytes.homefoods.utils;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.Serializable;
 
 /**
  * Created by Pavan on 7/26/2015.
  */
-public class Address {
+public class Address implements Parcelable {
     private String mLine1;
     private String mCity;
     private int mZip;
@@ -72,6 +77,40 @@ public class Address {
     public void setmState(String mState) {
         this.mState = mState;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(getmLine1());
+        dest.writeString(getmCity());
+        dest.writeInt(getmZip());
+        dest.writeString(getmState());
+        dest.writeString(getmCountry());
+    }
+
+    public static final Parcelable.Creator<Address> CREATOR = new Parcelable.Creator<Address>() {
+        public Address createFromParcel(Parcel in) {
+            Address addr = new Address(in);
+            return addr;
+        }
+
+        public Address[] newArray(int size) {
+            return new Address[size];
+        }
+    };
+
+    public Address(Parcel in) {
+        setmLine1(in.readString());
+        setmCity(in.readString());
+        setmZip(in.readInt());
+        setmState(in.readString());
+        setmCountry(in.readString());
+    }
+
 
 
 }

@@ -1,11 +1,23 @@
 package com.apps.b3bytes.homefoods.models;
 
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.apps.b3bytes.homefoods.utils.Address;
+import com.apps.b3bytes.homefoods.utils.ContactDetails;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 /**
  * Created by Pavan on 7/26/2015.
  *
  * Model representing Dish for rest of the UI code.
  */
-public class Dish {
+public class Dish implements Parcelable {
     private int mDishId;
     private String mDishName;
     private String mImageURL;
@@ -284,4 +296,55 @@ public class Dish {
     }
 
     public Foodie getmChef() { return mChef; }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(getmDishId());
+        dest.writeString(getmDishName());
+        dest.writeString(getmImageURL());
+        dest.writeInt(getmChefId());
+        dest.writeString(getmDishInfo());
+        dest.writeString(getmPrepMethod());
+        dest.writeDouble(getmQty());
+        dest.writeDouble(getmPrice());
+        dest.writeInt(getmCusineId());
+        dest.writeInt(getmThumbsUp());
+        dest.writeInt(getmThumbsDown());
+        dest.writeString(getmTag());
+        dest.writeParcelable(mChef, flags);
+    }
+
+
+    public static final Parcelable.Creator<Dish> CREATOR = new Parcelable.Creator<Dish>() {
+        public Dish createFromParcel(Parcel in) {
+            Dish dish = new Dish(in);
+            return dish;
+        }
+
+        public Dish[] newArray(int size) {
+            return new Dish[size];
+        }
+    };
+
+    public Dish(Parcel in) {
+        setmDishId(in.readInt());
+        setmDishName(in.readString());
+        setmImageURL(in.readString());
+        setmChefId(in.readInt());
+        setmDishInfo(in.readString());
+        setmPrepMethod(in.readString());
+        setmQty(in.readDouble());
+        setmPrice(in.readDouble());
+        setmCusineId(in.readInt());
+        setmThumbsUp(in.readInt());
+        setmThumbsDown(in.readInt());
+        setmTag(in.readString());
+        setmChef((Foodie) in.readParcelable(Foodie.class.getClassLoader()));
+    }
+
 }

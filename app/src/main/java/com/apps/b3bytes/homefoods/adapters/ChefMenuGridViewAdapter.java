@@ -27,7 +27,7 @@ public class ChefMenuGridViewAdapter extends ArrayAdapter<OneDishOrder> {
     private final GridView gvChefMenu;
 
     public ChefMenuGridViewAdapter(Activity context, List<OneDishOrder> list, GridView gvChefMenu) {
-        super(context, R.layout.chef_deliver_dish_item, list);
+        super(context, R.layout.chef_menu_grid_item, list);
         this.context = context;
         this.list = list;
         this.gvChefMenu = gvChefMenu;

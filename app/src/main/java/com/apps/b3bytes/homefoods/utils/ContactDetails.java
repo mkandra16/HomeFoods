@@ -1,12 +1,15 @@
 package com.apps.b3bytes.homefoods.utils;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  * Created by Pavan on 7/26/2015.
  */
-public class ContactDetails {
+public class ContactDetails implements Parcelable {
     private String mHomePh;
     private String mOfficePh;
     private String mMoblie;
@@ -65,6 +68,37 @@ public class ContactDetails {
 
     public void setmMoblie(String mMoblie) {
         this.mMoblie = mMoblie;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(getmHomePh());
+        dest.writeString(getmOfficePh());
+        dest.writeString(getmMoblie());
+        dest.writeString(getmEmailId());
+    }
+
+    public static final Parcelable.Creator<ContactDetails> CREATOR = new Parcelable.Creator<ContactDetails>() {
+        public ContactDetails createFromParcel(Parcel in) {
+            ContactDetails cnt = new ContactDetails(in);
+            return cnt;
+        }
+
+        public ContactDetails[] newArray(int size) {
+            return new ContactDetails[size];
+        }
+    };
+
+    public ContactDetails(Parcel in) {
+        setmHomePh(in.readString());
+        setmOfficePh(in.readString());
+        setmMoblie(in.readString());
+        setmEmailId(in.readString());
     }
 
 }

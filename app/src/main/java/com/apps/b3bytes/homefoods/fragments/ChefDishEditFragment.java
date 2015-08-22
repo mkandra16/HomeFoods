@@ -34,6 +34,7 @@ import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.models.Dish;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
+import com.apps.b3bytes.homefoods.models.OneDishOrder;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -65,21 +66,25 @@ public class ChefDishEditFragment extends Fragment {
     private EditText etDishEditDishPrepMethod;
     private EditText etDishQtyPerUnit;
     private Spinner spDishUnit;
+    private View rootView;
+    private OneDishOrder mDish;
     public ChefDishEditFragment() {
         mexistingDish = false;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null)
+            mDish = (OneDishOrder) bundle.getParcelable("dish");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_chef_dish_edit, container, false);
+        rootView = inflater.inflate(R.layout.fragment_chef_dish_edit, container, false);
         acTvDishEditCuisine = (AutoCompleteTextView) rootView.findViewById(R.id.acTvDishEditCuisine);
         etDishEditDishName = (EditText) rootView.findViewById(R.id.etDishEditDishName);
         etDishEditDishInfo = (EditText) rootView.findViewById(R.id.etDishEditDishInfo);
@@ -96,6 +101,7 @@ public class ChefDishEditFragment extends Fragment {
         spDishUnit = (Spinner) rootView.findViewById(R.id.spDishUnit);
         tvDishEditDishImage = (TextView) rootView.findViewById(R.id.tvDishEditDishImage);
         ivDishEditDishImage = (ImageView) rootView.findViewById(R.id.ivDishEditDishImage);
+        initFields();
         return rootView;
     }
 
@@ -140,6 +146,10 @@ public class ChefDishEditFragment extends Fragment {
         return dishOnSale;
     }
 
+    public void initFields() {
+        //TODO: populate  fields if applicable. i.e. mDish != null
+    }
+
     @Override
     public void onAttach(Activity activity) {
         mContext = (FragmentActivity) activity;
@@ -149,6 +159,9 @@ public class ChefDishEditFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //TODO: populate other fields if applicable
+        etDishEditDishName = initTextView(rootView, R.id.etDishEditDishName, (mDish != null) ? mDish.getmDish().getmDishName() : "");
 
         ArrayAdapter<CharSequence> aCuisine = ArrayAdapter.createFromResource(
                 mContext, R.array.cuisine_picker_array, android.R.layout.simple_dropdown_item_1line);
@@ -273,6 +286,13 @@ public class ChefDishEditFragment extends Fragment {
         });
     }
 
+    private EditText initTextView(View view, int id, String text) {
+        EditText etView = (EditText) view.findViewById(id);
+        if (text != null && !text.isEmpty()) {
+            etView.setText(text);
+        }
+        return etView;
+    }
 
     private final TextWatcher dishPriceWatcher = new TextWatcher() {
         DecimalFormat dec = new DecimalFormat("0.00");
@@ -387,4 +407,7 @@ public class ChefDishEditFragment extends Fragment {
         }
     }
 
+    public void saveDish() {
+
+    }
 }
