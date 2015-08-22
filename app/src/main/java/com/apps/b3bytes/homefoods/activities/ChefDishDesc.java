@@ -143,6 +143,7 @@ public class ChefDishDesc extends AppCompatActivity {
             }
 
             ft.replace(R.id.flContainer, editFragment);
+            ft.commit();
         } else {
             final DishOnSale dishOnSale = editFragment.getDishDetails();
             AppGlobalState.gDataLayer.putDishOnSale(dishOnSale, new DataLayer.PublishCallback() {
@@ -153,6 +154,7 @@ public class ChefDishDesc extends AppCompatActivity {
                                 "Posted Dish for sale. Name : " + dishOnSale.getmDish().getmDishName(),
                                 Toast.LENGTH_SHORT).show();
                         ft.replace(R.id.flContainer, readonlyFragment);
+                        ft.commit();
                     } else {
                         Toast.makeText(getApplicationContext(),
                                 "Failed to post Dish for sale. Name : " + dishOnSale.getmDish().getmDishName(),
@@ -161,7 +163,6 @@ public class ChefDishDesc extends AppCompatActivity {
                 }
             });
         }
-        ft.commit();
     }
 
     @Override
