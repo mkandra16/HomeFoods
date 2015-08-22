@@ -117,13 +117,24 @@ public class ChefDishEditFragment extends Fragment {
         String dishCusine = acTvDishEditCuisine.getText().toString();
         boolean vegitarian = cbVegitarian.isChecked();
         String dishPriceStr = etDishEditPrice.getText().toString().replaceAll("[^0-9]", "");
-        double dishPrice = Double.valueOf(dishPriceStr)/100;
-        int dishQty = Integer.valueOf(etDishEditQuantity.getText().toString());
+        double dishPrice = 0.0;
+        if (dishPriceStr != "") {
+            dishPrice = Double.valueOf(dishPriceStr) / 100;
+        }
+        int dishQty = 0;
+        String quantity = etDishEditQuantity.getText().toString();
+        if(quantity != null && !quantity.isEmpty()) {
+            dishQty = Integer.valueOf(quantity);
+        }
         boolean pickup = cbDishEditPickUp.isChecked();
         boolean delivery = cbDishEditDelivery.isChecked();
         String mToDate = ((TextView) lDishEditToDatePicker.findViewById(R.id.tvDishEditDatePicker)).getText().toString();
         String mToTime = ((TextView) lDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker)).getText().toString();
-        double qtyPerUnit = Double.valueOf(etDishQtyPerUnit.getText().toString());
+        double qtyPerUnit = 0;
+        String qPerUnit = etDishQtyPerUnit.getText().toString();
+        if(qPerUnit != null && !qPerUnit.isEmpty()) {
+            qtyPerUnit = Double.valueOf(qPerUnit);
+        }
         String mUnit = spDishUnit.getSelectedItem().toString();
 
 //        Date date = lDishEditToDatePicker.get

@@ -133,9 +133,16 @@ public class ChefDishDesc extends AppCompatActivity {
         final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if (editMode) {
             dish = readonlyFragment.getDish();
-            Bundle args = new Bundle();
-            args.putParcelable("dish", dish);
-            editFragment.setArguments(args);
+            Bundle args = editFragment.getArguments();
+            //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
+            if (args == null) {
+                args = new Bundle();
+                args.putParcelable("dish", dish);
+                editFragment.setArguments(args);
+            } else {
+                args.putParcelable("dish", dish);
+            }
+
             ft.replace(R.id.flContainer, editFragment);
         } else {
             final DishOnSale dishOnSale = editFragment.getDishDetails();
