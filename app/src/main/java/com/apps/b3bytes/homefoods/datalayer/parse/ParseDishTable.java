@@ -117,7 +117,7 @@ public class ParseDishTable implements DishTable {
     public void putDishOnSale(final DishOnSale dishOnSale, final DataLayer.PublishCallback cb) {
         final ParseObject dishOnSaleObj = new ParseObject("DishOnSale");
         assert ! dishOnSale.getmDish().getmTag().isEmpty();
-        dishOnSaleObj.put("Dish", dishOnSale.getmDish().getmTag());
+        dishOnSaleObj.put("Dish", ParseObject.createWithoutData("Dish",dishOnSale.getmDish().getmTag()));
         dishOnSaleObj.put("Measure", dishOnSale.getmMeasure().toString());
         dishOnSaleObj.put("QtyPerUnit", dishOnSale.getmQtyPerUnit());
         dishOnSaleObj.put("UnitPrice", dishOnSale.getmUnitPrice());
