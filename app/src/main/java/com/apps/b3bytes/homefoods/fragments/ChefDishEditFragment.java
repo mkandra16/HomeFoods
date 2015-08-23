@@ -37,6 +37,8 @@ import com.apps.b3bytes.homefoods.models.Dish;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.OneDishOrder;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -135,7 +137,7 @@ public class ChefDishEditFragment extends Fragment {
         boolean pickup = cbDishEditPickUp.isChecked();
         boolean delivery = cbDishEditDelivery.isChecked();
         String mToDate = ((TextView) rlDishEditToDatePicker.findViewById(R.id.tvDishEditDatePicker)).getText().toString();
-        String mToTime = ((TextView) rlDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker)).getText().toString();
+        String mToTime = ((TextView) rlDishEditToDatePicker.findViewById(R.id.tvDishEditTimePicker)).getText().toString();
         double qtyPerUnit = 0;
         String qPerUnit = etDishQtyPerUnit.getText().toString();
         if (qPerUnit != null && !qPerUnit.isEmpty()) {
@@ -152,6 +154,8 @@ public class ChefDishEditFragment extends Fragment {
         dishOnSale.setmToTime(mToTime);
         dishOnSale.setmUnit(mUnit);
         dishOnSale.setmQtyPerUnit(qtyPerUnit);
+
+
         Dish dish = dishOnSale.getmDish();
         dish.setmChef(AppGlobalState.getmCurrentFoodie());
         dish.setmDishName(dishName);
@@ -169,7 +173,7 @@ public class ChefDishEditFragment extends Fragment {
         }
     }
 
-    private void initTextView(EditText etView, String text) {
+    private void initEditTextView(EditText etView, String text) {
         if (text != null && !text.isEmpty()) {
             etView.setText(text);
         }
@@ -177,23 +181,49 @@ public class ChefDishEditFragment extends Fragment {
 
     public void initFields() {
         //TODO: populate  fields if applicable. i.e. mDish != null
-        TextView tvDishEditDateHdr = (TextView) (rlDishEditFromDatePicker.findViewById(R.id.tvDishEditDateHdr));
-        tvDishEditDateHdr.setText("FROM");
+        TextView tvDishEditFromDateHdr = (TextView) (rlDishEditFromDatePicker.findViewById(R.id.tvDishEditDateHdr));
+        tvDishEditFromDateHdr.setText("FROM");
+        TextView tvDishEditToDateHdr = (TextView) (rlDishEditToDatePicker.findViewById(R.id.tvDishEditDateHdr));
+        tvDishEditToDateHdr.setText("TO");
         //populate  fields if applicable. i.e. mDish != null
         if (mDish != null) {
-            initTextView(etDishEditDishName, mDish.getmDish().getmDishName());
+            initEditTextView(etDishEditDishName, mDish.getmDish().getmDishName());
             initAutoCompleteTextView(acTvDishEditCuisine, "" + mDish.getmDish().getmCusineId());
             //if (mDish.getmDish().getmIsVegan() == true) //TODO: enable this after Dish model is updated
             cbVegitarian.setChecked(true);
-            initTextView(etDishEditPrice, "" + mDish.getmDish().getmPrice());
-            initTextView(etDishEditQuantity, "" + mDish.getmDish().getmQty());
+            initEditTextView(etDishEditPrice, "" + mDish.getmDish().getmPrice());
+            initEditTextView(etDishEditQuantity, "" + mDish.getmDish().getmQty());
 
-/*            private RelativeLayout rlDishEditFromDatePicker;
-            private RelativeLayout rlDishEditToDatePicker;
-            private LinearLayout llDishEditPickupDelivery;
-            private CheckBox cbDishEditPickUp;
-            private CheckBox cbDishEditDelivery;
-            private TextView tvDishEditDishImage;
+            // TODO: set date and time fileds.
+            // Need to convert the formats from parse and into the parse
+
+            TextView tvDishEditFromDatePicker = (TextView) (rlDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker));
+            tvDishEditFromDatePicker.setText(mDish.getmToDate()); //TODO need from date also
+            TextView tvDishEditFromTimePicker = (TextView) (rlDishEditFromDatePicker.findViewById(R.id.tvDishEditTimePicker));
+            tvDishEditFromTimePicker.setText(mDish.getmToTime()); //TODO need from Time also
+
+            TextView tvDishEditToDatePicker = (TextView) (rlDishEditToDatePicker.findViewById(R.id.tvDishEditDatePicker));
+            tvDishEditToDatePicker.setText(mDish.getmToDate());
+            TextView tvDishEditToTimePicker = (TextView) (rlDishEditToDatePicker.findViewById(R.id.tvDishEditTimePicker));
+            tvDishEditToTimePicker.setText(mDish.getmToTime());
+
+            if (mDish.ismPickUp()) {
+                cbDishEditPickUp.setChecked(true);
+            } else {
+                cbDishEditPickUp.setChecked(false);
+            }
+            if (mDish.ismDelivery()) {
+                cbDishEditDelivery.setChecked(true);
+            } else {
+                cbDishEditDelivery.setChecked(false);
+            }
+
+            initEditTextView(etDishQtyPerUnit, "" + mDish.getmQtyPerUnit());
+            if (mDish.getmMeasure() != null)
+                spDishUnit.setSelection((mDish.getmMeasure().equals(DishOnSale.Measure.Grams)) ? 0 : 1);
+
+            // TODO: set image from read only to edit mode
+            /*private TextView tvDishEditDishImage;
             private ImageView ivDishEditDishImage;*/
 
         }
@@ -208,9 +238,6 @@ public class ChefDishEditFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        //TODO: populate other fields if applicable
-        etDishEditDishName = initTextView(rootView, R.id.etDishEditDishName, (mDish != null) ? mDish.getmDish().getmDishName() : "");
 
         ArrayAdapter<CharSequence> aCuisine = ArrayAdapter.createFromResource(
                 mContext, R.array.cuisine_picker_array, android.R.layout.simple_dropdown_item_1line);
@@ -460,3 +487,4 @@ public class ChefDishEditFragment extends Fragment {
 
     }
 }
+

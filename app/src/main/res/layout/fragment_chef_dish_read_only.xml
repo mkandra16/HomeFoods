@@ -30,7 +30,7 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/TvDishEditCuisine"
+                android:id="@+id/tvDishEditCuisine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/tvDishEditDishName"
@@ -45,8 +45,8 @@
                 android:id="@+id/cbDishEditVegan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/TvDishEditCuisine"
-                android:layout_below="@+id/TvDishEditCuisine"
+                android:layout_alignLeft="@+id/tvDishEditCuisine"
+                android:layout_below="@+id/tvDishEditCuisine"
                 android:layout_marginTop="12dp"
                 android:text="Vegetarian"
                 android:clickable="false"
@@ -79,7 +79,7 @@
                 android:textSize="16sp" />
 
             <include
-                android:id="@+id/lDishEditFromDatePicker"
+                android:id="@+id/rlDishEditFromDatePicker"
                 layout="@layout/date_time_read_only_views"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -87,19 +87,19 @@
                 android:layout_marginTop="12dp" />
 
             <include
-                android:id="@+id/lDishEditToDatePicker"
+                android:id="@+id/rlDishEditToDatePicker"
                 layout="@layout/date_time_read_only_views"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lDishEditFromDatePicker"
+                android:layout_below="@+id/rlDishEditFromDatePicker"
                 android:layout_marginTop="12dp" />
 
             <LinearLayout
                 android:id="@+id/llDishEditPickupDelivery"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/lDishEditToDatePicker"
-                android:layout_below="@+id/lDishEditToDatePicker"
+                android:layout_alignLeft="@+id/rlDishEditToDatePicker"
+                android:layout_below="@+id/rlDishEditToDatePicker"
                 android:layout_marginTop="12dp"
                 android:orientation="horizontal"
                 android:weightSum="2">

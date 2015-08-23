@@ -153,6 +153,16 @@ public class ChefDishDesc extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),
                                 "Posted Dish for sale. Name : " + dishOnSale.getmDish().getmDishName(),
                                 Toast.LENGTH_SHORT).show();
+                        Bundle args = readonlyFragment.getArguments();
+                        //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
+                        if (args == null) {
+                            args = new Bundle();
+                            args.putParcelable("dish", dishOnSale);
+                            editFragment.setArguments(args);
+                        } else {
+                            args.putParcelable("dish", dishOnSale);
+                        }
+                        readonlyFragment.setArguments(args);
                         ft.replace(R.id.flContainer, readonlyFragment);
                         ft.commit();
                     } else {
