@@ -76,13 +76,13 @@ public class DataLayer {
     public void queryFewDishes_sample(final Context context) {
         getNearByDishes(10, new DataLayer.DishQueryCallback() {
             @Override
-            public void done(ArrayList<Dish> list, Exception e) {
+            public void done(ArrayList<DishOnSale> list, Exception e) {
                 if (e == null) {
                     Toast t = Toast.makeText(context,
                             "Received Dishes, count " + list.size(), Toast.LENGTH_LONG);
                     t.show();
-                    for (Dish d : list) {
-                        Toast.makeText(context, d.getmDishName(), Toast.LENGTH_SHORT);
+                    for (DishOnSale d : list) {
+                        Toast.makeText(context, d.getmDish().getmDishName(), Toast.LENGTH_SHORT);
                     }
                 } else {
                     Toast t = Toast.makeText(context,
@@ -110,7 +110,7 @@ public class DataLayer {
     }
 
     public static abstract class DishQueryCallback {
-        public abstract void done(ArrayList<Dish> list, Exception e);
+        public abstract void done(ArrayList<DishOnSale> list, Exception e);
     }
 
     enum Backend {UNKNOWN, PARSE}

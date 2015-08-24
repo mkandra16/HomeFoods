@@ -6,16 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
-import com.apps.b3bytes.homefoods.activities.WelcomeScreen;
 import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.models.Dish;
-import com.apps.b3bytes.homefoods.models.OneDishOrder;
+import com.apps.b3bytes.homefoods.models.DishOnSale;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -25,7 +23,7 @@ import java.util.ArrayList;
  */
 
 public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdapter.DishViewHolder> {
-    private ArrayList<Dish> mdishes;
+    private ArrayList<DishOnSale> mdishes;
     private Context mContext;
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -53,9 +51,10 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
             mContext = context;
          //   mIVDishImage = (ImageView) v.findViewById(R.id.ivDishImage);
         }
-        public void bindView(Dish dish) {
+        public void bindView(DishOnSale dishOnSale) {
+            Dish dish = dishOnSale.getmDish();
             mTVDishName.setText(dish.getmDishName());
-            mTVDishPrice.setText(mContext.getString(R.string.Rs) + new DecimalFormat("#0.00").format(dish.getmPrice()));
+            mTVDishPrice.setText(mContext.getString(R.string.Rs) + new DecimalFormat("#0.00").format(dishOnSale.getmUnitPrice()));
             mThumbsUp.setText(String.valueOf(dish.getmThumbsUp()));
             mThumbsDown.setText(String.valueOf(dish.getmThumbsDown()));//
             mDish = dish;
@@ -73,18 +72,18 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
     public FoodieResultsAdapter(Context context) {
         mContext = context;
         Toast.makeText(mContext, "Querying Dishes", Toast.LENGTH_SHORT).show();
-        mdishes = new ArrayList<Dish>();
+        mdishes = new ArrayList<DishOnSale>();
         // Fist query dishes from Parse
         // After response display Foodie results page.
         AppGlobalState.gDataLayer.getNearByDishes(10, new DataLayer.DishQueryCallback() {
             @Override
-            public void done(ArrayList<Dish> list, Exception e) {
+            public void done(ArrayList<DishOnSale> list, Exception e) {
                 if (e == null) {
                     Toast t = Toast.makeText(mContext,
                             "Received Dishes, count " + list.size(), Toast.LENGTH_LONG);
                     t.show();
-                    for (Dish d : list) {
-                        Toast.makeText(mContext, d.getmDishName(), Toast.LENGTH_SHORT);
+                    for (DishOnSale d : list) {
+                        Toast.makeText(mContext, d.getmDish().getmDishName(), Toast.LENGTH_SHORT);
                     }
                     mdishes = list;
                     notifyDataSetChanged();

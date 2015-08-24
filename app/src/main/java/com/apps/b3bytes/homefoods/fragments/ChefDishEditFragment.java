@@ -150,7 +150,7 @@ public class ChefDishEditFragment extends Fragment {
         dishOnSale.setmDelivery(delivery);
         dishOnSale.setmToDate(mToDate);
         dishOnSale.setmToTime(mToTime);
-        dishOnSale.setmUnit(mUnit);
+        dishOnSale.setmMeasure(mUnit);
         dishOnSale.setmQtyPerUnit(qtyPerUnit);
         Dish dish = dishOnSale.getmDish();
         dish.setmChef(AppGlobalState.getmCurrentFoodie());

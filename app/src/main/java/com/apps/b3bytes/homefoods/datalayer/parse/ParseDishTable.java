@@ -30,9 +30,9 @@ public class ParseDishTable implements DishTable {
         dish.setmDishName(object.getString("DishName"));
         dish.setmDishInfo(object.getString("DishInfo"));
         dish.setmImageURL(object.getString("ImageURL"));
-        dish.setmQty(object.getInt("Qty"));
+//        dish.setmQty(object.getInt("Qty"));
      //   dish.setmMeasure(object.getString("Measure"));
-        dish.setmPrice(object.getDouble("Price"));
+//        dish.setmPrice(object.getDouble("Price"));
         dish.setmThumbsUp(object.getInt("ThumbsUp"));
         dish.setmThumbsDown(object.getInt("ThumbsDown"));
         dish.setmCusineId(object.getInt("CusineId"));
@@ -43,10 +43,26 @@ public class ParseDishTable implements DishTable {
         dish.setmChef(f);
         return dish;
     }
-    private ArrayList<Dish> ParseList2DishList(List<ParseObject> list) {
-        ArrayList<Dish> al = new ArrayList<Dish>();
+    DishOnSale ParseObject2DishOnSale(ParseObject object) {
+        DishOnSale dos = new DishOnSale();
+        dos.setmTag(object.getObjectId());
+        dos.setmMeasure(object.getString("Measure"));
+        dos.setmToTime(object.getString("ToTime"));
+        dos.setmQtyPerUnit(object.getDouble("QtyPerUnit"));
+        dos.setmUnitPrice(object.getDouble("UnitPrice"));
+        dos.setmPickUp(object.getBoolean("PickUp"));
+        dos.setmUnitsOnSale(object.getInt("QtyOnSale"));
+        dos.setmUnitsOrdered(object.getInt("UnitsOrdered"));
+        dos.setmUnitsDelivered(object.getInt("UnitsDelivered"));
+        dos.setmDelivery(object.getBoolean("Delivery"));
+        dos.setmPickUp(object.getBoolean("PickUp"));
+        dos.setmDish(ParseObject2Dish(object.getParseObject("Dish")));
+        return dos;
+    }
+    private ArrayList<DishOnSale> ParseList2DishOnSaleList(List<ParseObject> list) {
+        ArrayList<DishOnSale> al = new ArrayList<DishOnSale>();
         for(ParseObject o : list) {
-            Dish d = ParseObject2Dish(o);
+            DishOnSale d = ParseObject2DishOnSale(o);
             al.add(d);
         }
         return al;
@@ -95,16 +111,19 @@ public class ParseDishTable implements DishTable {
     @Override
     public void getNearbyDishes(int radius, final DataLayer.DishQueryCallback callback) {
         ParseGeoPoint loc = new ParseGeoPoint(40,50);
-        ParseQuery query = ParseQuery.getQuery("Dish");
-        query.whereWithinMiles("DeliveryLoc", loc, radius);
-        query.include("Chef");
+        ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Dish");
+        innerQuery.whereWithinMiles("DeliveryLoc", loc, radius);
+        ParseQuery query = ParseQuery.getQuery("DishOnSale");
+        query.whereMatchesQuery("Dish", innerQuery);
+        query.include("Dish");
+        query.include("Dish.Chef");
         query.setLimit(20);
         query.findInBackground(new FindCallback<ParseObject>() {
                                    public void done(List<ParseObject> dishList, ParseException e) {
                                        if (e == null) {
                                            Log.d("score", "Retrieved " + dishList.size() + " scores");
 
-                                           callback.done(ParseList2DishList(dishList), e);
+                                           callback.done(ParseList2DishOnSaleList(dishList), e);
                                        } else {
                                            Log.d("score", "Error: " + e.getMessage());
                                        }

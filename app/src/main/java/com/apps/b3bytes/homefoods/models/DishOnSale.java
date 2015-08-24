@@ -59,7 +59,7 @@ public class DishOnSale implements Parcelable {
         this.mQtyPerUnit = mQtyPerUnit;
     }
 
-    public void setmUnit(String mUnit) {
+    public void setmMeasure(String mUnit) {
         this.mMeasure = Measure.valueOf(mUnit);
     }
 
