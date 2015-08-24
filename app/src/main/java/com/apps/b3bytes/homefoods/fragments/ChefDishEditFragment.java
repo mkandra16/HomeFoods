@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -14,6 +15,7 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -74,6 +76,10 @@ public class ChefDishEditFragment extends Fragment {
     private EditText etDishQtyPerUnit;
     private Spinner spDishUnit;
     private DishOnSale mDish;
+
+    protected static final int CAMERA_REQUEST = 0;
+    protected static final int GALLERY_PICTURE = 1;
+    private Intent pictureActionIntent = null;
 
     public ChefDishEditFragment() {
         mexistingDish = false;
@@ -302,62 +308,40 @@ public class ChefDishEditFragment extends Fragment {
         tvDishEditDishImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // DishImageHelper.setDishImage(ivDishEditDishImage, getApplicationContext());
-/*                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image*//*");
-                startActivityForResult(photoPickerIntent, 1);*/
+                //http://stackoverflow.com/questions/11732872/android-how-can-i-call-camera-or-gallery-intent-together
+                AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(getActivity());
+                myAlertDialog.setTitle("Upload Pictures Option");
+                myAlertDialog.setMessage("How do you want to set your picture?");
 
-/*                Intent pickIntent = new Intent();
-                pickIntent.setType("image*//*");
-                pickIntent.setAction(Intent.ACTION_GET_CONTENT);
+                myAlertDialog.setPositiveButton("Gallery",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                pictureActionIntent = new Intent(
+                                        Intent.ACTION_GET_CONTENT, null);
+                                pictureActionIntent.setType("image/*");
+                                pictureActionIntent.putExtra("return-data", true);
+                                startActivityForResult(pictureActionIntent,
+                                        GALLERY_PICTURE);
+                            }
+                        });
 
-                Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                myAlertDialog.setNegativeButton("Camera",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "MyDir" + File.separator);
+                                root.mkdirs();
+                                final String fname = "img_" + System.currentTimeMillis() + ".jpg"; //Utils.getUniqueImageFilename();
+                                final File sdImageMainDirectory = new File(root, fname);
+                                outputFileUri = Uri.fromFile(sdImageMainDirectory);
+                                pictureActionIntent = new Intent(
+                                        android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                                pictureActionIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+                                startActivityForResult(pictureActionIntent,
+                                        CAMERA_REQUEST);
 
-                String pickTitle = "Select or take a new Picture"; // Or get from strings.xml
-                Intent chooserIntent = Intent.createChooser(pickIntent, pickTitle);
-                chooserIntent.putExtra
-                        (
-                                Intent.EXTRA_INITIAL_INTENTS,
-                                new Intent[] { takePhotoIntent }
-                        );
-
-                startActivityForResult(chooserIntent, 1);*/
-
-
-                // Determine Uri of camera image to save.
-                final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "MyDir" + File.separator);
-                root.mkdirs();
-                final String fname = "img_" + System.currentTimeMillis() + ".jpg"; //Utils.getUniqueImageFilename();
-                final File sdImageMainDirectory = new File(root, fname);
-                outputFileUri = Uri.fromFile(sdImageMainDirectory);
-
-                // Camera.
-                final List<Intent> cameraIntents = new ArrayList<Intent>();
-                final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                final PackageManager packageManager = mContext.getPackageManager();
-                final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-                for (ResolveInfo res : listCam) {
-                    final String packageName = res.activityInfo.packageName;
-                    final Intent intent = new Intent(captureIntent);
-                    intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-                    intent.setPackage(packageName);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-                    cameraIntents.add(intent);
-                }
-
-                // Filesystem.
-                final Intent galleryIntent = new Intent();
-                //galleryIntent.setType("image*/*");
-                //galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setAction(Intent.ACTION_PICK);
-
-                // Chooser of filesystem options.
-                final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
-
-                // Add the camera options.
-                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
-
-                startActivityForResult(chooserIntent, 120);
+                            }
+                        });
+                myAlertDialog.show();
             }
         });
     }
@@ -456,15 +440,15 @@ public class ChefDishEditFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == 120) {
-                final boolean isCamera;
+            if ((requestCode == GALLERY_PICTURE) || (requestCode == CAMERA_REQUEST)) {
+                boolean isCamera = false;
                 if (data == null) {
                     isCamera = true;
                 } else {
                     final String action = data.getAction();
                     if (action == null) {
                         isCamera = false;
-                    } else {
+                    } else if (requestCode == CAMERA_REQUEST) {
                         isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                     }
                 }
