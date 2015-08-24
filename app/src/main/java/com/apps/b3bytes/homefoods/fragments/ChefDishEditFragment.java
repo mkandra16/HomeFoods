@@ -188,7 +188,7 @@ public class ChefDishEditFragment extends Fragment {
         //populate  fields if applicable. i.e. mDish != null
         if (mDish != null) {
             initEditTextView(etDishEditDishName, mDish.getmDish().getmDishName());
-            initAutoCompleteTextView(acTvDishEditCuisine, "" + mDish.getmDish().getmCusineId());
+            initAutoCompleteTextView(acTvDishEditCuisine, mDish.getmDish().getmCusine());
             //if (mDish.getmDish().getmIsVegan() == true) //TODO: enable this after Dish model is updated
             cbVegitarian.setChecked(true);
             initEditTextView(etDishEditPrice, "" + mDish.getmDish().getmPrice());

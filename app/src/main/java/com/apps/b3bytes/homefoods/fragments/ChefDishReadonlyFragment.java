@@ -93,7 +93,7 @@ public class ChefDishReadonlyFragment extends Fragment {
         //populate  fields if applicable. i.e. mDish != null
         if (mDish != null) {
             initTextView(tvDishEditDishName, mDish.getmDish().getmDishName());
-            initTextView(tvDishEditCuisine, "" + mDish.getmDish().getmCusineId());
+            initTextView(tvDishEditCuisine, mDish.getmDish().getmCusine());
             //if (mDish.getmDish().getmIsVegan() == true) //TODO: enable this after Dish model is updated
             cbDishEditVegan.setChecked(mDish.getmDish().ismVegan());
             initTextView(tvDishEditPrice, "" + mDish.getmUnitPrice());
