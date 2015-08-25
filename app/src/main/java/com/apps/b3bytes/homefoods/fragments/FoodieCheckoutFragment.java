@@ -123,16 +123,15 @@ public class FoodieCheckoutFragment extends Fragment {
         TextView tvChefName = (TextView) rlOneChefOrder.findViewById(R.id.tvChefName);
         tvChefName.setText(chef.getmUserName());
 
-        List<FoodieDishOrder> list =
-                new ArrayList<FoodieDishOrder>();
+        List<DishOnSale> list =
+                new ArrayList<DishOnSale>();
         ListView lvChefOrders = (ListView) rlOneChefOrder.findViewById(R.id.lvChefOrders);
-        ArrayAdapter<FoodieDishOrder> aOneDishOrder =
+        ArrayAdapter<DishOnSale> aOneDishOrder =
                 new DishOrdersListAdapter(mContext, list, lvChefOrders, llOneChefOrder);
         lvChefOrders.setAdapter(aOneDishOrder);
 
         for (DishOnSale d : AppGlobalState.gCart.chefDishesInCart(chef)) {
-            int qty = AppGlobalState.gCart.dishQtyInCart(d);
-            list.add(new FoodieDishOrder(d, qty));
+            list.add(d);
         }
         aOneDishOrder.notifyDataSetChanged();
         ListViewHelper.setListViewHeightBasedOnChildren(lvChefOrders);

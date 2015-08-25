@@ -18,14 +18,14 @@ import com.apps.b3bytes.homefoods.utils.ListViewHelper;
 
 import java.util.List;
 
-public class DishOrdersListAdapter extends ArrayAdapter<FoodieDishOrder> {
+public class DishOrdersListAdapter extends ArrayAdapter<DishOnSale> {
 
-    private final List<FoodieDishOrder> list;
+    private final List<DishOnSale> list;
     private final Activity context;
     private final ListView lvChefOrders;
     private final LinearLayout llOneChefOrder;
 
-    public DishOrdersListAdapter(Activity context, List<FoodieDishOrder> list, ListView lvChefOrders, LinearLayout llOneChefOrder) {
+    public DishOrdersListAdapter(Activity context, List<DishOnSale> list, ListView lvChefOrders, LinearLayout llOneChefOrder) {
         super(context, R.layout.one_dish_order_item, list);
         this.context = context;
         this.list = list;
@@ -84,7 +84,7 @@ public class DishOrdersListAdapter extends ArrayAdapter<FoodieDishOrder> {
                     String quan = viewHolder.etOrderReviewDishQuantityNum.getText().toString();
                     int q = Integer.parseInt(quan);
                     if (q == 0) {
-                        AppGlobalState.gCart.setQty(list.get(position).getmDishOnSale(), 0);
+                        AppGlobalState.gCart.setQty(list.get(position), 0);
                         list.remove(position);
                         notifyDataSetChanged();
                         notifyDataSetInvalidated();
@@ -99,10 +99,9 @@ public class DishOrdersListAdapter extends ArrayAdapter<FoodieDishOrder> {
                         }
                     } else {
                         viewHolder.tvOrderReviewDishQuantityNum.setText(quan);
-                        AppGlobalState.gCart.setQty(list.get(position).getmDishOnSale(), q);
-                        list.get(position).setmQty(q);
+                        AppGlobalState.gCart.setQty(list.get(position), q);
                         viewHolder.tvOrderReviewDishPrice.setText(context.getString(R.string.Rs) + " "
-                                + AppGlobalState.gCart.getGrandTotalByDish(list.get(position).getmDishOnSale()));
+                                + AppGlobalState.gCart.getGrandTotalByDish(list.get(position)));
 
                         viewHolder.tvOrderReviewDishQuantityChange.setVisibility(View.VISIBLE);
                         viewHolder.tvOrderReviewDishQuantityNum.setVisibility(View.VISIBLE);
@@ -114,7 +113,7 @@ public class DishOrdersListAdapter extends ArrayAdapter<FoodieDishOrder> {
             viewHolder.tvOrderReviewDishQuantityDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    AppGlobalState.gCart.setQty(list.get(position).getmDishOnSale(), 0);
+                    AppGlobalState.gCart.setQty(list.get(position), 0);
                     list.remove(position);
                     notifyDataSetChanged();
                     notifyDataSetInvalidated();
@@ -138,11 +137,11 @@ public class DishOrdersListAdapter extends ArrayAdapter<FoodieDishOrder> {
 
         ViewHolder holder = (ViewHolder) view.getTag();
 
-        holder.tvOrderReviewDishName.setText(list.get(position).getmDishOnSale().getmDish().getmDishName());
+        holder.tvOrderReviewDishName.setText(list.get(position).getmDish().getmDishName());
         holder.tvOrderReviewDishQuantityNum.setText(""
-                + AppGlobalState.gCart.dishQtyInCart(list.get(position).getmDishOnSale()));
+                + AppGlobalState.gCart.dishQtyInCart(list.get(position)));
         holder.tvOrderReviewDishPrice.setText(context.getString(R.string.Rs) + " " +
-                AppGlobalState.gCart.getGrandTotalByDish(list.get(position).getmDishOnSale()));
+                AppGlobalState.gCart.getGrandTotalByDish(list.get(position)));
 
 /*        if (position % 2 == 1) {
             view.setBackgroundColor(Color.BLUE);
