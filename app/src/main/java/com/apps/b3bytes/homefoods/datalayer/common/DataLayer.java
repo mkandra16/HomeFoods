@@ -186,12 +186,12 @@ public class DataLayer {
 
     public void checkOutCart(final Cart cart, final OrderCallback cb) {
         for (final Foodie chef : cart.chefsInCart()) {
-            for (final Dish dish : cart.chefDishesInCart(chef)) {
-                mOrderTable.checkOutDish(dish, cart.dishQtyInCart(dish), new OrderCallback() {
+            for (final DishOnSale dish : cart.chefDishesInCart(chef)) {
+                mOrderTable.checkOutDish(dish.getmDish(), cart.dishQtyInCart(dish), new OrderCallback() {
 
                     @Override
                     public void done(String DishId, Exception e) {
-                        Foodie f = dish.getmChef();
+                        Foodie f = dish.getmDish().getmChef();
                         if (e == null) {
                             cart.setOrderId(dish, DishId);
                         } else {

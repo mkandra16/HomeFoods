@@ -36,7 +36,7 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
         private TextView mThumbsDown;
         private Button mOrderButton;
 //        private View mView;
-        private Dish mDish;
+        private DishOnSale dishOnSale;
         private Context mContext;
        // private ImageView mIVDishImage;
 
@@ -57,12 +57,12 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
             mTVDishPrice.setText(mContext.getString(R.string.Rs) + new DecimalFormat("#0.00").format(dishOnSale.getmUnitPrice()));
             mThumbsUp.setText(String.valueOf(dish.getmThumbsUp()));
             mThumbsDown.setText(String.valueOf(dish.getmThumbsDown()));//
-            mDish = dish;
+            this.dishOnSale = dishOnSale;
             mOrderButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(mContext, "Recived Click on Dish : " + mDish.getmDishName(), Toast.LENGTH_SHORT).show();
-                    AppGlobalState.gCart.add_to_bag(mDish);
+                    Toast.makeText(mContext, "Recived Click on Dish : " + DishViewHolder.this.dishOnSale.getmDish().getmDishName(), Toast.LENGTH_SHORT).show();
+                    AppGlobalState.gCart.add_to_bag(DishViewHolder.this.dishOnSale);
                 }
             });
         }

@@ -46,8 +46,7 @@ public class DishOnSale implements Parcelable {
 
     public void setmMeasure(String mUnit) {
         if (mUnit != null && !mUnit.isEmpty()) {
-            //TODO
-//            this.mMeasure = Measure.valueOf(mUnit);
+             this.mMeasure = Measure.valueOf(mUnit);
         }
     }
 
@@ -57,10 +56,6 @@ public class DishOnSale implements Parcelable {
 
     public void setmQtyPerUnit(double mQtyPerUnit) {
         this.mQtyPerUnit = mQtyPerUnit;
-    }
-
-    public void setmMeasure(String mUnit) {
-        this.mMeasure = Measure.valueOf(mUnit);
     }
 
     public boolean ismPickUp() {

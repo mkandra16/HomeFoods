@@ -52,7 +52,7 @@ public class ParseFoodieTable implements FoodieTable {
             foodie.put("FoodieId", user.getInt("FoodieId"))
                     .put("FirstName", user.getString("FirstName"))
                     .put("LastName", user.getString("LastName"))
-                    .put("UserName", user.getEmail())
+                    .put("UserName", user.getString("username"))
                     .put("Address", addr)
                     .put("ContactDetails", contact)
                     .put("FavoriteFoods", user.getString("FavoriteFoods"));

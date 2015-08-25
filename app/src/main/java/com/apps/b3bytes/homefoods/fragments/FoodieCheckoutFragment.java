@@ -19,7 +19,9 @@ import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.adapters.DishOrdersListAdapter;
 import com.apps.b3bytes.homefoods.models.Dish;
+import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.Foodie;
+import com.apps.b3bytes.homefoods.models.FoodieDishOrder;
 import com.apps.b3bytes.homefoods.models.OneDishOrder;
 import com.apps.b3bytes.homefoods.utils.ListViewHelper;
 
@@ -121,14 +123,16 @@ public class FoodieCheckoutFragment extends Fragment {
         TextView tvChefName = (TextView) rlOneChefOrder.findViewById(R.id.tvChefName);
         tvChefName.setText(chef.getmUserName());
 
-        List<OneDishOrder> list = new ArrayList<OneDishOrder>();
+        List<FoodieDishOrder> list =
+                new ArrayList<FoodieDishOrder>();
         ListView lvChefOrders = (ListView) rlOneChefOrder.findViewById(R.id.lvChefOrders);
-        ArrayAdapter<OneDishOrder> aOneDishOrder = new DishOrdersListAdapter(mContext, list, lvChefOrders, llOneChefOrder);
+        ArrayAdapter<FoodieDishOrder> aOneDishOrder =
+                new DishOrdersListAdapter(mContext, list, lvChefOrders, llOneChefOrder);
         lvChefOrders.setAdapter(aOneDishOrder);
 
-        for (Dish d : AppGlobalState.gCart.chefDishesInCart(chef)) {
+        for (DishOnSale d : AppGlobalState.gCart.chefDishesInCart(chef)) {
             int qty = AppGlobalState.gCart.dishQtyInCart(d);
-            list.add(new OneDishOrder(d, qty));
+            list.add(new FoodieDishOrder(d, qty));
         }
         aOneDishOrder.notifyDataSetChanged();
         ListViewHelper.setListViewHeightBasedOnChildren(lvChefOrders);

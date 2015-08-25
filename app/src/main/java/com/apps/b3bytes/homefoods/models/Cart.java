@@ -1,63 +1,109 @@
 package com.apps.b3bytes.homefoods.models;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Vector;
 
 /**
- * Created by sindhu on 8/15/2015.
+ * Created by Pavan on 8/15/2015.
  */
 public  class Cart {
-    private HashMap<Dish, Integer> dishesMap;
+    private HashMap<DishOnSale, Integer> dishesMap;
     private HashMap<Foodie, Double> chefMap;
     private double grandTotal;
-    private HashMap<Dish, String> dishOrderIds;
+    private HashMap<DishOnSale, String> dishOrderIds;
     private HashMap<Foodie, String> chefOrderIds;
 
     public Cart() {
-        dishesMap = new HashMap<Dish, Integer>();
+        dishesMap = new HashMap<DishOnSale, Integer>();
         chefMap = new HashMap<Foodie, Double>();
-        dishOrderIds = new HashMap<Dish, String>();
+        dishOrderIds = new HashMap<DishOnSale, String>();
         chefOrderIds = new HashMap<Foodie, String>();
         this.grandTotal = 0;
     }
 
     public void clear() {
-        dishesMap = new HashMap<Dish, Integer>();
+        dishesMap = new HashMap<DishOnSale, Integer>();
         chefMap = new HashMap<Foodie, Double>();
-        dishOrderIds = new HashMap<Dish, String>();
+        dishOrderIds = new HashMap<DishOnSale, String>();
         chefOrderIds = new HashMap<Foodie, String>();
         this.grandTotal = 0;
     }
 
-    public void add_to_bag(Dish dish) {
+    public void add_to_bag(DishOnSale dishOnSale) {
         int qty = 1;
-        double chefTotal = dish.getmPrice();
-        grandTotal += dish.getmPrice();
-        if (dishesMap.containsKey(dish)) {
-            qty = dishesMap.get(dish).intValue() + qty;
-            dishesMap.remove(dish);
+        double chefTotal = dishOnSale.getmUnitPrice();
+        grandTotal += dishOnSale.getmUnitPrice();
+        if (dishesMap.containsKey(dishOnSale)) {
+            qty = dishesMap.get(dishOnSale).intValue() + qty;
+            dishesMap.remove(dishOnSale);
         }
-        dishesMap.put(dish, qty);
-        if (chefMap.containsKey(dish.getmChef())) {
-            chefTotal = chefMap.get(dish.getmChef());
-            chefTotal += dish.getmPrice();
-            chefMap.remove(dish.getmChef());
+        dishesMap.put(dishOnSale, qty);
+        Foodie chef = dishOnSale.getmDish().getmChef();
+        if (chefMap.containsKey(chef)) {
+            chefTotal = chefMap.get(chef);
+            chefTotal += dishOnSale.getmUnitPrice();
+            chefMap.remove(chef);
         }
-        chefMap.put(dish.getmChef(), chefTotal);
+        chefMap.put(chef, chefTotal);
+    }
+    private void removeDish(DishOnSale dishOnSale) {
+        assert dishesMap.containsKey(dishOnSale);
+        // Adjust Grand Total
+        grandTotal -= getGrandTotalByDish(dishOnSale);
+
+        // Adjust Chef Total, Remove Chef if not needed.
+        assert chefMap.containsKey(dishOnSale.getmDish().getmChef());
+        assert chefMap.get(dishOnSale.getmDish().getmChef()) >= getGrandTotalByDish(dishOnSale);
+
+        double chefTotal = chefMap.get(dishOnSale.getmDish().getmChef()) - getGrandTotalByDish(dishOnSale);
+        chefMap.remove(dishOnSale.getmDish().getmChef());
+
+        if (chefTotal != 0) {
+            chefMap.put(dishOnSale.getmDish().getmChef(), chefTotal);
+        }
+
+        // Remove Dish from DishList
+        dishesMap.remove(dishOnSale);
+    }
+
+    // This is special private interface which doesn't expect item to be present in the cart.
+    // If item is already present, caller should call removeDish() first.
+    private void add_to_bag(DishOnSale dishOnSale, int qty) {
+        assert qty != 0;
+        assert ! dishesMap.containsKey(dishOnSale);
+
+        // Add Dish to DishList
+        dishesMap.put(dishOnSale, qty);
+        // Adjust Grand Total
+        grandTotal += getGrandTotalByDish(dishOnSale);
+        // Adjust Chef Total, Add Chef if new.
+        double chefTotal = getGrandTotalByDish(dishOnSale);
+        if (chefMap.containsKey(dishOnSale.getmDish().getmChef())) {
+            chefTotal += chefMap.get(dishOnSale.getmDish().getmChef());
+            chefMap.remove(dishOnSale.getmDish().getmChef());
+        }
+        chefMap.put(dishOnSale.getmDish().getmChef(), chefTotal);
+    }
+
+    public void setQty(DishOnSale dishOnSale, int qty) {
+        // First remove current dish
+        removeDish(dishOnSale);
+        // Add new dish
+        if (qty != 0) {
+            add_to_bag(dishOnSale, qty);
+        }
     }
 
     public Set<Foodie> chefsInCart() {
         return chefMap.keySet();
     }
-    public Set<Dish> dishesInCart() { return dishesMap.keySet(); }
+    public Set<DishOnSale> dishesInCart() { return dishesMap.keySet(); }
 
-    public HashSet<Dish> chefDishesInCart(Foodie chef) {
-        HashSet<Dish> dishes = new HashSet<Dish>();
-        for (Dish d : dishesMap.keySet()) {
-            if (d.getmChef().equals(chef)) {
+    public HashSet<DishOnSale> chefDishesInCart(Foodie chef) {
+        HashSet<DishOnSale> dishes = new HashSet<DishOnSale>();
+        for (DishOnSale d : dishesMap.keySet()) {
+            if (d.getmDish().getmChef().equals(chef)) {
                 dishes.add(d);
             }
         }
@@ -73,19 +119,19 @@ public  class Cart {
         }
     };
 
-    public double getGrandTotalByDish(Dish dish) {
+    public double getGrandTotalByDish(DishOnSale dish) {
         if (dishesMap.containsKey(dish)) {
-            return dishesMap.get(dish) * dish.getmPrice();
+            return dishesMap.get(dish) * dish.getmUnitPrice();
         } else {
             return 0.0;
         }
     }
 
-    public int dishQtyInCart(Dish dish) {
+    public int dishQtyInCart(DishOnSale dish) {
         return dishesMap.get(dish);
     }
 
-    public void setOrderId(Dish dish, String orderId) {
+    public void setOrderId(DishOnSale dish, String orderId) {
         assert ! dishOrderIds.containsKey(dish);
         dishOrderIds.put(dish, orderId);
     }
@@ -107,8 +153,8 @@ public  class Cart {
 
     public Set<String> getAllDishOrderIdsByChef(Foodie chef) {
         Set<String> orders = new HashSet<>();
-        for (Dish dish : dishesMap.keySet()) {
-            if (dish.getmChef().equals(chef)) {
+        for (DishOnSale dish : dishesMap.keySet()) {
+            if (dish.getmDish().getmChef().equals(chef)) {
                 String id = dishOrderIds.get(dish);
                 assert !orders.contains(id);
                 orders.add(id);
