@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -14,6 +15,7 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -36,6 +38,8 @@ import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.models.Dish;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.OneDishOrder;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -72,6 +76,10 @@ public class ChefDishEditFragment extends Fragment {
     private EditText etDishQtyPerUnit;
     private Spinner spDishUnit;
     private DishOnSale mDish;
+
+    protected static final int CAMERA_REQUEST = 0;
+    protected static final int GALLERY_PICTURE = 1;
+    private Intent pictureActionIntent = null;
 
     public ChefDishEditFragment() {
         mexistingDish = false;
@@ -135,7 +143,7 @@ public class ChefDishEditFragment extends Fragment {
         boolean pickup = cbDishEditPickUp.isChecked();
         boolean delivery = cbDishEditDelivery.isChecked();
         String mToDate = ((TextView) rlDishEditToDatePicker.findViewById(R.id.tvDishEditDatePicker)).getText().toString();
-        String mToTime = ((TextView) rlDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker)).getText().toString();
+        String mToTime = ((TextView) rlDishEditToDatePicker.findViewById(R.id.tvDishEditTimePicker)).getText().toString();
         double qtyPerUnit = 0;
         String qPerUnit = etDishQtyPerUnit.getText().toString();
         if (qPerUnit != null && !qPerUnit.isEmpty()) {
@@ -152,6 +160,8 @@ public class ChefDishEditFragment extends Fragment {
         dishOnSale.setmToTime(mToTime);
         dishOnSale.setmMeasure(mUnit);
         dishOnSale.setmQtyPerUnit(qtyPerUnit);
+
+
         Dish dish = dishOnSale.getmDish();
         dish.setmChef(AppGlobalState.getmCurrentFoodie());
         dish.setmDishName(dishName);
@@ -169,7 +179,7 @@ public class ChefDishEditFragment extends Fragment {
         }
     }
 
-    private void initTextView(EditText etView, String text) {
+    private void initEditTextView(EditText etView, String text) {
         if (text != null && !text.isEmpty()) {
             etView.setText(text);
         }
@@ -177,23 +187,49 @@ public class ChefDishEditFragment extends Fragment {
 
     public void initFields() {
         //TODO: populate  fields if applicable. i.e. mDish != null
-        TextView tvDishEditDateHdr = (TextView) (rlDishEditFromDatePicker.findViewById(R.id.tvDishEditDateHdr));
-        tvDishEditDateHdr.setText("FROM");
+        TextView tvDishEditFromDateHdr = (TextView) (rlDishEditFromDatePicker.findViewById(R.id.tvDishEditDateHdr));
+        tvDishEditFromDateHdr.setText("FROM");
+        TextView tvDishEditToDateHdr = (TextView) (rlDishEditToDatePicker.findViewById(R.id.tvDishEditDateHdr));
+        tvDishEditToDateHdr.setText("TO");
         //populate  fields if applicable. i.e. mDish != null
         if (mDish != null) {
-            initTextView(etDishEditDishName, mDish.getmDish().getmDishName());
-            initAutoCompleteTextView(acTvDishEditCuisine, "" + mDish.getmDish().getmCusineId());
+            initEditTextView(etDishEditDishName, mDish.getmDish().getmDishName());
+            initAutoCompleteTextView(acTvDishEditCuisine, mDish.getmDish().getmCusine());
             //if (mDish.getmDish().getmIsVegan() == true) //TODO: enable this after Dish model is updated
             cbVegitarian.setChecked(true);
-            initTextView(etDishEditPrice, "" + mDish.getmDish().getmPrice());
-            initTextView(etDishEditQuantity, "" + mDish.getmDish().getmQty());
+            initEditTextView(etDishEditPrice, "" + mDish.getmDish().getmPrice());
+            initEditTextView(etDishEditQuantity, "" + mDish.getmDish().getmQty());
 
-/*            private RelativeLayout rlDishEditFromDatePicker;
-            private RelativeLayout rlDishEditToDatePicker;
-            private LinearLayout llDishEditPickupDelivery;
-            private CheckBox cbDishEditPickUp;
-            private CheckBox cbDishEditDelivery;
-            private TextView tvDishEditDishImage;
+            // TODO: set date and time fileds.
+            // Need to convert the formats from parse and into the parse
+
+            TextView tvDishEditFromDatePicker = (TextView) (rlDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker));
+            tvDishEditFromDatePicker.setText(mDish.getmToDate()); //TODO need from date also
+            TextView tvDishEditFromTimePicker = (TextView) (rlDishEditFromDatePicker.findViewById(R.id.tvDishEditTimePicker));
+            tvDishEditFromTimePicker.setText(mDish.getmToTime()); //TODO need from Time also
+
+            TextView tvDishEditToDatePicker = (TextView) (rlDishEditToDatePicker.findViewById(R.id.tvDishEditDatePicker));
+            tvDishEditToDatePicker.setText(mDish.getmToDate());
+            TextView tvDishEditToTimePicker = (TextView) (rlDishEditToDatePicker.findViewById(R.id.tvDishEditTimePicker));
+            tvDishEditToTimePicker.setText(mDish.getmToTime());
+
+            if (mDish.ismPickUp()) {
+                cbDishEditPickUp.setChecked(true);
+            } else {
+                cbDishEditPickUp.setChecked(false);
+            }
+            if (mDish.ismDelivery()) {
+                cbDishEditDelivery.setChecked(true);
+            } else {
+                cbDishEditDelivery.setChecked(false);
+            }
+
+            initEditTextView(etDishQtyPerUnit, "" + mDish.getmQtyPerUnit());
+            if (mDish.getmMeasure() != null)
+                spDishUnit.setSelection((mDish.getmMeasure().equals(DishOnSale.Measure.Grams)) ? 0 : 1);
+
+            // TODO: set image from read only to edit mode
+            /*private TextView tvDishEditDishImage;
             private ImageView ivDishEditDishImage;*/
 
         }
@@ -208,9 +244,6 @@ public class ChefDishEditFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        //TODO: populate other fields if applicable
-        etDishEditDishName = initTextView(rootView, R.id.etDishEditDishName, (mDish != null) ? mDish.getmDish().getmDishName() : "");
 
         ArrayAdapter<CharSequence> aCuisine = ArrayAdapter.createFromResource(
                 mContext, R.array.cuisine_picker_array, android.R.layout.simple_dropdown_item_1line);
@@ -275,62 +308,40 @@ public class ChefDishEditFragment extends Fragment {
         tvDishEditDishImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // DishImageHelper.setDishImage(ivDishEditDishImage, getApplicationContext());
-/*                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image*//*");
-                startActivityForResult(photoPickerIntent, 1);*/
+                //http://stackoverflow.com/questions/11732872/android-how-can-i-call-camera-or-gallery-intent-together
+                AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(getActivity());
+                myAlertDialog.setTitle("Upload Pictures Option");
+                myAlertDialog.setMessage("How do you want to set your picture?");
 
-/*                Intent pickIntent = new Intent();
-                pickIntent.setType("image*//*");
-                pickIntent.setAction(Intent.ACTION_GET_CONTENT);
+                myAlertDialog.setPositiveButton("Gallery",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                pictureActionIntent = new Intent(
+                                        Intent.ACTION_GET_CONTENT, null);
+                                pictureActionIntent.setType("image/*");
+                                pictureActionIntent.putExtra("return-data", true);
+                                startActivityForResult(pictureActionIntent,
+                                        GALLERY_PICTURE);
+                            }
+                        });
 
-                Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                myAlertDialog.setNegativeButton("Camera",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "MyDir" + File.separator);
+                                root.mkdirs();
+                                final String fname = "img_" + System.currentTimeMillis() + ".jpg"; //Utils.getUniqueImageFilename();
+                                final File sdImageMainDirectory = new File(root, fname);
+                                outputFileUri = Uri.fromFile(sdImageMainDirectory);
+                                pictureActionIntent = new Intent(
+                                        android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                                pictureActionIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+                                startActivityForResult(pictureActionIntent,
+                                        CAMERA_REQUEST);
 
-                String pickTitle = "Select or take a new Picture"; // Or get from strings.xml
-                Intent chooserIntent = Intent.createChooser(pickIntent, pickTitle);
-                chooserIntent.putExtra
-                        (
-                                Intent.EXTRA_INITIAL_INTENTS,
-                                new Intent[] { takePhotoIntent }
-                        );
-
-                startActivityForResult(chooserIntent, 1);*/
-
-
-                // Determine Uri of camera image to save.
-                final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "MyDir" + File.separator);
-                root.mkdirs();
-                final String fname = "img_" + System.currentTimeMillis() + ".jpg"; //Utils.getUniqueImageFilename();
-                final File sdImageMainDirectory = new File(root, fname);
-                outputFileUri = Uri.fromFile(sdImageMainDirectory);
-
-                // Camera.
-                final List<Intent> cameraIntents = new ArrayList<Intent>();
-                final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                final PackageManager packageManager = mContext.getPackageManager();
-                final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-                for (ResolveInfo res : listCam) {
-                    final String packageName = res.activityInfo.packageName;
-                    final Intent intent = new Intent(captureIntent);
-                    intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-                    intent.setPackage(packageName);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-                    cameraIntents.add(intent);
-                }
-
-                // Filesystem.
-                final Intent galleryIntent = new Intent();
-                //galleryIntent.setType("image*/*");
-                //galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setAction(Intent.ACTION_PICK);
-
-                // Chooser of filesystem options.
-                final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
-
-                // Add the camera options.
-                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
-
-                startActivityForResult(chooserIntent, 120);
+                            }
+                        });
+                myAlertDialog.show();
             }
         });
     }
@@ -429,15 +440,15 @@ public class ChefDishEditFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == 120) {
-                final boolean isCamera;
+            if ((requestCode == GALLERY_PICTURE) || (requestCode == CAMERA_REQUEST)) {
+                boolean isCamera = false;
                 if (data == null) {
                     isCamera = true;
                 } else {
                     final String action = data.getAction();
                     if (action == null) {
                         isCamera = false;
-                    } else {
+                    } else if (requestCode == CAMERA_REQUEST) {
                         isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                     }
                 }
@@ -460,3 +471,4 @@ public class ChefDishEditFragment extends Fragment {
 
     }
 }
+

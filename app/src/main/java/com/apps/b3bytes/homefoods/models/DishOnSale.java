@@ -108,14 +108,28 @@ public class DishOnSale implements Parcelable {
 
     public DishOnSale() {
         mDish = new Dish();
+        this.mMeasure = Measure.Grams;
+        this.mQtyPerUnit = 0;
+        this.mUnitPrice = 0.0;
+        this.mUnitsOnSale = 0;
+        this.mUnitsOrdered = 0;
+        this.mUnitsDelivered = 0;
+        this.mPickUp = false;
+        this.mDelivery = false;
+
     }
 
     public DishOnSale(String dishName, int quantity, double unitPrice) {
         mDish = Dish.createDummyDish(dishName, "DishOnSale", "DishOnSale Method", 0);
         mDish.setmPrice(unitPrice);
+        this.mMeasure = Measure.Grams;
         this.mQtyPerUnit = quantity;
+        this.mUnitPrice = 0.0;
+        this.mUnitsOnSale = quantity;
         this.mUnitsOrdered = 0;
         this.mUnitsDelivered = quantity;
+        this.mPickUp = false;
+        this.mDelivery = false;
     }
 
 
@@ -175,7 +189,7 @@ public class DishOnSale implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(mDish, flags);
-        dest.writeString("" + getmMeasure());
+        dest.writeInt(getmMeasure().ordinal());
         dest.writeDouble(getmQtyPerUnit());
         dest.writeDouble(getmUnitPrice());
         dest.writeInt(getmUnitsOnSale());
@@ -201,7 +215,7 @@ public class DishOnSale implements Parcelable {
 
     public DishOnSale(Parcel in) {
         setmDish((Dish) in.readParcelable(Dish.class.getClassLoader()));
-        setmMeasure(in.readString());
+        setmMeasure(Measure.values()[in.readInt()]);
         setmQtyPerUnit(in.readDouble());
         setmUnitPrice(in.readDouble());
         setmUnitsOnSale(in.readInt());
