@@ -43,7 +43,7 @@ public class ParseDishTable implements DishTable {
         dish.setmChef(f);
         return dish;
     }
-    DishOnSale ParseObject2DishOnSale(ParseObject object) {
+    public static DishOnSale ParseObject2DishOnSale(ParseObject object) {
         DishOnSale dos = new DishOnSale();
         dos.setmTag(object.getObjectId());
         dos.setmMeasure(object.getString("Measure"));
@@ -59,7 +59,7 @@ public class ParseDishTable implements DishTable {
         dos.setmDish(ParseObject2Dish(object.getParseObject("Dish")));
         return dos;
     }
-    private ArrayList<DishOnSale> ParseList2DishOnSaleList(List<ParseObject> list) {
+    public static ArrayList<DishOnSale> ParseList2DishOnSaleList(List<ParseObject> list) {
         ArrayList<DishOnSale> al = new ArrayList<DishOnSale>();
         for(ParseObject o : list) {
             DishOnSale d = ParseObject2DishOnSale(o);
@@ -67,6 +67,7 @@ public class ParseDishTable implements DishTable {
         }
         return al;
     }
+
     @Override
     public void addDishInBackground(final Dish dish, final DataLayer.PublishCallback c) {
         final ParseObject dishObj = new ParseObject("Dish");

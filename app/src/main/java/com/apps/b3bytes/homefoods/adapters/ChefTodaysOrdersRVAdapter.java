@@ -14,10 +14,8 @@ import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.models.ChefOrder;
 import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.Foodie;
-import com.apps.b3bytes.homefoods.models.OneDishOrder;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class ChefTodaysOrdersRVAdapter extends RecyclerView.Adapter<ChefTodaysOrdersRVAdapter.ViewHolder> {
@@ -111,7 +109,7 @@ public class ChefTodaysOrdersRVAdapter extends RecyclerView.Adapter<ChefTodaysOr
                 if (! dishesStr.isEmpty()) {
                     dishesStr += ",";
                 }
-                dishesStr += d.getmDish().getmDishName();
+                dishesStr += d.getmDishOnSale().getmDish().getmDishName();
             }
             tvDishesNamesVal.setText("" + dishesStr);
 

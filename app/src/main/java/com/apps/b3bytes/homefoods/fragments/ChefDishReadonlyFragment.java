@@ -94,7 +94,7 @@ public class ChefDishReadonlyFragment extends Fragment {
         if (mDish != null) {
             initTextView(tvDishEditDishName, mDish.getmDish().getmDishName());
             initTextView(tvDishEditCuisine, mDish.getmDish().getmCusine());
-            //if (mDish.getmDish().getmIsVegan() == true) //TODO: enable this after Dish model is updated
+            //if (mDish.getmDishOnSale().getmIsVegan() == true) //TODO: enable this after Dish model is updated
             cbDishEditVegan.setChecked(mDish.getmDish().ismVegan());
             initTextView(tvDishEditPrice, "" + mDish.getmUnitPrice());
             initTextView(tvDishEditQuantity, "" + mDish.getmUnitsOnSale());
