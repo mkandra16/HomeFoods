@@ -27,6 +27,9 @@ public class ChefOrderDelivery extends ActionBarActivity {
     double[] dishUnitPriceArray = {75, 120, 175, 90, 125, 150, 250, 25, 75, 80, 40};
     /* TODO: END TEST DATA */
 
+    // Temporary
+    static String FoodieOrderNo = "krHnqGXOkH";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,10 @@ public class ChefOrderDelivery extends ActionBarActivity {
         ArrayAdapter<OneDishOrder> aOneDishOrder = new ChefDeliveryOrdersListAdapter(ChefOrderDelivery.this, list, lvChefDeliveryOrders);
         lvChefDeliveryOrders.setAdapter(aOneDishOrder);
 
+        // Query Parse for Foodie Order
+
+        // Populate list
+        // After delivered is pressed update status on Order object.
         int numOrders = dishNamesArray.length;
         int numDishes = 0;
         double totalPrice = 0;

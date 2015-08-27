@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by sindhu on 8/15/2015.
+ * Created by Pavan on 8/15/2015.
  */
 public class ChefOrder {
     private Foodie mChef;
@@ -13,6 +13,35 @@ public class ChefOrder {
     private Set<DishOrder> mDishOrders;
     private String mTag;
     private Foodie mFoodie;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ChefOrder order = (ChefOrder) o;
+
+        if (Double.compare(order.mTotal, mTotal) != 0) return false;
+        if (!mChef.equals(order.mChef)) return false;
+        if (mDishOrders != null ? !mDishOrders.equals(order.mDishOrders) : order.mDishOrders != null)
+            return false;
+        if (!mTag.equals(order.mTag)) return false;
+        return !(mFoodie != null ? !mFoodie.equals(order.mFoodie) : order.mFoodie != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = mChef.hashCode();
+        temp = Double.doubleToLongBits(mTotal);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (mDishOrders != null ? mDishOrders.hashCode() : 0);
+        result = 31 * result + mTag.hashCode();
+        result = 31 * result + (mFoodie != null ? mFoodie.hashCode() : 0);
+        return result;
+    }
 
     public ChefOrder() {
         mDishOrders = new HashSet<>();
