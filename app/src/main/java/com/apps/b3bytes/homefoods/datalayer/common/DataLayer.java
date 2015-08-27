@@ -11,6 +11,7 @@ import com.apps.b3bytes.homefoods.models.ChefOrder;
 import com.apps.b3bytes.homefoods.models.Dish;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.Foodie;
+import com.apps.b3bytes.homefoods.models.FoodieOrder;
 import com.parse.Parse;
 import com.parse.ParseUser;
 
@@ -237,5 +238,14 @@ public class DataLayer {
 
     public void getOrdersForChef(Foodie chef, getChefOrdersCallback cb) {
         mOrderTable.getOrdersForChef(chef, cb);
+    }
+
+    public static abstract class GetFoodieOrderCallback {
+        public abstract void done(FoodieOrder order, Exception e);
+    }
+
+    //Retrieves Foodie Order to this chef based on orderId.
+    public void getFoodieOrder(String orderId, GetFoodieOrderCallback cb ) {
+        mOrderTable.getFoodieOrder(orderId, cb);
     }
 }

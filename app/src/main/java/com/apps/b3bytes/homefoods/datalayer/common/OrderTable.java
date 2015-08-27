@@ -17,5 +17,5 @@ public interface OrderTable {
     public abstract void placeFoodieOrder(Set<String> chefOrders, double total,
                                             final DataLayer.OrderCallback cb);
     public abstract void getOrdersForChef(Foodie chef, DataLayer.getChefOrdersCallback cb);
-
-    }
+    public abstract void getFoodieOrder(String orderId, DataLayer.GetFoodieOrderCallback cb);
+}

@@ -8,6 +8,7 @@ import com.apps.b3bytes.homefoods.models.ChefOrder;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.Foodie;
+import com.apps.b3bytes.homefoods.models.FoodieOrder;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -90,6 +91,7 @@ public class ParseOrderTable implements OrderTable {
         order.setmTag(object.getObjectId());
         return order;
     }
+
     private ChefOrder ParseObj2ChefOrder(ParseObject obj) {
         ChefOrder order = new ChefOrder();
         order.setmTotal(obj.getDouble("ChefTotal"));
@@ -98,10 +100,18 @@ public class ParseOrderTable implements OrderTable {
         order.setmTag(obj.getObjectId());
         List<ParseObject> dishOrders = obj.getList("DishOrders");
         for (ParseObject dishOrderobj : dishOrders){
-            order.addDishOrder(ParseObj2DishOrder(dishOrderobj));
+            DishOrder d = ParseObj2DishOrder(dishOrderobj);
+            // Avoid duplicate objects
+            assert d.getmFoodie().equals(order.getmFoodie());
+            d.setmFoodie(order.getmFoodie());
+            assert d.getmDishOnSale().getmDish().getmChef().equals(order.getmChef());
+            d.getmDishOnSale().getmDish().setmChef(order.getmChef());
+
+            order.addDishOrder(d);
         }
         return order;
     }
+
     private ArrayList<ChefOrder> convert2ChefOrders(List<ParseObject> parseChefOrders) {
         ArrayList<ChefOrder> chefOrders = new ArrayList<ChefOrder>();
         for (ParseObject obj : parseChefOrders) {
@@ -109,7 +119,21 @@ public class ParseOrderTable implements OrderTable {
         }
         return chefOrders;
     }
-    @Override
+    private FoodieOrder ParseObj2FoodieOrder(ParseObject obj) {
+        FoodieOrder order = new FoodieOrder();
+        order.setmTag(obj.getObjectId());
+        order.setmFoodie(ParseFoodieTable.parseUser2Foodie(obj.getParseUser("Foodie")));
+        order.setmOrderStatus(FoodieOrder.OrderStatus.valueOf(obj.getString("Status")));
+        order.setmTotal(obj.getDouble("TotalPrice"));
+        List<ParseObject> chefOrders = obj.getList("ChefOrders");
+        for (ParseObject chefOrderObj : chefOrders) {
+            ChefOrder c = ParseObj2ChefOrder(chefOrderObj);
+            // Avoid duplicate objects
+            order.addmChefOrder(c);
+        }
+        return order;
+    }
+        @Override
     public void getOrdersForChef(Foodie chef, final DataLayer.getChefOrdersCallback cb) {
         ParseQuery query = ParseQuery.getQuery("ChefOrder");
         query.include("DishOrders");
@@ -135,6 +159,37 @@ public class ParseOrderTable implements OrderTable {
                                            Log.d("score", "Error: " + e.getMessage());
                                            ArrayList<ChefOrder> orders = new ArrayList<ChefOrder>();
                                            cb.done(orders, e);
+                                       }
+                                   }
+                               }
+        );
+
+    }
+
+    @Override
+    public void getFoodieOrder(String orderId, final DataLayer.GetFoodieOrderCallback cb) {
+        ParseQuery query = ParseQuery.getQuery("FoodieOrder");
+        query.include("ChefOrders");
+        query.include("ChefOrders.Chef");
+        query.include("ChefOrders.DishOrders");
+        query.include("ChefOrders.DishOrders.DishOnSale");
+        query.include("ChefOrders.DishOrders.DishOnSale.Dish");
+        query.include("ChefOrders.DishOrders.DishOnSale.Dish.Chef");
+        query.include("ChefOrders.DishOrders.Foodie");
+        query.include("Foodie");
+        query.whereEqualTo("ObjectId", orderId);
+        query.findInBackground(new FindCallback<ParseObject>() {
+                                   public void done(List<ParseObject> foodieOrder, ParseException e) {
+                                       if (e == null) {
+                                           assert foodieOrder.size() == 1;
+                                           Log.d("Retrieved Foodie Order", "Retrieved " + foodieOrder.size() + " orders");
+                                           FoodieOrder order = ParseObj2FoodieOrder(foodieOrder.get(0));
+                                           cb.done(order, e);
+//                                           callback.done(ParseList2DishList(dishList), e);
+                                       } else {
+                                           Log.d("score", "Error: " + e.getMessage());
+                                           FoodieOrder order = new FoodieOrder();
+                                           cb.done(order, e);
                                        }
                                    }
                                }
