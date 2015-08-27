@@ -195,7 +195,7 @@ public class ChefDishEditFragment extends Fragment {
         if (mDish != null) {
             initEditTextView(etDishEditDishName, mDish.getmDish().getmDishName());
             initAutoCompleteTextView(acTvDishEditCuisine, mDish.getmDish().getmCusine());
-            //if (mDish.getmDish().getmIsVegan() == true) //TODO: enable this after Dish model is updated
+            //if (mDish.getmDishOnSale().getmIsVegan() == true) //TODO: enable this after Dish model is updated
             cbVegitarian.setChecked(true);
             initEditTextView(etDishEditPrice, "" + mDish.getmDish().getmPrice());
             initEditTextView(etDishEditQuantity, "" + mDish.getmDish().getmQty());

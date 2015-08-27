@@ -5,7 +5,7 @@ import android.util.Log;
 import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.datalayer.common.OrderTable;
 import com.apps.b3bytes.homefoods.models.ChefOrder;
-import com.apps.b3bytes.homefoods.models.Dish;
+import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.Foodie;
 import com.parse.FindCallback;
@@ -24,14 +24,14 @@ import java.util.Set;
  */
 public class ParseOrderTable implements OrderTable {
     @Override
-    public void checkOutDish(Dish dish, int qty, final DataLayer.OrderCallback cb) {
+    public void checkOutDish(DishOnSale dish, int qty, final DataLayer.OrderCallback cb) {
 
         final ParseObject dishOrder = new ParseObject("DishOrder");
         dishOrder.put("Foodie", ParseUser.getCurrentUser());
-        ParseObject dishObj= ParseObject.createWithoutData("Dish", dish.getmTag());
-        dishOrder.put("Dish", dishObj);
+        ParseObject dishObj= ParseObject.createWithoutData("DishOnSale", dish.getmTag());
+        dishOrder.put("DishOnSale", dishObj);
         dishOrder.put("Qty", qty);
-        dishOrder.put("Price", dish.getmPrice() * qty);
+        dishOrder.put("Price", dish.getmUnitPrice() * qty);
         dishOrder.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -85,7 +85,7 @@ public class ParseOrderTable implements OrderTable {
     private DishOrder ParseObj2DishOrder(ParseObject object) {
         DishOrder order = new DishOrder();
         order.setmQty(object.getInt("Qty"));
-        order.setmDish(ParseDishTable.ParseObject2Dish(object.getParseObject("Dish")));
+        order.setmDishOnSale(ParseDishTable.ParseObject2DishOnSale(object.getParseObject("DishOnSale")));
         order.setmFoodie(ParseFoodieTable.parseUser2Foodie(object.getParseUser("Foodie")));
         order.setmTag(object.getObjectId());
         return order;
@@ -113,8 +113,9 @@ public class ParseOrderTable implements OrderTable {
     public void getOrdersForChef(Foodie chef, final DataLayer.getChefOrdersCallback cb) {
         ParseQuery query = ParseQuery.getQuery("ChefOrder");
         query.include("DishOrders");
-        query.include("DishOrders.Dish");
-        query.include("DishOrders.Dish.Chef");
+        query.include("DishOrders.DishOnSale");
+        query.include("DishOrders.DishOnSale.Dish");
+        query.include("DishOrders.DishOnSale.Dish.Chef");
         query.include("DishOrders.Foodie");
         query.include("Foodie");
         query.include("Chef");

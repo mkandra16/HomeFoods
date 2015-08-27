@@ -4,7 +4,7 @@ package com.apps.b3bytes.homefoods.models;
  * Created by sindhu on 8/15/2015.
  */
 public class DishOrder {
-    private Dish mDish;
+    private DishOnSale mDishOnSale;
     private int mQty;
     private Foodie mFoodie;
     private String mTag;
@@ -17,12 +17,12 @@ public class DishOrder {
         this.mTag = mTag;
     }
 
-    public Dish getmDish() {
-        return mDish;
+    public DishOnSale getmDishOnSale() {
+        return mDishOnSale;
     }
 
-    public void setmDish(Dish mDish) {
-        this.mDish = mDish;
+    public void setmDishOnSale(DishOnSale mDishOnSale) {
+        this.mDishOnSale = mDishOnSale;
     }
 
     public int getmQty() {
