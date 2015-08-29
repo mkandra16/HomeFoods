@@ -9,11 +9,18 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.adapters.ChefDeliveryOrdersListAdapter;
+import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
+import com.apps.b3bytes.homefoods.models.ChefOrder;
+import com.apps.b3bytes.homefoods.models.DishOrder;
+import com.apps.b3bytes.homefoods.models.FoodieOrder;
 import com.apps.b3bytes.homefoods.models.OneDishOrder;
 import com.apps.b3bytes.homefoods.utils.ListViewHelper;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +35,7 @@ public class ChefOrderDelivery extends ActionBarActivity {
     /* TODO: END TEST DATA */
 
     // Temporary
-    static String FoodieOrderNo = "krHnqGXOkH";
+    static String foodieOrderNo = "krHnqGXOkH";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,32 +49,42 @@ public class ChefOrderDelivery extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        TextView tvChefDeliveryTotalNumDishes = (TextView) findViewById(R.id.tvChefDeliveryTotalNumDishes);
-        TextView tvChefDeliveryTotalPriceVal = (TextView) findViewById(R.id.tvChefDeliveryTotalPriceVal);
+        final TextView tvOrderNum = (TextView) findViewById(R.id.tvOrderNumVal);
+        final TextView tvChefDeliveryTotalNumDishes = (TextView) findViewById(R.id.tvChefDeliveryTotalNumDishes);
+        final TextView tvChefDeliveryTotalPriceVal = (TextView) findViewById(R.id.tvChefDeliveryTotalPriceVal);
 
-        List<OneDishOrder> list = new ArrayList<OneDishOrder>();
-        ListView lvChefDeliveryOrders = (ListView) findViewById(R.id.lvChefDeliveryOrders);
-        ArrayAdapter<OneDishOrder> aOneDishOrder = new ChefDeliveryOrdersListAdapter(ChefOrderDelivery.this, list, lvChefDeliveryOrders);
+        final List<OneDishOrder> list = new ArrayList<OneDishOrder>();
+        final ListView lvChefDeliveryOrders = (ListView) findViewById(R.id.lvChefDeliveryOrders);
+        final ArrayAdapter<OneDishOrder> aOneDishOrder = new ChefDeliveryOrdersListAdapter(ChefOrderDelivery.this, list, lvChefDeliveryOrders);
         lvChefDeliveryOrders.setAdapter(aOneDishOrder);
 
+
         // Query Parse for Foodie Order
+        AppGlobalState.gDataLayer.getFoodieOrder(foodieOrderNo, new DataLayer.GetFoodieOrderCallback() {
+            @Override
+            public void done(FoodieOrder foodieOrder, Exception e) {
+                if (e != null) {
+                    Toast.makeText(getApplicationContext(), "Failed to retrie foodie order " + e.toString(),
+                                   Toast.LENGTH_SHORT).show();
+                } else {
+                    ChefOrder chefOrder = foodieOrder.getChefOrder(AppGlobalState.getmCurrentFoodie());
+                    assert chefOrder != null;
+                    int numDishes = 0;
+                    for (DishOrder dishOrder : chefOrder.getmDishOrders()) {
+                        numDishes += dishOrder.getmQty();
+                        list.add(new OneDishOrder(dishOrder.getmDishOnSale().getmDish().getmDishName(),
+                                dishOrder.getmQty(), dishOrder.getmDishOnSale().getmUnitPrice()));
+                    }
+                    aOneDishOrder.notifyDataSetChanged();
+                    ListViewHelper.setListViewHeightBasedOnChildren(lvChefDeliveryOrders);
 
-        // Populate list
-        // After delivered is pressed update status on Order object.
-        int numOrders = dishNamesArray.length;
-        int numDishes = 0;
-        double totalPrice = 0;
-        for (int i = 0; i < numOrders; i++) {
-            list.add(new OneDishOrder(dishNamesArray[i], dishQuantitiesArray[i], dishUnitPriceArray[i]));
-            numDishes += dishQuantitiesArray[i];
-            totalPrice += (dishQuantitiesArray[i] * dishUnitPriceArray[i]);
-        }
-        aOneDishOrder.notifyDataSetChanged();
-        ListViewHelper.setListViewHeightBasedOnChildren(lvChefDeliveryOrders);
-
-        tvChefDeliveryTotalNumDishes.setText("" + numDishes);
-        tvChefDeliveryTotalPriceVal.setText(context.getString(R.string.Rs) + " " + totalPrice);
-
+                    tvChefDeliveryTotalNumDishes.setText("" + numDishes);
+                    tvChefDeliveryTotalPriceVal.setText(context.getString(R.string.Rs) + " " +
+                            chefOrder.getmTotal());
+                    tvOrderNum.setText(chefOrder.getmTag());
+                }
+            }
+        });
     }
 
     @Override

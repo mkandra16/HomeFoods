@@ -177,7 +177,7 @@ public class ParseOrderTable implements OrderTable {
         query.include("ChefOrders.DishOrders.DishOnSale.Dish.Chef");
         query.include("ChefOrders.DishOrders.Foodie");
         query.include("Foodie");
-        query.whereEqualTo("ObjectId", orderId);
+        query.whereEqualTo("objectId", orderId);
         query.findInBackground(new FindCallback<ParseObject>() {
                                    public void done(List<ParseObject> foodieOrder, ParseException e) {
                                        if (e == null) {
@@ -185,7 +185,6 @@ public class ParseOrderTable implements OrderTable {
                                            Log.d("Retrieved Foodie Order", "Retrieved " + foodieOrder.size() + " orders");
                                            FoodieOrder order = ParseObj2FoodieOrder(foodieOrder.get(0));
                                            cb.done(order, e);
-//                                           callback.done(ParseList2DishList(dishList), e);
                                        } else {
                                            Log.d("score", "Error: " + e.getMessage());
                                            FoodieOrder order = new FoodieOrder();
