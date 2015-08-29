@@ -25,10 +25,21 @@ import java.util.ArrayList;
 public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdapter.DishViewHolder> {
     private ArrayList<DishOnSale> mdishes;
     private Context mContext;
+    private ItemClickListener itemClickListener;
+
+    public void SetOnItemClickListener(final ItemClickListener mItemClickListener) {
+        this.itemClickListener = mItemClickListener;
+    }
+
+    public interface ItemClickListener {
+        public void onItemClick(DishOnSale item, int position);
+    }
+
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public class DishViewHolder extends RecyclerView.ViewHolder {
+        private View parent;
         // each data item is just a string in this case
         private TextView mTVDishName;
         private TextView mTVDishPrice;
@@ -42,6 +53,7 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
 
         public DishViewHolder(View v, Context context) {
             super(v);
+            this.parent = v;
             mTVDishName = (TextView) v.findViewById(R.id.tvDishName);
             mTVDishPrice = (TextView) v.findViewById(R.id.tvDishPrice);
             mThumbsUp = (TextView) v.findViewById(R.id.tvReviewsThumbsUp);
@@ -65,6 +77,10 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
                     AppGlobalState.gCart.add_to_bag(DishViewHolder.this.dishOnSale);
                 }
             });
+        }
+
+        public void setOnClickListener(View.OnClickListener listener) {
+            parent.setOnClickListener(listener);
         }
     }
 
@@ -99,15 +115,15 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
 
     // Create new views (invoked by the layout manager)
     @Override
-    public FoodieResultsAdapter.DishViewHolder onCreateViewHolder(ViewGroup parent,
+    public FoodieResultsAdapter.DishViewHolder onCreateViewHolder(ViewGroup viewGroup,
                                                    int viewType) {
         // create a new view
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.foodie_result_card, parent, false);
+        View parent = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.foodie_result_card, viewGroup, false);
         // set the view's size, margins, paddings and layout parameters
 //http://stackoverflow.com/questions/24885223/why-doesnt-recyclerview-have-onitemclicklistener-and-how-recyclerview-is-dif
         
-        DishViewHolder vh = new DishViewHolder(v, mContext);
+        DishViewHolder vh = new DishViewHolder(parent, mContext);
         return vh;
     }
 
@@ -117,8 +133,15 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
     //    Dish dish = Dish.createDummyDish("Sambar", "Chennai Sambar", "boil water add powder", 150);
-        holder.bindView(mdishes.get(position));
-
+        final DishOnSale item = mdishes.get(position);
+        final int pos = position;
+        holder.bindView(item);
+        holder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemClickListener.onItemClick(item, pos);
+            }
+        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)

@@ -182,7 +182,7 @@ public class HomePage extends AppCompatActivity {
     }
 
     /**
-     * Diplaying fragment view for selected nav drawer list item
+     * Displaying fragment view for selected nav drawer list item
      */
     private void displayFoodieView(int position) {
         // update the main content by replacing fragments

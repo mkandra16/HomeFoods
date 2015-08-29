@@ -9,21 +9,12 @@
         layout="@layout/toolbar" />
 
     <Button
-        android:id="@+id/bDishDescScreenNavigate"
+        android:id="@+id/bChefDeliveryScreenNavigate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
-        android:text="@string/bDishDescScreenNavigation" />
-
-    <Button
-        android:id="@+id/bChefDeliveryScreenNavigate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/bDishDescScreenNavigate"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
         android:text="@string/bChefDeliveryScreenNavigate" />
 
     <Button

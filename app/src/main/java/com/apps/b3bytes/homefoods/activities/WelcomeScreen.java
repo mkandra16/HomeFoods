@@ -21,7 +21,6 @@ import java.util.ArrayList;
 
 public class WelcomeScreen extends ActionBarActivity {
 
-    private Button bDishDescScreenNavigate;
     private Button bChefDeliveryScreenNavigate;
     private Button bHomePageScreenNavigate;
 
@@ -46,18 +45,6 @@ public class WelcomeScreen extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);*/
         // This is first Screen, initialize global state of the App.
         AppGlobalState.initialize(getApplicationContext());
-
-        bDishDescScreenNavigate = (Button) findViewById(R.id.bDishDescScreenNavigate);
-
-        bDishDescScreenNavigate.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-
-                Intent i = new Intent(WelcomeScreen.this, DishDesc.class);
-
-                WelcomeScreen.this.startActivity(i);
-            }
-        });
 
         bChefDeliveryScreenNavigate = (Button) findViewById(R.id.bChefDeliveryScreenNavigate);
 

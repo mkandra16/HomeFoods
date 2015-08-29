@@ -4,19 +4,22 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.adapters.FoodieResultsAdapter;
+import com.apps.b3bytes.homefoods.models.DishOnSale;
 
 public class FoodieHomeFragment extends Fragment {
     private FragmentActivity mContext;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private FoodieResultsAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     public FoodieHomeFragment(){}
@@ -55,5 +58,36 @@ public class FoodieHomeFragment extends Fragment {
         mAdapter = new FoodieResultsAdapter(mContext);
         mRecyclerView.setAdapter(mAdapter);
 
+        mAdapter.SetOnItemClickListener(new FoodieResultsAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(DishOnSale item, int position) {
+                displayDishDesc(item, position);
+            }
+        });
     }
+
+
+    /**
+     * Diplaying fragment view for selected nav drawer list item
+     */
+    private void displayDishDesc(DishOnSale item, int position) {
+        // update the main content by replacing fragments
+        Fragment fragment = new DishDescFragment();
+
+        if (fragment != null) {
+            FragmentManager fragmentManager = mContext.getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
+
+            // update selected item and title, then close the drawer
+/*            mDrawerList.setItemChecked(position, true);
+            mDrawerList.setSelection(position);*/
+            //setTitle(item.getmDish().getmDishName());
+        } else {
+            // error in creating fragment
+            Log.e("MainActivity", "Error in creating fragment");
+        }
+    }
+
+
 }
