@@ -1,12 +1,16 @@
 package com.apps.b3bytes.homefoods.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Created by Pavan on 8/27/2015.
  */
-public class FoodieOrder {
+
+public class FoodieOrder implements Parcelable {
     public enum OrderStatus {Cancelled, Ordered, Delivered, Unknown};
 
     private String mTag;
@@ -18,6 +22,14 @@ public class FoodieOrder {
     public FoodieOrder() {
         mChefOrders = new HashSet<ChefOrder>();
         setmOrderStatus(OrderStatus.Unknown);
+    }
+    public ChefOrder getChefOrder(Foodie f) {
+        for (ChefOrder order : mChefOrders) {
+            if(order.getmChef().equals(f)) {
+                return order;
+            }
+        }
+        return null;
     }
 
     public String getmTag() {
@@ -63,4 +75,15 @@ public class FoodieOrder {
     public void setmOrderStatus(OrderStatus mOrderStatus) {
         this.mOrderStatus = mOrderStatus;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+    }
+
 }
