@@ -37,6 +37,9 @@ public class ParseDishTable implements DishTable {
         dish.setmThumbsDown(object.getInt("ThumbsDown"));
         dish.setmCusineId(object.getInt("CusineId"));
         dish.setmChefId(object.getInt("ChefId"));
+        if (object.getString("PrepMethod") != null) {
+            dish.setmPrepMethod(object.getString("PrepMethod"));
+        }
         dish.setmTag(object.getObjectId());
         Foodie f = new Foodie(ParseFoodieTable.parseUser2JSONObject(chef));
         f.setmTag(chef.getObjectId());
@@ -93,7 +96,9 @@ public class ParseDishTable implements DishTable {
         dishObj.put("Vegan", dish.ismVegan());
         dishObj.put("GlutenFree", dish.ismGlutenFree());
         dishObj.put("RedMeat", dish.ismRedMeat());
-
+        if (dish.getmPrepMethod() != null) {
+            dishObj.put("PrepMethod", dish.getmPrepMethod());
+        }
         dishObj.put("Chef", ParseUser.getCurrentUser());
         dishObj.put("ChefId", ParseUser.getCurrentUser().getInt("FoodieId"));
         ParseGeoPoint loc = new ParseGeoPoint(40, 50);

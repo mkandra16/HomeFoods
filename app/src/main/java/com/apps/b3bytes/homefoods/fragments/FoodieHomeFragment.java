@@ -76,6 +76,9 @@ public class FoodieHomeFragment extends Fragment {
 
         if (fragment != null) {
             FragmentManager fragmentManager = mContext.getSupportFragmentManager();
+            Bundle args = new Bundle();
+            args.putParcelable("dish", item);
+            fragment.setArguments(args);
             fragmentManager.beginTransaction()
                     .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 

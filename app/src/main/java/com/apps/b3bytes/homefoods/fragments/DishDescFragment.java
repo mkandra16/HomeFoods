@@ -7,15 +7,30 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.models.DishOnSale;
 
 public class DishDescFragment extends Fragment {
     private FragmentActivity mContext;
+    private DishOnSale mDish;
     private TabHost tabHost;
     private TextView tvDishName;
+    private TextView tvDishPrice;
+    private ImageView ivDishImage;
+    private TextView tvReviewsThumbsUp;
+    private TextView tvReviewsThumbsDown;
+    private TextView tvDishReviews;
+    private TextView tvDishDetails;
+    private ImageView ivChefImage;
+    private TextView tvChefName;
+    private TextView tvChefDesc;
+    private TextView tvDishPrepTab;
+    private TextView tvDishIngredientsTab;
+    private TextView tvDishNutritionTab;
 
 
     public DishDescFragment() {
@@ -25,9 +40,25 @@ public class DishDescFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Bundle bundle = getArguments();
+        if (bundle != null)
+            mDish = (DishOnSale) bundle.getParcelable("dish");
+
         View rootView = inflater.inflate(R.layout.fragment_dish_desc, container, false);
-        tabHost = (TabHost)rootView.findViewById(R.id.tabDishDesc);
+        tabHost = (TabHost) rootView.findViewById(R.id.tabDishDesc);
         tvDishName = (TextView) rootView.findViewById(R.id.tvDishName);
+        tvDishPrice = (TextView) rootView.findViewById(R.id.tvDishPrice);
+        ivDishImage = (ImageView) rootView.findViewById(R.id.ivDishImage);
+        tvReviewsThumbsUp = (TextView) rootView.findViewById(R.id.tvReviewsThumbsUp);
+        tvReviewsThumbsDown = (TextView) rootView.findViewById(R.id.tvReviewsThumbsDown);
+        tvDishReviews = (TextView) rootView.findViewById(R.id.tvDishReviews);
+        tvDishDetails = (TextView) rootView.findViewById(R.id.tvDishDetails);
+        ivChefImage = (ImageView) rootView.findViewById(R.id.ivChefImage);
+        tvChefName = (TextView) rootView.findViewById(R.id.tvChefName);
+        tvChefDesc = (TextView) rootView.findViewById(R.id.tvChefDesc);
+        tvDishPrepTab = (TextView) rootView.findViewById(R.id.tvDishPrepTab);
+        tvDishIngredientsTab = (TextView) rootView.findViewById(R.id.tvDishIngredientsTab);
+        tvDishNutritionTab = (TextView) rootView.findViewById(R.id.tvDishNutritionTab);
 
         return rootView;
     }
@@ -36,6 +67,12 @@ public class DishDescFragment extends Fragment {
     public void onAttach(Activity activity) {
         mContext = (FragmentActivity) activity;
         super.onAttach(activity);
+    }
+
+    private void initTextView(TextView tvView, String text) {
+        if (text != null && !text.isEmpty()) {
+            tvView.setText(text);
+        }
     }
 
     @Override
@@ -82,6 +119,31 @@ public class DishDescFragment extends Fragment {
         tvDishName.setFocusableInTouchMode(true);
         tvDishName.requestFocus();
 
+        populateDish();
+    }
+
+    private void populateDish() {
+        if (mDish != null) {
+            initTextView(tvDishName, mDish.getmDish().getmDishName());
+            // TODO: display currency
+            initTextView(tvDishPrice, ""+mDish.getmUnitPrice());
+            // TODO: display image
+            //ivDishImage
+            initTextView(tvReviewsThumbsUp, ""+mDish.getmDish().getmThumbsUp());
+            initTextView(tvReviewsThumbsDown, ""+mDish.getmDish().getmThumbsDown());
+            // TODO: add number of reviews
+            //tvDishReviews
+            initTextView(tvDishDetails, mDish.getmDish().getmDishInfo());
+            // TODO: display chef image
+            //ivChefImage
+            initTextView(tvChefName, mDish.getmDish().getmChef().getmUserName());
+            // TODO: display chef desc
+            // tvChefDesc
+            initTextView(tvDishPrepTab, mDish.getmDish().getmPrepMethod());
+            // TODO: ingredients and nutrition info
+            initTextView(tvDishIngredientsTab, mDish.getmDish().getmPrepMethod());
+            initTextView(tvDishNutritionTab, mDish.getmDish().getmPrepMethod());
+        }
     }
 
 }
