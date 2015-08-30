@@ -16,6 +16,15 @@ public class ChefOrder implements Parcelable{
     private Set<DishOrder> mDishOrders;
     private String mTag;
     private Foodie mFoodie;
+    private FoodieOrder.OrderStatus mOrderStatus;
+
+    public FoodieOrder.OrderStatus getmOrderStatus() {
+        return mOrderStatus;
+    }
+
+    public void setmOrderStatus(FoodieOrder.OrderStatus mOrderStatus) {
+        this.mOrderStatus = mOrderStatus;
+    }
 
     @Override
     public int describeContents() {

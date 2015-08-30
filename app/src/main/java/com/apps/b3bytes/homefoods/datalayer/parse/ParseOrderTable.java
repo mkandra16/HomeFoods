@@ -100,6 +100,7 @@ public class ParseOrderTable implements OrderTable {
         order.setmChef(ParseFoodieTable.parseUser2Foodie(obj.getParseUser("Chef")));
         order.setmFoodie(ParseFoodieTable.parseUser2Foodie(obj.getParseUser("Foodie")));
         order.setmTag(obj.getObjectId());
+        order.setmOrderStatus(FoodieOrder.OrderStatus.valueOf(obj.getString("Status")));
         List<ParseObject> dishOrders = obj.getList("DishOrders");
         for (ParseObject dishOrderobj : dishOrders){
             DishOrder d = ParseObj2DishOrder(dishOrderobj);
