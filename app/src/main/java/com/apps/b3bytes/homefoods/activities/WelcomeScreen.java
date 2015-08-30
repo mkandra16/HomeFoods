@@ -112,7 +112,7 @@ public class WelcomeScreen extends ActionBarActivity {
         Button bTester = (Button) findViewById(R.id.bTester);
 
         bTester.setOnClickListener(new View.OnClickListener() {
-            String foodieOrderNo = "Zco62CBkDo";
+            String foodieOrderNo = "zKEsTyKqms";
 
             public void onClick(View v) {
                 AppGlobalState.gDataLayer.getFoodieOrder(foodieOrderNo, new DataLayer.GetFoodieOrderCallback() {
