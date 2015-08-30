@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.adapters.NavDrawerRVAdapter;
+import com.apps.b3bytes.homefoods.fragments.ChefDeliveryFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefHomeFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefMenuFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieCheckoutFragment;
@@ -227,6 +228,9 @@ public class HomePage extends AppCompatActivity {
                 break;
             case 1:
                 fragment = new ChefMenuFragment();
+                break;
+            case 2:
+                fragment = new ChefDeliveryFragment();
                 break;
 
             default:
