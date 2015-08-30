@@ -55,6 +55,7 @@ public class ParseOrderTable implements OrderTable {
         chefOrder.put("ChefTotal", total);
         ParseObject chefObj = ParseUser.createWithoutData("_User", chef.getmTag());
         chefOrder.put("Chef", chefObj);
+        chefOrder.put("Status", FoodieOrder.OrderStatus.Ordered.toString());
         chefOrder.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -75,6 +76,7 @@ public class ParseOrderTable implements OrderTable {
         }
         foodieOrder.put("ChefOrders", aChefOrderObj);
         foodieOrder.put("TotalPrice", total);
+        foodieOrder.put("Status", FoodieOrder.OrderStatus.Ordered.toString());
         foodieOrder.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
