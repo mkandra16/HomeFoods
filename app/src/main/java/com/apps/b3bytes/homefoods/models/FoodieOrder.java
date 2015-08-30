@@ -3,6 +3,7 @@ package com.apps.b3bytes.homefoods.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -83,7 +84,37 @@ public class FoodieOrder implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        ArrayList<ChefOrder> aLChefOrder= new ArrayList<ChefOrder>();
+        aLChefOrder.addAll(getmChefOrders());
 
+        dest.writeString(getmTag());
+        dest.writeList(aLChefOrder);
+        dest.writeParcelable(getmFoodie(), flags);
+        dest.writeDouble(getmTotal());
+        dest.writeString(getmOrderStatus().toString());
     }
 
+
+    public static final Parcelable.Creator<FoodieOrder> CREATOR = new Parcelable.Creator<FoodieOrder>() {
+        public FoodieOrder createFromParcel(Parcel in) {
+            FoodieOrder foodieOrder = new FoodieOrder(in);
+            return foodieOrder;
+        }
+
+        public FoodieOrder[] newArray(int size) {
+            return new FoodieOrder[size];
+        }
+    };
+
+    public FoodieOrder(Parcel in) {
+        setmTag(in.readString());
+
+        ArrayList<ChefOrder> aLChefOrder = new ArrayList<ChefOrder>();
+        in.readList(aLChefOrder, ChefOrder.class.getClassLoader());
+        mChefOrders.addAll(aLChefOrder);
+
+        setmFoodie((Foodie) in.readParcelable(Foodie.class.getClassLoader()));
+        setmTotal(in.readDouble());
+        setmOrderStatus(OrderStatus.valueOf(in.readString()));
+    }
 }
