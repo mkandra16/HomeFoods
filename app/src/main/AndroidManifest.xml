@@ -32,10 +32,6 @@
             android:label="@string/title_activity_chef_home_page" >
         </activity>
         <activity
-            android:name=".activities.ChefDishDesc"
-            android:label="@string/title_activity_chef_home_page" >
-        </activity>
-        <activity
             android:name=".activities.RegisterActivity"
             android:label="@string/title_activity_register"
             android:parentActivityName=".activities.WelcomeScreen" >

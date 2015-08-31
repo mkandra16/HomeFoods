@@ -1,56 +1,101 @@
 package com.apps.b3bytes.homefoods.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
-import com.apps.b3bytes.homefoods.models.OneDishOrder;
 
 
 public class ChefDishReadonlyFragment extends Fragment {
+    public static final int DISH_EDIT_SECTION_INFO = 0;
+    public static final int DISH_EDIT_SECTION_PRICE = 1;
+    public static final int DISH_EDIT_SECTION_AVAIL = 2;
+    public static final int DISH_EDIT_SECTION_IMAGE = 3;
+
+    private FragmentActivity mContext;
+
     private View rootView;
 
+    private RelativeLayout rlDishInfo;
+    private ImageView ivDishInfoEdit;
     private TextView tvDishEditDishName;
+    private TextView tvDishEditDishInfo;
+    private TextView tvDishEditDishPrep;
     private TextView tvDishEditCuisine;
     private CheckBox cbDishEditVegan;
+
+    private RelativeLayout rlDishPrice;
+    private ImageView ivDishPriceEdit;
+    private TextView tvDishQtyPerUnit;
     private TextView tvDishEditPrice;
     private TextView tvDishEditQuantity;
+
+    private RelativeLayout rlDishAvil;
+    private ImageView ivDishAvailEdit;
     private RelativeLayout rlDishEditFromDatePicker;
+    private TextView tvDishEditFromDatePicker;
+    private TextView tvDishEditFromTimePicker;
     private RelativeLayout rlDishEditToDatePicker;
+    private TextView tvDishEditToDatePicker;
+    private TextView tvDishEditToTimePicker;
     private LinearLayout llDishEditPickupDelivery;
     private CheckBox cbDishEditPickUp;
     private CheckBox cbDishEditDelivery;
-    private TextView tvDishEditDishImage;
+
+    private RelativeLayout rlDishImage;
+    private ImageView ivDishImageEdit;
     private ImageView ivDishEditDishImage;
-    //TODO update with more fields that got added like qty per unit, and grams/litres
+    private TextView tvDishAdditionalInfo;
 
     private DishOnSale mDish;
+
+    OnDishReadOnlyEditSelectedListener mEditCallback;
 
 
     public ChefDishReadonlyFragment(){
         mDish = null;
     }
 
+    // Container Activity must implement this interface
+    public interface OnDishReadOnlyEditSelectedListener {
+        public void OnDishReadOnlyEditSelected(DishOnSale mDish, int section);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
+
         Bundle bundle = getArguments();
         if (bundle != null)
             mDish = (DishOnSale) bundle.getParcelable("dish");
+    }
+
+
+    @Override
+    public void onAttach(Activity activity) {
+        mContext = (FragmentActivity) activity;
+
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mEditCallback = (OnDishReadOnlyEditSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnDishReadOnlyEditSelectedListener");
+        }
     }
 
     @Override
@@ -59,20 +104,68 @@ public class ChefDishReadonlyFragment extends Fragment {
 
         rootView = inflater.inflate(R.layout.fragment_chef_dish_read_only, container, false);
 
-        tvDishEditDishName = (TextView) rootView.findViewById(R.id.tvDishEditDishName);
-        tvDishEditCuisine = (TextView) rootView.findViewById(R.id.tvDishEditCuisine);
-        cbDishEditVegan = (CheckBox) rootView.findViewById(R.id.cbDishEditVegan);
-        tvDishEditPrice = (TextView) rootView.findViewById(R.id.tvDishEditPrice);
-        tvDishEditQuantity = (TextView) rootView.findViewById(R.id.tvDishEditQuantity);
-        rlDishEditFromDatePicker = (RelativeLayout) rootView.findViewById(R.id.rlDishEditFromDatePicker);
-        rlDishEditToDatePicker = (RelativeLayout) rootView.findViewById(R.id.rlDishEditToDatePicker);
-        llDishEditPickupDelivery = (LinearLayout) rootView.findViewById(R.id.llDishEditPickupDelivery);
+        rlDishInfo = (RelativeLayout)rootView.findViewById(R.id.rlDishInfo);
+        ivDishInfoEdit = (ImageView)rlDishInfo.findViewById(R.id.ivDishInfoEdit);
+        tvDishEditDishName = (TextView) rlDishInfo.findViewById(R.id.tvDishEditDishName);
+        tvDishEditDishInfo = (TextView) rlDishInfo.findViewById(R.id.tvDishEditDishInfo);
+        tvDishEditDishPrep = (TextView) rlDishInfo.findViewById(R.id.tvDishEditDishPrep);
+        tvDishEditCuisine = (TextView) rlDishInfo.findViewById(R.id.tvDishEditCuisine);
+        cbDishEditVegan = (CheckBox) rlDishInfo.findViewById(R.id.cbDishEditVegan);
+
+        rlDishPrice = (RelativeLayout)rootView.findViewById(R.id.rlDishPrice);
+        ivDishPriceEdit = (ImageView)rlDishPrice.findViewById(R.id.ivDishPriceEdit);
+        tvDishQtyPerUnit = (TextView) rlDishPrice.findViewById(R.id.tvDishQtyPerUnit);
+        tvDishEditPrice = (TextView) rlDishPrice.findViewById(R.id.tvDishEditPrice);
+        tvDishEditQuantity = (TextView) rlDishPrice.findViewById(R.id.tvDishEditQuantity);
+
+        rlDishAvil = (RelativeLayout)rootView.findViewById(R.id.rlDishAvil);
+        ivDishAvailEdit = (ImageView)rlDishAvil.findViewById(R.id.ivDishAvailEdit);
+        rlDishEditFromDatePicker = (RelativeLayout) rlDishAvil.findViewById(R.id.rlDishEditFromDatePicker);
+        tvDishEditFromDatePicker = (TextView)rlDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker);
+        tvDishEditFromTimePicker = (TextView)rlDishEditFromDatePicker.findViewById(R.id.tvDishEditTimePicker);
+        rlDishEditToDatePicker = (RelativeLayout) rlDishAvil.findViewById(R.id.rlDishEditToDatePicker);
+        tvDishEditToDatePicker = (TextView)rlDishEditToDatePicker.findViewById(R.id.tvDishEditDatePicker);
+        tvDishEditToTimePicker = (TextView)rlDishEditToDatePicker.findViewById(R.id.tvDishEditTimePicker);
+        llDishEditPickupDelivery = (LinearLayout) rlDishAvil.findViewById(R.id.llDishEditPickupDelivery);
         cbDishEditPickUp = (CheckBox) llDishEditPickupDelivery.findViewById(R.id.cbDishEditPickUp);
         cbDishEditDelivery = (CheckBox) llDishEditPickupDelivery.findViewById(R.id.cbDishEditDelivery);
-        tvDishEditDishImage = (TextView) rootView.findViewById(R.id.tvDishEditDishImage);
-        ivDishEditDishImage = (ImageView) rootView.findViewById(R.id.ivDishEditDishImage);
+
+        rlDishImage = (RelativeLayout)rootView.findViewById(R.id.rlDishImage);
+        ivDishImageEdit = (ImageView)rlDishImage.findViewById(R.id.ivDishImageEdit);
+        ivDishEditDishImage = (ImageView) rlDishImage.findViewById(R.id.ivDishEditDishImage);
+        tvDishAdditionalInfo = (TextView) rlDishImage.findViewById(R.id.tvDishAdditionalInfo);
+
+        ivDishInfoEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mEditCallback.OnDishReadOnlyEditSelected(mDish, DISH_EDIT_SECTION_INFO);
+            }
+        });
+
+        ivDishPriceEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mEditCallback.OnDishReadOnlyEditSelected(mDish, DISH_EDIT_SECTION_PRICE);
+            }
+        });
+
+        ivDishAvailEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mEditCallback.OnDishReadOnlyEditSelected(mDish, DISH_EDIT_SECTION_AVAIL);
+            }
+        });
+
+        ivDishImageEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mEditCallback.OnDishReadOnlyEditSelected(mDish, DISH_EDIT_SECTION_IMAGE);
+            }
+        });
 
         updateFields(rootView);
+
+
 
         return rootView;
     }
@@ -85,7 +178,6 @@ public class ChefDishReadonlyFragment extends Fragment {
 
     public void updateFields(View rootView) {
 
-        //TODO: populate  fields if applicable. i.e. mDish != null
         TextView tvDishEditFromDateHdr = (TextView) (rlDishEditFromDatePicker.findViewById(R.id.tvDishEditDateHdr));
         tvDishEditFromDateHdr.setText("FROM");
         TextView tvDishEditToDateHdr = (TextView) (rlDishEditToDatePicker.findViewById(R.id.tvDishEditDateHdr));
@@ -93,49 +185,26 @@ public class ChefDishReadonlyFragment extends Fragment {
         //populate  fields if applicable. i.e. mDish != null
         if (mDish != null) {
             initTextView(tvDishEditDishName, mDish.getmDish().getmDishName());
+            initTextView(tvDishEditDishInfo, mDish.getmDish().getmDishInfo());
+            initTextView(tvDishEditDishPrep, mDish.getmDish().getmPrepMethod());
             initTextView(tvDishEditCuisine, mDish.getmDish().getmCusine());
-            //if (mDish.getmDishOnSale().getmIsVegan() == true) //TODO: enable this after Dish model is updated
             cbDishEditVegan.setChecked(mDish.getmDish().ismVegan());
-            initTextView(tvDishEditPrice, "" + mDish.getmUnitPrice());
-            initTextView(tvDishEditQuantity, "" + mDish.getmUnitsOnSale());
 
-            // TODO: set date and time fileds.
-            // Need to convert the formats from parse and into the parse
-            TextView tvDishEditFromDatePicker = (TextView) (rlDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker));
-            tvDishEditFromDatePicker.setText(mDish.getmToDate()); //TODO need from date also
-            TextView tvDishEditFromTimePicker = (TextView) (rlDishEditFromDatePicker.findViewById(R.id.tvDishEditTimePicker));
-            tvDishEditFromTimePicker.setText(mDish.getmToTime()); //TODO need from Time also
+            initTextView(tvDishQtyPerUnit, String.valueOf(mDish.getmQtyPerUnit()));
+            initTextView(tvDishEditPrice, String.valueOf(mDish.getmUnitPrice()));
+            initTextView(tvDishEditQuantity, String.valueOf(mDish.getmUnitsOnSale()));
 
-            TextView tvDishEditToDatePicker = (TextView) (rlDishEditToDatePicker.findViewById(R.id.tvDishEditDatePicker));
-            tvDishEditToDatePicker.setText(mDish.getmToDate());
-            TextView tvDishEditToTimePicker = (TextView) (rlDishEditToDatePicker.findViewById(R.id.tvDishEditTimePicker));
-            tvDishEditToTimePicker.setText(mDish.getmToTime());
+            initTextView(tvDishEditFromDatePicker, String.valueOf(mDish.getmFromDate()));
+            initTextView(tvDishEditFromTimePicker, String.valueOf(mDish.getmFromTime()));
+            initTextView(tvDishEditToDatePicker, String.valueOf(mDish.getmToDate()));
+            initTextView(tvDishEditToTimePicker, String.valueOf(mDish.getmToTime()));
+            //TODO: On Emulator, sometimes the checkbox won't display false as unchecked.
+            cbDishEditPickUp.setChecked(mDish.ismPickUp());
+            cbDishEditDelivery.setChecked(mDish.ismDelivery());
 
-            if (mDish.ismPickUp()) {
-                cbDishEditPickUp.setChecked(true);
-            } else {
-                cbDishEditPickUp.setChecked(false);
-            }
-
-            if (mDish.ismDelivery()) {
-                cbDishEditDelivery.setChecked(true);
-            } else {
-                cbDishEditDelivery.setChecked(false);
-            }
-
-            //TODO
-/*            initTextView(etDishQtyPerUnit, "" + mDish.getmQtyPerUnit());
-            if (mDish.getmMeasure() != null)
-                spDishUnit.setSelection((mDish.getmMeasure().equals(DishOnSale.Measure.Grams)) ? 0 : 1);*/
-
-            // TODO: set image from read only to edit mode
-            /*private TextView tvDishEditDishImage;
-            private ImageView ivDishEditDishImage;*/
-
+            // TODO: init the dish image
+            initTextView(tvDishAdditionalInfo, String.valueOf(mDish.getmDishAddInfo()));
         }
     }
 
-    public DishOnSale getDish() {
-        return mDish;
-    }
 }

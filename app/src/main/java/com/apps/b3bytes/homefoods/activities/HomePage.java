@@ -3,9 +3,10 @@ package com.apps.b3bytes.homefoods.activities;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,17 +23,48 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.adapters.NavDrawerRVAdapter;
+import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
+import com.apps.b3bytes.homefoods.fragments.ChefDishEditAvailFragment;
+import com.apps.b3bytes.homefoods.fragments.ChefDishEditImageFragment;
+import com.apps.b3bytes.homefoods.fragments.ChefDishEditInfoFragment;
+import com.apps.b3bytes.homefoods.fragments.ChefDishEditPriceFragment;
+import com.apps.b3bytes.homefoods.fragments.ChefDishReadonlyFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefHomeFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefMenuFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieCheckoutFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieHomeFragment;
+import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.NavDrawerItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomePage extends AppCompatActivity {
+public class HomePage extends AppCompatActivity implements
+        ChefMenuFragment.OnChefDishItemAddListener,
+        ChefMenuFragment.OnChefDishItemClickedListener,
+        ChefDishEditInfoFragment.OnDishInfoNextSelectedListener,
+        ChefDishEditInfoFragment.OnDishImageSaveSelectedListener,
+        ChefDishEditPriceFragment.OnDishPriceBackSelectedListener,
+        ChefDishEditPriceFragment.OnDishPriceNextSelectedListener,
+        ChefDishEditPriceFragment.OnDishImageSaveSelectedListener,
+        ChefDishEditAvailFragment.OnDishAvailBackSelectedListener,
+        ChefDishEditAvailFragment.OnDishAvailNextSelectedListener,
+        ChefDishEditAvailFragment.OnDishImageSaveSelectedListener,
+        ChefDishEditImageFragment.OnDishImageBackSelectedListener,
+        ChefDishEditImageFragment.OnDishImageSaveSelectedListener,
+        ChefDishReadonlyFragment.OnDishReadOnlyEditSelectedListener {
+
+    public static final int DISH_SECTION_EDIT_SINGLE = 0;
+    public static final int DISH_SECTION_EDIT_ALL = 1;
+    private DishOnSale mDish;
+    private ChefDishEditInfoFragment infoFragment;
+    private ChefDishEditPriceFragment priceFragment;
+    private ChefDishEditAvailFragment availFragment;
+    private ChefDishEditImageFragment saveFragment;
+    private ChefDishReadonlyFragment readFragment;
+
     Context context = this;
     private boolean chefMode = false;
     private DrawerLayout mDrawerLayout;
@@ -179,6 +211,13 @@ public class HomePage extends AppCompatActivity {
             else
                 displayFoodieView(0);
         }
+
+        infoFragment = new ChefDishEditInfoFragment();
+        priceFragment = new ChefDishEditPriceFragment();
+        availFragment = new ChefDishEditAvailFragment();
+        saveFragment = new ChefDishEditImageFragment();
+        readFragment = new ChefDishReadonlyFragment();
+
     }
 
     /**
@@ -305,5 +344,227 @@ public class HomePage extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggle
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    public void onChefDishItemClicked(DishOnSale dish) {
+        mDish = dish;
+        Bundle args = readFragment.getArguments();
+        //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
+        if (args == null) {
+            args = new Bundle();
+            args.putParcelable("dish", dish);
+            readFragment.setArguments(args);
+        } else {
+            args.putParcelable("dish", dish);
+        }
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame_container, readFragment);
+        ft.commit();
+    }
+
+    public void onChefDishAddClicked() {
+        mDish = new DishOnSale();
+
+        Bundle args = new Bundle();
+        args.putParcelable("dish", mDish);
+        args.putInt("mode", DISH_SECTION_EDIT_ALL);
+
+        infoFragment.setArguments(args);
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame_container, infoFragment);
+        ft.commit();
+    }
+
+    public void onDishInfoNextSelected(DishOnSale dish) {
+        mDish = dish;
+        Bundle args = priceFragment.getArguments();
+        //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
+        if (args == null) {
+            args = new Bundle();
+            args.putParcelable("dish", mDish);
+            args.putInt("mode", DISH_SECTION_EDIT_ALL);
+            priceFragment.setArguments(args);
+        } else {
+            args.putInt("mode", DISH_SECTION_EDIT_ALL);
+            args.putParcelable("dish", mDish);
+        }
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame_container, priceFragment);
+        ft.commit();
+    }
+
+    public void onDishPriceBackSelected(DishOnSale dish) {
+        mDish = dish;
+        Bundle args = infoFragment.getArguments();
+        //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
+        if (args == null) {
+            args = new Bundle();
+            args.putParcelable("dish", mDish);
+            args.putInt("mode", DISH_SECTION_EDIT_ALL);
+            infoFragment.setArguments(args);
+        } else {
+            args.putInt("mode", DISH_SECTION_EDIT_ALL);
+            args.putParcelable("dish", mDish);
+        }
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame_container, infoFragment);
+        ft.commit();
+    }
+
+    public void onDishPriceNextSelected(DishOnSale dish) {
+        mDish = dish;
+        Bundle args = availFragment.getArguments();
+        //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
+        if (args == null) {
+            args = new Bundle();
+            args.putParcelable("dish", mDish);
+            args.putInt("mode", DISH_SECTION_EDIT_ALL);
+            availFragment.setArguments(args);
+        } else {
+            args.putInt("mode", DISH_SECTION_EDIT_ALL);
+            args.putParcelable("dish", mDish);
+        }
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame_container, availFragment);
+        ft.commit();
+    }
+
+    public void onDishAvailBackSelected(DishOnSale dish) {
+        mDish = dish;
+        Bundle args = priceFragment.getArguments();
+        //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
+        if (args == null) {
+            args = new Bundle();
+            args.putParcelable("dish", mDish);
+            args.putInt("mode", DISH_SECTION_EDIT_ALL);
+            priceFragment.setArguments(args);
+        } else {
+            args.putInt("mode", DISH_SECTION_EDIT_ALL);
+            args.putParcelable("dish", mDish);
+        }
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame_container, priceFragment);
+        ft.commit();
+    }
+
+    public void onDishAvailNextSelected(DishOnSale dish) {
+        mDish = dish;
+        Bundle args = saveFragment.getArguments();
+        //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
+        if (args == null) {
+            args = new Bundle();
+            args.putParcelable("dish", mDish);
+            args.putInt("mode", DISH_SECTION_EDIT_ALL);
+            saveFragment.setArguments(args);
+        } else {
+            args.putInt("mode", DISH_SECTION_EDIT_ALL);
+            args.putParcelable("dish", mDish);
+        }
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame_container, saveFragment);
+        ft.commit();
+    }
+
+    public void onDishImageBackSelected(DishOnSale dish) {
+        mDish = dish;
+        Bundle args = availFragment.getArguments();
+        //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
+        if (args == null) {
+            args = new Bundle();
+            args.putParcelable("dish", mDish);
+            args.putInt("mode", DISH_SECTION_EDIT_ALL);
+            availFragment.setArguments(args);
+        } else {
+            args.putInt("mode", DISH_SECTION_EDIT_ALL);
+            args.putParcelable("dish", mDish);
+        }
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame_container, availFragment);
+        ft.commit();
+    }
+
+    public void onDishImageSaveSelected(DishOnSale dish, int mode) {
+        mDish = dish;
+        final int saveMode = mode;
+        AppGlobalState.gDataLayer.putDishOnSale(dish, new DataLayer.PublishCallback() {
+            @Override
+            public void done(Exception e) {
+                if (e == null) {
+                    Toast.makeText(getApplicationContext(),
+                            "Posted Dish for sale. Name : " + mDish.getmDish().getmDishName(),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Failed to post Dish for sale. Name : " + mDish.getmDish().getmDishName(),
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                if (saveMode == HomePage.DISH_SECTION_EDIT_SINGLE) {
+                    Bundle args = readFragment.getArguments();
+                    //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
+                    if (args == null) {
+                        args = new Bundle();
+                        args.putParcelable("dish", mDish);
+                        readFragment.setArguments(args);
+                    } else {
+                        args.putParcelable("dish", mDish);
+                    }
+
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.frame_container, readFragment);
+                    ft.commit();
+                } else {
+                    // display the menu view
+                    displayView(1);
+                }
+            }
+        });
+    }
+
+    public void OnDishReadOnlyEditSelected(DishOnSale dish, int section) {
+        mDish = dish;
+
+        Fragment fragment = null;
+
+        switch (section) {
+            case ChefDishReadonlyFragment.DISH_EDIT_SECTION_INFO:
+                fragment = infoFragment;
+                break;
+            case ChefDishReadonlyFragment.DISH_EDIT_SECTION_PRICE:
+                fragment = priceFragment;
+                break;
+            case ChefDishReadonlyFragment.DISH_EDIT_SECTION_AVAIL:
+                fragment = availFragment;
+                break;
+            case ChefDishReadonlyFragment.DISH_EDIT_SECTION_IMAGE:
+                fragment = saveFragment;
+                break;
+            default:
+        }
+
+        if (fragment != null) {
+            Bundle args = fragment.getArguments();
+            //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
+            if (args == null) {
+                args = new Bundle();
+                args.putParcelable("dish", mDish);
+                args.putInt("mode", DISH_SECTION_EDIT_SINGLE);
+                fragment.setArguments(args);
+            } else {
+                args.putInt("mode", DISH_SECTION_EDIT_SINGLE);
+                args.putParcelable("dish", mDish);
+            }
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.frame_container, fragment);
+            ft.commit();
+        }
     }
 }

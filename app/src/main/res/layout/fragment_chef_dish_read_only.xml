@@ -3,155 +3,290 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        tools:context="com.apps.b3bytes.homefoods.activities.ChefDishDesc">
+        android:layout_height="fill_parent">
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:paddingBottom="@dimen/activity_vertical_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin">
 
-            <TextView
-                android:id="@+id/tvDishEditDishName"
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rlDishInfo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:text="@string/etDishEditDishNameHint"
-                android:textStyle="bold"
-                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
-                android:textSize="24sp" />
+                android:layout_height="match_parent"
+                android:background="@android:color/background_light">
 
-            <TextView
-                android:id="@+id/tvDishEditCuisine"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/tvDishEditDishName"
-                android:layout_below="@+id/tvDishEditDishName"
-                android:layout_marginTop="12dp"
-                android:text="Cuisine"
-                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
-                android:textSize="20sp" />
+                <ImageView
+                    android:id="@+id/ivDishInfoEdit"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:src="@mipmap/ic_edit" />
 
-
-            <CheckBox
-                android:id="@+id/cbDishEditVegan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/tvDishEditCuisine"
-                android:layout_below="@+id/tvDishEditCuisine"
-                android:layout_marginTop="12dp"
-                android:text="Vegetarian"
-                android:clickable="false"
-                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
-                android:textSize="16sp" />
-
-
-            <TextView
-                android:id="@+id/tvDishEditPrice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/cbDishEditVegan"
-                android:layout_marginTop="12dp"
-                android:text="Price per unit - 175"
-                android:singleLine="true"
-                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tvDishEditQuantity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/tvDishEditPrice"
-                android:layout_marginTop="12dp"
-                android:text="Number of units available - 25"
-                android:singleLine="true"
-                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
-                android:textSize="16sp" />
-
-            <include
-                android:id="@+id/rlDishEditFromDatePicker"
-                layout="@layout/date_time_read_only_views"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvDishEditQuantity"
-                android:layout_marginTop="12dp" />
-
-            <include
-                android:id="@+id/rlDishEditToDatePicker"
-                layout="@layout/date_time_read_only_views"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rlDishEditFromDatePicker"
-                android:layout_marginTop="12dp" />
-
-            <LinearLayout
-                android:id="@+id/llDishEditPickupDelivery"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/rlDishEditToDatePicker"
-                android:layout_below="@+id/rlDishEditToDatePicker"
-                android:layout_marginTop="12dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <CheckBox
-                    android:id="@+id/cbDishEditPickUp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Pick Up"
-                    android:clickable="false"
-                    android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
-                    android:textSize="16sp" />
-
-                <CheckBox
-                    android:id="@+id/cbDishEditDelivery"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Delivery"
-                    android:clickable="false"
-                    android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/llDishEditPickupDelivery"
-                android:layout_below="@+id/llDishEditPickupDelivery"
-                android:layout_marginTop="12dp">
+                <View
+                    android:id="@+id/vLineInfo"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/ivDishInfoEdit"
+                    android:background="#c0c0c0" />
 
                 <TextView
-                    android:id="@+id/tvDishEditDishImage"
+                    android:id="@+id/tvDishEditDishName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:text="Dish Image"
-                    android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
-                    android:textSize="16sp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/vLineInfo"
+                    android:layout_marginTop="4dp"
+                    android:layout_toLeftOf="@+id/ivDishInfoEdit"
+                    android:layout_toStartOf="@+id/ivDishInfoEdit"
+                    android:text="tvDishEditDishName"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvDishEditDishInfo"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/tvDishEditDishName"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/textview_bg"
+                    android:text="Dish information: what is this dish, whats its background, history, speciality"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvDishEditDishPrep"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/tvDishEditDishInfo"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/textview_bg"
+                    android:text="How to prepare this dish or how you prepared this dish. Simple explanation step by step"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvDishEditCuisine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tvDishEditDishPrep"
+                    android:layout_below="@+id/tvDishEditDishPrep"
+                    android:layout_marginTop="8dp"
+                    android:text="Cuisine"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="20sp" />
+
+
+                <CheckBox
+                    android:id="@+id/cbDishEditVegan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tvDishEditCuisine"
+                    android:layout_below="@+id/tvDishEditCuisine"
+                    android:layout_marginTop="12dp"
+                    android:clickable="false"
+                    android:text="Vegetarian"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rlDishPrice"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/background_light">
+
+                <ImageView
+                    android:id="@+id/ivDishPriceEdit"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:src="@mipmap/ic_edit" />
+
+                <View
+                    android:id="@+id/vLinePrice"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/ivDishPriceEdit"
+                    android:background="#c0c0c0" />
+
+                <TextView
+                    android:id="@+id/tvDishQtyPerUnit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/vLinePrice"
+                    android:layout_marginTop="4dp"
+                    android:layout_toLeftOf="@+id/ivDishPriceEdit"
+                    android:layout_toStartOf="@+id/ivDishPriceEdit"
+                    android:text="tvDishQtyPerUnit"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvDishEditPrice"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/tvDishQtyPerUnit"
+                    android:layout_marginTop="8dp"
+                    android:text="tvDishEditPrice"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvDishEditQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/tvDishEditPrice"
+                    android:layout_marginTop="8dp"
+                    android:text="tvDishEditQuantity"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rlDishAvil"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/background_light">
+
+                <ImageView
+                    android:id="@+id/ivDishAvailEdit"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:src="@mipmap/ic_edit" />
+
+                <View
+                    android:id="@+id/vLineAvail"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/ivDishAvailEdit"
+                    android:background="#c0c0c0" />
+
+                <include
+                    android:id="@+id/rlDishEditFromDatePicker"
+                    layout="@layout/date_time_read_only_views"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/vLineAvail"
+                    android:layout_marginTop="12dp" />
+
+                <include
+                    android:id="@+id/rlDishEditToDatePicker"
+                    layout="@layout/date_time_read_only_views"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rlDishEditFromDatePicker"
+                    android:layout_marginTop="12dp" />
+
+                <LinearLayout
+                    android:id="@+id/llDishEditPickupDelivery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/rlDishEditToDatePicker"
+                    android:layout_below="@+id/rlDishEditToDatePicker"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <CheckBox
+                        android:id="@+id/cbDishEditPickUp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clickable="false"
+                        android:text="Pick Up"
+                        android:textColor="@android:color/holo_blue_dark"
+                        android:textSize="16sp" />
+
+                    <CheckBox
+                        android:id="@+id/cbDishEditDelivery"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clickable="false"
+                        android:text="Delivery"
+                        android:textColor="@android:color/holo_blue_dark"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rlDishImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/background_light">
+
+                <ImageView
+                    android:id="@+id/ivDishImageEdit"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:src="@mipmap/ic_edit" />
+
+                <View
+                    android:id="@+id/vLineImage"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/ivDishImageEdit"
+                    android:background="#c0c0c0" />
 
                 <ImageView
                     android:id="@+id/ivDishEditDishImage"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:layout_below="@+id/tvDishEditDishImage"
+                    android:layout_below="@+id/vLineImage"
                     android:layout_marginTop="8dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/south_indian_breakfast_01" />
 
+                <TextView
+                    android:id="@+id/tvDishAdditionalInfo"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ivDishEditDishImage"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/edittext_bg"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
+                    android:lines="8"
+                    android:maxLines="10"
+                    android:scrollbars="vertical" />
+
             </RelativeLayout>
-        </RelativeLayout>
+
+        </LinearLayout>
+
     </ScrollView>
 </LinearLayout>

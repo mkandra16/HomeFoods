@@ -16,8 +16,11 @@ public class DishOnSale implements Parcelable {
     private String mTag;
     private boolean mPickUp;
     private boolean mDelivery;
+    private String mFromDate;
+    private String mFromTime;
     private String mToDate;
     private String mToTime;
+    private String mDishAddInfo;
 
     public Measure getmMeasure() {
         return mMeasure;
@@ -39,6 +42,29 @@ public class DishOnSale implements Parcelable {
         this.mToTime = mToTime;
     }
 
+    public String getmFromDate() {
+        return mFromDate;
+    }
+
+    public void setmFromDate(String mFromDate) {
+        this.mFromDate = mFromDate;
+    }
+
+    public String getmFromTime() {
+        return mFromTime;
+    }
+
+    public String getmDishAddInfo() {
+        return mDishAddInfo;
+    }
+
+    public void setmDishAddInfo(String mDishAddInfo) {
+        this.mDishAddInfo = mDishAddInfo;
+    }
+
+    public void setmFromTime(String mFromTime) {
+        this.mFromTime = mFromTime;
+    }
 
     public void setmMeasure(Measure mMeasure) {
         this.mMeasure = mMeasure;
@@ -198,8 +224,11 @@ public class DishOnSale implements Parcelable {
         dest.writeString(getmTag());
         dest.writeInt(ismPickUp() ? 1 : 0);
         dest.writeInt(ismDelivery() ? 1 : 0);
+        dest.writeString(getmFromDate());
+        dest.writeString(getmFromTime());
         dest.writeString(getmToDate());
         dest.writeString(getmToTime());
+        dest.writeString(getmDishAddInfo());
     }
 
     public static final Parcelable.Creator<DishOnSale> CREATOR = new Parcelable.Creator<DishOnSale>() {
@@ -224,8 +253,11 @@ public class DishOnSale implements Parcelable {
         setmTag(in.readString());
         setmPickUp((in.readInt() == 1) ? true : false);
         setmDelivery((in.readInt() == 1) ? true : false);
+        setmFromDate(in.readString());
+        setmFromTime(in.readString());
         setmToDate(in.readString());
         setmToTime(in.readString());
+        setmDishAddInfo(in.readString());
     }
 
 }
