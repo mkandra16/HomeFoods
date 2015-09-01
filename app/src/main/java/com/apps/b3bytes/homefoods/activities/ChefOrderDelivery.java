@@ -27,7 +27,6 @@ import java.util.List;
 
 public class ChefOrderDelivery extends ActionBarActivity {
     Context context = this;
-
     /* TODO: TEST DATA */
     String[] dishNamesArray = {"Roti Paratha", "Curd Rice", "South Indian Breakfast", "Salad", "Chicken Tikka", "Biryani", "Pizza", "Cupcakes", "Sandwhich", "Burger", "PanCake"};
     int[] dishQuantitiesArray = {2, 1, 3, 1, 2, 4, 1, 12, 3, 4, 10};
