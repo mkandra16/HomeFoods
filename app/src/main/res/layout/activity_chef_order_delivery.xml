@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/tvOrderNumHdr"
                 android:layout_alignParentRight="true"
-                android:text="135792468"
+                android:text=""
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
                 android:textStyle="bold" />

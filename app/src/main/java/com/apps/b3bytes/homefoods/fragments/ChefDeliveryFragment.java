@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,19 +54,22 @@ public class ChefDeliveryFragment extends Fragment {
             public void onClick(View v) {
                 String foodieOrderNo = etFoodieOrder.getText().toString();
                 Toast.makeText(mContext, "Retrieving Foodie Order " + foodieOrderNo, Toast.LENGTH_SHORT).show();
-                /*
+
                 // Create new fragment and transaction
-                Fragment newFragment = new ExampleFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("orderStr", foodieOrderNo);
+                Fragment newFragment = new ChefOrderDeliveryFragment();
+                newFragment.setArguments(bundle);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
 // Replace whatever is in the fragment_container view with this fragment,
 // and add the transaction to the back stack
-                transaction.replace(R.id.fragment_container, newFragment);
+                transaction.replace(R.id.frame_container, newFragment);
                 transaction.addToBackStack(null);
 
 // Commit the transaction
                 transaction.commit();
-                */
+
             }
         });
     }
