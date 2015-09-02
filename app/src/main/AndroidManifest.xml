@@ -28,9 +28,6 @@
             android:name=".activities.DishDesc"
             android:label="@string/title_activity_dish_desc" />
         <activity
-            android:name=".activities.ChefOrderDelivery"
-            android:label="@string/title_activity_chef_order_delivery" />
-        <activity
             android:name=".activities.HomePage"
             android:label="@string/title_activity_chef_home_page" >
         </activity>
