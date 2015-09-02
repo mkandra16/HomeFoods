@@ -25,9 +25,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.ChefOrderDelivery"
-            android:label="@string/title_activity_chef_order_delivery" />
-        <activity
             android:name=".activities.HomePage"
             android:label="@string/title_activity_chef_home_page" >
         </activity>

@@ -49,18 +49,6 @@ public class WelcomeScreen extends ActionBarActivity {
         // This is first Screen, initialize global state of the App.
         AppGlobalState.initialize(getApplicationContext());
 
-        bChefDeliveryScreenNavigate = (Button) findViewById(R.id.bChefDeliveryScreenNavigate);
-
-        bChefDeliveryScreenNavigate.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-
-                Intent i = new Intent(WelcomeScreen.this, ChefOrderDelivery.class);
-
-                WelcomeScreen.this.startActivity(i);
-            }
-        });
-
         bHomePageScreenNavigate = (Button) findViewById(R.id.bHomePageScreenNavigate);
 
         bHomePageScreenNavigate.setOnClickListener(new View.OnClickListener() {
