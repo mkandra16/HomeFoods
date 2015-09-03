@@ -79,12 +79,12 @@ public class ChefOrderDeliveryFragment extends Fragment {
         // Query Parse for Foodie Order
         AppGlobalState.gDataLayer.getFoodieOrder(mOrderStr, new DataLayer.GetFoodieOrderCallback() {
             @Override
-            public void done(FoodieOrder foodieOrder, Exception e) {
+            public void done(final FoodieOrder foodieOrder, Exception e) {
                 if (e != null) {
                     Toast.makeText(mContext, "Failed to retrie foodie order " + e.toString(),
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    ChefOrder chefOrder = foodieOrder.getChefOrder(AppGlobalState.getmCurrentFoodie());
+                    final ChefOrder chefOrder = foodieOrder.getChefOrder(AppGlobalState.getmCurrentFoodie());
                     if (chefOrder != null) {
                         int numDishes = 0;
                         for (DishOrder dishOrder : chefOrder.getmDishOrders()) {
@@ -101,7 +101,17 @@ public class ChefOrderDeliveryFragment extends Fragment {
                         //tvOrderNum.setText(chefOrder.getmTag());
                         bChefDeliveryDone.setOnClickListener(new View.OnClickListener() {
                             public void onClick(View v) {
-                                Toast.makeText(mContext, "Delivered Order " + mOrderStr, Toast.LENGTH_SHORT).show();
+                                AppGlobalState.gDataLayer.deliverFoodieOrder(foodieOrder, chefOrder, new DataLayer.OrderCallback() {
+                                    @Override
+                                    public void done(String OrderId, Exception e) {
+                                        if (e == null) {
+                                            Toast.makeText(mContext, "Delivered Order " + mOrderStr, Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(mContext, "Failed to update status of Delivered Order " + mOrderStr, Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    }
+                                });
                             }
                         });
                     } else {

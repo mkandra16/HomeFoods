@@ -199,4 +199,30 @@ public class ParseOrderTable implements OrderTable {
 
     }
 
+    @Override
+    public void deliverFoodieOrder(final FoodieOrder foodieOrder, ChefOrder chefOrder, final DataLayer.OrderCallback cb) {
+        final ParseObject foodieOrderObj= ParseObject.createWithoutData("FoodieOrder", foodieOrder.getmTag());
+        foodieOrderObj.put("Status", FoodieOrder.OrderStatus.Delivered.toString());
+        foodieOrderObj.increment("DeliveredCount");
+        ParseObject chefOrderObj= ParseObject.createWithoutData("ChefOrder", foodieOrder.getmTag());
+        chefOrderObj.put("Status", FoodieOrder.OrderStatus.Delivered.toString());
+        chefOrderObj.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    foodieOrderObj.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                                cb.done(foodieOrder.getmTag(), e);
+                        }
+                    });
+                } else {
+                    cb.done(foodieOrder.getmTag(), e);
+                }
+            }
+        });
+
+
+
+    }
 }
