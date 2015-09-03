@@ -1,8 +1,11 @@
 package com.apps.b3bytes.homefoods.datalayer.common;
 
+import com.apps.b3bytes.homefoods.fragments.ChefDeliveryFragment;
+import com.apps.b3bytes.homefoods.models.ChefOrder;
 import com.apps.b3bytes.homefoods.models.Dish;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.Foodie;
+import com.apps.b3bytes.homefoods.models.FoodieOrder;
 
 import java.util.Set;
 import java.util.Vector;
@@ -18,4 +21,6 @@ public interface OrderTable {
                                             final DataLayer.OrderCallback cb);
     public abstract void getOrdersForChef(Foodie chef, DataLayer.getChefOrdersCallback cb);
     public abstract void getFoodieOrder(String orderId, DataLayer.GetFoodieOrderCallback cb);
+    public abstract void deliverFoodieOrder(FoodieOrder foodieOrder, ChefOrder chefOrder,
+                                            DataLayer.OrderCallback cb);
 }

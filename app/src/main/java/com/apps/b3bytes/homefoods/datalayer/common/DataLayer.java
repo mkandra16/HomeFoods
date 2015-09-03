@@ -248,4 +248,8 @@ public class DataLayer {
     public void getFoodieOrder(String orderId, GetFoodieOrderCallback cb ) {
         mOrderTable.getFoodieOrder(orderId, cb);
     }
+
+    public void deliverFoodieOrder(FoodieOrder foodieOrder, ChefOrder chefOrder, OrderCallback cb) {
+        mOrderTable.deliverFoodieOrder(foodieOrder, chefOrder, cb);
+    }
 }
