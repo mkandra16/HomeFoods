@@ -1,6 +1,7 @@
 package com.apps.b3bytes.homefoods.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -9,7 +10,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -46,14 +49,18 @@ public class HomePage extends AppCompatActivity implements
         ChefMenuFragment.OnChefDishItemClickedListener,
         ChefDishEditInfoFragment.OnDishInfoNextSelectedListener,
         ChefDishEditInfoFragment.OnDishImageSaveSelectedListener,
+        ChefDishEditInfoFragment.OnDishEditCancelSelectedListener,
         ChefDishEditPriceFragment.OnDishPriceBackSelectedListener,
         ChefDishEditPriceFragment.OnDishPriceNextSelectedListener,
         ChefDishEditPriceFragment.OnDishImageSaveSelectedListener,
+        ChefDishEditPriceFragment.OnDishEditCancelSelectedListener,
         ChefDishEditAvailFragment.OnDishAvailBackSelectedListener,
         ChefDishEditAvailFragment.OnDishAvailNextSelectedListener,
         ChefDishEditAvailFragment.OnDishImageSaveSelectedListener,
+        ChefDishEditAvailFragment.OnDishEditCancelSelectedListener,
         ChefDishEditImageFragment.OnDishImageBackSelectedListener,
         ChefDishEditImageFragment.OnDishImageSaveSelectedListener,
+        ChefDishEditImageFragment.OnDishEditCancelSelectedListener,
         ChefDishReadonlyFragment.OnDishReadOnlyEditSelectedListener {
 
     public static final int DISH_SECTION_EDIT_SINGLE = 0;
@@ -211,13 +218,6 @@ public class HomePage extends AppCompatActivity implements
             else
                 displayFoodieView(0);
         }
-
-        infoFragment = new ChefDishEditInfoFragment();
-        priceFragment = new ChefDishEditPriceFragment();
-        availFragment = new ChefDishEditAvailFragment();
-        saveFragment = new ChefDishEditImageFragment();
-        readFragment = new ChefDishReadonlyFragment();
-
     }
 
     /**
@@ -346,8 +346,65 @@ public class HomePage extends AppCompatActivity implements
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    // TODO (mohan) use this logic later if needed
+    // http://stackoverflow.com/questions/18305945/how-to-resume-fragment-from-backstack-if-exists
+    private void replaceFragment(Fragment fragment) {
+        String backStateName = fragment.getClass().getName();
+
+        FragmentManager manager = getSupportFragmentManager();
+        boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
+
+        if (!fragmentPopped) { //fragment not in back stack, create it.
+            FragmentTransaction ft = manager.beginTransaction();
+            ft.replace(R.id.frame_container, fragment);
+            ft.addToBackStack(backStateName);
+            ft.commit();
+        }
+    }
+
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    //Yes button clicked
+                    displayView(1);
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        }
+    };
+
+    public void OnDishEditCancelSelected(boolean isChanged, int mode) {
+        if (isChanged) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
+            builder.setMessage("Discard changes?").setPositiveButton("YES", dialogClickListener)
+                    .setNegativeButton("NO", dialogClickListener).show();
+        } else {
+            if (mode == DISH_SECTION_EDIT_ALL)
+                displayView(1);
+            else {
+                Bundle args = readFragment.getArguments();
+                //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
+                if (args == null) {
+                    args = new Bundle();
+                    args.putParcelable("dish", mDish);
+                    readFragment.setArguments(args);
+                } else {
+                    args.putParcelable("dish", mDish);
+                }
+                replaceFragment(readFragment);
+            }
+        }
+    }
+
     public void onChefDishItemClicked(DishOnSale dish) {
         mDish = dish;
+        readFragment = new ChefDishReadonlyFragment();
+
         Bundle args = readFragment.getArguments();
         //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
         if (args == null) {
@@ -360,11 +417,16 @@ public class HomePage extends AppCompatActivity implements
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frame_container, readFragment);
+        ft.addToBackStack(readFragment.getClass().getName());
         ft.commit();
     }
 
     public void onChefDishAddClicked() {
         mDish = new DishOnSale();
+        infoFragment = new ChefDishEditInfoFragment();
+        priceFragment = new ChefDishEditPriceFragment();
+        availFragment = new ChefDishEditAvailFragment();
+        saveFragment = new ChefDishEditImageFragment();
 
         Bundle args = new Bundle();
         args.putParcelable("dish", mDish);
@@ -374,6 +436,7 @@ public class HomePage extends AppCompatActivity implements
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frame_container, infoFragment);
+        ft.addToBackStack(infoFragment.getClass().getName());
         ft.commit();
     }
 
@@ -536,16 +599,16 @@ public class HomePage extends AppCompatActivity implements
 
         switch (section) {
             case ChefDishReadonlyFragment.DISH_EDIT_SECTION_INFO:
-                fragment = infoFragment;
+                fragment = new ChefDishEditInfoFragment();
                 break;
             case ChefDishReadonlyFragment.DISH_EDIT_SECTION_PRICE:
-                fragment = priceFragment;
+                fragment = new ChefDishEditPriceFragment();
                 break;
             case ChefDishReadonlyFragment.DISH_EDIT_SECTION_AVAIL:
-                fragment = availFragment;
+                fragment = new ChefDishEditAvailFragment();
                 break;
             case ChefDishReadonlyFragment.DISH_EDIT_SECTION_IMAGE:
-                fragment = saveFragment;
+                fragment = new ChefDishEditImageFragment();
                 break;
             default:
         }
@@ -564,6 +627,7 @@ public class HomePage extends AppCompatActivity implements
             }
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.frame_container, fragment);
+            ft.addToBackStack(fragment.getClass().getName());
             ft.commit();
         }
     }

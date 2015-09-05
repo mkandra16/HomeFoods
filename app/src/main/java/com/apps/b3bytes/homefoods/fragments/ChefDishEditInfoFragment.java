@@ -1,16 +1,25 @@
 package com.apps.b3bytes.homefoods.fragments;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.internal.view.ContextThemeWrapper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -23,6 +32,7 @@ public class ChefDishEditInfoFragment extends Fragment {
     private View rootView;
     private DishOnSale mDish;
     private int mMode;
+    private boolean mAlertDiscardChanges;
 
     private EditText etDishEditDishName;
     private EditText etDishEditDishInfo;
@@ -34,6 +44,7 @@ public class ChefDishEditInfoFragment extends Fragment {
 
     OnDishInfoNextSelectedListener mNextCallback;
     OnDishImageSaveSelectedListener mSaveCallback;
+    OnDishEditCancelSelectedListener mCancelCallback;
 
     // Container Activity must implement this interface
     public interface OnDishInfoNextSelectedListener {
@@ -42,6 +53,10 @@ public class ChefDishEditInfoFragment extends Fragment {
 
     public interface OnDishImageSaveSelectedListener {
         public void onDishImageSaveSelected(DishOnSale mDish, int mode);
+    }
+
+    public interface OnDishEditCancelSelectedListener {
+        public void OnDishEditCancelSelected(boolean changed, int mode);
     }
 
     @Override
@@ -66,6 +81,13 @@ public class ChefDishEditInfoFragment extends Fragment {
                     + " must implement OnDishImageSaveSelectedListener");
         }
 
+        try {
+            mCancelCallback = (OnDishEditCancelSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnDishEditCancelSelectedListener");
+        }
+
     }
 
 
@@ -79,6 +101,7 @@ public class ChefDishEditInfoFragment extends Fragment {
             mMode = bundle.getInt("mode", HomePage.DISH_SECTION_EDIT_ALL);
         }
 
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -96,9 +119,29 @@ public class ChefDishEditInfoFragment extends Fragment {
         bDishInfoSave = (Button) rootView.findViewById(R.id.bDishInfoSave);
 
         initFields();
+        mAlertDiscardChanges = false;
 
         return rootView;
     }
+
+    private TextWatcher textWatcher = new TextWatcher() {
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            mAlertDiscardChanges = true;
+            Toast.makeText(mContext, "Content Changed", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
 
     private void initAutoCompleteTextView(AutoCompleteTextView acTvView, String text) {
         if (text != null && !text.isEmpty()) {
@@ -121,6 +164,18 @@ public class ChefDishEditInfoFragment extends Fragment {
             initAutoCompleteTextView(acTvDishEditCuisine, mDish.getmDish().getmCusine());
             cbDishEditVegan.setChecked(mDish.getmDish().ismVegan());
         }
+
+        etDishEditDishName.addTextChangedListener(textWatcher);
+        etDishEditDishInfo.addTextChangedListener(textWatcher);
+        etDishEditDishPrepMethod.addTextChangedListener(textWatcher);
+        acTvDishEditCuisine.addTextChangedListener(textWatcher);
+        cbDishEditVegan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                mAlertDiscardChanges = true;
+                Toast.makeText(mContext, "Checkbox Changed", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         if (mMode == HomePage.DISH_SECTION_EDIT_ALL) {
             bDishInfoNext.setVisibility(View.VISIBLE);
@@ -186,6 +241,26 @@ public class ChefDishEditInfoFragment extends Fragment {
             }
         });
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.menu_chef_fragment_dish_edit, menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_cancel_edit:
+                mCancelCallback.OnDishEditCancelSelected(mAlertDiscardChanges, mMode);
+                return true;
+            default:
+                break;
+        }
+        return false;
     }
 
 }

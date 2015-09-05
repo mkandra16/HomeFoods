@@ -6,11 +6,17 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -30,6 +36,7 @@ public class ChefDishEditAvailFragment extends Fragment {
     private View rootView;
     private DishOnSale mDish;
     private int mMode;
+    private boolean mAlertDiscardChanges;
 
     private RelativeLayout rlDishEditFromDatePicker;
     private TextView tvDishEditFromDatePicker;
@@ -52,6 +59,7 @@ public class ChefDishEditAvailFragment extends Fragment {
     OnDishAvailNextSelectedListener mNextCallback;
     OnDishAvailBackSelectedListener mBackCallback;
     OnDishImageSaveSelectedListener mSaveCallback;
+    OnDishEditCancelSelectedListener mCancelCallback;
 
 
     // Container Activity must implement this interface
@@ -66,6 +74,10 @@ public class ChefDishEditAvailFragment extends Fragment {
 
     public interface OnDishImageSaveSelectedListener {
         public void onDishImageSaveSelected(DishOnSale mDish, int mode);
+    }
+
+    public interface OnDishEditCancelSelectedListener {
+        public void OnDishEditCancelSelected(boolean changed, int mode);
     }
 
     @Override
@@ -96,6 +108,13 @@ public class ChefDishEditAvailFragment extends Fragment {
             throw new ClassCastException(activity.toString()
                     + " must implement OnDishImageSaveSelectedListener");
         }
+
+        try {
+            mCancelCallback = (OnDishEditCancelSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnDishEditCancelSelectedListener");
+        }
     }
 
 
@@ -108,6 +127,7 @@ public class ChefDishEditAvailFragment extends Fragment {
             mDish = (DishOnSale) bundle.getParcelable("dish");
             mMode = bundle.getInt("mode", HomePage.DISH_SECTION_EDIT_ALL);
         }
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -132,6 +152,12 @@ public class ChefDishEditAvailFragment extends Fragment {
         bDishAvailSave = (Button) rootView.findViewById(R.id.bDishAvailSave);
 
         initFields();
+        // previous fragments has data
+        if (mMode == HomePage.DISH_SECTION_EDIT_ALL)
+            mAlertDiscardChanges = true;
+        else
+            mAlertDiscardChanges = false;
+
         return rootView;
     }
 
@@ -140,6 +166,25 @@ public class ChefDishEditAvailFragment extends Fragment {
             tvView.setText(text);
         }
     }
+
+    private TextWatcher textWatcher = new TextWatcher() {
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            mAlertDiscardChanges = true;
+            Toast.makeText(mContext, "Content Changed", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
 
     private void initFields() {
         //populate  fields if applicable. i.e. mDish != null
@@ -151,6 +196,25 @@ public class ChefDishEditAvailFragment extends Fragment {
             cbDishEditPickUp.setChecked(mDish.ismPickUp());
             cbDishEditDelivery.setChecked(mDish.ismDelivery());
         }
+
+        tvDishEditFromDatePicker.addTextChangedListener(textWatcher);
+        tvDishEditFromTimePicker.addTextChangedListener(textWatcher);
+        tvDishEditToDatePicker.addTextChangedListener(textWatcher);
+        tvDishEditToTimePicker.addTextChangedListener(textWatcher);
+        cbDishEditPickUp.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                mAlertDiscardChanges = true;
+                Toast.makeText(mContext, "Pickup Checkbox Changed", Toast.LENGTH_SHORT).show();
+            }
+        });
+        cbDishEditDelivery.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                mAlertDiscardChanges = true;
+                Toast.makeText(mContext, "Delivery Checkbox Changed", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         if (mMode == HomePage.DISH_SECTION_EDIT_ALL) {
             llDishAvailNavigationButtons.setVisibility(View.VISIBLE);
@@ -332,5 +396,26 @@ public class ChefDishEditAvailFragment extends Fragment {
         });
 
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.menu_chef_fragment_dish_edit, menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_cancel_edit:
+                mCancelCallback.OnDishEditCancelSelected(mAlertDiscardChanges, mMode);
+                return true;
+            default:
+                break;
+        }
+        return false;
+    }
+
 }
 

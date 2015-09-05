@@ -7,6 +7,9 @@ import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -28,6 +31,7 @@ public class ChefDishEditPriceFragment extends Fragment {
     private View rootView;
     private DishOnSale mDish;
     private int mMode;
+    private boolean mAlertDiscardChanges;
 
     private Spinner spDishUnit;
     private EditText etDishQtyPerUnit;
@@ -42,6 +46,7 @@ public class ChefDishEditPriceFragment extends Fragment {
     OnDishPriceNextSelectedListener mNextCallback;
     OnDishPriceBackSelectedListener mBackCallback;
     OnDishImageSaveSelectedListener mSaveCallback;
+    OnDishEditCancelSelectedListener mCancelCallback;
 
 
     // Container Activity must implement this interface
@@ -58,6 +63,9 @@ public class ChefDishEditPriceFragment extends Fragment {
         public void onDishImageSaveSelected(DishOnSale mDish, int mode);
     }
 
+    public interface OnDishEditCancelSelectedListener {
+        public void OnDishEditCancelSelected(boolean changed, int mode);
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -88,6 +96,12 @@ public class ChefDishEditPriceFragment extends Fragment {
                     + " must implement OnDishImageSaveSelectedListener");
         }
 
+        try {
+            mCancelCallback = (OnDishEditCancelSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnDishEditCancelSelectedListener");
+        }
     }
 
 
@@ -100,7 +114,7 @@ public class ChefDishEditPriceFragment extends Fragment {
             mDish = (DishOnSale) bundle.getParcelable("dish");
             mMode = bundle.getInt("mode", HomePage.DISH_SECTION_EDIT_ALL);
         }
-
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -120,6 +134,12 @@ public class ChefDishEditPriceFragment extends Fragment {
         bDishPriceSave = (Button) rootView.findViewById(R.id.bDishPriceSave);
 
         initFields();
+        // previous fragments has data
+        if (mMode == HomePage.DISH_SECTION_EDIT_ALL)
+            mAlertDiscardChanges = true;
+        else
+            mAlertDiscardChanges = false;
+
         return rootView;
     }
 
@@ -129,6 +149,25 @@ public class ChefDishEditPriceFragment extends Fragment {
         }
     }
 
+    private TextWatcher textWatcher = new TextWatcher() {
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            mAlertDiscardChanges = true;
+            Toast.makeText(mContext, "Content Changed", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
+
     private void initFields() {
         //populate  fields if applicable. i.e. mDish != null
         if (mDish != null) {
@@ -137,6 +176,10 @@ public class ChefDishEditPriceFragment extends Fragment {
             initEditTextView(etDishEditPrice, String.valueOf(mDish.getmUnitPrice()));
             initEditTextView(etDishEditQuantity, String.valueOf(mDish.getmUnitsOnSale()));
         }
+
+        etDishQtyPerUnit.addTextChangedListener(textWatcher);
+        //etDishEditPrice.addTextChangedListener(textWatcher);
+        etDishEditQuantity.addTextChangedListener(textWatcher);
 
         if (mMode == HomePage.DISH_SECTION_EDIT_ALL) {
             llDishPriceNavigationButtons.setVisibility(View.VISIBLE);
@@ -149,13 +192,11 @@ public class ChefDishEditPriceFragment extends Fragment {
     }
 
     private String getPriceAsString(String in) {
-        String out;
         // Remove the currency symbol, so that we can use parseDouble
-        // index 0 - currency char
-        // index 1 - empty space
-        out = in.substring(2, in.length());
+        // delimiter: empty space
+        String[] splited = in.split("\\s+");
 
-        return out;
+        return splited[1];
     }
 
     private void readFields() {
@@ -184,7 +225,7 @@ public class ChefDishEditPriceFragment extends Fragment {
         @Override
         public void onTextChanged(CharSequence s, int start,
                                   int before, int count) {
-
+            mAlertDiscardChanges = true;
             if (!s.toString().equals(current)) {
                 etDishEditPrice.removeTextChangedListener(this);
 
@@ -207,7 +248,7 @@ public class ChefDishEditPriceFragment extends Fragment {
     private boolean checkForMustData() {
         String qty = etDishQtyPerUnit.getText().toString();
         String price = getPriceAsString(etDishEditPrice.getText().toString());
-        String units =  etDishEditQuantity.getText().toString();
+        String units = etDishEditQuantity.getText().toString();
 
         if (qty == null || qty.isEmpty()) {
             Toast.makeText(mContext, "Please Enter Quantity per Unit", Toast.LENGTH_SHORT).show();
@@ -263,5 +304,26 @@ public class ChefDishEditPriceFragment extends Fragment {
         });
 
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.menu_chef_fragment_dish_edit, menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_cancel_edit:
+                mCancelCallback.OnDishEditCancelSelected(mAlertDiscardChanges, mMode);
+                return true;
+            default:
+                break;
+        }
+        return false;
+    }
+
 }
 

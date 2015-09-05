@@ -10,13 +10,19 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.activities.HomePage;
@@ -29,6 +35,7 @@ public class ChefDishEditImageFragment extends Fragment {
     private View rootView;
     private DishOnSale mDish;
     private int mMode;
+    private boolean mAlertDiscardChanges;
 
     private ImageView ivDishEditDishImage;
     private EditText etDishAdditionalInfo;
@@ -40,6 +47,7 @@ public class ChefDishEditImageFragment extends Fragment {
 
     OnDishImageSaveSelectedListener mSaveCallback;
     OnDishImageBackSelectedListener mBackCallback;
+    OnDishEditCancelSelectedListener mCancelCallback;
 
     private Uri outputFileUri;
     protected static final int CAMERA_REQUEST = 0;
@@ -56,6 +64,9 @@ public class ChefDishEditImageFragment extends Fragment {
         public void onDishImageBackSelected(DishOnSale mDish);
     }
 
+    public interface OnDishEditCancelSelectedListener {
+        public void OnDishEditCancelSelected(boolean changed, int mode);
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -79,6 +90,12 @@ public class ChefDishEditImageFragment extends Fragment {
                     + " must implement OnDishImageBackSelectedListener");
         }
 
+        try {
+            mCancelCallback = (OnDishEditCancelSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnDishEditCancelSelectedListener");
+        }
     }
 
 
@@ -91,7 +108,7 @@ public class ChefDishEditImageFragment extends Fragment {
             mDish = (DishOnSale) bundle.getParcelable("dish");
             mMode = bundle.getInt("mode", HomePage.DISH_SECTION_EDIT_ALL);
         }
-
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -108,6 +125,12 @@ public class ChefDishEditImageFragment extends Fragment {
         bDishImageSaveOnly = (Button) rootView.findViewById(R.id.bDishImageSaveOnly);
 
         initFields();
+        // previous fragments has data
+        if (mMode == HomePage.DISH_SECTION_EDIT_ALL)
+            mAlertDiscardChanges = true;
+        else
+            mAlertDiscardChanges = false;
+
         return rootView;
     }
 
@@ -117,12 +140,33 @@ public class ChefDishEditImageFragment extends Fragment {
         }
     }
 
+    private TextWatcher textWatcher = new TextWatcher() {
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            mAlertDiscardChanges = true;
+            Toast.makeText(mContext, "Content Changed", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
+
     private void initFields() {
         //populate  fields if applicable. i.e. mDish != null
         if (mDish != null) {
             //TODO: add image
             initEditTextView(etDishAdditionalInfo, mDish.getmDishAddInfo());
         }
+
+        etDishAdditionalInfo.addTextChangedListener(textWatcher);
 
         if (mMode == HomePage.DISH_SECTION_EDIT_ALL) {
             llDishImageNavigationButtons.setVisibility(View.VISIBLE);
@@ -236,10 +280,32 @@ public class ChefDishEditImageFragment extends Fragment {
                 if (selectedImageUri != null) {
                     ivDishEditDishImage.setImageURI(null);
                     ivDishEditDishImage.setImageURI(selectedImageUri);
+                    mAlertDiscardChanges = true;
                 }
             }
         }
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.menu_chef_fragment_dish_edit, menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_cancel_edit:
+                mCancelCallback.OnDishEditCancelSelected(mAlertDiscardChanges, mMode);
+                return true;
+            default:
+                break;
+        }
+        return false;
+    }
+
 
 }
 
