@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.activities.HomePage;
@@ -112,10 +113,10 @@ public class ChefDishEditPriceFragment extends Fragment {
         etDishQtyPerUnit = (EditText) rootView.findViewById(R.id.etDishQtyPerUnit);
         etDishEditPrice = (EditText) rootView.findViewById(R.id.etDishEditPrice);
         etDishEditQuantity = (EditText) rootView.findViewById(R.id.etDishEditQuantity);
-        llDishPriceNavigationButtons = (LinearLayout)rootView.findViewById(R.id.llDishPriceNavigationButtons);
+        llDishPriceNavigationButtons = (LinearLayout) rootView.findViewById(R.id.llDishPriceNavigationButtons);
         bDishPriceNext = (Button) rootView.findViewById(R.id.bDishPriceNext);
         bDishPriceBack = (Button) rootView.findViewById(R.id.bDishPriceBack);
-        llDishPriceSaveButtons = (LinearLayout)rootView.findViewById(R.id.llDishPriceSaveButtons);
+        llDishPriceSaveButtons = (LinearLayout) rootView.findViewById(R.id.llDishPriceSaveButtons);
         bDishPriceSave = (Button) rootView.findViewById(R.id.bDishPriceSave);
 
         initFields();
@@ -147,12 +148,12 @@ public class ChefDishEditPriceFragment extends Fragment {
 
     }
 
-    private String getPriceAsStting(String in) {
+    private String getPriceAsString(String in) {
         String out;
         // Remove the currency symbol, so that we can use parseDouble
         // index 0 - currency char
         // index 1 - empty space
-        out = in.substring( 2, in.length() );
+        out = in.substring(2, in.length());
 
         return out;
     }
@@ -161,7 +162,7 @@ public class ChefDishEditPriceFragment extends Fragment {
         if (mDish != null) {
             mDish.setmMeasure(spDishUnit.getSelectedItem().toString());
             mDish.setmQtyPerUnit(Double.parseDouble(etDishQtyPerUnit.getText().toString()));
-            mDish.setmUnitPrice(Double.parseDouble(getPriceAsStting(etDishEditPrice.getText().toString())));
+            mDish.setmUnitPrice(Double.parseDouble(getPriceAsString(etDishEditPrice.getText().toString())));
             mDish.setmUnitsOnSale(Integer.parseInt(etDishEditQuantity.getText().toString()));
         }
     }
@@ -203,6 +204,29 @@ public class ChefDishEditPriceFragment extends Fragment {
         }
     };
 
+    private boolean checkForMustData() {
+        String qty = etDishQtyPerUnit.getText().toString();
+        String price = getPriceAsString(etDishEditPrice.getText().toString());
+        String units =  etDishEditQuantity.getText().toString();
+
+        if (qty == null || qty.isEmpty()) {
+            Toast.makeText(mContext, "Please Enter Quantity per Unit", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (price == null || price.isEmpty()) {
+            Toast.makeText(mContext, "Please Enter Price per unit", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (units == null || units.isEmpty()) {
+            Toast.makeText(mContext, "Please Enter Units Available", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -214,7 +238,9 @@ public class ChefDishEditPriceFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 readFields();
-                mNextCallback.onDishPriceNextSelected(mDish);
+                boolean gotAllData = checkForMustData();
+                if (gotAllData)
+                    mNextCallback.onDishPriceNextSelected(mDish);
             }
         });
 
@@ -230,7 +256,9 @@ public class ChefDishEditPriceFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 readFields();
-                mSaveCallback.onDishImageSaveSelected(mDish, HomePage.DISH_SECTION_EDIT_SINGLE);
+                boolean gotAllData = checkForMustData();
+                if (gotAllData)
+                    mSaveCallback.onDishImageSaveSelected(mDish, HomePage.DISH_SECTION_EDIT_SINGLE);
             }
         });
 

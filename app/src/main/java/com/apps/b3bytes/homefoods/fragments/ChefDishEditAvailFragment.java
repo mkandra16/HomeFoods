@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.activities.HomePage;
@@ -217,6 +218,41 @@ public class ChefDishEditAvailFragment extends Fragment {
         }
     };
 
+    private boolean checkForMustData() {
+        String fromDate = tvDishEditFromDatePicker.getText().toString();
+        String fromTime = tvDishEditFromTimePicker.getText().toString();
+        String toDate = tvDishEditToDatePicker.getText().toString();
+        String toTime = tvDishEditToTimePicker.getText().toString();
+        boolean pickUpOrDelivery = cbDishEditPickUp.isChecked() || cbDishEditDelivery.isChecked();
+
+        if (fromDate == null || fromDate.isEmpty()) {
+            Toast.makeText(mContext, "Please Enter Available from Date", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (fromTime == null || fromTime.isEmpty()) {
+            Toast.makeText(mContext, "Please Enter Available from Time", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (toDate == null || toDate.isEmpty()) {
+            Toast.makeText(mContext, "Please Enter Available till Date", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (toTime == null || toTime.isEmpty()) {
+            Toast.makeText(mContext, "Please Enter Available till Time", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!pickUpOrDelivery) {
+            Toast.makeText(mContext, "Please select either pickup or delivery", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -271,7 +307,9 @@ public class ChefDishEditAvailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 readFields();
-                mNextCallback.onDishAvailNextSelected(mDish);
+                boolean gotAllData = checkForMustData();
+                if (gotAllData)
+                    mNextCallback.onDishAvailNextSelected(mDish);
             }
         });
 
@@ -287,7 +325,9 @@ public class ChefDishEditAvailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 readFields();
-                mSaveCallback.onDishImageSaveSelected(mDish, HomePage.DISH_SECTION_EDIT_SINGLE);
+                boolean gotAllData = checkForMustData();
+                if (gotAllData)
+                    mSaveCallback.onDishImageSaveSelected(mDish, HomePage.DISH_SECTION_EDIT_SINGLE);
             }
         });
 

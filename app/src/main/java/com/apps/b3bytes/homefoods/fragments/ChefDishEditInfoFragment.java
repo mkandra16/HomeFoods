@@ -12,6 +12,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.activities.HomePage;
@@ -140,6 +141,23 @@ public class ChefDishEditInfoFragment extends Fragment {
         }
     }
 
+    private boolean checkForMustData() {
+        String name = etDishEditDishName.getText().toString();
+        String info = etDishEditDishInfo.getText().toString();
+
+        if (name == null || name.isEmpty()) {
+            Toast.makeText(mContext, "Please Enter Dish Name", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (info == null || info.isEmpty()) {
+            Toast.makeText(mContext, "Please Enter Dish Information", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -152,7 +170,9 @@ public class ChefDishEditInfoFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 readFields();
-                mNextCallback.onDishInfoNextSelected(mDish);
+                boolean gotAllData = checkForMustData();
+                if (gotAllData)
+                    mNextCallback.onDishInfoNextSelected(mDish);
             }
         });
 
@@ -160,7 +180,9 @@ public class ChefDishEditInfoFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 readFields();
-                mSaveCallback.onDishImageSaveSelected(mDish, HomePage.DISH_SECTION_EDIT_SINGLE);
+                boolean gotAllData = checkForMustData();
+                if (gotAllData)
+                    mSaveCallback.onDishImageSaveSelected(mDish, HomePage.DISH_SECTION_EDIT_SINGLE);
             }
         });
 
