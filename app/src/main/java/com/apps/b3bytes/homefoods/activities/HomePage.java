@@ -240,9 +240,7 @@ public class HomePage extends AppCompatActivity implements
         }
 
         if (fragment != null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.frame_container, fragment).commit();
+            replaceFragment(fragment);
 
             // update selected item and title, then close the drawer
 /*            mDrawerList.setItemChecked(position, true);
