@@ -214,7 +214,6 @@ public class ChefDishEditAvailFragment extends Fragment {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             mAlertDiscardChanges = true;
-            Toast.makeText(mContext, "Content Changed", Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -242,14 +241,12 @@ public class ChefDishEditAvailFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mAlertDiscardChanges = true;
-                Toast.makeText(mContext, "Pickup Checkbox Changed", Toast.LENGTH_SHORT).show();
             }
         });
         cbDishEditDelivery.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mAlertDiscardChanges = true;
-                Toast.makeText(mContext, "Delivery Checkbox Changed", Toast.LENGTH_SHORT).show();
             }
         });
 

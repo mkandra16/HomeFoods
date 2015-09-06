@@ -188,7 +188,6 @@ public class ChefDishEditImageFragment extends Fragment {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             mAlertDiscardChanges = true;
-            Toast.makeText(mContext, "Content Changed", Toast.LENGTH_SHORT).show();
         }
 
         @Override
