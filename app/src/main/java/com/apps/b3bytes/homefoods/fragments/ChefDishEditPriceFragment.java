@@ -196,7 +196,8 @@ public class ChefDishEditPriceFragment extends Fragment {
         // delimiter: empty space
         String[] splited = in.split("\\s+");
 
-        return splited[1];
+        // the last entry will be the price
+        return splited[splited.length-1];
     }
 
     private void readFields() {

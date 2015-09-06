@@ -65,6 +65,7 @@ public class HomePage extends AppCompatActivity implements
 
     public static final int DISH_SECTION_EDIT_SINGLE = 0;
     public static final int DISH_SECTION_EDIT_ALL = 1;
+    private int mEditMode;
     private DishOnSale mDish;
     private ChefDishEditInfoFragment infoFragment;
     private ChefDishEditPriceFragment priceFragment;
@@ -273,9 +274,7 @@ public class HomePage extends AppCompatActivity implements
         }
 
         if (fragment != null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.frame_container, fragment).commit();
+            replaceFragment(fragment);
 
             // update selected item and title, then close the drawer
 /*            mDrawerList.setItemChecked(position, true);
@@ -346,7 +345,6 @@ public class HomePage extends AppCompatActivity implements
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    // TODO (mohan) use this logic later if needed
     // http://stackoverflow.com/questions/18305945/how-to-resume-fragment-from-backstack-if-exists
     private void replaceFragment(Fragment fragment) {
         String backStateName = fragment.getClass().getName();
@@ -368,7 +366,21 @@ public class HomePage extends AppCompatActivity implements
             switch (which) {
                 case DialogInterface.BUTTON_POSITIVE:
                     //Yes button clicked
-                    displayView(1);
+                    if (mEditMode == DISH_SECTION_EDIT_ALL)
+                        displayView(1);
+                    else {
+                        Bundle args = readFragment.getArguments();
+                        //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
+                        if (args == null) {
+                            args = new Bundle();
+                            args.putParcelable("dish", mDish);
+                            readFragment.setArguments(args);
+                        } else {
+                            args.putParcelable("dish", mDish);
+                        }
+                        replaceFragment(readFragment);
+                    }
+
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:
@@ -414,14 +426,11 @@ public class HomePage extends AppCompatActivity implements
         } else {
             args.putParcelable("dish", dish);
         }
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frame_container, readFragment);
-        ft.addToBackStack(readFragment.getClass().getName());
-        ft.commit();
+        replaceFragment(readFragment);
     }
 
     public void onChefDishAddClicked() {
+        mEditMode = DISH_SECTION_EDIT_ALL;
         mDish = new DishOnSale();
         infoFragment = new ChefDishEditInfoFragment();
         priceFragment = new ChefDishEditPriceFragment();
@@ -433,15 +442,12 @@ public class HomePage extends AppCompatActivity implements
         args.putInt("mode", DISH_SECTION_EDIT_ALL);
 
         infoFragment.setArguments(args);
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frame_container, infoFragment);
-        ft.addToBackStack(infoFragment.getClass().getName());
-        ft.commit();
+        replaceFragment(infoFragment);
     }
 
     public void onDishInfoNextSelected(DishOnSale dish) {
         mDish = dish;
+
         Bundle args = priceFragment.getArguments();
         //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
         if (args == null) {
@@ -453,10 +459,7 @@ public class HomePage extends AppCompatActivity implements
             args.putInt("mode", DISH_SECTION_EDIT_ALL);
             args.putParcelable("dish", mDish);
         }
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frame_container, priceFragment);
-        ft.commit();
+        replaceFragment(priceFragment);
     }
 
     public void onDishPriceBackSelected(DishOnSale dish) {
@@ -472,10 +475,7 @@ public class HomePage extends AppCompatActivity implements
             args.putInt("mode", DISH_SECTION_EDIT_ALL);
             args.putParcelable("dish", mDish);
         }
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frame_container, infoFragment);
-        ft.commit();
+        replaceFragment(infoFragment);
     }
 
     public void onDishPriceNextSelected(DishOnSale dish) {
@@ -491,10 +491,7 @@ public class HomePage extends AppCompatActivity implements
             args.putInt("mode", DISH_SECTION_EDIT_ALL);
             args.putParcelable("dish", mDish);
         }
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frame_container, availFragment);
-        ft.commit();
+        replaceFragment(availFragment);
     }
 
     public void onDishAvailBackSelected(DishOnSale dish) {
@@ -510,10 +507,7 @@ public class HomePage extends AppCompatActivity implements
             args.putInt("mode", DISH_SECTION_EDIT_ALL);
             args.putParcelable("dish", mDish);
         }
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frame_container, priceFragment);
-        ft.commit();
+        replaceFragment(priceFragment);
     }
 
     public void onDishAvailNextSelected(DishOnSale dish) {
@@ -529,10 +523,7 @@ public class HomePage extends AppCompatActivity implements
             args.putInt("mode", DISH_SECTION_EDIT_ALL);
             args.putParcelable("dish", mDish);
         }
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frame_container, saveFragment);
-        ft.commit();
+        replaceFragment(saveFragment);
     }
 
     public void onDishImageBackSelected(DishOnSale dish) {
@@ -548,10 +539,7 @@ public class HomePage extends AppCompatActivity implements
             args.putInt("mode", DISH_SECTION_EDIT_ALL);
             args.putParcelable("dish", mDish);
         }
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frame_container, availFragment);
-        ft.commit();
+        replaceFragment(availFragment);
     }
 
     public void onDishImageSaveSelected(DishOnSale dish, int mode) {
@@ -580,10 +568,7 @@ public class HomePage extends AppCompatActivity implements
                     } else {
                         args.putParcelable("dish", mDish);
                     }
-
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.frame_container, readFragment);
-                    ft.commit();
+                    replaceFragment(readFragment);
                 } else {
                     // display the menu view
                     displayView(1);
@@ -593,6 +578,7 @@ public class HomePage extends AppCompatActivity implements
     }
 
     public void OnDishReadOnlyEditSelected(DishOnSale dish, int section) {
+        mEditMode = DISH_SECTION_EDIT_SINGLE;
         mDish = dish;
 
         Fragment fragment = null;
@@ -625,10 +611,7 @@ public class HomePage extends AppCompatActivity implements
                 args.putInt("mode", DISH_SECTION_EDIT_SINGLE);
                 args.putParcelable("dish", mDish);
             }
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.frame_container, fragment);
-            ft.addToBackStack(fragment.getClass().getName());
-            ft.commit();
+            replaceFragment(fragment);
         }
     }
 }
