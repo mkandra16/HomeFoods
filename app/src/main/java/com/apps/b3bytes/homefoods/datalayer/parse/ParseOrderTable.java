@@ -14,7 +14,6 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,7 @@ import java.util.Set;
  */
 public class ParseOrderTable implements OrderTable {
     @Override
-    public void checkOutDish(DishOnSale dish, int qty, final DataLayer.OrderCallback cb) {
+    public void checkOutDish(DishOnSale dish, int qty, final DataLayer.SaveCallback cb) {
 
         final ParseObject dishOrder = new ParseObject("DishOrder");
         dishOrder.put("Foodie", ParseUser.getCurrentUser());
@@ -33,7 +32,7 @@ public class ParseOrderTable implements OrderTable {
         dishOrder.put("DishOnSale", dishObj);
         dishOrder.put("Qty", qty);
         dishOrder.put("Price", dish.getmUnitPrice() * qty);
-        dishOrder.saveInBackground(new SaveCallback() {
+        dishOrder.saveInBackground(new com.parse.SaveCallback() {
             @Override
             public void done(ParseException e) {
                 cb.done(dishOrder.getObjectId(), e);
@@ -43,7 +42,7 @@ public class ParseOrderTable implements OrderTable {
 
     @Override
     public void placeChefOrder(Foodie chef, Set<String> dishOrders, double total,
-                                        final DataLayer.OrderCallback cb) {
+                                        final DataLayer.SaveCallback cb) {
         final ParseObject chefOrder = new ParseObject("ChefOrder");
         chefOrder.put("Foodie", ParseUser.getCurrentUser());
         ArrayList<ParseObject> aDishOrderObj = new ArrayList<ParseObject>();
@@ -56,7 +55,7 @@ public class ParseOrderTable implements OrderTable {
         ParseObject chefObj = ParseUser.createWithoutData("_User", chef.getmTag());
         chefOrder.put("Chef", chefObj);
         chefOrder.put("Status", FoodieOrder.OrderStatus.Ordered.toString());
-        chefOrder.saveInBackground(new SaveCallback() {
+        chefOrder.saveInBackground(new com.parse.SaveCallback() {
             @Override
             public void done(ParseException e) {
                 cb.done(chefOrder.getObjectId(), e);
@@ -66,7 +65,7 @@ public class ParseOrderTable implements OrderTable {
 
     @Override
     public void placeFoodieOrder(Set<String> chefOrders, double total,
-                               final DataLayer.OrderCallback cb) {
+                               final DataLayer.SaveCallback cb) {
         final ParseObject foodieOrder = new ParseObject("FoodieOrder");
         foodieOrder.put("Foodie", ParseUser.getCurrentUser());
         ArrayList<ParseObject> aChefOrderObj = new ArrayList<ParseObject>();
@@ -77,7 +76,7 @@ public class ParseOrderTable implements OrderTable {
         foodieOrder.put("ChefOrders", aChefOrderObj);
         foodieOrder.put("TotalPrice", total);
         foodieOrder.put("Status", FoodieOrder.OrderStatus.Ordered.toString());
-        foodieOrder.saveInBackground(new SaveCallback() {
+        foodieOrder.saveInBackground(new com.parse.SaveCallback() {
             @Override
             public void done(ParseException e) {
                 cb.done(foodieOrder.getObjectId(), e);
@@ -200,17 +199,17 @@ public class ParseOrderTable implements OrderTable {
     }
 
     @Override
-    public void deliverFoodieOrder(final FoodieOrder foodieOrder, ChefOrder chefOrder, final DataLayer.OrderCallback cb) {
+    public void deliverFoodieOrder(final FoodieOrder foodieOrder, ChefOrder chefOrder, final DataLayer.SaveCallback cb) {
         final ParseObject foodieOrderObj= ParseObject.createWithoutData("FoodieOrder", foodieOrder.getmTag());
         foodieOrderObj.put("Status", FoodieOrder.OrderStatus.Delivered.toString());
         foodieOrderObj.increment("DeliveredCount");
         ParseObject chefOrderObj= ParseObject.createWithoutData("ChefOrder", foodieOrder.getmTag());
         chefOrderObj.put("Status", FoodieOrder.OrderStatus.Delivered.toString());
-        chefOrderObj.saveInBackground(new SaveCallback() {
+        chefOrderObj.saveInBackground(new com.parse.SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    foodieOrderObj.saveInBackground(new SaveCallback() {
+                    foodieOrderObj.saveInBackground(new com.parse.SaveCallback() {
                         @Override
                         public void done(ParseException e) {
                                 cb.done(foodieOrder.getmTag(), e);

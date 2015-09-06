@@ -6,13 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -101,7 +99,7 @@ public class ChefOrderDeliveryFragment extends Fragment {
                         //tvOrderNum.setText(chefOrder.getmTag());
                         bChefDeliveryDone.setOnClickListener(new View.OnClickListener() {
                             public void onClick(View v) {
-                                AppGlobalState.gDataLayer.deliverFoodieOrder(foodieOrder, chefOrder, new DataLayer.OrderCallback() {
+                                AppGlobalState.gDataLayer.deliverFoodieOrder(foodieOrder, chefOrder, new DataLayer.SaveCallback() {
                                     @Override
                                     public void done(String OrderId, Exception e) {
                                         if (e == null) {
