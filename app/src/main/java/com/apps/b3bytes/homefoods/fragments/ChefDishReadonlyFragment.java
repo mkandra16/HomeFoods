@@ -81,6 +81,11 @@ public class ChefDishReadonlyFragment extends Fragment {
             mDish = (DishOnSale) bundle.getParcelable("dish");
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(mDish.getmDish().getmDishName());
+    }
 
     @Override
     public void onAttach(Activity activity) {

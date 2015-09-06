@@ -98,7 +98,15 @@ public class ChefDishEditImageFragment extends Fragment {
         }
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mMode == HomePage.DISH_SECTION_EDIT_ALL)
+            getActivity().setTitle("Add Dish");
+        else
+            getActivity().setTitle(mDish.getmDish().getmDishName());
+    }
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

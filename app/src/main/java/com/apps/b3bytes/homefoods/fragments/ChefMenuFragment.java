@@ -83,6 +83,12 @@ public class ChefMenuFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Menu");
+    }
+
+    @Override
     public void onAttach(Activity activity) {
         mContext = (FragmentActivity) activity;
         super.onAttach(activity);
