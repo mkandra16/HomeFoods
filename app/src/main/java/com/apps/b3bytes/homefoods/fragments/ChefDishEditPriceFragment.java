@@ -172,9 +172,14 @@ public class ChefDishEditPriceFragment extends Fragment {
         //populate  fields if applicable. i.e. mDish != null
         if (mDish != null) {
             spDishUnit.setSelection(mDish.getmMeasure().ordinal());
-            initEditTextView(etDishQtyPerUnit, String.valueOf(mDish.getmQtyPerUnit()));
-            initEditTextView(etDishEditPrice, String.valueOf(mDish.getmUnitPrice()));
-            initEditTextView(etDishEditQuantity, String.valueOf(mDish.getmUnitsOnSale()));
+            // not sure of the exact reason, somehow these fields are getting initialized with zeros
+            // which makes these fileds to have some value
+            if (mDish.getmQtyPerUnit() != 0.0)
+                initEditTextView(etDishQtyPerUnit, String.valueOf(mDish.getmQtyPerUnit()));
+            if (mDish.getmUnitPrice() != 0.0)
+                initEditTextView(etDishEditPrice, String.valueOf(mDish.getmUnitPrice()));
+            if (mDish.getmUnitsOnSale() != 0)
+                initEditTextView(etDishEditQuantity, String.valueOf(mDish.getmUnitsOnSale()));
         }
 
         etDishQtyPerUnit.addTextChangedListener(textWatcher);
@@ -197,15 +202,19 @@ public class ChefDishEditPriceFragment extends Fragment {
         String[] splited = in.split("\\s+");
 
         // the last entry will be the price
-        return splited[splited.length-1];
+        return splited[splited.length - 1];
     }
 
     private void readFields() {
         if (mDish != null) {
             mDish.setmMeasure(spDishUnit.getSelectedItem().toString());
-            mDish.setmQtyPerUnit(Double.parseDouble(etDishQtyPerUnit.getText().toString()));
-            mDish.setmUnitPrice(Double.parseDouble(getPriceAsString(etDishEditPrice.getText().toString())));
-            mDish.setmUnitsOnSale(Integer.parseInt(etDishEditQuantity.getText().toString()));
+            try {
+                mDish.setmQtyPerUnit(Double.parseDouble(etDishQtyPerUnit.getText().toString()));
+                mDish.setmUnitPrice(Double.parseDouble(getPriceAsString(etDishEditPrice.getText().toString())));
+                mDish.setmUnitsOnSale(Integer.parseInt(etDishEditQuantity.getText().toString()));
+            } catch (NumberFormatException e) {
+                // Nothing
+            }
         }
     }
 

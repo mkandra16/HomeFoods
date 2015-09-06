@@ -22,7 +22,7 @@
         android:layout_below="@+id/tvDishEditDateHdr"
         android:layout_marginRight="12dp"
         android:layout_toLeftOf="@+id/tvDishEditTimePicker"
-        android:text="Date"
+        android:hint="Date"
         android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
         android:textSize="16sp" />
 
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/tvDishEditDateHdr"
-        android:text="Time"
+        android:hint="Time"
         android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
         android:textSize="16sp" />
 
