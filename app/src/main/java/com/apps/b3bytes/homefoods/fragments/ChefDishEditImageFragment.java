@@ -106,7 +106,7 @@ public class ChefDishEditImageFragment extends Fragment {
         else
             getActivity().setTitle(mDish.getmDish().getmDishName());
     }
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -294,6 +294,12 @@ public class ChefDishEditImageFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.action_settings).setVisible(false).setEnabled(false);
+        return;
+    }
+    
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
