@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +63,7 @@ public class ChefDishReadonlyFragment extends Fragment {
     private DishOnSale mDish;
 
     OnDishReadOnlyEditSelectedListener mEditCallback;
-
+    FragmentHomeUpButtonHandler mHomeUpHandler;
 
     public ChefDishReadonlyFragment(){
         mDish = null;
@@ -72,6 +74,10 @@ public class ChefDishReadonlyFragment extends Fragment {
         public void OnDishReadOnlyEditSelected(DishOnSale mDish, int section);
     }
 
+    public interface FragmentHomeUpButtonHandler {
+        public void FragmentHomeUpButton(boolean who);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,13 +85,22 @@ public class ChefDishReadonlyFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null)
             mDish = (DishOnSale) bundle.getParcelable("dish");
+        getActivity().invalidateOptionsMenu();
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle(mDish.getmDish().getmDishName());
+
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+
+        // Tell the Activity to let fragments handle the menu events
+        mHomeUpHandler.FragmentHomeUpButton(false);
+
+        actionBar.setTitle(mDish.getmDish().getmDishName());
     }
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -101,6 +116,21 @@ public class ChefDishReadonlyFragment extends Fragment {
             throw new ClassCastException(activity.toString()
                     + " must implement OnDishReadOnlyEditSelectedListener");
         }
+
+        try {
+            mHomeUpHandler = (FragmentHomeUpButtonHandler) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement FragmentHomeUpButtonHandler");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        // Tell the Activity that it can now handle menu events once again
+        mHomeUpHandler.FragmentHomeUpButton(true);
     }
 
     @Override

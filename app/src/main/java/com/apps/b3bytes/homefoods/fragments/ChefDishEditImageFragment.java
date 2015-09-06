@@ -9,7 +9,9 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -48,6 +50,7 @@ public class ChefDishEditImageFragment extends Fragment {
     OnDishImageSaveSelectedListener mSaveCallback;
     OnDishImageBackSelectedListener mBackCallback;
     OnDishEditCancelSelectedListener mCancelCallback;
+    FragmentHomeUpButtonHandler mHomeUpHandler;
 
     private Uri outputFileUri;
     protected static final int CAMERA_REQUEST = 0;
@@ -66,6 +69,10 @@ public class ChefDishEditImageFragment extends Fragment {
 
     public interface OnDishEditCancelSelectedListener {
         public void OnDishEditCancelSelected(boolean changed, int mode);
+    }
+
+    public interface FragmentHomeUpButtonHandler {
+        public void FragmentHomeUpButton(boolean who);
     }
 
     @Override
@@ -96,15 +103,36 @@ public class ChefDishEditImageFragment extends Fragment {
             throw new ClassCastException(activity.toString()
                     + " must implement OnDishEditCancelSelectedListener");
         }
+
+        try {
+            mHomeUpHandler = (FragmentHomeUpButtonHandler) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement FragmentHomeUpButtonHandler");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        // Tell the Activity that it can now handle menu events once again
+        mHomeUpHandler.FragmentHomeUpButton(true);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+
+        // Tell the Activity to let fragments handle the menu events
+        mHomeUpHandler.FragmentHomeUpButton(false);
+
         if (mMode == HomePage.DISH_SECTION_EDIT_ALL)
-            getActivity().setTitle("Add Dish");
+            actionBar.setTitle("Add Dish");
         else
-            getActivity().setTitle(mDish.getmDish().getmDishName());
+            actionBar.setTitle(mDish.getmDish().getmDishName());
     }
 
     @Override
@@ -116,6 +144,8 @@ public class ChefDishEditImageFragment extends Fragment {
             mDish = (DishOnSale) bundle.getParcelable("dish");
             mMode = bundle.getInt("mode", HomePage.DISH_SECTION_EDIT_ALL);
         }
+
+        getActivity().invalidateOptionsMenu();
         setHasOptionsMenu(true);
     }
 

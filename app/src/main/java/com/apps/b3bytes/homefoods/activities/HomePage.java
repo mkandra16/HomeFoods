@@ -50,18 +50,23 @@ public class HomePage extends AppCompatActivity implements
         ChefDishEditInfoFragment.OnDishInfoNextSelectedListener,
         ChefDishEditInfoFragment.OnDishImageSaveSelectedListener,
         ChefDishEditInfoFragment.OnDishEditCancelSelectedListener,
+        ChefDishEditInfoFragment.FragmentHomeUpButtonHandler,
         ChefDishEditPriceFragment.OnDishPriceBackSelectedListener,
         ChefDishEditPriceFragment.OnDishPriceNextSelectedListener,
         ChefDishEditPriceFragment.OnDishImageSaveSelectedListener,
         ChefDishEditPriceFragment.OnDishEditCancelSelectedListener,
+        ChefDishEditPriceFragment.FragmentHomeUpButtonHandler,
         ChefDishEditAvailFragment.OnDishAvailBackSelectedListener,
         ChefDishEditAvailFragment.OnDishAvailNextSelectedListener,
         ChefDishEditAvailFragment.OnDishImageSaveSelectedListener,
         ChefDishEditAvailFragment.OnDishEditCancelSelectedListener,
+        ChefDishEditAvailFragment.FragmentHomeUpButtonHandler,
         ChefDishEditImageFragment.OnDishImageBackSelectedListener,
         ChefDishEditImageFragment.OnDishImageSaveSelectedListener,
         ChefDishEditImageFragment.OnDishEditCancelSelectedListener,
-        ChefDishReadonlyFragment.OnDishReadOnlyEditSelectedListener {
+        ChefDishEditImageFragment.FragmentHomeUpButtonHandler,
+        ChefDishReadonlyFragment.OnDishReadOnlyEditSelectedListener,
+        ChefDishReadonlyFragment.FragmentHomeUpButtonHandler {
 
     public static final int DISH_SECTION_EDIT_SINGLE = 0;
     public static final int DISH_SECTION_EDIT_ALL = 1;
@@ -219,6 +224,13 @@ public class HomePage extends AppCompatActivity implements
             else
                 displayFoodieView(0);
         }
+
+        mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     /**
@@ -282,6 +294,18 @@ public class HomePage extends AppCompatActivity implements
         } else {
             // error in creating fragment
             Log.e("MainActivity", "Error in creating fragment");
+        }
+    }
+
+    @Override
+    public void FragmentHomeUpButton(boolean useDrawer) {
+        // Enable/Disable the icon being used by the drawer
+        if (useDrawer) {
+            mDrawerToggle.setDrawerIndicatorEnabled(true);
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        } else {
+            mDrawerToggle.setDrawerIndicatorEnabled(false);
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         }
     }
 
