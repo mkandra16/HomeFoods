@@ -1,18 +1,13 @@
 package com.apps.b3bytes.homefoods.State;
 
 import android.content.Context;
-import android.content.Intent;
 import android.widget.Toast;
 
-import com.apps.b3bytes.homefoods.activities.WelcomeScreen;
 import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.models.Cart;
-import com.apps.b3bytes.homefoods.models.Dish;
 import com.apps.b3bytes.homefoods.models.Foodie;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Vector;
 
 /**
@@ -65,7 +60,7 @@ public final class AppGlobalState {
     }
 
     public static void checkOutCart() {
-        gDataLayer.checkOutCart(gCart, new DataLayer.OrderCallback() {
+        gDataLayer.checkOutCart(gCart, new DataLayer.SaveCallback() {
             @Override
             public void done(String OrderId, Exception e) {
                 if (e == null) {

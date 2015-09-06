@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -32,16 +33,20 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
+import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.models.Dish;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.OneDishOrder;
 
 import org.w3c.dom.Text;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -70,6 +75,9 @@ public class ChefDishEditFragment extends Fragment {
     private int datePickerInput;
     private int timePickerInput;
     private Uri outputFileUri;
+    private Uri selectedImageUri;
+    // pointer to image in cloud
+    private String selectedImageObjectId;
     private boolean mexistingDish;
     private EditText etDishEditDishInfo;
     private EditText etDishEditDishPrepMethod;
@@ -169,7 +177,7 @@ public class ChefDishEditFragment extends Fragment {
         dish.setmDishInfo(dishInfo);
         dish.setmPrepMethod(dishPrepMethod);
         dish.setmVegitarian(vegitarian);
-
+        dish.setmImageUri(selectedImageUri);
         return dishOnSale;
     }
 
@@ -453,7 +461,6 @@ public class ChefDishEditFragment extends Fragment {
                     }
                 }
 
-                Uri selectedImageUri;
                 if (isCamera) {
                     selectedImageUri = outputFileUri;
                 } else {

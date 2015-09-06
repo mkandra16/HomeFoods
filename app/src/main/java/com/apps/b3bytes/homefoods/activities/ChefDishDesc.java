@@ -158,7 +158,7 @@ public class ChefDishDesc extends AppCompatActivity {
                         if (args == null) {
                             args = new Bundle();
                             args.putParcelable("dish", dishOnSale);
-                            editFragment.setArguments(args);
+//                            editFragment.setArguments(args);
                         } else {
                             args.putParcelable("dish", dishOnSale);
                         }
