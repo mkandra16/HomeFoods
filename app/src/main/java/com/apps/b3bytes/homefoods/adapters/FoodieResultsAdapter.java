@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,12 +15,13 @@ import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.models.Dish;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
+import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
- * Created by sindhu on 8/8/2015.
+ * Created by Pavan on 8/8/2015.
  */
 
 public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdapter.DishViewHolder> {
@@ -38,7 +40,7 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
 //        private View mView;
         private DishOnSale dishOnSale;
         private Context mContext;
-       // private ImageView mIVDishImage;
+        private ImageView mIVDishImage;
 
         public DishViewHolder(View v, Context context) {
             super(v);
@@ -49,7 +51,7 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
             mOrderButton = (Button) v.findViewById(R.id.bAddToBag);
 //            mView = v; // Save View to set tag later :)
             mContext = context;
-         //   mIVDishImage = (ImageView) v.findViewById(R.id.ivDishImage);
+            mIVDishImage = (ImageView) v.findViewById(R.id.ivDishImage);
         }
         public void bindView(DishOnSale dishOnSale) {
             Dish dish = dishOnSale.getmDish();
@@ -58,6 +60,15 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
             mThumbsUp.setText(String.valueOf(dish.getmThumbsUp()));
             mThumbsDown.setText(String.valueOf(dish.getmThumbsDown()));//
             this.dishOnSale = dishOnSale;
+
+            if ((dish.getmImageURL() != null) && (! dish.getmImageURL().isEmpty())) {
+                Toast.makeText(mContext, "Loading Image for Dish " + dish.getmDishName(), Toast.LENGTH_SHORT).show();
+                mIVDishImage.setImageURI(null);
+                Picasso.with(mContext).load(dish.getmImageURL()).into(mIVDishImage);
+            } else {
+                mIVDishImage.setImageResource(R.drawable.south_indian_breakfast_01);
+            }
+
             mOrderButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
