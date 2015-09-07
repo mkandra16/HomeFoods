@@ -50,7 +50,7 @@ public class ChefOrderDeliveryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mOrderStr = this.getArguments().getString("orderStr");
 
-        View v = inflater.inflate(R.layout.activity_chef_order_delivery, container, false);
+        View v = inflater.inflate(R.layout.fragment_chef_order_delivery, container, false);
 
         tvOrderNum = (TextView) v.findViewById(R.id.tvOrderNumVal);
         tvChefDeliveryTotalNumDishes = (TextView) v.findViewById(R.id.tvChefDeliveryTotalNumDishes);
