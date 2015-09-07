@@ -203,7 +203,7 @@ public class ParseOrderTable implements OrderTable {
         final ParseObject foodieOrderObj= ParseObject.createWithoutData("FoodieOrder", foodieOrder.getmTag());
         foodieOrderObj.put("Status", FoodieOrder.OrderStatus.Delivered.toString());
         foodieOrderObj.increment("DeliveredCount");
-        ParseObject chefOrderObj= ParseObject.createWithoutData("ChefOrder", foodieOrder.getmTag());
+        ParseObject chefOrderObj= ParseObject.createWithoutData("ChefOrder", chefOrder.getmTag());
         chefOrderObj.put("Status", FoodieOrder.OrderStatus.Delivered.toString());
         chefOrderObj.saveInBackground(new com.parse.SaveCallback() {
             @Override
