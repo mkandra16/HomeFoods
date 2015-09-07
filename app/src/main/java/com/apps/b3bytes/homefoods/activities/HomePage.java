@@ -66,7 +66,8 @@ public class HomePage extends AppCompatActivity implements
         ChefDishEditImageFragment.OnDishEditCancelSelectedListener,
         ChefDishEditImageFragment.FragmentHomeUpButtonHandler,
         ChefDishReadonlyFragment.OnDishReadOnlyEditSelectedListener,
-        ChefDishReadonlyFragment.FragmentHomeUpButtonHandler {
+        ChefDishReadonlyFragment.FragmentHomeUpButtonHandler,
+        FoodieHomeFragment.OnCheckoutCartClickedListener {
 
     public static final int DISH_SECTION_EDIT_SINGLE = 0;
     public static final int DISH_SECTION_EDIT_ALL = 1;
@@ -705,5 +706,9 @@ public class HomePage extends AppCompatActivity implements
             }
             replaceFragment(fragment);
         }
+    }
+
+    public void OnCheckoutCartClicked() {
+        displayFoodieView(1);
     }
 }

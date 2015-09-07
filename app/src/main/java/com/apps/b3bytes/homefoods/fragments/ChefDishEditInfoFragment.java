@@ -303,8 +303,6 @@ public class ChefDishEditInfoFragment extends Fragment {
             case R.id.action_cancel_edit:
                 mCancelCallback.OnDishEditCancelSelected(mAlertDiscardChanges, mMode);
                 return true;
-            case android.R.id.home:
-                return false;
             default:
                 break;
         }

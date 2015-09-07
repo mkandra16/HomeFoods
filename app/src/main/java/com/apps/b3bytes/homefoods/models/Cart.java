@@ -100,6 +100,14 @@ public  class Cart {
     }
     public Set<DishOnSale> dishesInCart() { return dishesMap.keySet(); }
 
+    public int getNumDishesInCart() {
+        int totalItems = 0;
+        for (DishOnSale d : dishesMap.keySet()) {
+            totalItems += dishQtyInCart(d);
+        }
+        return totalItems;
+    }
+
     public HashSet<DishOnSale> chefDishesInCart(Foodie chef) {
         HashSet<DishOnSale> dishes = new HashSet<DishOnSale>();
         for (DishOnSale d : dishesMap.keySet()) {

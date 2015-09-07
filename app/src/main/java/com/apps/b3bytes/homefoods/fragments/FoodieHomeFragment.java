@@ -5,24 +5,50 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.State.AppGlobalState;
+import com.apps.b3bytes.homefoods.activities.HomePage;
 import com.apps.b3bytes.homefoods.adapters.FoodieResultsAdapter;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 
-public class FoodieHomeFragment extends Fragment {
+public class FoodieHomeFragment extends Fragment implements FoodieResultsAdapter.onAddToCartClickListener {
     private FragmentActivity mContext;
     private RecyclerView mRecyclerView;
     private FoodieResultsAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private Button bCartItemsCount;
 
-    public FoodieHomeFragment(){}
+    OnCheckoutCartClickedListener mCheckoutCartCallback;
+
+    public FoodieHomeFragment() {
+    }
+
+    // Container Activity must implement this interface
+    public interface OnCheckoutCartClickedListener {
+        public void OnCheckoutCartClicked();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        getActivity().invalidateOptionsMenu();
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,14 +57,22 @@ public class FoodieHomeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_foodie_results, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.results_recycler_view);
 
-
         return rootView;
     }
 
     @Override
     public void onAttach(Activity activity) {
-        mContext=(FragmentActivity) activity;
+        mContext = (FragmentActivity) activity;
         super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCheckoutCartCallback = (OnCheckoutCartClickedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnCheckoutCartClickedListener");
+        }
     }
 
     @Override
@@ -57,7 +91,7 @@ public class FoodieHomeFragment extends Fragment {
         // specify an adapter (see also next example)
         mAdapter = new FoodieResultsAdapter(mContext);
         mRecyclerView.setAdapter(mAdapter);
-
+        mAdapter.setOnAddToCartClickListener(this);
         mAdapter.SetOnItemClickListener(new FoodieResultsAdapter.ItemClickListener() {
             @Override
             public void onItemClick(DishOnSale item, int position) {
@@ -66,9 +100,12 @@ public class FoodieHomeFragment extends Fragment {
         });
     }
 
+    public void addToCartClicked() {
+        bCartItemsCount.setText(String.valueOf(AppGlobalState.gCart.getNumDishesInCart()));
+    }
 
     /**
-     * Diplaying fragment view for selected nav drawer list item
+     * Displaying fragment view for selected nav drawer list item
      */
     private void displayDishDesc(DishOnSale item, int position) {
         // update the main content by replacing fragments
@@ -92,5 +129,51 @@ public class FoodieHomeFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
 
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+
+        actionBar.setTitle("Home");
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.action_settings).setVisible(false).setEnabled(false);
+        return;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_foodie_fragment_home_page, menu);
+
+        MenuItem count = menu.findItem(R.id.action_checkout_cart);
+        MenuItemCompat.setActionView(count, R.layout.shopping_cart_update_count);
+
+        bCartItemsCount = (Button) MenuItemCompat.getActionView(count);
+        bCartItemsCount.setText(String.valueOf(AppGlobalState.gCart.getNumDishesInCart()));
+        bCartItemsCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCheckoutCartCallback.OnCheckoutCartClicked();
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // this is not getting invoked now. hence added a clicklistener to button
+            case R.id.action_checkout_cart:
+                mCheckoutCartCallback.OnCheckoutCartClicked();
+                return true;
+            default:
+                break;
+        }
+        return false;
+    }
 }

@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.apps.b3bytes.homefoods.activities.HomePage">
+    <item
+        android:id="@+id/action_checkout_cart"
+        android:orderInCategory="100"
+        android:title="Checkout"
+        android:actionLayout="@layout/shopping_cart_update_count"
+        android:icon="@mipmap/ic_action_cart"
+        app:showAsAction="always" />
+</menu>

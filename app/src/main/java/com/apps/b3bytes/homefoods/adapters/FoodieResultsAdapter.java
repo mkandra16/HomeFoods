@@ -27,8 +27,18 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
     private Context mContext;
     private ItemClickListener itemClickListener;
 
+    onAddToCartClickListener addToCartClickListener;
+
     public void SetOnItemClickListener(final ItemClickListener mItemClickListener) {
         this.itemClickListener = mItemClickListener;
+    }
+
+    public  interface onAddToCartClickListener {
+        public void addToCartClicked();
+    }
+
+    public void setOnAddToCartClickListener(onAddToCartClickListener listener) {
+        addToCartClickListener = listener;
     }
 
     public interface ItemClickListener {
@@ -75,6 +85,7 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
                 public void onClick(View v) {
                     Toast.makeText(mContext, "Recived Click on Dish : " + DishViewHolder.this.dishOnSale.getmDish().getmDishName(), Toast.LENGTH_SHORT).show();
                     AppGlobalState.gCart.add_to_bag(DishViewHolder.this.dishOnSale);
+                    addToCartClickListener.addToCartClicked();
                 }
             });
         }

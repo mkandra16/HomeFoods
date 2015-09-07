@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -137,6 +139,15 @@ public class FoodieCheckoutFragment extends Fragment {
         ListViewHelper.setListViewHeightBasedOnChildren(lvChefOrders);
 
         return llOneChefOrder;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+
+        actionBar.setTitle("Checkout");
     }
 
 }
