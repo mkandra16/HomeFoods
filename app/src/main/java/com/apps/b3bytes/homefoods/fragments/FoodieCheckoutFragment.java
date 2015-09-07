@@ -20,26 +20,25 @@ import android.widget.Toast;
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.adapters.DishOrdersListAdapter;
-import com.apps.b3bytes.homefoods.models.Dish;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.Foodie;
-import com.apps.b3bytes.homefoods.models.FoodieDishOrder;
-import com.apps.b3bytes.homefoods.models.OneDishOrder;
 import com.apps.b3bytes.homefoods.utils.ListViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FoodieCheckoutFragment extends Fragment {
+public class FoodieCheckoutFragment extends Fragment implements DishOrdersListAdapter.onDishQuantitiesUpdatedListener {
     private FragmentActivity mContext;
     private LayoutInflater mInflater;
-
     private LinearLayout llRoot;
     private TextView tvOrderSummary;
+    private TextView tvOrderTotalPrice;
+
     private int currentId;
 
 
-    public FoodieCheckoutFragment(){}
+    public FoodieCheckoutFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,7 +53,7 @@ public class FoodieCheckoutFragment extends Fragment {
 
     @Override
     public void onAttach(Activity activity) {
-        mContext=(FragmentActivity) activity;
+        mContext = (FragmentActivity) activity;
         super.onAttach(activity);
     }
 
@@ -103,10 +102,14 @@ public class FoodieCheckoutFragment extends Fragment {
         LinearLayout llOrderTotal = (LinearLayout) mInflater.inflate(R.layout.order_total, null, false);
         RelativeLayout rlOrderTotal = (RelativeLayout) llOrderTotal.findViewById(R.id.rlOrderTotal);
 
-        TextView tvOrderTotalPrice = (TextView) rlOrderTotal.findViewById(R.id.tvOrderTotalPrice);
+        tvOrderTotalPrice = (TextView) rlOrderTotal.findViewById(R.id.tvOrderTotalPrice);
         tvOrderTotalPrice.setText(mContext.getString(R.string.Rs) + " " + totalPrice);
 
         return llOrderTotal;
+    }
+
+    public void dishQuantitiesUpdated() {
+        tvOrderTotalPrice.setText(mContext.getString(R.string.Rs) + " " + AppGlobalState.gCart.getGrandTotal());
     }
 
     private LinearLayout createDeliveryAddrLayout(int currentId) {
@@ -130,6 +133,7 @@ public class FoodieCheckoutFragment extends Fragment {
         ListView lvChefOrders = (ListView) rlOneChefOrder.findViewById(R.id.lvChefOrders);
         ArrayAdapter<DishOnSale> aOneDishOrder =
                 new DishOrdersListAdapter(mContext, list, lvChefOrders, llOneChefOrder);
+        ((DishOrdersListAdapter) aOneDishOrder).setOnDishQuantitiesUpdatedListener(this);
         lvChefOrders.setAdapter(aOneDishOrder);
 
         for (DishOnSale d : AppGlobalState.gCart.chefDishesInCart(chef)) {

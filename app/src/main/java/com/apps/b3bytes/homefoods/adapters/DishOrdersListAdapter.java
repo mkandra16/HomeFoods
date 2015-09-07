@@ -10,10 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
-import com.apps.b3bytes.homefoods.R;
-import com.apps.b3bytes.homefoods.models.FoodieDishOrder;
 import com.apps.b3bytes.homefoods.utils.ListViewHelper;
 
 import java.util.List;
@@ -24,6 +23,16 @@ public class DishOrdersListAdapter extends ArrayAdapter<DishOnSale> {
     private final Activity context;
     private final ListView lvChefOrders;
     private final LinearLayout llOneChefOrder;
+
+    onDishQuantitiesUpdatedListener dishQuantitiesUpdatedListener;
+
+    public interface onDishQuantitiesUpdatedListener {
+        public void dishQuantitiesUpdated();
+    }
+
+    public void setOnDishQuantitiesUpdatedListener(onDishQuantitiesUpdatedListener listener) {
+        dishQuantitiesUpdatedListener = listener;
+    }
 
     public DishOrdersListAdapter(Activity context, List<DishOnSale> list, ListView lvChefOrders, LinearLayout llOneChefOrder) {
         super(context, R.layout.one_dish_order_item, list);
@@ -106,7 +115,7 @@ public class DishOrdersListAdapter extends ArrayAdapter<DishOnSale> {
                         viewHolder.tvOrderReviewDishQuantityChange.setVisibility(View.VISIBLE);
                         viewHolder.tvOrderReviewDishQuantityNum.setVisibility(View.VISIBLE);
                     }
-                    /* TODO: update total price */
+                    dishQuantitiesUpdatedListener.dishQuantitiesUpdated();
                 }
             });
 
@@ -126,7 +135,7 @@ public class DishOrdersListAdapter extends ArrayAdapter<DishOnSale> {
                     if (lvChefOrders.getAdapter().getCount() == 0) {
                         llOneChefOrder.setVisibility(View.GONE);
                     }
-                    /* TODO: update total price */
+                    dishQuantitiesUpdatedListener.dishQuantitiesUpdated();
                 }
             });
 
