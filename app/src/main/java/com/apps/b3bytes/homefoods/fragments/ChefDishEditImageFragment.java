@@ -172,6 +172,10 @@ public class ChefDishEditImageFragment extends Fragment {
         return rootView;
     }
 
+    public boolean getmAlertDiscardChanges() {
+        return mAlertDiscardChanges;
+    }
+
     private void initEditTextView(EditText etView, String text) {
         if (text != null && !text.isEmpty()) {
             etView.setText(text);

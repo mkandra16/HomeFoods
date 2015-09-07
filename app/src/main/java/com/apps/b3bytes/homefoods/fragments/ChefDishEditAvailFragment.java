@@ -198,6 +198,10 @@ public class ChefDishEditAvailFragment extends Fragment {
         return rootView;
     }
 
+    public boolean getmAlertDiscardChanges() {
+        return mAlertDiscardChanges;
+    }
+
     private void initTextView(TextView tvView, String text) {
         if (text != null && !text.isEmpty()) {
             tvView.setText(text);

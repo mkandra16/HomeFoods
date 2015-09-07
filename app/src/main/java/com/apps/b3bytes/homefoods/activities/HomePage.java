@@ -106,6 +106,8 @@ public class HomePage extends AppCompatActivity implements
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
+    private int mBackPressMode = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -228,10 +230,74 @@ public class HomePage extends AppCompatActivity implements
         mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mBackPressMode = 0;
                 onBackPressed();
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        if (mBackPressMode == 1) {
+            mBackPressMode = 0;
+            super.onBackPressed();
+            return;
+        }
+
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
+        if (currentFragment instanceof ChefDishEditInfoFragment) {
+            if (infoFragment.getmAlertDiscardChanges()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(HomePage.this, R.style.myDialog));
+                builder.setMessage("Discard changes?").setPositiveButton("YES", dialogToolbarBackClickListener)
+                        .setNegativeButton("NO", dialogToolbarBackClickListener).show();
+            } else {
+                super.onBackPressed();
+            }
+        } else if (currentFragment instanceof ChefDishEditPriceFragment) {
+            if ((mEditMode == DISH_SECTION_EDIT_SINGLE) && priceFragment.getmAlertDiscardChanges()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(HomePage.this, R.style.myDialog));
+                builder.setMessage("Discard changes?").setPositiveButton("YES", dialogToolbarBackClickListener)
+                        .setNegativeButton("NO", dialogToolbarBackClickListener).show();
+            } else {
+                super.onBackPressed();
+            }
+        } else if (currentFragment instanceof ChefDishEditAvailFragment) {
+            if ((mEditMode == DISH_SECTION_EDIT_SINGLE) && availFragment.getmAlertDiscardChanges()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(HomePage.this, R.style.myDialog));
+                builder.setMessage("Discard changes?").setPositiveButton("YES", dialogToolbarBackClickListener)
+                        .setNegativeButton("NO", dialogToolbarBackClickListener).show();
+            } else {
+                super.onBackPressed();
+            }
+        } else if (currentFragment instanceof ChefDishEditImageFragment) {
+            if ((mEditMode == DISH_SECTION_EDIT_SINGLE) && saveFragment.getmAlertDiscardChanges()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(HomePage.this, R.style.myDialog));
+                builder.setMessage("Discard changes?").setPositiveButton("YES", dialogToolbarBackClickListener)
+                        .setNegativeButton("NO", dialogToolbarBackClickListener).show();
+            } else {
+                super.onBackPressed();
+            }
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    DialogInterface.OnClickListener dialogToolbarBackClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    //Yes button clicked
+                    mBackPressMode = 1;
+                    onBackPressed();
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        }
+    };
 
     /**
      * Displaying fragment view for selected nav drawer list item
@@ -608,15 +674,19 @@ public class HomePage extends AppCompatActivity implements
         switch (section) {
             case ChefDishReadonlyFragment.DISH_EDIT_SECTION_INFO:
                 fragment = new ChefDishEditInfoFragment();
+                infoFragment = (ChefDishEditInfoFragment) fragment;
                 break;
             case ChefDishReadonlyFragment.DISH_EDIT_SECTION_PRICE:
                 fragment = new ChefDishEditPriceFragment();
+                priceFragment = (ChefDishEditPriceFragment) fragment;
                 break;
             case ChefDishReadonlyFragment.DISH_EDIT_SECTION_AVAIL:
                 fragment = new ChefDishEditAvailFragment();
+                availFragment = (ChefDishEditAvailFragment) fragment;
                 break;
             case ChefDishReadonlyFragment.DISH_EDIT_SECTION_IMAGE:
                 fragment = new ChefDishEditImageFragment();
+                saveFragment = (ChefDishEditImageFragment) fragment;
                 break;
             default:
         }
