@@ -65,7 +65,7 @@ public final class AppGlobalState {
             public void done(String OrderId, Exception e) {
                 if (e == null) {
                     Toast.makeText(mContext, "Placed order : " + OrderId, Toast.LENGTH_SHORT).show();
-                    gCart.clear();
+                    //gCart.clear();
                 } else {
                     Toast.makeText(mContext, "Failed to place order", Toast.LENGTH_SHORT).show();
                 }
