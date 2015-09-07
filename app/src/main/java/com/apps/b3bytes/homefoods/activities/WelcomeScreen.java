@@ -1,6 +1,8 @@
 package com.apps.b3bytes.homefoods.activities;
 
 import android.content.Intent;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +17,7 @@ import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.models.ChefOrder;
 import com.apps.b3bytes.homefoods.models.Foodie;
+import com.apps.b3bytes.homefoods.models.FoodieOrder;
 
 import java.util.ArrayList;
 
@@ -45,18 +48,6 @@ public class WelcomeScreen extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);*/
         // This is first Screen, initialize global state of the App.
         AppGlobalState.initialize(getApplicationContext());
-
-        bChefDeliveryScreenNavigate = (Button) findViewById(R.id.bChefDeliveryScreenNavigate);
-
-        bChefDeliveryScreenNavigate.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-
-                Intent i = new Intent(WelcomeScreen.this, ChefOrderDelivery.class);
-
-                WelcomeScreen.this.startActivity(i);
-            }
-        });
 
         bHomePageScreenNavigate = (Button) findViewById(R.id.bHomePageScreenNavigate);
 
@@ -96,12 +87,21 @@ public class WelcomeScreen extends ActionBarActivity {
         Button bTester = (Button) findViewById(R.id.bTester);
 
         bTester.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-                AppGlobalState.gDataLayer.getOrdersForChef(Foodie.createDummyFoodie(), new DataLayer.getChefOrdersCallback() {
-                    @Override
-                    public void done(ArrayList<ChefOrder> orders, Exception e) {
+            String foodieOrderNo = "zKEsTyKqms";
 
+            public void onClick(View v) {
+                AppGlobalState.gDataLayer.getFoodieOrder(foodieOrderNo, new DataLayer.GetFoodieOrderCallback() {
+                    @Override
+                    public void done(FoodieOrder foodieOrder, Exception e) {
+                        if (e != null) {
+                            Toast.makeText(getApplicationContext(), "Failed to retrie foodie order " + e.toString(),
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent i = new Intent();
+                            i.putExtra("FoodieOrder", foodieOrder);
+                            FoodieOrder fo = i.getParcelableExtra("FoodieOrder");
+                            assert fo.equals(foodieOrder);
+                        }
                     }
                 });
             }

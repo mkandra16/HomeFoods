@@ -18,6 +18,8 @@
     <string name="etDishEditDishInfoHint">Dish Info</string>
     <string name="etDishEditDishPrepHint">Dish Preparation Method</string>
     <string name="unit_prompt">Choose Unit</string>
+    <string name="bRetrieve">Retrieve</string>
+    <string name="etFoodieOrderHint">Foodie Order String</string>
     <string-array name="unit_array">
         <item>Grams</item>
         <item>Liters</item>
@@ -44,12 +46,14 @@
     <string-array name="nav_drawer_chef_items">
         <item>Home</item>
         <item>Menu</item>
+        <item>Deliver</item>
     </string-array>
 
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_chef_icons">
         <item>@mipmap/ic_home</item>
+        <item>@mipmap/ic_menu</item>
         <item>@mipmap/ic_menu</item>
     </array>
 
@@ -68,5 +72,6 @@
 
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

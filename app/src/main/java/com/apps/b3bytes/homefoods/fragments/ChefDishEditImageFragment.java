@@ -56,6 +56,7 @@ public class ChefDishEditImageFragment extends Fragment {
     protected static final int CAMERA_REQUEST = 0;
     protected static final int GALLERY_PICTURE = 1;
     private Intent pictureActionIntent = null;
+    private Uri selectedImageUri;
 
     // Container Activity must implement this interface
     public interface OnDishImageSaveSelectedListener {
@@ -222,6 +223,7 @@ public class ChefDishEditImageFragment extends Fragment {
     private void readFields() {
         if (mDish != null) {
             // update image url
+            mDish.getmDish().setmImageUri(selectedImageUri);
             mDish.setmDishAddInfo(etDishAdditionalInfo.getText().toString());
         }
     }
@@ -312,7 +314,6 @@ public class ChefDishEditImageFragment extends Fragment {
                     }
                 }
 
-                Uri selectedImageUri;
                 if (isCamera) {
                     selectedImageUri = outputFileUri;
                 } else {

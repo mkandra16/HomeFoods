@@ -41,6 +41,7 @@ public class ParseDishTable implements DishTable {
             dish.setmPrepMethod(object.getString("PrepMethod"));
         }
         dish.setmTag(object.getObjectId());
+        dish.setmImageURL(object.getString("ImageURL"));
         Foodie f = new Foodie(ParseFoodieTable.parseUser2JSONObject(chef));
         f.setmTag(chef.getObjectId());
         dish.setmChef(f);
@@ -108,6 +109,8 @@ public class ParseDishTable implements DishTable {
             public void done(ParseException e) {
                 if (e == null) {
                     dish.setmTag(dishObj.getObjectId());
+                } else {
+                    Log.e("Publish Dish", "Failed to save Dish" + e.toString());
                 }
                 c.done(e);
             }

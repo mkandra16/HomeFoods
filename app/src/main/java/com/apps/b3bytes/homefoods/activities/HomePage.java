@@ -34,6 +34,7 @@ import com.apps.b3bytes.homefoods.fragments.ChefDishEditImageFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefDishEditInfoFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefDishEditPriceFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefDishReadonlyFragment;
+import com.apps.b3bytes.homefoods.fragments.ChefDeliveryFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefHomeFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefMenuFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieCheckoutFragment;
@@ -343,6 +344,9 @@ public class HomePage extends AppCompatActivity implements
                 break;
             case 1:
                 fragment = new ChefMenuFragment();
+                break;
+            case 2:
+                fragment = new ChefDeliveryFragment();
                 break;
 
             default:
