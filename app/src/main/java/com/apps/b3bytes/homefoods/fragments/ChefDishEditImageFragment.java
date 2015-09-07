@@ -223,7 +223,7 @@ public class ChefDishEditImageFragment extends Fragment {
     private void readFields() {
         if (mDish != null) {
             // update image url
-            mDish.setmImageUri(selectedImageUri);
+            mDish.getmDish().setmImageUri(selectedImageUri);
             mDish.setmDishAddInfo(etDishAdditionalInfo.getText().toString());
         }
     }

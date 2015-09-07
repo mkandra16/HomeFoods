@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
-import com.apps.b3bytes.homefoods.activities.ChefDishDesc;
 import com.apps.b3bytes.homefoods.adapters.ChefMenuGridViewAdapter;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 

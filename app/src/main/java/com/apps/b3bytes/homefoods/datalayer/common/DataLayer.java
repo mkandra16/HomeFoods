@@ -183,6 +183,8 @@ public class DataLayer {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
         // See how image can be saved to ParseTable. Two options
+        // Set current user as the chef
+        d.getmDish().setmChef(AppGlobalState.getmCurrentFoodie());
         String fileName = d.getmDish().getmDishName() + d.getmDish().getmChef().getmTag();
         saveFile(byteArray, fileName, new DataLayer.SaveCallback() {
             @Override
@@ -209,8 +211,6 @@ public class DataLayer {
     public void getNearByDishes(int radius, DishQueryCallback callback) {
         mDishTable.getNearbyDishes(radius, callback);
     }
-
-    ;
 
     // getRelatedDishes(Dish d);
     // getDishesByChef(String chefId);
