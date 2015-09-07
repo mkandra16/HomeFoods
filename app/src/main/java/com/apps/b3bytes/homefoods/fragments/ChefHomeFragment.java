@@ -15,12 +15,13 @@ import com.apps.b3bytes.homefoods.widgets.SlidingTabLayout;
 
 public class ChefHomeFragment extends Fragment {
     private FragmentActivity mContext;
+    private View rootView;
 
-    ViewPager pager;
-    viewPagerChefHomeAdapter viewPagerAdapter;
-    SlidingTabLayout tabs;
-    CharSequence Titles[] = {"Orders", "Snapshot"};
-    int Numboftabs = 2;
+    private ViewPager pager;
+    private viewPagerChefHomeAdapter viewPagerAdapter;
+    private SlidingTabLayout tabs;
+    private CharSequence Titles[] = {"Orders", "Snapshot"};
+    private int Numboftabs = 2;
 
     public ChefHomeFragment(){}
 
@@ -28,7 +29,7 @@ public class ChefHomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_chef_home_page, container, false);
+        rootView = inflater.inflate(R.layout.fragment_chef_home_page, container, false);
         pager = (ViewPager) rootView.findViewById(R.id.viewPagerChefHome);
         tabs = (SlidingTabLayout) rootView.findViewById(R.id.slidingTabs);
 
@@ -45,8 +46,9 @@ public class ChefHomeFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        viewPagerAdapter = new viewPagerChefHomeAdapter(mContext.getSupportFragmentManager(), Titles, Numboftabs);
+        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles for the Tabs and Number Of Tabs.
+        // http://stackoverflow.com/questions/15588120/fragmentpageradapter-getitem-is-not-being-triggered
+        viewPagerAdapter = new viewPagerChefHomeAdapter(getChildFragmentManager(), Titles, Numboftabs);
 
         // Assigning ViewPager View and setting the adapter
         pager.setAdapter(viewPagerAdapter);

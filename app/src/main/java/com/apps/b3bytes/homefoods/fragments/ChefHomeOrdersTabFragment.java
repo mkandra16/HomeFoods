@@ -18,21 +18,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChefHomeOrdersTabFragment extends Fragment {
-    protected RecyclerView rvChefHomePageOrders;
+    private View rootView;
+    private RecyclerView rvChefHomePageOrders;
+    private ChefTodaysOrdersRVAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.chef_home_orders_tab, container, false);
-        rvChefHomePageOrders = (RecyclerView) v.findViewById(R.id.rvChefHomePageOrders);
+        rootView = inflater.inflate(R.layout.chef_home_orders_tab, container, false);
+        rvChefHomePageOrders = (RecyclerView) rootView.findViewById(R.id.rvChefHomePageOrders);
 
-        return v;
+        return rootView;
     }
 
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ChefTodaysOrdersRVAdapter adapter = new ChefTodaysOrdersRVAdapter();
+
+        adapter = new ChefTodaysOrdersRVAdapter();
         rvChefHomePageOrders.setAdapter(adapter);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
