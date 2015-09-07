@@ -1,9 +1,14 @@
 package com.apps.b3bytes.homefoods.datalayer.common;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.widget.Toast;
 
+import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.datalayer.parse.ParseDishTable;
+import com.apps.b3bytes.homefoods.datalayer.parse.ParseFileStor;
 import com.apps.b3bytes.homefoods.datalayer.parse.ParseFoodieTable;
 import com.apps.b3bytes.homefoods.datalayer.parse.ParseOrderTable;
 import com.apps.b3bytes.homefoods.models.Cart;
@@ -11,9 +16,12 @@ import com.apps.b3bytes.homefoods.models.ChefOrder;
 import com.apps.b3bytes.homefoods.models.Dish;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.Foodie;
+import com.apps.b3bytes.homefoods.models.FoodieOrder;
 import com.parse.Parse;
 import com.parse.ParseUser;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -124,6 +132,7 @@ public class DataLayer {
     private FoodieTable mFoodieTable;
     private DishTable mDishTable;
     private OrderTable mOrderTable;
+    private FileStor mFileStor;
 
     public DataLayer(Context context) {
         mContext = context;
@@ -134,6 +143,7 @@ public class DataLayer {
         mFoodieTable = new ParseFoodieTable();
         mDishTable = new ParseDishTable();
         mOrderTable = new ParseOrderTable();
+        mFileStor = new ParseFileStor();
     }
 
     public void registerFoodie(Foodie f, RegistrationCallback callback) {
@@ -159,12 +169,37 @@ public class DataLayer {
         mDishTable.addDishInBackground(d, c);
     }
     public void putDishOnSale(final DishOnSale d, final PublishCallback cb) {
-        // first publish Dish
-        publishDish(d.getmDish(), new com.apps.b3bytes.homefoods.datalayer.common.DataLayer.PublishCallback() {
+        // 1. Save DishImage
+        // 2. Publish Dish
+        // 3. Put Dish on Sale.
+        Bitmap bitmap = null;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), d.getmDish().getmImageUri());
+        } catch (IOException e) {
+            Toast.makeText(mContext,"Couldn't convert URI to bitmap", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+
+        d.getmDish().setmChef(AppGlobalState.getmCurrentFoodie());
+        String fileName = d.getmDish().getmDishName() + d.getmDish().getmChef().getmTag();
+        saveFile(byteArray, fileName, new DataLayer.SaveCallback() {
             @Override
-            public void done(Exception e) {
+            public void done(String objectId, Exception e) {
                 if (e == null) {
-                    mDishTable.putDishOnSale(d, cb);
+                    d.getmDish().setmImageURL(objectId);
+                    publishDish(d.getmDish(), new com.apps.b3bytes.homefoods.datalayer.common.DataLayer.PublishCallback() {
+                        @Override
+                        public void done(Exception e) {
+                            if (e == null) {
+                                mDishTable.putDishOnSale(d, cb);
+                            } else {
+                                cb.done(e);
+                            }
+                        }
+                    });
                 } else {
                     cb.done(e);
                 }
@@ -176,17 +211,15 @@ public class DataLayer {
         mDishTable.getNearbyDishes(radius, callback);
     }
 
-    ;
-
     // getRelatedDishes(Dish d);
     // getDishesByChef(String chefId);
-    public static abstract class OrderCallback {
-        public abstract void done(String OrderId, Exception e);
+    public static abstract class SaveCallback {
+        public abstract void done(String objectId, Exception e);
     }
 
-    public void checkOutCart(final Cart cart, final OrderCallback cb) {
+    public void checkOutCart(final Cart cart, final SaveCallback cb) {
             for (final DishOnSale dish : cart.dishesInCart()) {
-                mOrderTable.checkOutDish(dish, cart.dishQtyInCart(dish), new OrderCallback() {
+                mOrderTable.checkOutDish(dish, cart.dishQtyInCart(dish), new SaveCallback() {
 
                     @Override
                     public void done(String DishId, Exception e) {
@@ -206,10 +239,10 @@ public class DataLayer {
             }
     }
 
-    private void addChefOrders(final Cart cart, final OrderCallback cb) {
+    private void addChefOrders(final Cart cart, final SaveCallback cb) {
         for (final Foodie chef : cart.chefsInCart()) {
             mOrderTable.placeChefOrder(chef, cart.getAllDishOrderIdsByChef(chef),
-                    cart.getGrandTotalByChef(chef), new OrderCallback() {
+                    cart.getGrandTotalByChef(chef), new SaveCallback() {
                 @Override
                 public void done(String OrderId, Exception e) {
                     if (e == null) {
@@ -227,7 +260,7 @@ public class DataLayer {
         }
     }
 
-    private void addFinalFoodieOrder(final Cart cart, final OrderCallback cb) {
+    private void addFinalFoodieOrder(final Cart cart, final SaveCallback cb) {
         mOrderTable.placeFoodieOrder(cart.getAllChefOrderIds(), cart.getGrandTotal(), cb);
     }
 
@@ -237,5 +270,22 @@ public class DataLayer {
 
     public void getOrdersForChef(Foodie chef, getChefOrdersCallback cb) {
         mOrderTable.getOrdersForChef(chef, cb);
+    }
+
+    public static abstract class GetFoodieOrderCallback {
+        public abstract void done(FoodieOrder order, Exception e);
+    }
+
+    //Retrieves Foodie Order to this chef based on orderId.
+    public void getFoodieOrder(String orderId, GetFoodieOrderCallback cb ) {
+        mOrderTable.getFoodieOrder(orderId, cb);
+    }
+
+    public void deliverFoodieOrder(FoodieOrder foodieOrder, ChefOrder chefOrder, SaveCallback cb) {
+        mOrderTable.deliverFoodieOrder(foodieOrder, chefOrder, cb);
+    }
+
+    public void saveFile(byte[] fileContents, String fileName, SaveCallback cb) {
+        mFileStor.saveFile(fileContents, fileName, cb);
     }
 }

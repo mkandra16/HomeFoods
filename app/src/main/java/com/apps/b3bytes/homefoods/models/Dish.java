@@ -1,6 +1,7 @@
 package com.apps.b3bytes.homefoods.models;
 
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 public class Dish implements Parcelable {
     private int mDishId;
     private String mDishName;
+    private Uri mImageUri;
     private String mImageURL;
     private String mDishInfo;
     private boolean mVegitarian;
@@ -39,6 +41,14 @@ public class Dish implements Parcelable {
     private int mChefId;
     private Foodie mChef;
     private String mTag;
+
+    public Uri getmImageUri() {
+        return mImageUri;
+    }
+
+    public void setmImageUri(Uri mImageUri) {
+        this.mImageUri = mImageUri;
+    }
 
     public boolean ismVegitarian() {
         return mVegitarian;

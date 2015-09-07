@@ -22,7 +22,7 @@
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
-            tools:context="com.apps.b3bytes.homefoods.activities.ChefOrderDelivery">
+            tools:context="com.apps.b3bytes.homefoods.activities.HomePage">
 
             <TextView
                 android:id="@+id/tvOrderNumHdr"
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/tvOrderNumHdr"
                 android:layout_alignParentRight="true"
-                android:text="135792468"
+                android:text=""
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
                 android:textStyle="bold" />
