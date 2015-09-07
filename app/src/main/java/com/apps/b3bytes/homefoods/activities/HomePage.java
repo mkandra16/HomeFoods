@@ -36,6 +36,7 @@ import com.apps.b3bytes.homefoods.fragments.ChefDishEditPriceFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefDishReadonlyFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefHomeFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefMenuFragment;
+import com.apps.b3bytes.homefoods.fragments.DishDescFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieCheckoutFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieHomeFragment;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
@@ -67,7 +68,8 @@ public class HomePage extends AppCompatActivity implements
         ChefDishEditImageFragment.FragmentHomeUpButtonHandler,
         ChefDishReadonlyFragment.OnDishReadOnlyEditSelectedListener,
         ChefDishReadonlyFragment.FragmentHomeUpButtonHandler,
-        FoodieHomeFragment.OnCheckoutCartClickedListener {
+        FoodieHomeFragment.OnCheckoutCartClickedListener,
+        DishDescFragment.OnCheckoutCartClickedListener {
 
     public static final int DISH_SECTION_EDIT_SINGLE = 0;
     public static final int DISH_SECTION_EDIT_ALL = 1;

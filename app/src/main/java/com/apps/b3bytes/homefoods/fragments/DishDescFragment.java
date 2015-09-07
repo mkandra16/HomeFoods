@@ -4,14 +4,23 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 
 public class DishDescFragment extends Fragment {
@@ -24,6 +33,7 @@ public class DishDescFragment extends Fragment {
     private TextView tvReviewsThumbsUp;
     private TextView tvReviewsThumbsDown;
     private TextView tvDishReviews;
+    private Button bAddToBag;
     private TextView tvDishDetails;
     private ImageView ivChefImage;
     private TextView tvChefName;
@@ -31,9 +41,24 @@ public class DishDescFragment extends Fragment {
     private TextView tvDishPrepTab;
     private TextView tvDishIngredientsTab;
     private TextView tvDishNutritionTab;
+    private Button bCartItemsCount;
 
+    OnCheckoutCartClickedListener mCheckoutCartCallback;
+
+    // Container Activity must implement this interface
+    public interface OnCheckoutCartClickedListener {
+        public void OnCheckoutCartClicked();
+    }
 
     public DishDescFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        getActivity().invalidateOptionsMenu();
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -52,6 +77,7 @@ public class DishDescFragment extends Fragment {
         tvReviewsThumbsUp = (TextView) rootView.findViewById(R.id.tvReviewsThumbsUp);
         tvReviewsThumbsDown = (TextView) rootView.findViewById(R.id.tvReviewsThumbsDown);
         tvDishReviews = (TextView) rootView.findViewById(R.id.tvDishReviews);
+        bAddToBag = (Button) rootView.findViewById(R.id.bAddToBag);
         tvDishDetails = (TextView) rootView.findViewById(R.id.tvDishDetails);
         ivChefImage = (ImageView) rootView.findViewById(R.id.ivChefImage);
         tvChefName = (TextView) rootView.findViewById(R.id.tvChefName);
@@ -60,6 +86,15 @@ public class DishDescFragment extends Fragment {
         tvDishIngredientsTab = (TextView) rootView.findViewById(R.id.tvDishIngredientsTab);
         tvDishNutritionTab = (TextView) rootView.findViewById(R.id.tvDishNutritionTab);
 
+        bAddToBag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, "Recived Click on Dish : " + mDish.getmDish().getmDishName(), Toast.LENGTH_SHORT).show();
+                AppGlobalState.gCart.add_to_bag(mDish);
+                bCartItemsCount.setText(String.valueOf(AppGlobalState.gCart.getNumDishesInCart()));
+            }
+        });
+
         return rootView;
     }
 
@@ -67,6 +102,15 @@ public class DishDescFragment extends Fragment {
     public void onAttach(Activity activity) {
         mContext = (FragmentActivity) activity;
         super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCheckoutCartCallback = (OnCheckoutCartClickedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnCheckoutCartClickedListener");
+        }
     }
 
     private void initTextView(TextView tvView, String text) {
@@ -126,11 +170,11 @@ public class DishDescFragment extends Fragment {
         if (mDish != null) {
             initTextView(tvDishName, mDish.getmDish().getmDishName());
             // TODO: display currency
-            initTextView(tvDishPrice, ""+mDish.getmUnitPrice());
+            initTextView(tvDishPrice, "" + mDish.getmUnitPrice());
             // TODO: display image
             //ivDishImage
-            initTextView(tvReviewsThumbsUp, ""+mDish.getmDish().getmThumbsUp());
-            initTextView(tvReviewsThumbsDown, ""+mDish.getmDish().getmThumbsDown());
+            initTextView(tvReviewsThumbsUp, "" + mDish.getmDish().getmThumbsUp());
+            initTextView(tvReviewsThumbsDown, "" + mDish.getmDish().getmThumbsDown());
             // TODO: add number of reviews
             //tvDishReviews
             initTextView(tvDishDetails, mDish.getmDish().getmDishInfo());
@@ -146,4 +190,51 @@ public class DishDescFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (mDish != null)
+            actionBar.setTitle(mDish.getmDish().getmDishName());
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.action_settings).setVisible(false).setEnabled(false);
+        return;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_foodie_fragment_home_page, menu);
+
+        MenuItem count = menu.findItem(R.id.action_checkout_cart);
+        MenuItemCompat.setActionView(count, R.layout.shopping_cart_update_count);
+
+        bCartItemsCount = (Button) MenuItemCompat.getActionView(count);
+        bCartItemsCount.setText(String.valueOf(AppGlobalState.gCart.getNumDishesInCart()));
+        bCartItemsCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCheckoutCartCallback.OnCheckoutCartClicked();
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // this is not getting invoked now. hence added a clicklistener to button
+            case R.id.action_checkout_cart:
+                mCheckoutCartCallback.OnCheckoutCartClicked();
+                return true;
+            default:
+                break;
+        }
+        return false;
+    }
 }
