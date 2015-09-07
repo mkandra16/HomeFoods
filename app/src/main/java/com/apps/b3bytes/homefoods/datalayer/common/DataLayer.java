@@ -182,8 +182,7 @@ public class DataLayer {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
-        // See how image can be saved to ParseTable. Two options
-        // Set current user as the chef
+
         d.getmDish().setmChef(AppGlobalState.getmCurrentFoodie());
         String fileName = d.getmDish().getmDishName() + d.getmDish().getmChef().getmTag();
         saveFile(byteArray, fileName, new DataLayer.SaveCallback() {
