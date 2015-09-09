@@ -3,7 +3,10 @@
     android:id="@+id/rlDishReviewsItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FFFFFF">
+    android:layout_marginTop="5dp"
+    android:background="#FFFFFF"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
 
     <RatingBar
         android:id="@+id/rbDishReview"
@@ -12,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="5dp"
         android:isIndicator="true"
         android:numStars="5"
         android:stepSize="0.5" />
@@ -23,7 +26,9 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/rbDishReview"
         android:layout_alignParentRight="true"
-        android:text="Sep 08, 2015" />
+        android:layout_marginTop="5dp"
+        android:text="Sep 08, 2015"
+        android:textColor="@color/KPTheme_AdriftInDreams_colorAccent" />
 
     <RelativeLayout
         android:id="@+id/rlDishReviewFoodieDetails"
@@ -40,7 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:text="From"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textColor="@android:color/black"
+            android:textSize="12sp" />
 
         <ImageView
             android:id="@+id/ivFoodie"
@@ -60,7 +66,8 @@
             android:layout_marginLeft="8dp"
             android:layout_toRightOf="@+id/ivFoodie"
             android:text="Foodie Name"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent" />
 
 
     </RelativeLayout>
@@ -80,7 +87,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:text="a short one line opinion"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvDishReviewDetails"
@@ -92,7 +101,8 @@
             android:ellipsize="end"
             android:maxLines="4"
             android:text="details of the review. description with full details. can span multiple lines, though as an item will be limited to four lines. But the full description can be viewed by selecting the review item which will show in new page. To see complete review click on the review item."
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/black" />
 
     </RelativeLayout>
 

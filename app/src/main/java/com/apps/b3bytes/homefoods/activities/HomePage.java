@@ -43,6 +43,7 @@ import com.apps.b3bytes.homefoods.fragments.FoodieCheckoutFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieHomeFragment;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.NavDrawerItem;
+import com.apps.b3bytes.homefoods.widgets.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +74,7 @@ public class HomePage extends AppCompatActivity implements
         FoodieHomeFragment.OnCheckoutCartClickedListener,
         DishDescFragment.OnCheckoutCartClickedListener,
         DishDescFragment.OnDishReviewsClickedListener,
+        DishDescFragment.FragmentHomeUpButtonHandler,
         DishReviewFragment.FragmentHomeUpButtonHandler {
 
     public static final int DISH_SECTION_EDIT_SINGLE = 0;
@@ -162,6 +164,9 @@ public class HomePage extends AppCompatActivity implements
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_slidermenu);
+        RecyclerView.ItemDecoration itemDecoration =
+                new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
+        mRecyclerView.addItemDecoration(itemDecoration);
         llSliderMenu = (LinearLayout) findViewById(R.id.llSliderMenu);
         swChefFoodie = (Switch) findViewById(R.id.swChefFoodie);
 

@@ -17,6 +17,7 @@ import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.adapters.DishReviewsRVAdapter;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.DishReview;
+import com.apps.b3bytes.homefoods.widgets.DividerItemDecoration;
 
 import java.util.ArrayList;
 
@@ -142,7 +143,9 @@ public class DishReviewFragment extends Fragment {
         rvAdapter = new DishReviewsRVAdapter(mContext, items);
         rvDishReviews.setAdapter(rvAdapter);
         rvAdapter.notifyDataSetChanged();
-
+        RecyclerView.ItemDecoration itemDecoration =
+                new DividerItemDecoration(mContext, LinearLayoutManager.VERTICAL);
+        rvDishReviews.addItemDecoration(itemDecoration);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvDishReviews.setLayoutManager(layoutManager);

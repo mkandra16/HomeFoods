@@ -45,6 +45,7 @@ public class DishDescFragment extends Fragment {
 
     OnCheckoutCartClickedListener mCheckoutCartCallback;
     OnDishReviewsClickedListener mDishReviewsCallback;
+    FragmentHomeUpButtonHandler mHomeUpHandler;
 
     // Container Activity must implement this interface
     public interface OnCheckoutCartClickedListener {
@@ -53,6 +54,10 @@ public class DishDescFragment extends Fragment {
 
     public interface OnDishReviewsClickedListener {
         public void OnDishReviewsClicked(DishOnSale dish);
+    }
+
+    public interface FragmentHomeUpButtonHandler {
+        public void FragmentHomeUpButton(boolean who);
     }
 
     public DishDescFragment() {
@@ -128,6 +133,13 @@ public class DishDescFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnDishReviewsClickedListener");
+        }
+
+        try {
+            mHomeUpHandler = (FragmentHomeUpButtonHandler) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement FragmentHomeUpButtonHandler");
         }
     }
 
@@ -212,9 +224,21 @@ public class DishDescFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        // Tell the Activity to let fragments handle the menu events
+        mHomeUpHandler.FragmentHomeUpButton(false);
+
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (mDish != null)
             actionBar.setTitle(mDish.getmDish().getmDishName());
+    }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        // Tell the Activity that it can now handle menu events once again
+        mHomeUpHandler.FragmentHomeUpButton(true);
     }
 
     @Override
