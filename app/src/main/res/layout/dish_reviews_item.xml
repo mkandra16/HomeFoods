@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlDishReviewsItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF">
+
+    <RatingBar
+        android:id="@+id/rbDishReview"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="3dp"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:stepSize="0.5" />
+
+    <TextView
+        android:id="@+id/tvDishReviewDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/rbDishReview"
+        android:layout_alignParentRight="true"
+        android:text="Sep 08, 2015" />
+
+    <RelativeLayout
+        android:id="@+id/rlDishReviewFoodieDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/rbDishReview"
+        android:layout_marginTop="8dp"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/tvDishReviewBy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="From"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <ImageView
+            android:id="@+id/ivFoodie"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/tvDishReviewBy"
+            android:background="@mipmap/ic_chef_image" />
+
+        <TextView
+            android:id="@+id/tvFoodieName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tvDishReviewBy"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/ivFoodie"
+            android:text="Foodie Name"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlDishReviewDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/rlDishReviewFoodieDetails"
+        android:layout_marginTop="8dp"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/tvDishReviewOneline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="a short one line opinion"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/tvDishReviewDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/tvDishReviewOneline"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="4"
+            android:text="details of the review. description with full details. can span multiple lines, though as an item will be limited to four lines. But the full description can be viewed by selecting the review item which will show in new page. To see complete review click on the review item."
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

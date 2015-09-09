@@ -38,6 +38,7 @@ import com.apps.b3bytes.homefoods.fragments.ChefDeliveryFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefHomeFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefMenuFragment;
 import com.apps.b3bytes.homefoods.fragments.DishDescFragment;
+import com.apps.b3bytes.homefoods.fragments.DishReviewFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieCheckoutFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieHomeFragment;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
@@ -70,7 +71,9 @@ public class HomePage extends AppCompatActivity implements
         ChefDishReadonlyFragment.OnDishReadOnlyEditSelectedListener,
         ChefDishReadonlyFragment.FragmentHomeUpButtonHandler,
         FoodieHomeFragment.OnCheckoutCartClickedListener,
-        DishDescFragment.OnCheckoutCartClickedListener {
+        DishDescFragment.OnCheckoutCartClickedListener,
+        DishDescFragment.OnDishReviewsClickedListener,
+        DishReviewFragment.FragmentHomeUpButtonHandler {
 
     public static final int DISH_SECTION_EDIT_SINGLE = 0;
     public static final int DISH_SECTION_EDIT_ALL = 1;
@@ -81,6 +84,7 @@ public class HomePage extends AppCompatActivity implements
     private ChefDishEditAvailFragment availFragment;
     private ChefDishEditImageFragment saveFragment;
     private ChefDishReadonlyFragment readFragment;
+    private DishReviewFragment dishReviewFragment;
 
     Context context = this;
     private boolean chefMode = false;
@@ -716,5 +720,15 @@ public class HomePage extends AppCompatActivity implements
 
     public void OnCheckoutCartClicked() {
         displayFoodieView(1);
+    }
+
+    public void OnDishReviewsClicked(DishOnSale dish) {
+        dishReviewFragment = new DishReviewFragment();
+
+        Bundle args = new Bundle();
+        args.putParcelable("dish", dish);
+
+        dishReviewFragment.setArguments(args);
+        replaceFragment(dishReviewFragment);
     }
 }

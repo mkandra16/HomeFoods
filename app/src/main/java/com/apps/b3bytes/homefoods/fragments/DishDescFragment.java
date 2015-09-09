@@ -44,10 +44,15 @@ public class DishDescFragment extends Fragment {
     private Button bCartItemsCount;
 
     OnCheckoutCartClickedListener mCheckoutCartCallback;
+    OnDishReviewsClickedListener mDishReviewsCallback;
 
     // Container Activity must implement this interface
     public interface OnCheckoutCartClickedListener {
         public void OnCheckoutCartClicked();
+    }
+
+    public interface OnDishReviewsClickedListener {
+        public void OnDishReviewsClicked(DishOnSale dish);
     }
 
     public DishDescFragment() {
@@ -95,6 +100,12 @@ public class DishDescFragment extends Fragment {
             }
         });
 
+        tvDishReviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDishReviewsCallback.OnDishReviewsClicked(mDish);
+            }
+        });
         return rootView;
     }
 
@@ -110,6 +121,13 @@ public class DishDescFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnCheckoutCartClickedListener");
+        }
+
+        try {
+            mDishReviewsCallback = (OnDishReviewsClickedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnDishReviewsClickedListener");
         }
     }
 
