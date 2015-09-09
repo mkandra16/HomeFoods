@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -67,6 +68,7 @@ public class DishReviewFragment extends Fragment {
             mDish = (DishOnSale) bundle.getParcelable("dish");
 
         getActivity().invalidateOptionsMenu();
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -158,4 +160,9 @@ public class DishReviewFragment extends Fragment {
 
     }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.action_settings).setVisible(false).setEnabled(false);
+        return;
+    }
 }
