@@ -1,10 +1,12 @@
 <resources>
+    <string name="DeliveredCardColor">#B5CFB5</string>
+    <string name="CancelledOrderColor">#000000</string>
     <string name="app_name">HomeFoods</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="bDishDescScreenNavigation">Dish Desc</string>
     <string name="title_activity_dish_desc">HomeFoods</string>
-    <string name="INR">\u20B9 175</string>
+    <string name="INR">\u20B9 0</string>
     <string name="Rs">\u20B9</string>
     <string name="bAddToBag">Add to Bag</string>
     <string name="title_activity_dish_desc_prep_tab">DishDescPrepTab</string>
