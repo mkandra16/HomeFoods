@@ -116,6 +116,10 @@ public class ChefOrderDeliveryFragment extends Fragment {
                                         @Override
                                         public void done(String OrderId, Exception e) {
                                             if (e == null) {
+                                                tvReason.setEnabled(true);
+                                                bChefDeliveryDone.setEnabled(false);
+                                                tvReason.setText("Updated Order status to Delivered");
+
                                                 Toast.makeText(mContext, "Delivered Order " + mOrderStr, Toast.LENGTH_SHORT).show();
                                             } else {
                                                 Toast.makeText(mContext, "Failed to update status of Delivered Order " + mOrderStr, Toast.LENGTH_SHORT).show();
