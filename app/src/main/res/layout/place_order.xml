@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlDishReviewsItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
+
+    <RelativeLayout
+        android:id="@+id/rlPaymentDetails"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#FFFFFF"
+        android:padding="8dp">
+
+        <RelativeLayout
+            android:id="@+id/rlPaymentMethodHdr"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivPaymentWith"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@mipmap/ic_payment_card"
+                android:padding="8dp" />
+
+            <TextView
+                android:id="@+id/tvCreditOrDebitCardHdr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@+id/ivPaymentWith"
+                android:text="Payment method"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/black"
+                android:textStyle="normal" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/vPaymentHdrDivider"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/rlPaymentMethodHdr"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/darker_gray" />
+
+        <RelativeLayout
+            android:id="@+id/rlUseAddPayMethod"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/rlPaymentMethodHdr"
+            android:layout_below="@+id/vPaymentHdrDivider"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/tvUsePaymentMethod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Use card xxxx-1234            -->"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent" />
+
+            <TextView
+                android:id="@+id/tvAddPaymentMethod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tvUsePaymentMethod"
+                android:layout_below="@+id/tvUsePaymentMethod"
+                android:layout_marginTop="16dp"
+                android:text="Add New Payment method"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlAddPayMethod"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/rlPaymentMethodHdr"
+            android:layout_below="@+id/vPaymentHdrDivider"
+            android:layout_marginTop="8dp"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/tvAddNewPaymentMethod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Add Payment method"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlOrderSummary"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlPaymentDetails"
+        android:layout_marginTop="8dp"
+        android:background="#FFFFFF"
+        android:padding="8dp">
+
+
+        <RelativeLayout
+            android:id="@+id/rlOrderSummaryHdr"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivOrderSummary"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@mipmap/ic_payment_card"
+                android:padding="8dp" />
+
+            <TextView
+                android:id="@+id/tvOrderSummaryHdr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@+id/ivOrderSummary"
+                android:text="Order summary"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/black"
+                android:textStyle="normal" />
+
+        </RelativeLayout>
+
+
+        <View
+            android:id="@+id/vOrderSummaryDivider"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/rlOrderSummaryHdr"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/tvOrderSummaryTotalPreTaxHdr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/rlOrderSummaryHdr"
+            android:layout_below="@+id/vOrderSummaryDivider"
+            android:layout_marginTop="8dp"
+            android:text="Amount"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent" />
+
+        <TextView
+            android:id="@+id/tvOrderSummaryTotalPreTaxVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/vOrderSummaryDivider"
+            android:layout_marginTop="8dp"
+            android:text="Rs 125.35"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent" />
+
+        <TextView
+            android:id="@+id/tvOrderSummaryTaxHdr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tvOrderSummaryTotalPreTaxHdr"
+            android:layout_below="@+id/tvOrderSummaryTotalPreTaxHdr"
+            android:layout_marginTop="8dp"
+            android:text="Tax"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent" />
+
+        <TextView
+            android:id="@+id/tvOrderSummaryTaxVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tvOrderSummaryTotalPreTaxVal"
+            android:layout_marginTop="8dp"
+            android:text="Rs 9.80"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent" />
+
+        <TextView
+            android:id="@+id/tvOrderSummaryServiceHdr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tvOrderSummaryTaxHdr"
+            android:layout_below="@+id/tvOrderSummaryTaxHdr"
+            android:layout_marginTop="8dp"
+            android:text="Service Charge"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent" />
+
+        <TextView
+            android:id="@+id/tvOrderSummaryServiceVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tvOrderSummaryTaxVal"
+            android:layout_marginTop="8dp"
+            android:text="Rs 12.50"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent" />
+
+
+        <TextView
+            android:id="@+id/tvOrderSummaryGrandTotalHdr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tvOrderSummaryServiceHdr"
+            android:layout_below="@+id/tvOrderSummaryServiceHdr"
+            android:layout_marginTop="8dp"
+            android:text="Grand Total"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvOrderSummaryGrandTotalVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tvOrderSummaryServiceVal"
+            android:layout_marginTop="8dp"
+            android:text="Rs 147.65"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/bPlaceOrder"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlOrderSummary"
+        android:layout_marginTop="16dp"
+        android:background="@color/KPTheme_AdriftInDreams_colorPrimary"
+        android:text="Place order"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+</RelativeLayout>

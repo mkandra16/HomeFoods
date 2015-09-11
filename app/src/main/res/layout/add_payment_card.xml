@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlDishReviewsItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:background="#FFFFFF"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
+
+    <TextView
+        android:id="@+id/tvCreditOrDebitCardHdr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:text="Credit or debit card"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/black"
+        android:textStyle="normal" />
+
+
+    <EditText
+        android:id="@+id/etCreditOrDebitCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvCreditOrDebitCardHdr"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/edittext_bg"
+        android:hint="Card number"
+        android:padding="5dp"
+        android:singleLine="true"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvExpirationDateHdr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/etCreditOrDebitCard"
+        android:layout_marginTop="16dp"
+        android:text="Expiration date"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/black"
+        android:textStyle="normal" />
+
+
+    <EditText
+        android:id="@+id/etExpirationMonth"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvExpirationDateHdr"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/edittext_bg"
+        android:hint="MM"
+        android:padding="5dp"
+        android:singleLine="true"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvExpiratioMonthYearDivider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/etExpirationMonth"
+        android:layout_below="@+id/tvExpirationDateHdr"
+        android:layout_toRightOf="@+id/etExpirationMonth"
+        android:text="   /   "
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/black"
+        android:textStyle="normal" />
+
+    <EditText
+        android:id="@+id/etExpirationYear"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvExpiratioMonthYearDivider"
+        android:layout_below="@+id/tvExpirationDateHdr"
+        android:layout_toRightOf="@+id/tvExpiratioMonthYearDivider"
+        android:background="@drawable/edittext_bg"
+        android:hint="YYYY"
+        android:padding="5dp"
+        android:singleLine="true"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvSecurityCodeHdr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvExpirationDateHdr"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="16dp"
+        android:text="Security code"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/black"
+        android:textStyle="normal" />
+
+    <EditText
+        android:id="@+id/etSecurityCode"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/etExpirationYear"
+        android:layout_alignLeft="@+id/tvSecurityCodeHdr"
+        android:layout_below="@+id/tvSecurityCodeHdr"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/edittext_bg"
+        android:hint="CVC"
+        android:padding="5dp"
+        android:singleLine="true"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvBillingAddressHdr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/etExpirationMonth"
+        android:layout_marginTop="16dp"
+        android:text="Billing address"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/black"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/tvBillingAddress"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvBillingAddressHdr"
+        android:layout_marginTop="3dp"
+        android:background="#EEEEEE"
+        android:padding="12dp"
+        android:text="First Last\n1234 Street Name Apt 123\nCityName State ZipCode Country"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/bAddCard"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvBillingAddress"
+        android:layout_marginTop="16dp"
+        android:background="@color/KPTheme_AdriftInDreams_colorPrimary"
+        android:text="Add Card"
+        android:textColor="@android:color/white"
+        android:textAllCaps="false" />
+
+    <!--<ImageView-->
+        <!--android:layout_width="16dp"-->
+        <!--android:layout_height="16dp"-->
+        <!--android:id="@+id/ivEditBillingAddress"-->
+        <!--android:layout_alignTop="@+id/tvBillingAddressHdr"-->
+        <!--android:background="@mipmap/ic_edit"-->
+        <!--android:layout_alignParentRight="true" />-->
+</RelativeLayout>

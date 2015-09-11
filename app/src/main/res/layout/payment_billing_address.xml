@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlDishReviewsItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:background="#FFFFFF"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/etCardHolderNameWidget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp">
+
+        <EditText
+            android:id="@+id/etCardHolderName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Name"
+            android:singleLine="true"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="16sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/etAddress1Widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/etCardHolderNameWidget"
+        android:layout_below="@+id/etCardHolderNameWidget"
+        android:layout_marginTop="12dp">
+
+        <EditText
+            android:id="@+id/etAddress1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Address 1"
+            android:singleLine="true"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="16sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/etAddress2Widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/etAddress1Widget"
+        android:layout_below="@+id/etAddress1Widget"
+        android:layout_marginTop="12dp">
+
+        <EditText
+            android:id="@+id/etAddress2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Address 2"
+            android:singleLine="true"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="16sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/etCityWidget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/etAddress2Widget"
+        android:layout_below="@+id/etAddress2Widget"
+        android:layout_marginTop="12dp">
+
+        <EditText
+            android:id="@+id/etCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="City/Town"
+            android:singleLine="true"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="16sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/etStateWidget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/etCityWidget"
+        android:layout_below="@+id/etCityWidget"
+        android:layout_marginTop="12dp">
+
+        <EditText
+            android:id="@+id/etState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="State"
+            android:singleLine="true"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="16sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/etZipCodeWidget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/etStateWidget"
+        android:layout_below="@+id/etStateWidget"
+        android:layout_marginTop="12dp">
+
+        <EditText
+            android:id="@+id/etZipCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="ZIP code"
+            android:singleLine="true"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="16sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/etCountryWidget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/etZipCodeWidget"
+        android:layout_below="@+id/etZipCodeWidget"
+        android:layout_marginTop="12dp">
+
+        <EditText
+            android:id="@+id/etCountry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Country"
+            android:singleLine="true"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="16sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/etPhoneNumberWidget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/etCountryWidget"
+        android:layout_below="@+id/etCountryWidget"
+        android:layout_marginTop="12dp">
+
+        <EditText
+            android:id="@+id/etPhoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Phone number"
+            android:inputType="phone"
+            android:singleLine="true"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="16sp" />
+    </android.support.design.widget.TextInputLayout>
+
+</RelativeLayout>
