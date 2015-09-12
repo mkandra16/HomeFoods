@@ -107,48 +107,101 @@
         android:background="@android:color/darker_gray" />
 
     <RelativeLayout
-        android:id="@+id/rlDishReviewDetails"
+        android:id="@+id/rlDishOrderedActions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/vDishOrderedDetailsDivider"
         android:layout_marginTop="16dp">
 
-        <Button
-            android:id="@+id/bBuyAgain"
+        <LinearLayout
+            android:id="@+id/llPastOrdersActions"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:background="@color/KPTheme_AdriftInDreams_colorPrimary"
-            android:text="Buy again"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/bWriteReview"
+            <LinearLayout
+                android:id="@+id/llBuyReviewButtons"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2.2">
+
+                <Button
+                    android:id="@+id/bBuyAgain"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/KPTheme_AdriftInDreams_colorPrimary"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="Buy again"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="8dp"
+                    android:layout_weight=".2"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/bWriteReview"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/KPTheme_AdriftInDreams_colorPrimary"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="Write a review"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/bOrderDetails"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/llBuyReviewButtons"
+                android:layout_below="@+id/llBuyReviewButtons"
+                android:layout_marginTop="16dp"
+                android:background="@color/KPTheme_AdriftInDreams_colorPrimary"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:text="Order details"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llPendingOrdersActions"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/bBuyAgain"
-            android:layout_below="@+id/bBuyAgain"
-            android:layout_marginTop="16dp"
-            android:background="@color/KPTheme_AdriftInDreams_colorPrimary"
-            android:text="Write a review"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white" />
+            android:orientation="vertical"
+            android:visibility="gone">
 
+            <Button
+                android:id="@+id/bViewCancelOrder"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/KPTheme_AdriftInDreams_colorPrimary"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:text="View/Cancel Order"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
 
-        <Button
-            android:id="@+id/bOrderDetails"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/bWriteReview"
-            android:layout_below="@+id/bWriteReview"
-            android:layout_marginTop="16dp"
-            android:background="@color/KPTheme_AdriftInDreams_colorPrimary"
-            android:text="Order details"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white" />
-
+        </LinearLayout>
     </RelativeLayout>
 
 

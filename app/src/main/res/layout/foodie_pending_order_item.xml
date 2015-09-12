@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlDishReviewsItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:background="#FFFFFF"
+    android:paddingBottom="4dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
+
+    <RelativeLayout
+        android:id="@+id/rlDishOrderedDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:id="@+id/tvOrderNumberHdr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tvOrderNumberVal"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="4dp"
+            android:text="Order Number: "
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/tvOrderNumberVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_toRightOf="@+id/tvOrderNumberHdr"
+            android:gravity="end"
+            android:text="1234-abc-5678"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvOrderedFromChefHdr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tvOrderedFromChefVal"
+            android:layout_alignLeft="@+id/tvOrderNumberHdr"
+            android:layout_below="@+id/tvOrderNumberHdr"
+            android:text="From Chef: "
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/tvOrderedFromChefVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tvOrderNumberVal"
+            android:layout_alignRight="@+id/tvOrderNumberVal"
+            android:layout_below="@+id/tvOrderNumberVal"
+            android:layout_marginTop="16dp"
+            android:gravity="end"
+            android:text="Chef Name/Multiple Chefs"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvOrderedPriceHdr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tvOrderedPriceVal"
+            android:layout_alignLeft="@+id/tvOrderedFromChefHdr"
+            android:layout_below="@+id/tvOrderedFromChefHdr"
+            android:text="Total Price: "
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/tvOrderedPriceVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tvOrderedFromChefVal"
+            android:layout_alignRight="@+id/tvOrderedFromChefVal"
+            android:layout_below="@+id/tvOrderedFromChefVal"
+            android:layout_marginTop="16dp"
+            android:gravity="end"
+            android:text="Rs. 845.50"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvDishOrderedOnHdr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlDishOrderedDetails"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="8dp"
+        android:padding="3dp"
+        android:text="Ordered: "
+        android:textColor="@android:color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvDishOrderedStatusVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvDishOrderedOnHdr"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/tvDishOrderedOnHdr"
+        android:text="09/10/2015"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvDishOrderedDateHdr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvDishOrderedOnHdr"
+        android:layout_marginRight="4dp"
+        android:layout_toLeftOf="@+id/tvDishOrderedDateVal"
+        android:padding="3dp"
+        android:text="Delivery: "
+        android:textColor="@android:color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvDishOrderedDateVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvDishOrderedOnHdr"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="8dp"
+        android:text="09/12/2015"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/vDishOrderedDetailsDivider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/tvDishOrderedOnHdr"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/darker_gray" />
+
+    <RelativeLayout
+        android:id="@+id/rlDishOrderedActions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/vDishOrderedDetailsDivider"
+        android:layout_marginTop="16dp">
+
+        <LinearLayout
+            android:id="@+id/llPendingOrdersActions"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/bViewCancelOrder"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/KPTheme_AdriftInDreams_colorAccent"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:text="View/Cancel Order"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>

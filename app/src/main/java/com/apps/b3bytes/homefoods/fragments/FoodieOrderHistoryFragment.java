@@ -4,48 +4,27 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
-import com.apps.b3bytes.homefoods.State.AppGlobalState;
-import com.apps.b3bytes.homefoods.adapters.DishOrdersListAdapter;
-import com.apps.b3bytes.homefoods.adapters.DishReviewsRVAdapter;
-import com.apps.b3bytes.homefoods.adapters.FoodieOrderHistoryRVAdapter;
-import com.apps.b3bytes.homefoods.models.DishOnSale;
-import com.apps.b3bytes.homefoods.models.DishOrder;
-import com.apps.b3bytes.homefoods.models.DishReview;
-import com.apps.b3bytes.homefoods.models.Foodie;
-import com.apps.b3bytes.homefoods.utils.ListViewHelper;
-import com.apps.b3bytes.homefoods.widgets.DividerItemDecoration;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.apps.b3bytes.homefoods.adapters.viewPagerChefHomeAdapter;
+import com.apps.b3bytes.homefoods.adapters.viewPagerFoodieOrdersHistoryAdapter;
+import com.apps.b3bytes.homefoods.widgets.SlidingTabLayout;
 
 public class FoodieOrderHistoryFragment extends Fragment {
-    /* TODO: TEST DATA */
-    String[] dateArray = {"Apr 14, 2015", "Mar 09, 2015", "Aug 15, 2015", "Sep 01, 2015"};
-    String[] dishNameArray = {"Dish Name1", "Dish Name2", "Dish Name3", "Dish Name4"};
-    String[] chefNameArray = {"Chef Name1", "Chef Name2", "Chef Name3", "Chef Name4"};
-    /* TODO: END TEST DATA */
-
     private FragmentActivity mContext;
     private View rootView;
-    private RecyclerView rvOrderHistory;
-    private LayoutInflater mInflater;
-    private FoodieOrderHistoryRVAdapter rvAdapter;
+
+    private ViewPager viewPagerOrdersHistory;
+    private viewPagerFoodieOrdersHistoryAdapter viewPagerAdapter;
+    private SlidingTabLayout ordersHistorySlidingTabs;
+    private CharSequence Titles[] = {"Pending", "Past"};
+    private int Numboftabs = 2;
 
     public FoodieOrderHistoryFragment() {
     }
@@ -53,9 +32,9 @@ public class FoodieOrderHistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mInflater = inflater;
         rootView = inflater.inflate(R.layout.fragment_foodie_order_history, container, false);
-        rvOrderHistory = (RecyclerView) rootView.findViewById(R.id.rvOrderHistory);
+        viewPagerOrdersHistory = (ViewPager) rootView.findViewById(R.id.viewPagerOrdersHistory);
+        ordersHistorySlidingTabs = (SlidingTabLayout) rootView.findViewById(R.id.ordersHistorySlidingTabs);
 
         return rootView;
     }
@@ -64,6 +43,16 @@ public class FoodieOrderHistoryFragment extends Fragment {
     public void onAttach(Activity activity) {
         mContext = (FragmentActivity) activity;
         super.onAttach(activity);
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+
+        actionBar.setTitle("Order history");
     }
 
     @Override
@@ -75,40 +64,27 @@ public class FoodieOrderHistoryFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ArrayList<DishOrder> items = new ArrayList<DishOrder>();
-        for (int i = 0; i < dishNameArray.length; i++) {
-            DishOrder order = new DishOrder();
 
-//            order.getmDishOnSale().getmDish().setmDishName(dishNameArray[i]);
-  //          order.getmDishOnSale().getmDish().getmChef().setmUserName(chefNameArray[i]);
+        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles for the Tabs and Number Of Tabs.
+        // http://stackoverflow.com/questions/15588120/fragmentpageradapter-getitem-is-not-being-triggered
+        viewPagerAdapter = new viewPagerFoodieOrdersHistoryAdapter(getChildFragmentManager(), Titles, Numboftabs);
 
-            items.add(order);
-        }
+        // Assigning ViewPager View and setting the adapter
+        viewPagerOrdersHistory.setAdapter(viewPagerAdapter);
 
-        rvAdapter = new FoodieOrderHistoryRVAdapter(mContext, items);
-        rvOrderHistory.setAdapter(rvAdapter);
-        rvAdapter.notifyDataSetChanged();
-        RecyclerView.ItemDecoration itemDecoration =
-                new DividerItemDecoration(mContext, LinearLayoutManager.VERTICAL);
-        rvOrderHistory.addItemDecoration(itemDecoration);
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        rvOrderHistory.setLayoutManager(layoutManager);
-        rvAdapter.SetOnItemClickListener(new FoodieOrderHistoryRVAdapter.ItemClickListener() {
+        // Assiging the Sliding Tab Layout View
+        ordersHistorySlidingTabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+
+        // Setting Custom Color for the Scroll bar indicator of the Tab View
+        ordersHistorySlidingTabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
-            public void onItemClick(DishOrder order, int position) {
-                // Do Nothing for now
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.KPTheme_AdriftInDreams_colorAccent);
             }
         });
 
-    }
+        // Setting the ViewPager For the SlidingTabsLayout
+        ordersHistorySlidingTabs.setViewPager(viewPagerOrdersHistory);
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-
-        actionBar.setTitle("Order history");
     }
 }

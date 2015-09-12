@@ -46,7 +46,6 @@ import com.apps.b3bytes.homefoods.fragments.FoodieCheckoutFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieHomeFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieOrderHistoryFragment;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
-import com.apps.b3bytes.homefoods.models.Foodie;
 import com.apps.b3bytes.homefoods.models.NavDrawerItem;
 import com.apps.b3bytes.homefoods.widgets.DividerItemDecoration;
 
