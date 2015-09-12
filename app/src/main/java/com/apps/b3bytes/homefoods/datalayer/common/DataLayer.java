@@ -111,8 +111,6 @@ public class DataLayer {
         public abstract void done(Foodie f, Exception e);
     }
 
-    ;
-
     public static abstract class PublishCallback {
         public abstract void done(Exception e);
     }
@@ -122,8 +120,6 @@ public class DataLayer {
     }
 
     enum Backend {UNKNOWN, PARSE}
-
-    ;
     private static final Backend mCurBackend = Backend.PARSE;
     private static final String PARSEAPPID = "ZWqK3UW3ePNeSReJmDGEVk2V5DmulwNOHsNDDsc8";
     private static final String PARSECLIENTKEY = "PThw1qVFNYiKAZ8cdbIECLnJEyakl9nkPDmbLnAD";

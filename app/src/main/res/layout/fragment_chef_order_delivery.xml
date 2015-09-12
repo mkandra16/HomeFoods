@@ -103,6 +103,18 @@
                 android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
                 android:textStyle="bold" />
 
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text=""
+                android:id="@+id/tvReason"
+                android:textStyle="bold|italic"
+                android:layout_below="@+id/bChefDeliveryDone"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal" />
+
         </RelativeLayout>
     </ScrollView>
 </LinearLayout>
