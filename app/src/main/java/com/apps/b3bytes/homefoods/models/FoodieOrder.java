@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -31,6 +32,14 @@ public class FoodieOrder implements Parcelable {
             }
         }
         return null;
+    }
+
+    public List<DishOrder> getDishOrders() {
+        List<DishOrder> orders = new ArrayList<DishOrder>();
+        for (ChefOrder co : mChefOrders) {
+            orders.addAll(co.getmDishOrders());
+        }
+        return orders;
     }
 
     public String getmTag() {

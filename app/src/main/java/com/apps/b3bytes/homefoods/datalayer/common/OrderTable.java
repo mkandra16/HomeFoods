@@ -5,6 +5,7 @@ import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.Foodie;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
 
+import java.util.EnumSet;
 import java.util.Set;
 
 /**
@@ -20,4 +21,6 @@ public interface OrderTable {
     public abstract void getFoodieOrder(String orderId, DataLayer.GetFoodieOrderCallback cb);
     public abstract void deliverFoodieOrder(FoodieOrder foodieOrder, ChefOrder chefOrder,
                                             DataLayer.SaveCallback cb);
+    public abstract void getFoodieOrders(EnumSet<FoodieOrder.OrderStatus> status, DataLayer.GetFoodieOrdersCallback cb);
+
 }

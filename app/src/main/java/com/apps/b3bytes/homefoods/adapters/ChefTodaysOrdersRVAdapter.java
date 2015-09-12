@@ -1,6 +1,7 @@
 package com.apps.b3bytes.homefoods.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.models.ChefOrder;
 import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.Foodie;
+import com.apps.b3bytes.homefoods.models.FoodieOrder;
 
 import java.util.ArrayList;
 
@@ -85,6 +87,7 @@ public class ChefTodaysOrdersRVAdapter extends RecyclerView.Adapter<ChefTodaysOr
         protected TextView tvNumberOfDishesVal;
         protected TextView tvDishesNamesVal;
         protected TextView tvTotalPriceVal;
+        protected TextView tvColorBar;
         public static ViewHolder newInstance(View parent, int viewType) {
             ImageView ivPickupDelivery = (ImageView) parent.findViewById(R.id.ivPickupDelivery);
 
@@ -98,6 +101,8 @@ public class ChefTodaysOrdersRVAdapter extends RecyclerView.Adapter<ChefTodaysOr
             tvNumberOfDishesVal = (TextView) parent.findViewById(R.id.tvNumberOfDishesVal);
             tvDishesNamesVal = (TextView) parent.findViewById(R.id.tvDishesNamesVal);
             tvTotalPriceVal = (TextView) parent.findViewById(R.id.tvTotalPriceVal);
+            tvColorBar = (TextView) parent.findViewById(R.id.colorBar);
+
         }
 
         public void bindView(ChefOrder order) {
@@ -111,8 +116,13 @@ public class ChefTodaysOrdersRVAdapter extends RecyclerView.Adapter<ChefTodaysOr
                 }
                 dishesStr += d.getmDishOnSale().getmDish().getmDishName();
             }
-            tvDishesNamesVal.setText("" + dishesStr);
 
+            tvDishesNamesVal.setText("" + dishesStr);
+            if (order.getmOrderStatus() == FoodieOrder.OrderStatus.Delivered) {
+                tvColorBar.setBackgroundColor(R.string.DeliveredCardColor);
+            } else if (order.getmOrderStatus() == FoodieOrder.OrderStatus.Cancelled) {
+                tvColorBar.setBackgroundColor(R.string.CancelledOrderColor);
+            }
         }
 
         public void setOnClickListener(View.OnClickListener listener) {

@@ -24,12 +24,13 @@ import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
 import com.apps.b3bytes.homefoods.models.OneDishOrder;
 import com.apps.b3bytes.homefoods.utils.ListViewHelper;
+import com.apps.b3bytes.homefoods.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by sindhu on 8/30/2015.
+ * Created by Pavan on 8/30/2015.
  */
 public class ChefOrderDeliveryFragment extends Fragment {
     private Context mContext;
@@ -39,6 +40,7 @@ public class ChefOrderDeliveryFragment extends Fragment {
     private TextView tvChefDeliveryTotalPriceVal;
     private ListView lvChefDeliveryOrders;
     private Button bChefDeliveryDone;
+    private TextView tvReason;
     private ArrayAdapter<OneDishOrder> aOneDishOrder;
     private List<OneDishOrder> list;
 
@@ -56,6 +58,8 @@ public class ChefOrderDeliveryFragment extends Fragment {
         tvChefDeliveryTotalNumDishes = (TextView) v.findViewById(R.id.tvChefDeliveryTotalNumDishes);
         tvChefDeliveryTotalPriceVal = (TextView) v.findViewById(R.id.tvChefDeliveryTotalPriceVal);
         bChefDeliveryDone = (Button) v.findViewById(R.id.bChefDeliveryDone);
+        tvReason = (TextView) v.findViewById(R.id.tvReason);
+
         list = new ArrayList<OneDishOrder>();
         lvChefDeliveryOrders = (ListView) v.findViewById(R.id.lvChefDeliveryOrders);
         aOneDishOrder = new ChefDeliveryOrdersListAdapter(getActivity(), list, lvChefDeliveryOrders);
@@ -97,21 +101,34 @@ public class ChefOrderDeliveryFragment extends Fragment {
                         tvChefDeliveryTotalPriceVal.setText(mContext.getString(R.string.Rs) + " " +
                                 chefOrder.getmTotal());
                         //tvOrderNum.setText(chefOrder.getmTag());
-                        bChefDeliveryDone.setOnClickListener(new View.OnClickListener() {
-                            public void onClick(View v) {
-                                AppGlobalState.gDataLayer.deliverFoodieOrder(foodieOrder, chefOrder, new DataLayer.SaveCallback() {
-                                    @Override
-                                    public void done(String OrderId, Exception e) {
-                                        if (e == null) {
-                                            Toast.makeText(mContext, "Delivered Order " + mOrderStr, Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            Toast.makeText(mContext, "Failed to update status of Delivered Order " + mOrderStr, Toast.LENGTH_SHORT).show();
+                        if (chefOrder.getmOrderStatus() == FoodieOrder.OrderStatus.Delivered) {
+                            bChefDeliveryDone.setEnabled(false);
+                            tvReason.setText("This order is already delivered");
+                        } else if (chefOrder.getmOrderStatus() == FoodieOrder.OrderStatus.Cancelled) {
+                            bChefDeliveryDone.setEnabled(false);
+                            tvReason.setText("This is a Cancelled Order");
+                        } else {
+                            Utils._assert(chefOrder.getmOrderStatus() == FoodieOrder.OrderStatus.Ordered);
+                            tvReason.setEnabled(false);
+                            bChefDeliveryDone.setOnClickListener(new View.OnClickListener() {
+                                public void onClick(View v) {
+                                    AppGlobalState.gDataLayer.deliverFoodieOrder(foodieOrder, chefOrder, new DataLayer.SaveCallback() {
+                                        @Override
+                                        public void done(String OrderId, Exception e) {
+                                            if (e == null) {
+                                                tvReason.setEnabled(true);
+                                                bChefDeliveryDone.setEnabled(false);
+                                                tvReason.setText("Updated Order status to Delivered");
 
+                                                Toast.makeText(mContext, "Delivered Order " + mOrderStr, Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(mContext, "Failed to update status of Delivered Order " + mOrderStr, Toast.LENGTH_SHORT).show();
+                                            }
                                         }
-                                    }
-                                });
-                            }
-                        });
+                                    });
+                                }
+                            });
+                        }
                     } else {
                         Toast.makeText(mContext, "Oops... no order for this chef in " + mOrderStr, Toast.LENGTH_SHORT).show();
                     }

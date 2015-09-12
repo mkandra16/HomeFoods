@@ -67,7 +67,7 @@ public class FoodieOrderHistoryFragment extends Fragment {
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles for the Tabs and Number Of Tabs.
         // http://stackoverflow.com/questions/15588120/fragmentpageradapter-getitem-is-not-being-triggered
-        viewPagerAdapter = new viewPagerFoodieOrdersHistoryAdapter(getChildFragmentManager(), Titles, Numboftabs);
+        viewPagerAdapter = new viewPagerFoodieOrdersHistoryAdapter(mContext, getChildFragmentManager(), Titles, Numboftabs);
 
         // Assigning ViewPager View and setting the adapter
         viewPagerOrdersHistory.setAdapter(viewPagerAdapter);

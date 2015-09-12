@@ -1,5 +1,7 @@
 package com.apps.b3bytes.homefoods.adapters;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -10,12 +12,12 @@ import com.apps.b3bytes.homefoods.fragments.FoodiePendingOrdersTabFragment;
 public class viewPagerFoodieOrdersHistoryAdapter extends FragmentStatePagerAdapter {
     private CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
     private int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
-
+    private Context mContext;
 
     // Build a Constructor and assign the passed Values to appropriate values in the class
-    public viewPagerFoodieOrdersHistoryAdapter(FragmentManager fm, CharSequence mTitles[], int mNumbOfTabsumb) {
+    public viewPagerFoodieOrdersHistoryAdapter(Context context, FragmentManager fm, CharSequence mTitles[], int mNumbOfTabsumb) {
         super(fm);
-
+        mContext = context;
         this.Titles = mTitles;
         this.NumbOfTabs = mNumbOfTabsumb;
 

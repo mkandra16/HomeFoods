@@ -10,12 +10,15 @@ import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.Foodie;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -135,6 +138,13 @@ public class ParseOrderTable implements OrderTable {
         }
         return order;
     }
+    private ArrayList<FoodieOrder> ParseObj2FoodieOrderList(List<ParseObject> objs) {
+        ArrayList<FoodieOrder> orders = new ArrayList<FoodieOrder>();
+        for (ParseObject obj : objs) {
+            orders.add(ParseObj2FoodieOrder(obj));
+        }
+        return orders;
+    }
         @Override
     public void getOrdersForChef(Foodie chef, final DataLayer.getChefOrdersCallback cb) {
         ParseQuery query = ParseQuery.getQuery("ChefOrder");
@@ -223,5 +233,38 @@ public class ParseOrderTable implements OrderTable {
 
 
 
+    }
+
+    @Override
+    public void getFoodieOrders(EnumSet<FoodieOrder.OrderStatus> status, final DataLayer.GetFoodieOrdersCallback cb) {
+        ParseQuery query = ParseQuery.getQuery("FoodieOrder");
+        query.include("ChefOrders");
+        query.include("ChefOrders.Chef");
+        query.include("ChefOrders.DishOrders");
+        query.include("ChefOrders.DishOrders.DishOnSale");
+        query.include("ChefOrders.DishOrders.DishOnSale.Dish");
+        query.include("ChefOrders.DishOrders.DishOnSale.Dish.Chef");
+        query.include("ChefOrders.DishOrders.Foodie");
+        query.include("Foodie");
+        Set<String> statusStrSet = new HashSet<String>();
+        for (FoodieOrder.OrderStatus s : status) {
+            statusStrSet.add(s.toString());
+        }
+        query.whereContainedIn("Status", statusStrSet);
+        query.findInBackground(new FindCallback<ParseObject>() {
+                                   public void done(List<ParseObject> foodieOrders, ParseException e) {
+                                       if (e == null) {
+                                           Log.d("Retrieved Foodie Order", "Retrieved " + foodieOrders.size() + " orders");
+
+                                           ArrayList<FoodieOrder> orders = ParseObj2FoodieOrderList(foodieOrders);
+                                           cb.done(orders, e);
+                                       } else {
+                                           Log.d("score", "Error: " + e.getMessage());
+                                           ArrayList<FoodieOrder> orders = new ArrayList<FoodieOrder>();
+                                           cb.done(orders, e);
+                                       }
+                                   }
+                               }
+        );
     }
 }

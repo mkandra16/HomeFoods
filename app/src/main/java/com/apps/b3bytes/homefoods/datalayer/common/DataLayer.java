@@ -23,6 +23,7 @@ import com.parse.ParseUser;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.EnumSet;
 
 /**
  * Created by sindhu on 7/26/2015.
@@ -111,8 +112,6 @@ public class DataLayer {
         public abstract void done(Foodie f, Exception e);
     }
 
-    ;
-
     public static abstract class PublishCallback {
         public abstract void done(Exception e);
     }
@@ -122,8 +121,6 @@ public class DataLayer {
     }
 
     enum Backend {UNKNOWN, PARSE}
-
-    ;
     private static final Backend mCurBackend = Backend.PARSE;
     private static final String PARSEAPPID = "ZWqK3UW3ePNeSReJmDGEVk2V5DmulwNOHsNDDsc8";
     private static final String PARSECLIENTKEY = "PThw1qVFNYiKAZ8cdbIECLnJEyakl9nkPDmbLnAD";
@@ -229,7 +226,7 @@ public class DataLayer {
                         } else {
                             Toast.makeText(mContext, "Failed to place Dish order", Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
-                            throw  new RuntimeException("Failed to place Foodie Order");
+                            throw new RuntimeException("Failed to place Foodie Order");
                         }
                         if (cart.dishesInCart().size() == cart.getAllDishOrderIds().size()) {
                             addChefOrders(cart, cb);
@@ -287,5 +284,13 @@ public class DataLayer {
 
     public void saveFile(byte[] fileContents, String fileName, SaveCallback cb) {
         mFileStor.saveFile(fileContents, fileName, cb);
+    }
+
+    public static abstract class GetFoodieOrdersCallback {
+        public abstract void done(ArrayList<FoodieOrder> orders, Exception e);
+    }
+
+    public void getFoodieOrders(EnumSet<FoodieOrder.OrderStatus> status, GetFoodieOrdersCallback cb) {
+        mOrderTable.getFoodieOrders(status, cb);
     }
 }
