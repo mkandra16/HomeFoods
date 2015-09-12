@@ -32,18 +32,23 @@ public class FoodieCheckoutFragment extends Fragment {
     private FragmentActivity mContext;
     private View rootView;
     private TextView tvAddPaymentMethod;
+    private Button bPlaceOrder;
     private LayoutInflater mInflater;
 
     FragmentHomeUpButtonHandler mHomeUpHandler;
     OnAddCardSelectedListener mAddCardCallback;
+    OnPlaceOrderSelectedListener mPlaceOrderCallback;
 
     public interface FragmentHomeUpButtonHandler {
         public void FragmentHomeUpButton(boolean who);
     }
 
-
     public interface OnAddCardSelectedListener {
         public void OnAddCardSelected();
+    }
+
+    public interface OnPlaceOrderSelectedListener {
+        public void OnPlaceOrderSelected();
     }
 
     public FoodieCheckoutFragment() {
@@ -55,11 +60,20 @@ public class FoodieCheckoutFragment extends Fragment {
         mInflater = inflater;
         rootView = inflater.inflate(R.layout.fragment_foodie_checkout, container, false);
         tvAddPaymentMethod = (TextView) rootView.findViewById(R.id.tvAddPaymentMethod);
+        bPlaceOrder = (Button) rootView.findViewById(R.id.bPlaceOrder);
 
         tvAddPaymentMethod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mAddCardCallback.OnAddCardSelected();
+            }
+        });
+
+        bPlaceOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext, "Placing Order", Toast.LENGTH_SHORT).show();
+                mPlaceOrderCallback.OnPlaceOrderSelected();
             }
         });
         return rootView;
@@ -82,6 +96,13 @@ public class FoodieCheckoutFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnAddCardSelectedListener");
+        }
+
+        try {
+            mPlaceOrderCallback = (OnPlaceOrderSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnPlaceOrderSelectedListener");
         }
     }
 

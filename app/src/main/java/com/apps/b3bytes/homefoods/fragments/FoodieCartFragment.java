@@ -134,10 +134,7 @@ public class FoodieCartFragment extends Fragment implements DishOrdersListAdapte
         bCheckOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Toast.makeText(mContext, "Requested CheckOut", Toast.LENGTH_SHORT).show();
                 mProceedToPaymentCallback.OnProceedToPaymentSelected();
-                //AppGlobalState.checkOutCart();
             }
         });
         return llOrderProceedToPayment;

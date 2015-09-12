@@ -84,6 +84,7 @@ public class HomePage extends AppCompatActivity implements
         FoodieCartFragment.OnProceedToPaymentSelectedListener,
         FoodieCheckoutFragment.FragmentHomeUpButtonHandler,
         FoodieCheckoutFragment.OnAddCardSelectedListener,
+        FoodieCheckoutFragment.OnPlaceOrderSelectedListener,
         FoodieAddPaymentCardFragment.FragmentHomeUpButtonHandler,
         FoodieAddPaymentCardFragment.OnSaveCardSelectedListener,
         FoodieAddPaymentCardFragment.OnAddBillingAddressSelectedListener,
@@ -767,7 +768,7 @@ public class HomePage extends AppCompatActivity implements
     }
 
     public void OnSaveCardSelected() {
-
+        replaceFragment(checkoutFragment);
     }
 
     public void OnAddBillingAddressSelected() {
@@ -777,6 +778,12 @@ public class HomePage extends AppCompatActivity implements
     }
 
     public void OnSaveBillingAddressSelected() {
+        replaceFragment(addPaymentCardFragment);
+    }
 
+    public void OnPlaceOrderSelected() {
+        AppGlobalState.checkOutCart();
+        //TODO (clear the cart)
+        displayFoodieView(0);
     }
 }
