@@ -6,9 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.models.DishOrder;
+import com.apps.b3bytes.homefoods.utils.ContactDetails;
 
 import java.util.ArrayList;
 
@@ -22,6 +26,9 @@ public class FoodiePastOrdersRVAdapter extends RecyclerView.Adapter<FoodiePastOr
 
     private ArrayList<DishOrder> items;
     private ItemClickListener itemClickListener;
+
+    private Context mContext;
+    private View parent;
 
     public FoodiePastOrdersRVAdapter() {
         this.items = new ArrayList<DishOrder>();
@@ -55,9 +62,9 @@ public class FoodiePastOrdersRVAdapter extends RecyclerView.Adapter<FoodiePastOr
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        Context context = viewGroup.getContext();
-        View parent = LayoutInflater.from(context).inflate(R.layout.foodie_past_order_item, viewGroup, false);
-        return ViewHolder.newInstance(parent, viewType);
+        mContext = viewGroup.getContext();
+        parent = LayoutInflater.from(mContext).inflate(R.layout.foodie_order_history_item, viewGroup, false);
+        return ViewHolder.newInstance(parent, mContext, viewType);
 
     }
 
@@ -82,6 +89,11 @@ public class FoodiePastOrdersRVAdapter extends RecyclerView.Adapter<FoodiePastOr
 
     public static final class ViewHolder extends RecyclerView.ViewHolder {
         private View parent;
+        private Context context;
+        private int currentId;
+        private LinearLayout llRoot;
+        private RelativeLayout rlFoodieOrderItemMainHdr;
+
 //        protected RatingBar rbDishReview;
 //        protected TextView tvDishReviewDate;
 //        protected ImageView ivFoodie;
@@ -89,19 +101,50 @@ public class FoodiePastOrdersRVAdapter extends RecyclerView.Adapter<FoodiePastOr
 //        protected TextView tvDishReviewOneline;
 //        protected TextView tvDishReviewDetails;
 
-        public static ViewHolder newInstance(View parent, int viewType) {
-            return new ViewHolder(parent);
+        public static ViewHolder newInstance(View parent, Context context, int viewType) {
+            return new ViewHolder(parent, context);
         }
 
-        private ViewHolder(View parent) {
+        private ViewHolder(View parent, Context context) {
             super(parent);
             this.parent = parent;
+            this.context = context;
+            this.llRoot = (LinearLayout) parent.findViewById(R.id.llRoot);
+            this.rlFoodieOrderItemMainHdr = (RelativeLayout) parent.findViewById(R.id.rlFoodieOrderItemMainHdr);
+
+            currentId = (int) rlFoodieOrderItemMainHdr.getId();
+
+            this.llRoot.addView(createChefHeaderLayout(currentId));
+            currentId++;
+
+            this.llRoot.addView(createChefOneDishLayout(currentId));
+            currentId++;
+
+            this.llRoot.addView(createChefOneDishLayout(currentId));
+            currentId++;
+
 //            rbDishReview = (RatingBar) parent.findViewById(R.id.rbDishReview);
 //            tvDishReviewDate = (TextView) parent.findViewById(R.id.tvDishReviewDate);
 //            ivFoodie = (ImageView) parent.findViewById(R.id.ivFoodie);
 //            tvFoodieName = (TextView) parent.findViewById(R.id.tvFoodieName);
 //            tvDishReviewOneline = (TextView) parent.findViewById(R.id.tvDishReviewOneline);
 //            tvDishReviewDetails = (TextView) parent.findViewById(R.id.tvDishReviewDetails);
+        }
+
+        private RelativeLayout createChefHeaderLayout(int currentId) {
+            RelativeLayout llOrderTotal = (RelativeLayout) LayoutInflater.from(context).inflate(R.layout.foodie_order_history_item_chef_header, null, false);
+
+        /* TODO: populate address */
+
+            return llOrderTotal;
+        }
+
+        private RelativeLayout createChefOneDishLayout(int currentId) {
+            RelativeLayout llOrderTotal = (RelativeLayout) LayoutInflater.from(context).inflate(R.layout.foodie_order_history_item_chef_one_dish, null, false);
+
+        /* TODO: populate address */
+
+            return llOrderTotal;
         }
 
         public void bindView(DishOrder order) {
