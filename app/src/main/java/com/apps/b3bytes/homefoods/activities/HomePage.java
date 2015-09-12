@@ -44,6 +44,7 @@ import com.apps.b3bytes.homefoods.fragments.FoodieAddPaymentCardFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieCartFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieCheckoutFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieHomeFragment;
+import com.apps.b3bytes.homefoods.fragments.FoodieOrderHistoryFragment;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.Foodie;
 import com.apps.b3bytes.homefoods.models.NavDrawerItem;
@@ -343,7 +344,9 @@ public class HomePage extends AppCompatActivity implements
             case 1:
                 fragment = new FoodieCartFragment();
                 break;
-
+            case 2:
+                fragment = new FoodieOrderHistoryFragment();
+                break;
             default:
                 break;
         }

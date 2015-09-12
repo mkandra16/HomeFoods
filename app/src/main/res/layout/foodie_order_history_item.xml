@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlDishReviewsItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:background="#FFFFFF"
+    android:paddingBottom="4dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
+
+    <RelativeLayout
+        android:id="@+id/rlDishOrderedDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="8dp"
+        android:padding="3dp">
+
+        <ImageView
+            android:id="@+id/ivDishOrderedImage"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="4dp"
+            android:background="@mipmap/ic_chef_image" />
+
+        <TextView
+            android:id="@+id/tvDishOrderedName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/ivDishOrderedImage"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/ivDishOrderedImage"
+            android:text="Dish Name Some Long Name spread to next line also"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent" />
+
+        <TextView
+            android:id="@+id/tvDishOrderedFromChef"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tvDishOrderedName"
+            android:layout_below="@+id/tvDishOrderedName"
+            android:layout_marginTop="4dp"
+            android:text="From Chef: Chef Name"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvDishOrderedStatusHdr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlDishOrderedDetails"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="8dp"
+        android:padding="3dp"
+        android:text="Status: "
+        android:textColor="@android:color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvDishOrderedStatusVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvDishOrderedStatusHdr"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/tvDishOrderedStatusHdr"
+        android:text="Delivered"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvDishOrderedDateHdr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvDishOrderedStatusHdr"
+        android:layout_marginRight="4dp"
+        android:layout_toLeftOf="@+id/tvDishOrderedDateVal"
+        android:padding="3dp"
+        android:text="On: "
+        android:textColor="@android:color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvDishOrderedDateVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvDishOrderedStatusHdr"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="8dp"
+        android:text="09/10/2015"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/vDishOrderedDetailsDivider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/tvDishOrderedStatusHdr"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/darker_gray" />
+
+    <RelativeLayout
+        android:id="@+id/rlDishReviewDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/vDishOrderedDetailsDivider"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/bBuyAgain"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:background="@color/KPTheme_AdriftInDreams_colorPrimary"
+            android:text="Buy again"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/bWriteReview"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/bBuyAgain"
+            android:layout_below="@+id/bBuyAgain"
+            android:layout_marginTop="16dp"
+            android:background="@color/KPTheme_AdriftInDreams_colorPrimary"
+            android:text="Write a review"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white" />
+
+
+        <Button
+            android:id="@+id/bOrderDetails"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/bWriteReview"
+            android:layout_below="@+id/bWriteReview"
+            android:layout_marginTop="16dp"
+            android:background="@color/KPTheme_AdriftInDreams_colorPrimary"
+            android:text="Order details"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
