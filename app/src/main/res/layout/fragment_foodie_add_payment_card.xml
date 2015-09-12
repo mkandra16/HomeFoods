@@ -135,6 +135,7 @@
         android:layout_below="@+id/tvBillingAddressHdr"
         android:layout_marginTop="3dp"
         android:background="#EEEEEE"
+        android:clickable="true"
         android:padding="12dp"
         android:text="First Last\n1234 Street Name Apt 123\nCityName State ZipCode Country"
         android:textColor="@android:color/holo_blue_dark"
@@ -148,14 +149,14 @@
         android:layout_marginTop="16dp"
         android:background="@color/KPTheme_AdriftInDreams_colorPrimary"
         android:text="Add Card"
-        android:textColor="@android:color/white"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
 
     <!--<ImageView-->
-        <!--android:layout_width="16dp"-->
-        <!--android:layout_height="16dp"-->
-        <!--android:id="@+id/ivEditBillingAddress"-->
-        <!--android:layout_alignTop="@+id/tvBillingAddressHdr"-->
-        <!--android:background="@mipmap/ic_edit"-->
-        <!--android:layout_alignParentRight="true" />-->
+    <!--android:layout_width="16dp"-->
+    <!--android:layout_height="16dp"-->
+    <!--android:id="@+id/ivEditBillingAddress"-->
+    <!--android:layout_alignTop="@+id/tvBillingAddressHdr"-->
+    <!--android:background="@mipmap/ic_edit"-->
+    <!--android:layout_alignParentRight="true" />-->
 </RelativeLayout>

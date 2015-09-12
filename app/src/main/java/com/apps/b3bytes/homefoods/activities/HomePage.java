@@ -39,9 +39,13 @@ import com.apps.b3bytes.homefoods.fragments.ChefHomeFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefMenuFragment;
 import com.apps.b3bytes.homefoods.fragments.DishDescFragment;
 import com.apps.b3bytes.homefoods.fragments.DishReviewFragment;
+import com.apps.b3bytes.homefoods.fragments.FoodieAddBillingAddressFragment;
+import com.apps.b3bytes.homefoods.fragments.FoodieAddPaymentCardFragment;
+import com.apps.b3bytes.homefoods.fragments.FoodieCartFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieCheckoutFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieHomeFragment;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
+import com.apps.b3bytes.homefoods.models.Foodie;
 import com.apps.b3bytes.homefoods.models.NavDrawerItem;
 import com.apps.b3bytes.homefoods.widgets.DividerItemDecoration;
 
@@ -75,7 +79,16 @@ public class HomePage extends AppCompatActivity implements
         DishDescFragment.OnCheckoutCartClickedListener,
         DishDescFragment.OnDishReviewsClickedListener,
         DishDescFragment.FragmentHomeUpButtonHandler,
-        DishReviewFragment.FragmentHomeUpButtonHandler {
+        DishReviewFragment.FragmentHomeUpButtonHandler,
+        FoodieCartFragment.FragmentHomeUpButtonHandler,
+        FoodieCartFragment.OnProceedToPaymentSelectedListener,
+        FoodieCheckoutFragment.FragmentHomeUpButtonHandler,
+        FoodieCheckoutFragment.OnAddCardSelectedListener,
+        FoodieAddPaymentCardFragment.FragmentHomeUpButtonHandler,
+        FoodieAddPaymentCardFragment.OnSaveCardSelectedListener,
+        FoodieAddPaymentCardFragment.OnAddBillingAddressSelectedListener,
+        FoodieAddBillingAddressFragment.FragmentHomeUpButtonHandler,
+        FoodieAddBillingAddressFragment.OnSaveBillingAddressSelectedListener {
 
     public static final int DISH_SECTION_EDIT_SINGLE = 0;
     public static final int DISH_SECTION_EDIT_ALL = 1;
@@ -87,6 +100,10 @@ public class HomePage extends AppCompatActivity implements
     private ChefDishEditImageFragment saveFragment;
     private ChefDishReadonlyFragment readFragment;
     private DishReviewFragment dishReviewFragment;
+    private FoodieCheckoutFragment checkoutFragment;
+    private FoodieAddPaymentCardFragment addPaymentCardFragment;
+    private FoodieAddBillingAddressFragment addBillingAddressFragment;
+
 
     Context context = this;
     private boolean chefMode = false;
@@ -323,7 +340,7 @@ public class HomePage extends AppCompatActivity implements
                 fragment = new FoodieHomeFragment();
                 break;
             case 1:
-                fragment = new FoodieCheckoutFragment();
+                fragment = new FoodieCartFragment();
                 break;
 
             default:
@@ -735,5 +752,31 @@ public class HomePage extends AppCompatActivity implements
 
         dishReviewFragment.setArguments(args);
         replaceFragment(dishReviewFragment);
+    }
+
+    public void OnProceedToPaymentSelected() {
+        checkoutFragment = new FoodieCheckoutFragment();
+
+        replaceFragment(checkoutFragment);
+    }
+
+    public void OnAddCardSelected() {
+        addPaymentCardFragment = new FoodieAddPaymentCardFragment();
+
+        replaceFragment(addPaymentCardFragment);
+    }
+
+    public void OnSaveCardSelected() {
+
+    }
+
+    public void OnAddBillingAddressSelected() {
+        addBillingAddressFragment = new FoodieAddBillingAddressFragment();
+
+        replaceFragment(addBillingAddressFragment);
+    }
+
+    public void OnSaveBillingAddressSelected() {
+        
     }
 }
