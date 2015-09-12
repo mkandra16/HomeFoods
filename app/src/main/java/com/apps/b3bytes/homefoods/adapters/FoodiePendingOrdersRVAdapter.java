@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
@@ -13,8 +14,10 @@ import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.models.ChefOrder;
 import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.Foodie;
+import com.apps.b3bytes.homefoods.models.FoodieOrder;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 
 
 public class FoodiePendingOrdersRVAdapter extends RecyclerView.Adapter<FoodiePendingOrdersRVAdapter.ViewHolder> {
@@ -26,22 +29,26 @@ public class FoodiePendingOrdersRVAdapter extends RecyclerView.Adapter<FoodiePen
 
     private ArrayList<DishOrder> items;
     private ItemClickListener itemClickListener;
+    private Context mContext;
 
-    public FoodiePendingOrdersRVAdapter() {
+    public FoodiePendingOrdersRVAdapter(Context context) {
+        mContext = context;
         this.items = new ArrayList<DishOrder>();
-//        // Todo : Get all pending orders of Foodie
-//        AppGlobalState.gDataLayer.getOrdersForChef(Foodie.createDummyFoodie(), new DataLayer.getChefOrdersCallback() {
-//            @Override
-//            public void done(ArrayList<ChefOrder> orders, Exception e) {
-//                items = orders;
-//                notifyDataSetChanged();
-//            }
-//        });
-        for (int i = 0; i < dishNameArray.length; i++) {
-            DishOrder order = new DishOrder();
-
-            items.add(order);
-        }
+        EnumSet<FoodieOrder.OrderStatus> statuses = EnumSet.of(FoodieOrder.OrderStatus.Ordered);
+        AppGlobalState.gDataLayer.getFoodieOrders(statuses, new DataLayer.GetFoodieOrdersCallback() {
+            @Override
+            public void done(ArrayList<FoodieOrder> orders, Exception e) {
+                if (e == null) {
+                    for (FoodieOrder order : orders) {
+                        items.addAll(order.getDishOrders());
+                    }
+                    notifyDataSetChanged();
+                    Toast.makeText(mContext, "Successfully retrieved all pending orders", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mContext, "Failed to get all Pending orders", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     public void SetOnItemClickListener(final ItemClickListener mItemClickListener) {

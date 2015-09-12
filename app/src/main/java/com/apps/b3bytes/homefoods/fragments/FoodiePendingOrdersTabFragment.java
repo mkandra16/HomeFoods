@@ -1,5 +1,7 @@
 package com.apps.b3bytes.homefoods.fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +19,7 @@ public class FoodiePendingOrdersTabFragment extends Fragment {
     private View rootView;
     private RecyclerView rvFoodiePendingOrders;
     private FoodiePendingOrdersRVAdapter adapter;
+    private Context mContext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -26,12 +29,17 @@ public class FoodiePendingOrdersTabFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        mContext = activity;
+        super.onAttach(activity);
+    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        adapter = new FoodiePendingOrdersRVAdapter();
+        adapter = new FoodiePendingOrdersRVAdapter(mContext);
         rvFoodiePendingOrders.setAdapter(adapter);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
