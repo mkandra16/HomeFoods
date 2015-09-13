@@ -45,7 +45,9 @@ import com.apps.b3bytes.homefoods.fragments.FoodieCartFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieCheckoutFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieHomeFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieOrderHistoryFragment;
+import com.apps.b3bytes.homefoods.fragments.FoodiePastOrdersTabFragment;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
+import com.apps.b3bytes.homefoods.models.FoodieOrder;
 import com.apps.b3bytes.homefoods.models.NavDrawerItem;
 import com.apps.b3bytes.homefoods.widgets.DividerItemDecoration;
 
@@ -89,7 +91,8 @@ public class HomePage extends AppCompatActivity implements
         FoodieAddPaymentCardFragment.OnSaveCardSelectedListener,
         FoodieAddPaymentCardFragment.OnAddBillingAddressSelectedListener,
         FoodieAddBillingAddressFragment.FragmentHomeUpButtonHandler,
-        FoodieAddBillingAddressFragment.OnSaveBillingAddressSelectedListener {
+        FoodieAddBillingAddressFragment.OnSaveBillingAddressSelectedListener,
+        FoodiePastOrdersTabFragment.OnOrderDetailsListener {
 
     public static final int DISH_SECTION_EDIT_SINGLE = 0;
     public static final int DISH_SECTION_EDIT_ALL = 1;
@@ -787,5 +790,10 @@ public class HomePage extends AppCompatActivity implements
         AppGlobalState.checkOutCart();
         //TODO (clear the cart)
         displayFoodieView(0);
+    }
+
+    public void OnOrderDetailsClicked(FoodieOrder foodieOrder) {
+        // TODO: display the order details. FOr now display 2
+        displayFoodieView(2);
     }
 }

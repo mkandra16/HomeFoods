@@ -13,14 +13,22 @@ import android.view.ViewGroup;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.adapters.FoodiePastOrdersRVAdapter;
+import com.apps.b3bytes.homefoods.adapters.FoodieResultsAdapter;
 import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
 
-public class FoodiePastOrdersTabFragment extends Fragment {
+public class FoodiePastOrdersTabFragment extends Fragment implements FoodiePastOrdersRVAdapter.onOrderDetailsClickListener {
     private Context mContext;
     private View rootView;
     private RecyclerView rvFoodiePastOrders;
     private FoodiePastOrdersRVAdapter adapter;
+
+    OnOrderDetailsListener mOrderDetailsCallback;
+
+    // Container Activity must implement this interface
+    public interface OnOrderDetailsListener {
+        public void OnOrderDetailsClicked(FoodieOrder foodieOrder);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -35,6 +43,16 @@ public class FoodiePastOrdersTabFragment extends Fragment {
     public void onAttach(Activity activity) {
         mContext = activity;
         super.onAttach(activity);
+
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mOrderDetailsCallback = (OnOrderDetailsListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnOrderDetailsListener");
+        }
     }
 
     @Override
@@ -43,6 +61,7 @@ public class FoodiePastOrdersTabFragment extends Fragment {
 
         adapter = new FoodiePastOrdersRVAdapter(mContext);
         rvFoodiePastOrders.setAdapter(adapter);
+        adapter.setOnAddToCartClickListener(this);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvFoodiePastOrders.setLayoutManager(layoutManager);
@@ -55,4 +74,7 @@ public class FoodiePastOrdersTabFragment extends Fragment {
 
     }
 
+    public void orderDetailsClicked(FoodieOrder foodieOrder) {
+        mOrderDetailsCallback.OnOrderDetailsClicked(foodieOrder);
+    }
 }
