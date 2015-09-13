@@ -323,6 +323,14 @@ public class HomePage extends AppCompatActivity implements
             } else {
                 super.onBackPressed();
             }
+        } else if (currentFragment instanceof FoodieGiveDishReviewFragment) {
+            if ( ((FoodieGiveDishReviewFragment)currentFragment).getmAlertDiscardChanges()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(HomePage.this, R.style.myDialog));
+                builder.setMessage("Discard changes?").setPositiveButton("YES", dialogToolbarBackClickListener)
+                        .setNegativeButton("NO", dialogToolbarBackClickListener).show();
+            } else {
+                super.onBackPressed();
+            }
         } else {
             super.onBackPressed();
         }
