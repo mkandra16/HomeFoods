@@ -46,6 +46,7 @@ import com.apps.b3bytes.homefoods.fragments.FoodieCheckoutFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieHomeFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieOrderHistoryFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodiePastOrdersTabFragment;
+import com.apps.b3bytes.homefoods.fragments.FoodieViewPastPendingOrderDetailsFragment;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
 import com.apps.b3bytes.homefoods.models.NavDrawerItem;
@@ -92,7 +93,8 @@ public class HomePage extends AppCompatActivity implements
         FoodieAddPaymentCardFragment.OnAddBillingAddressSelectedListener,
         FoodieAddBillingAddressFragment.FragmentHomeUpButtonHandler,
         FoodieAddBillingAddressFragment.OnSaveBillingAddressSelectedListener,
-        FoodiePastOrdersTabFragment.OnOrderDetailsListener {
+        FoodiePastOrdersTabFragment.OnOrderDetailsListener,
+        FoodieViewPastPendingOrderDetailsFragment.FragmentHomeUpButtonHandler {
 
     public static final int DISH_SECTION_EDIT_SINGLE = 0;
     public static final int DISH_SECTION_EDIT_ALL = 1;
@@ -793,7 +795,14 @@ public class HomePage extends AppCompatActivity implements
     }
 
     public void OnOrderDetailsClicked(FoodieOrder foodieOrder) {
-        // TODO: display the order details. FOr now display 2
-        displayFoodieView(2);
+        FoodieViewPastPendingOrderDetailsFragment fragment = new FoodieViewPastPendingOrderDetailsFragment();
+
+        Bundle args = new Bundle();
+        args.putParcelable("order", foodieOrder);
+        args.putInt("mode", 1);
+
+        fragment.setArguments(args);
+
+        replaceFragment(fragment);
     }
 }

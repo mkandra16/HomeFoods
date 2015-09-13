@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlFoodieOrderItemChefHdr"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF">
+
+    <TextView
+        android:id="@+id/tvChefNameVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/tvChefNameHdr"
+        android:gravity="end"
+        android:text="Chef Name"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvChefNameHdr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvChefNameVal"
+        android:layout_marginLeft="4dp"
+        android:text="From: "
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/tvOrderTotalVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/tvChefNameVal"
+        android:layout_below="@+id/tvChefNameVal"
+        android:layout_marginTop="16dp"
+        android:gravity="end"
+        android:text="Rs. 450"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/tvOrderTotalHdr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvOrderTotalVal"
+        android:text="Total: "
+        android:gravity="end"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/black"
+        android:layout_toLeftOf="@+id/tvOrderTotalVal"
+        android:layout_marginRight="4dp"
+        android:layout_toRightOf="@+id/tvOrderDateVal" />
+
+    <TextView
+        android:id="@+id/tvOrderDateVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvOrderTotalVal"
+        android:layout_below="@+id/tvChefNameVal"
+        android:text="09/12/2015"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:paddingRight="3dp"
+        android:paddingLeft="3dp"
+        android:textStyle="bold"
+        android:layout_toRightOf="@+id/tvOrderDateHdr"
+        android:layout_marginLeft="4dp"/>
+
+    <TextView
+        android:id="@+id/tvOrderDateHdr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvOrderTotalVal"
+        android:layout_marginLeft="4dp"
+        android:text="Delivered: "
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/black" />
+
+    <View
+        android:id="@+id/vFoodieOrderHdrDivider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@+id/tvOrderTotalVal" />
+
+</RelativeLayout>
