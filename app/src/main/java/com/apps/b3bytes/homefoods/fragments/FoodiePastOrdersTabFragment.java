@@ -44,7 +44,6 @@ public class FoodiePastOrdersTabFragment extends Fragment implements FoodiePastO
         mContext = activity;
         super.onAttach(activity);
 
-
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {

@@ -29,12 +29,12 @@ import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.adapters.NavDrawerRVAdapter;
 import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
+import com.apps.b3bytes.homefoods.fragments.ChefDeliveryFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefDishEditAvailFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefDishEditImageFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefDishEditInfoFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefDishEditPriceFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefDishReadonlyFragment;
-import com.apps.b3bytes.homefoods.fragments.ChefDeliveryFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefHomeFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefMenuFragment;
 import com.apps.b3bytes.homefoods.fragments.DishDescFragment;
@@ -46,6 +46,7 @@ import com.apps.b3bytes.homefoods.fragments.FoodieCheckoutFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieHomeFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieOrderHistoryFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodiePastOrdersTabFragment;
+import com.apps.b3bytes.homefoods.fragments.FoodiePendingOrdersTabFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieViewPastPendingOrderDetailsFragment;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
@@ -94,7 +95,9 @@ public class HomePage extends AppCompatActivity implements
         FoodieAddBillingAddressFragment.FragmentHomeUpButtonHandler,
         FoodieAddBillingAddressFragment.OnSaveBillingAddressSelectedListener,
         FoodiePastOrdersTabFragment.OnOrderDetailsListener,
-        FoodieViewPastPendingOrderDetailsFragment.FragmentHomeUpButtonHandler {
+        FoodiePendingOrdersTabFragment.OnViewCancelOrderListener,
+        FoodieViewPastPendingOrderDetailsFragment.FragmentHomeUpButtonHandler,
+        FoodieViewPastPendingOrderDetailsFragment.OnPendingOrderCancelClickedListener {
 
     public static final int DISH_SECTION_EDIT_SINGLE = 0;
     public static final int DISH_SECTION_EDIT_ALL = 1;
@@ -805,4 +808,41 @@ public class HomePage extends AppCompatActivity implements
 
         replaceFragment(fragment);
     }
+
+    public void OnViewCancelOrderClicked(FoodieOrder foodieOrder) {
+        FoodieViewPastPendingOrderDetailsFragment fragment = new FoodieViewPastPendingOrderDetailsFragment();
+
+        Bundle args = new Bundle();
+        args.putParcelable("order", foodieOrder);
+        args.putInt("mode", 0);
+
+        fragment.setArguments(args);
+
+        replaceFragment(fragment);
+    }
+
+    DialogInterface.OnClickListener dialogCancelPendingOrderClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    //Yes button clicked
+                    //TODO: cancel the order. update in database. inform related chefs. any other actions
+                    displayFoodieView(2); // display FoodieOrderHistoryFragment
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        }
+    };
+
+    public void OnPendingOrderCancelClicked(FoodieOrder foodieOrder) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
+        builder.setMessage("Are you sure to cancel order?").setPositiveButton("YES", dialogCancelPendingOrderClickListener)
+                .setNegativeButton("NO", dialogCancelPendingOrderClickListener).show();
+    }
+
+
 }

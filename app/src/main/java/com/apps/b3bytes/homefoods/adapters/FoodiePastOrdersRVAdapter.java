@@ -17,6 +17,7 @@ import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.models.ChefOrder;
 import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
+import com.apps.b3bytes.homefoods.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -145,22 +146,16 @@ public class FoodiePastOrdersRVAdapter extends RecyclerView.Adapter<FoodiePastOr
             bOrderDetails = (Button) parent.findViewById(R.id.bOrderDetails);
         }
 
-        private void initTextView(TextView tvView, String text) {
-            if (text != null && !text.isEmpty()) {
-                tvView.setText(text);
-            }
-        }
-
         public void bindView(DishLinkingFoodieOrder order) {
             DishOrder dishOrder = order.dishOrder;
             final FoodieOrder foodieOrder = order.foodieOrder;
 
             //TODO
             //ivDishOrderedImage.setImageResource();
-            initTextView(tvDishOrderedName, dishOrder.getmDishOnSale().getmDish().getmDishName());
-            initTextView(tvDishOrderedFromChef, "From Chef: " + dishOrder.getmFoodie().getmUserName());
-            initTextView(tvDishOrderedStatusVal, foodieOrder.getmOrderStatus().toString());
-            initTextView(tvDishOrderedDateVal, foodieOrder.getmOrderedDate());
+            Utils.initTextView(tvDishOrderedName, dishOrder.getmDishOnSale().getmDish().getmDishName());
+            Utils.initTextView(tvDishOrderedFromChef, "From Chef: " + dishOrder.getmFoodie().getmUserName());
+            Utils.initTextView(tvDishOrderedStatusVal, foodieOrder.getmOrderStatus().toString());
+            Utils.initTextView(tvDishOrderedDateVal, foodieOrder.getmOrderedDate());
 
 
             bOrderDetails.setOnClickListener(new View.OnClickListener() {

@@ -13,14 +13,20 @@ import android.view.ViewGroup;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.adapters.FoodiePendingOrdersRVAdapter;
-import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
 
-public class FoodiePendingOrdersTabFragment extends Fragment {
+public class FoodiePendingOrdersTabFragment extends Fragment implements FoodiePendingOrdersRVAdapter.onViewCancelOrderClickListener {
     private View rootView;
     private RecyclerView rvFoodiePendingOrders;
     private FoodiePendingOrdersRVAdapter adapter;
     private Context mContext;
+
+    OnViewCancelOrderListener mViewCancelOrderCallback;
+
+    // Container Activity must implement this interface
+    public interface OnViewCancelOrderListener {
+        public void OnViewCancelOrderClicked(FoodieOrder foodieOrder);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,6 +40,15 @@ public class FoodiePendingOrdersTabFragment extends Fragment {
     public void onAttach(Activity activity) {
         mContext = activity;
         super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mViewCancelOrderCallback = (OnViewCancelOrderListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnViewCancelOrderListener");
+        }
     }
 
     @Override
@@ -42,6 +57,7 @@ public class FoodiePendingOrdersTabFragment extends Fragment {
 
         adapter = new FoodiePendingOrdersRVAdapter(mContext);
         rvFoodiePendingOrders.setAdapter(adapter);
+        adapter.setOnViewCancelOrderClickListener(this);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvFoodiePendingOrders.setLayoutManager(layoutManager);
@@ -51,7 +67,9 @@ public class FoodiePendingOrdersTabFragment extends Fragment {
                 // Do Nothing for now
             }
         });
-
     }
 
+    public void viewCancelOrderClicked(FoodieOrder foodieOrder) {
+        mViewCancelOrderCallback.OnViewCancelOrderClicked(foodieOrder);
+    }
 }

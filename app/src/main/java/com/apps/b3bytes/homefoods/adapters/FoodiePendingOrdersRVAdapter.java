@@ -1,11 +1,11 @@
 package com.apps.b3bytes.homefoods.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,9 +13,8 @@ import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.models.ChefOrder;
-import com.apps.b3bytes.homefoods.models.DishOrder;
-import com.apps.b3bytes.homefoods.models.Foodie;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
+import com.apps.b3bytes.homefoods.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -23,15 +22,19 @@ import java.util.Set;
 
 
 public class FoodiePendingOrdersRVAdapter extends RecyclerView.Adapter<FoodiePendingOrdersRVAdapter.ViewHolder> {
-    /* TODO: TEST DATA */
-    String[] dateArray = {"Apr 14, 2015", "Mar 09, 2015", "Aug 15, 2015", "Sep 01, 2015"};
-    String[] dishNameArray = {"Dish Name1", "Dish Name2", "Dish Name3", "Dish Name4"};
-    String[] chefNameArray = {"Chef Name1", "Chef Name2", "Chef Name3", "Chef Name4"};
-    /* TODO: END TEST DATA */
-
     private ArrayList<FoodieOrder> items;
     private ItemClickListener itemClickListener;
     private Context mContext;
+
+    onViewCancelOrderClickListener viewCancelOrderClickListener;
+
+    public interface onViewCancelOrderClickListener {
+        public void viewCancelOrderClicked(FoodieOrder foodieOrder);
+    }
+
+    public void setOnViewCancelOrderClickListener(onViewCancelOrderClickListener listener) {
+        viewCancelOrderClickListener = listener;
+    }
 
     public FoodiePendingOrdersRVAdapter(Context context) {
         mContext = context;
@@ -68,7 +71,7 @@ public class FoodiePendingOrdersRVAdapter extends RecyclerView.Adapter<FoodiePen
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         Context context = viewGroup.getContext();
         View parent = LayoutInflater.from(context).inflate(R.layout.foodie_pending_order_item, viewGroup, false);
-        return ViewHolder.newInstance(parent, viewType);
+        return new ViewHolder(parent);
 
     }
 
@@ -91,17 +94,14 @@ public class FoodiePendingOrdersRVAdapter extends RecyclerView.Adapter<FoodiePen
         return position;
     }
 
-    public static final class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private View parent;
         private TextView tvOrderNumberVal;
         private TextView tvOrderedFromChefVal;
         private TextView tvOrderedPriceVal;
         private TextView tvDishOrderedOnVal;
         private TextView tvDishOrderedDateVal;
-
-        public static ViewHolder newInstance(View parent, int viewType) {
-            return new ViewHolder(parent);
-        }
+        private Button bViewCancelOrder;
 
         private ViewHolder(View parent) {
             super(parent);
@@ -111,16 +111,11 @@ public class FoodiePendingOrdersRVAdapter extends RecyclerView.Adapter<FoodiePen
             tvOrderedPriceVal = (TextView) parent.findViewById(R.id.tvOrderedPriceVal);
             tvDishOrderedOnVal = (TextView) parent.findViewById(R.id.tvDishOrderedOnVal);
             tvDishOrderedDateVal = (TextView) parent.findViewById(R.id.tvDishOrderedDateVal);
+            bViewCancelOrder = (Button) parent.findViewById(R.id.bViewCancelOrder);
         }
 
-        private void initTextView(TextView tvView, String text) {
-            if (text != null && !text.isEmpty()) {
-                tvView.setText(text);
-            }
-        }
-
-        public void bindView(FoodieOrder order) {
-            initTextView(tvOrderNumberVal, order.getmTag());
+        public void bindView(final FoodieOrder order) {
+            Utils.initTextView(tvOrderNumberVal, order.getmTag());
 
             String chefNames = new String();
             Set<ChefOrder> chefOrders = order.getmChefOrders();
@@ -131,10 +126,17 @@ public class FoodiePendingOrdersRVAdapter extends RecyclerView.Adapter<FoodiePen
                 }
                 chefNames = chef.getmChef().getmUserName();
             }
-            initTextView(tvOrderedFromChefVal, chefNames);
-            initTextView(tvOrderedPriceVal, String.valueOf(order.getmTotal()));
-            initTextView(tvDishOrderedOnVal, order.getmOrderStatus().toString());
-            initTextView(tvDishOrderedDateVal, order.getmOrderedDate());
+            Utils.initTextView(tvOrderedFromChefVal, chefNames);
+            Utils.initTextView(tvOrderedPriceVal, String.valueOf(order.getmTotal()));
+            Utils.initTextView(tvDishOrderedOnVal, order.getmOrderStatus().toString());
+            Utils.initTextView(tvDishOrderedDateVal, order.getmOrderedDate());
+
+            bViewCancelOrder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    viewCancelOrderClickListener.viewCancelOrderClicked(order);
+                }
+            });
         }
 
         public void setOnClickListener(View.OnClickListener listener) {

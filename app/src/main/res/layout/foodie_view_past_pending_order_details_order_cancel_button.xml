@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llCancelOrder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <Button
+        android:id="@+id/bCancelOrder"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_red_light"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
+        android:text="Cancel Order"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>

@@ -35,9 +35,15 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
     private int currentId;
 
     FragmentHomeUpButtonHandler mHomeUpHandler;
+    OnPendingOrderCancelClickedListener mCancelOrderCallback;
+
 
     public interface FragmentHomeUpButtonHandler {
         public void FragmentHomeUpButton(boolean who);
+    }
+
+    public interface OnPendingOrderCancelClickedListener {
+        public void OnPendingOrderCancelClicked(FoodieOrder foodieOrder);
     }
 
     public FoodieViewPastPendingOrderDetailsFragment() {
@@ -66,6 +72,13 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement FragmentHomeUpButtonHandler");
+        }
+
+        try {
+            mCancelOrderCallback = (OnPendingOrderCancelClickedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnPendingOrderCancelClickedListener");
         }
     }
 
@@ -116,6 +129,25 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
                 currentId++;
             }
         }
+
+        if (mMode == 0) {
+            llRoot.addView(createCancelOrderLayout());
+            currentId++;
+        }
+    }
+
+    private LinearLayout createCancelOrderLayout() {
+        LinearLayout llCancelOrder = (LinearLayout) mInflater.inflate(R.layout.foodie_view_past_pending_order_details_order_cancel_button, null, false);
+        Button bCancelOrder = (Button) llCancelOrder.findViewById(R.id.bCancelOrder);
+
+        bCancelOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCancelOrderCallback.OnPendingOrderCancelClicked(mFoodieOrder);
+            }
+        });
+
+        return llCancelOrder;
     }
 
     private RelativeLayout createOneDishOrderLayout(DishOrder dishOrder) {
@@ -130,21 +162,26 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
         Utils.initTextView(tvDishOrderedName, dishOrder.getmDishOnSale().getmDish().getmDishName());
         Utils.initTextView(tvDishUnitPriceVal, String.valueOf(dishOrder.getmDishOnSale().getmUnitPrice()));
         Utils.initTextView(tvDishOrderedQtyVal, String.valueOf(dishOrder.getmQty()));
+        if (mMode == 1) {
+            bBuyAgain.setVisibility(View.VISIBLE);
+            bWriteReview.setVisibility(View.VISIBLE);
+            bBuyAgain.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //TODO: handle this
+                }
+            });
 
-        bBuyAgain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO: handle this
-            }
-        });
-
-        bWriteReview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO: handle this
-            }
-        });
-
+            bWriteReview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //TODO: handle this
+                }
+            });
+        } else {
+            bBuyAgain.setVisibility(View.GONE);
+            bWriteReview.setVisibility(View.GONE);
+        }
         return rlOneDish;
     }
 
@@ -153,8 +190,13 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
         TextView tvChefNameVal = (TextView) rlChefHeader.findViewById(R.id.tvChefNameVal);
         TextView tvOrderTotalVal = (TextView) rlChefHeader.findViewById(R.id.tvOrderTotalVal);
         TextView tvOrderDateVal = (TextView) rlChefHeader.findViewById(R.id.tvOrderDateVal);
+        TextView tvOrderDateHdr = (TextView) rlChefHeader.findViewById(R.id.tvOrderDateHdr);
         Utils.initTextView(tvChefNameVal, chefOrder.getmFoodie().getmUserName());
         Utils.initTextView(tvOrderTotalVal, String.valueOf(chefOrder.getmTotal()));
+        if (mMode == 0)
+            Utils.initTextView(tvOrderDateHdr, "Delivery On: ");
+        else
+            Utils.initTextView(tvOrderDateHdr, "Delivered: ");
         //TODO: populate chef delivery date
         //Utils.initTextView(tvOrderDateVal, chefOrder.getmDeliveryDate());
 
