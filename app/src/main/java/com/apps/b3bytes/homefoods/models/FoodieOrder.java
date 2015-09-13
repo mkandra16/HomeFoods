@@ -3,7 +3,12 @@ package com.apps.b3bytes.homefoods.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,21 +18,25 @@ import java.util.Set;
  */
 
 public class FoodieOrder implements Parcelable {
-    public enum OrderStatus {Cancelled, Ordered, Delivered, Unknown};
+    public enum OrderStatus {Cancelled, Ordered, Delivered, Unknown}
+
+    ;
 
     private String mTag;
     private Set<ChefOrder> mChefOrders;
     private Foodie mFoodie;
     private double mTotal;
     private OrderStatus mOrderStatus;
+    private Date mOrderedDate;
 
     public FoodieOrder() {
         mChefOrders = new HashSet<ChefOrder>();
         setmOrderStatus(OrderStatus.Unknown);
     }
+
     public ChefOrder getChefOrder(Foodie f) {
         for (ChefOrder order : mChefOrders) {
-            if(order.getmChef().equals(f)) {
+            if (order.getmChef().equals(f)) {
                 return order;
             }
         }
@@ -86,6 +95,26 @@ public class FoodieOrder implements Parcelable {
         this.mOrderStatus = mOrderStatus;
     }
 
+    public String getmOrderedDate() {
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        String dateString = df.format(mOrderedDate);
+        return dateString;
+    }
+
+    public void setmOrderedDate(String dateString) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+        try {
+            Date date = formatter.parse(dateString);
+            this.mOrderedDate = date;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setmOrderedDate(Date mOrderedDate) {
+            this.mOrderedDate = mOrderedDate;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -93,7 +122,7 @@ public class FoodieOrder implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        ArrayList<ChefOrder> aLChefOrder= new ArrayList<ChefOrder>();
+        ArrayList<ChefOrder> aLChefOrder = new ArrayList<ChefOrder>();
         aLChefOrder.addAll(getmChefOrders());
 
         dest.writeString(getmTag());
@@ -101,6 +130,7 @@ public class FoodieOrder implements Parcelable {
         dest.writeParcelable(getmFoodie(), flags);
         dest.writeDouble(getmTotal());
         dest.writeString(getmOrderStatus().toString());
+        dest.writeString(getmOrderedDate());
     }
 
 
@@ -125,5 +155,6 @@ public class FoodieOrder implements Parcelable {
         setmFoodie((Foodie) in.readParcelable(Foodie.class.getClassLoader()));
         setmTotal(in.readDouble());
         setmOrderStatus(OrderStatus.valueOf(in.readString()));
+        setmOrderedDate(in.readString());
     }
 }

@@ -6,11 +6,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.State.AppGlobalState;
+import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
+import com.apps.b3bytes.homefoods.models.ChefOrder;
 import com.apps.b3bytes.homefoods.models.DishOrder;
+import com.apps.b3bytes.homefoods.models.FoodieOrder;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.Set;
 
 
 public class FoodiePastOrdersRVAdapter extends RecyclerView.Adapter<FoodiePastOrdersRVAdapter.ViewHolder> {
@@ -18,26 +26,33 @@ public class FoodiePastOrdersRVAdapter extends RecyclerView.Adapter<FoodiePastOr
     String[] dateArray = {"Apr 14, 2015", "Mar 09, 2015", "Aug 15, 2015", "Sep 01, 2015"};
     String[] dishNameArray = {"Dish Name1", "Dish Name2", "Dish Name3", "Dish Name4"};
     String[] chefNameArray = {"Chef Name1", "Chef Name2", "Chef Name3", "Chef Name4"};
-    /* TODO: END TEST DATA */
+        /* TODO: END TEST DATA */
 
-    private ArrayList<DishOrder> items;
+    private Context mContext;
+    private ArrayList<FoodieOrder> items;
     private ItemClickListener itemClickListener;
 
-    public FoodiePastOrdersRVAdapter() {
-        this.items = new ArrayList<DishOrder>();
-//        // Todo : Get all past orders of Foodie
-//        AppGlobalState.gDataLayer.getOrdersForChef(Foodie.createDummyFoodie(), new DataLayer.getChefOrdersCallback() {
-//            @Override
-//            public void done(ArrayList<ChefOrder> orders, Exception e) {
-//                items = orders;
-//                notifyDataSetChanged();
-//            }
-//        });
-        for (int i = 0; i < dishNameArray.length; i++) {
-            DishOrder order = new DishOrder();
+    public FoodiePastOrdersRVAdapter(Context context) {
+        mContext = context;
+        this.items = new ArrayList<FoodieOrder>();
+        EnumSet<FoodieOrder.OrderStatus> statuses = EnumSet.of(FoodieOrder.OrderStatus.Ordered);
+        AppGlobalState.gDataLayer.getFoodieOrders(statuses, new DataLayer.GetFoodieOrdersCallback() {
+            @Override
+            public void done(ArrayList<FoodieOrder> orders, Exception e) {
+                if (e == null) {
+                    items.addAll(orders);
+                    notifyDataSetChanged();
+                    Toast.makeText(mContext, "Successfully retrieved all pending orders", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mContext, "Failed to get all Pending orders", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
-            items.add(order);
-        }
+//        for (int i = 0; i < dishNameArray.length; i++) {
+//            FoodieOrder order = new FoodieOrder();
+//            items.add(order);
+//        }
     }
 
     public void SetOnItemClickListener(final ItemClickListener mItemClickListener) {
@@ -45,7 +60,7 @@ public class FoodiePastOrdersRVAdapter extends RecyclerView.Adapter<FoodiePastOr
     }
 
     public interface ItemClickListener {
-        public void onItemClick(DishOrder order, int position);
+        public void onItemClick(FoodieOrder order, int position);
     }
 
     @Override
@@ -62,7 +77,7 @@ public class FoodiePastOrdersRVAdapter extends RecyclerView.Adapter<FoodiePastOr
     }
 
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        final DishOrder item;
+        final FoodieOrder item;
         final int pos = position;
         item = items.get(position);
         viewHolder.bindView(item);
@@ -82,12 +97,7 @@ public class FoodiePastOrdersRVAdapter extends RecyclerView.Adapter<FoodiePastOr
 
     public static final class ViewHolder extends RecyclerView.ViewHolder {
         private View parent;
-//        protected RatingBar rbDishReview;
-//        protected TextView tvDishReviewDate;
-//        protected ImageView ivFoodie;
-//        protected TextView tvFoodieName;
-//        protected TextView tvDishReviewOneline;
-//        protected TextView tvDishReviewDetails;
+
 
         public static ViewHolder newInstance(View parent, int viewType) {
             return new ViewHolder(parent);
@@ -96,20 +106,17 @@ public class FoodiePastOrdersRVAdapter extends RecyclerView.Adapter<FoodiePastOr
         private ViewHolder(View parent) {
             super(parent);
             this.parent = parent;
-//            rbDishReview = (RatingBar) parent.findViewById(R.id.rbDishReview);
-//            tvDishReviewDate = (TextView) parent.findViewById(R.id.tvDishReviewDate);
-//            ivFoodie = (ImageView) parent.findViewById(R.id.ivFoodie);
-//            tvFoodieName = (TextView) parent.findViewById(R.id.tvFoodieName);
-//            tvDishReviewOneline = (TextView) parent.findViewById(R.id.tvDishReviewOneline);
-//            tvDishReviewDetails = (TextView) parent.findViewById(R.id.tvDishReviewDetails);
+
         }
 
-        public void bindView(DishOrder order) {
-//            rbDishReview.setRating(review.getmRating());
-//            tvDishReviewDate.setText(review.getmDate());
-//            tvFoodieName.setText(review.getmFoodieName());
-//            tvDishReviewOneline.setText(review.getmOneLine());
-//            tvDishReviewDetails.setText(review.getmMultiLine());
+        private void initTextView(TextView tvView, String text) {
+            if (text != null && !text.isEmpty()) {
+                tvView.setText(text);
+            }
+        }
+
+        public void bindView(FoodieOrder order) {
+            //TODO
         }
 
         public void setOnClickListener(View.OnClickListener listener) {

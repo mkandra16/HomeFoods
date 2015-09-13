@@ -1,5 +1,7 @@
 package com.apps.b3bytes.homefoods.fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,8 +14,10 @@ import android.view.ViewGroup;
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.adapters.FoodiePastOrdersRVAdapter;
 import com.apps.b3bytes.homefoods.models.DishOrder;
+import com.apps.b3bytes.homefoods.models.FoodieOrder;
 
 public class FoodiePastOrdersTabFragment extends Fragment {
+    private Context mContext;
     private View rootView;
     private RecyclerView rvFoodiePastOrders;
     private FoodiePastOrdersRVAdapter adapter;
@@ -28,17 +32,23 @@ public class FoodiePastOrdersTabFragment extends Fragment {
 
 
     @Override
+    public void onAttach(Activity activity) {
+        mContext = activity;
+        super.onAttach(activity);
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        adapter = new FoodiePastOrdersRVAdapter();
+        adapter = new FoodiePastOrdersRVAdapter(mContext);
         rvFoodiePastOrders.setAdapter(adapter);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvFoodiePastOrders.setLayoutManager(layoutManager);
         adapter.SetOnItemClickListener(new FoodiePastOrdersRVAdapter.ItemClickListener() {
             @Override
-            public void onItemClick(DishOrder item, int position) {
+            public void onItemClick(FoodieOrder item, int position) {
                 // Do Nothing for now
             }
         });

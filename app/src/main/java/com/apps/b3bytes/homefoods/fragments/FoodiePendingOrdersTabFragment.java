@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.adapters.FoodiePendingOrdersRVAdapter;
 import com.apps.b3bytes.homefoods.models.DishOrder;
+import com.apps.b3bytes.homefoods.models.FoodieOrder;
 
 public class FoodiePendingOrdersTabFragment extends Fragment {
     private View rootView;
@@ -46,7 +47,7 @@ public class FoodiePendingOrdersTabFragment extends Fragment {
         rvFoodiePendingOrders.setLayoutManager(layoutManager);
         adapter.SetOnItemClickListener(new FoodiePendingOrdersRVAdapter.ItemClickListener() {
             @Override
-            public void onItemClick(DishOrder item, int position) {
+            public void onItemClick(FoodieOrder item, int position) {
                 // Do Nothing for now
             }
         });

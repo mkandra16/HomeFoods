@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
@@ -18,6 +19,7 @@ import com.apps.b3bytes.homefoods.models.FoodieOrder;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.Set;
 
 
 public class FoodiePendingOrdersRVAdapter extends RecyclerView.Adapter<FoodiePendingOrdersRVAdapter.ViewHolder> {
@@ -27,21 +29,19 @@ public class FoodiePendingOrdersRVAdapter extends RecyclerView.Adapter<FoodiePen
     String[] chefNameArray = {"Chef Name1", "Chef Name2", "Chef Name3", "Chef Name4"};
     /* TODO: END TEST DATA */
 
-    private ArrayList<DishOrder> items;
+    private ArrayList<FoodieOrder> items;
     private ItemClickListener itemClickListener;
     private Context mContext;
 
     public FoodiePendingOrdersRVAdapter(Context context) {
         mContext = context;
-        this.items = new ArrayList<DishOrder>();
+        this.items = new ArrayList<FoodieOrder>();
         EnumSet<FoodieOrder.OrderStatus> statuses = EnumSet.of(FoodieOrder.OrderStatus.Ordered);
         AppGlobalState.gDataLayer.getFoodieOrders(statuses, new DataLayer.GetFoodieOrdersCallback() {
             @Override
             public void done(ArrayList<FoodieOrder> orders, Exception e) {
                 if (e == null) {
-                    for (FoodieOrder order : orders) {
-                        items.addAll(order.getDishOrders());
-                    }
+                    items.addAll(orders);
                     notifyDataSetChanged();
                     Toast.makeText(mContext, "Successfully retrieved all pending orders", Toast.LENGTH_SHORT).show();
                 } else {
@@ -56,7 +56,7 @@ public class FoodiePendingOrdersRVAdapter extends RecyclerView.Adapter<FoodiePen
     }
 
     public interface ItemClickListener {
-        public void onItemClick(DishOrder order, int position);
+        public void onItemClick(FoodieOrder order, int position);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class FoodiePendingOrdersRVAdapter extends RecyclerView.Adapter<FoodiePen
     }
 
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        final DishOrder item;
+        final FoodieOrder item;
         final int pos = position;
         item = items.get(position);
         viewHolder.bindView(item);
@@ -93,12 +93,11 @@ public class FoodiePendingOrdersRVAdapter extends RecyclerView.Adapter<FoodiePen
 
     public static final class ViewHolder extends RecyclerView.ViewHolder {
         private View parent;
-//        protected RatingBar rbDishReview;
-//        protected TextView tvDishReviewDate;
-//        protected ImageView ivFoodie;
-//        protected TextView tvFoodieName;
-//        protected TextView tvDishReviewOneline;
-//        protected TextView tvDishReviewDetails;
+        private TextView tvOrderNumberVal;
+        private TextView tvOrderedFromChefVal;
+        private TextView tvOrderedPriceVal;
+        private TextView tvDishOrderedOnVal;
+        private TextView tvDishOrderedDateVal;
 
         public static ViewHolder newInstance(View parent, int viewType) {
             return new ViewHolder(parent);
@@ -107,20 +106,35 @@ public class FoodiePendingOrdersRVAdapter extends RecyclerView.Adapter<FoodiePen
         private ViewHolder(View parent) {
             super(parent);
             this.parent = parent;
-//            rbDishReview = (RatingBar) parent.findViewById(R.id.rbDishReview);
-//            tvDishReviewDate = (TextView) parent.findViewById(R.id.tvDishReviewDate);
-//            ivFoodie = (ImageView) parent.findViewById(R.id.ivFoodie);
-//            tvFoodieName = (TextView) parent.findViewById(R.id.tvFoodieName);
-//            tvDishReviewOneline = (TextView) parent.findViewById(R.id.tvDishReviewOneline);
-//            tvDishReviewDetails = (TextView) parent.findViewById(R.id.tvDishReviewDetails);
+            tvOrderNumberVal = (TextView) parent.findViewById(R.id.tvOrderNumberVal);
+            tvOrderedFromChefVal = (TextView) parent.findViewById(R.id.tvOrderedFromChefVal);
+            tvOrderedPriceVal = (TextView) parent.findViewById(R.id.tvOrderedPriceVal);
+            tvDishOrderedOnVal = (TextView) parent.findViewById(R.id.tvDishOrderedOnVal);
+            tvDishOrderedDateVal = (TextView) parent.findViewById(R.id.tvDishOrderedDateVal);
         }
 
-        public void bindView(DishOrder order) {
-//            rbDishReview.setRating(review.getmRating());
-//            tvDishReviewDate.setText(review.getmDate());
-//            tvFoodieName.setText(review.getmFoodieName());
-//            tvDishReviewOneline.setText(review.getmOneLine());
-//            tvDishReviewDetails.setText(review.getmMultiLine());
+        private void initTextView(TextView tvView, String text) {
+            if (text != null && !text.isEmpty()) {
+                tvView.setText(text);
+            }
+        }
+
+        public void bindView(FoodieOrder order) {
+            initTextView(tvOrderNumberVal, order.getmTag());
+
+            String chefNames = new String();
+            Set<ChefOrder> chefOrders = order.getmChefOrders();
+            for (ChefOrder chef : chefOrders) {
+                if (!chefNames.isEmpty()) {
+                    chefNames += ", ...";
+                    break;
+                }
+                chefNames = chef.getmChef().getmUserName();
+            }
+            initTextView(tvOrderedFromChefVal, chefNames);
+            initTextView(tvOrderedPriceVal, String.valueOf(order.getmTotal()));
+            initTextView(tvDishOrderedOnVal, order.getmOrderStatus().toString());
+            initTextView(tvDishOrderedDateVal, order.getmOrderedDate());
         }
 
         public void setOnClickListener(View.OnClickListener listener) {
