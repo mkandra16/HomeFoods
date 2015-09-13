@@ -43,6 +43,7 @@ import com.apps.b3bytes.homefoods.fragments.FoodieAddBillingAddressFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieAddPaymentCardFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieCartFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieCheckoutFragment;
+import com.apps.b3bytes.homefoods.fragments.FoodieGiveDishReviewFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieHomeFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieOrderHistoryFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodiePastOrdersTabFragment;
@@ -102,7 +103,8 @@ public class HomePage extends AppCompatActivity implements
         FoodieViewPastPendingOrderDetailsFragment.FragmentHomeUpButtonHandler,
         FoodieViewPastPendingOrderDetailsFragment.OnPendingOrderCancelClickedListener,
         FoodieViewPastPendingOrderDetailsFragment.OnBuyDishAgainListener,
-        FoodieViewPastPendingOrderDetailsFragment.OnWriteDishReviewListener {
+        FoodieViewPastPendingOrderDetailsFragment.OnWriteDishReviewListener,
+        FoodieGiveDishReviewFragment.FragmentHomeUpButtonHandler {
 
     public static final int DISH_SECTION_EDIT_SINGLE = 0;
     public static final int DISH_SECTION_EDIT_ALL = 1;
@@ -864,7 +866,17 @@ public class HomePage extends AppCompatActivity implements
     }
 
     public void OnWriteDishReviewClicked(DishOrder dishOrder) {
+        FoodieGiveDishReviewFragment fragment = new FoodieGiveDishReviewFragment();
 
+        if (fragment != null) {
+
+            Bundle args = new Bundle();
+            args.putParcelable("dish", dishOrder);
+
+            fragment.setArguments(args);
+
+            replaceFragment(fragment);
+        }
     }
 
 }
