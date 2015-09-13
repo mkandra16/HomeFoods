@@ -6,11 +6,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
@@ -18,9 +21,15 @@ import com.apps.b3bytes.homefoods.R;
 public class FoodieAddPaymentCardFragment extends Fragment {
     private FragmentActivity mContext;
     private View rootView;
+    private LayoutInflater mInflater;
+    private EditText etCreditOrDebitCard;
+    private EditText etExpirationMonth;
+    private EditText etExpirationYear;
+    private EditText etSecurityCode;
     private TextView tvBillingAddress;
     private Button bAddCard;
-    private LayoutInflater mInflater;
+
+    private boolean mAlertDiscardChanges;
 
     FragmentHomeUpButtonHandler mHomeUpHandler;
     OnSaveCardSelectedListener mSaveCardCallback;
@@ -46,8 +55,18 @@ public class FoodieAddPaymentCardFragment extends Fragment {
                              Bundle savedInstanceState) {
         mInflater = inflater;
         rootView = inflater.inflate(R.layout.fragment_foodie_add_payment_card, container, false);
-        bAddCard = (Button) rootView.findViewById(R.id.bAddCard);
+        etCreditOrDebitCard = (EditText) rootView.findViewById(R.id.etCreditOrDebitCard);
+        etExpirationMonth = (EditText) rootView.findViewById(R.id.etExpirationMonth);
+        etExpirationYear = (EditText) rootView.findViewById(R.id.etExpirationYear);
+        etSecurityCode = (EditText) rootView.findViewById(R.id.etSecurityCode);
         tvBillingAddress = (TextView) rootView.findViewById(R.id.tvBillingAddress);
+        bAddCard = (Button) rootView.findViewById(R.id.bAddCard);
+
+        etCreditOrDebitCard.addTextChangedListener(textWatcher);
+        etExpirationMonth.addTextChangedListener(textWatcher);
+        etExpirationYear.addTextChangedListener(textWatcher);
+        etSecurityCode.addTextChangedListener(textWatcher);
+        tvBillingAddress.addTextChangedListener(textWatcher);
 
         tvBillingAddress.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +81,32 @@ public class FoodieAddPaymentCardFragment extends Fragment {
                 mSaveCardCallback.OnSaveCardSelected();
             }
         });
+
+        mAlertDiscardChanges = false;
+
         return rootView;
+    }
+
+    private TextWatcher textWatcher = new TextWatcher() {
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            mAlertDiscardChanges = true;
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
+
+    public boolean getmAlertDiscardChanges() {
+        return mAlertDiscardChanges;
     }
 
     @Override

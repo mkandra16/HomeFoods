@@ -324,7 +324,23 @@ public class HomePage extends AppCompatActivity implements
                 super.onBackPressed();
             }
         } else if (currentFragment instanceof FoodieGiveDishReviewFragment) {
-            if ( ((FoodieGiveDishReviewFragment)currentFragment).getmAlertDiscardChanges()) {
+            if (((FoodieGiveDishReviewFragment) currentFragment).getmAlertDiscardChanges()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(HomePage.this, R.style.myDialog));
+                builder.setMessage("Discard changes?").setPositiveButton("YES", dialogToolbarBackClickListener)
+                        .setNegativeButton("NO", dialogToolbarBackClickListener).show();
+            } else {
+                super.onBackPressed();
+            }
+        } else if (currentFragment instanceof FoodieAddPaymentCardFragment) {
+            if (((FoodieAddPaymentCardFragment) currentFragment).getmAlertDiscardChanges()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(HomePage.this, R.style.myDialog));
+                builder.setMessage("Discard changes?").setPositiveButton("YES", dialogToolbarBackClickListener)
+                        .setNegativeButton("NO", dialogToolbarBackClickListener).show();
+            } else {
+                super.onBackPressed();
+            }
+        } else if (currentFragment instanceof FoodieAddBillingAddressFragment) {
+            if (((FoodieAddBillingAddressFragment) currentFragment).getmAlertDiscardChanges()) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(HomePage.this, R.style.myDialog));
                 builder.setMessage("Discard changes?").setPositiveButton("YES", dialogToolbarBackClickListener)
                         .setNegativeButton("NO", dialogToolbarBackClickListener).show();
