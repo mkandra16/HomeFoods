@@ -120,19 +120,19 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/tvDishOrderedDateHdr"
+        android:id="@+id/tvDishDeliveryOnDateHdr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/tvDishOrderedOnHdr"
         android:layout_marginRight="4dp"
-        android:layout_toLeftOf="@+id/tvDishOrderedDateVal"
+        android:layout_toLeftOf="@+id/tvDishDeliveryOnDateVal"
         android:padding="3dp"
         android:text="Delivery: "
         android:textColor="@android:color/black"
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/tvDishOrderedDateVal"
+        android:id="@+id/tvDishDeliveryOnDateVal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/tvDishOrderedOnHdr"

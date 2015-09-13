@@ -36,7 +36,17 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
 
     FragmentHomeUpButtonHandler mHomeUpHandler;
     OnPendingOrderCancelClickedListener mCancelOrderCallback;
+    OnBuyDishAgainListener mBuyDishAgainCallback;
+    OnWriteDishReviewListener mWriteDishReviewCallback;
 
+    // Container Activity must implement this interface
+    public interface OnBuyDishAgainListener {
+        public void OnBuyDishAgainClicked(DishOrder dishOrder);
+    }
+
+    public interface OnWriteDishReviewListener {
+        public void OnWriteDishReviewClicked(DishOrder dishOrder);
+    }
 
     public interface FragmentHomeUpButtonHandler {
         public void FragmentHomeUpButton(boolean who);
@@ -79,6 +89,20 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnPendingOrderCancelClickedListener");
+        }
+
+        try {
+            mBuyDishAgainCallback = (OnBuyDishAgainListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnBuyDishAgainListener");
+        }
+
+        try {
+            mWriteDishReviewCallback = (OnWriteDishReviewListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnWriteDishReviewListener");
         }
     }
 
@@ -151,6 +175,7 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
     }
 
     private RelativeLayout createOneDishOrderLayout(DishOrder dishOrder) {
+        final DishOrder finalDishOrder = dishOrder;
         RelativeLayout rlOneDish = (RelativeLayout) mInflater.inflate(R.layout.foodie_view_past_pending_order_details_chef_one_dish, null, false);
         ImageView ivDishOrderedImage = (ImageView) rlOneDish.findViewById(R.id.ivDishOrderedImage);
         TextView tvDishOrderedName = (TextView) rlOneDish.findViewById(R.id.tvDishOrderedName);
@@ -168,14 +193,14 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
             bBuyAgain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //TODO: handle this
+                    mBuyDishAgainCallback.OnBuyDishAgainClicked(finalDishOrder);
                 }
             });
 
             bWriteReview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //TODO: handle this
+                    mWriteDishReviewCallback.OnWriteDishReviewClicked(finalDishOrder);
                 }
             });
         } else {

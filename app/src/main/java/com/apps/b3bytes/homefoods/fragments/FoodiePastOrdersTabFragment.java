@@ -13,21 +13,33 @@ import android.view.ViewGroup;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.adapters.FoodiePastOrdersRVAdapter;
-import com.apps.b3bytes.homefoods.adapters.FoodieResultsAdapter;
 import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
 
-public class FoodiePastOrdersTabFragment extends Fragment implements FoodiePastOrdersRVAdapter.onOrderDetailsClickListener {
+public class FoodiePastOrdersTabFragment extends Fragment implements
+        FoodiePastOrdersRVAdapter.onOrderDetailsClickListener,
+        FoodiePastOrdersRVAdapter.OnBuyDishAgainClickListener,
+        FoodiePastOrdersRVAdapter.OnWriteDishReviewClickListener {
     private Context mContext;
     private View rootView;
     private RecyclerView rvFoodiePastOrders;
     private FoodiePastOrdersRVAdapter adapter;
 
     OnOrderDetailsListener mOrderDetailsCallback;
+    OnBuyDishAgainListener mBuyDishAgainCallback;
+    OnWriteDishReviewListener mWriteDishReviewCallback;
 
     // Container Activity must implement this interface
     public interface OnOrderDetailsListener {
         public void OnOrderDetailsClicked(FoodieOrder foodieOrder);
+    }
+
+    public interface OnBuyDishAgainListener {
+        public void OnBuyDishAgainClicked(DishOrder dishOrder);
+    }
+
+    public interface OnWriteDishReviewListener {
+        public void OnWriteDishReviewClicked(DishOrder dishOrder);
     }
 
     @Override
@@ -52,6 +64,20 @@ public class FoodiePastOrdersTabFragment extends Fragment implements FoodiePastO
             throw new ClassCastException(activity.toString()
                     + " must implement OnOrderDetailsListener");
         }
+
+        try {
+            mBuyDishAgainCallback = (OnBuyDishAgainListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnBuyDishAgainListener");
+        }
+
+        try {
+            mWriteDishReviewCallback = (OnWriteDishReviewListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnWriteDishReviewListener");
+        }
     }
 
     @Override
@@ -61,6 +87,8 @@ public class FoodiePastOrdersTabFragment extends Fragment implements FoodiePastO
         adapter = new FoodiePastOrdersRVAdapter(mContext);
         rvFoodiePastOrders.setAdapter(adapter);
         adapter.setOnAddToCartClickListener(this);
+        adapter.setOnBuyDishAgainClickListener(this);
+        adapter.setOnWriteDishReviewClickListener(this);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvFoodiePastOrders.setLayoutManager(layoutManager);
@@ -75,5 +103,13 @@ public class FoodiePastOrdersTabFragment extends Fragment implements FoodiePastO
 
     public void orderDetailsClicked(FoodieOrder foodieOrder) {
         mOrderDetailsCallback.OnOrderDetailsClicked(foodieOrder);
+    }
+
+    public void buyDishAgainClicked(DishOrder dishOrder) {
+        mBuyDishAgainCallback.OnBuyDishAgainClicked(dishOrder);
+    }
+
+    public void writeDishReviewClicked(DishOrder dishOrder) {
+        mWriteDishReviewCallback.OnWriteDishReviewClicked(dishOrder);
     }
 }

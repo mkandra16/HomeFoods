@@ -49,6 +49,7 @@ import com.apps.b3bytes.homefoods.fragments.FoodiePastOrdersTabFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodiePendingOrdersTabFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieViewPastPendingOrderDetailsFragment;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
+import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
 import com.apps.b3bytes.homefoods.models.NavDrawerItem;
 import com.apps.b3bytes.homefoods.widgets.DividerItemDecoration;
@@ -95,9 +96,13 @@ public class HomePage extends AppCompatActivity implements
         FoodieAddBillingAddressFragment.FragmentHomeUpButtonHandler,
         FoodieAddBillingAddressFragment.OnSaveBillingAddressSelectedListener,
         FoodiePastOrdersTabFragment.OnOrderDetailsListener,
+        FoodiePastOrdersTabFragment.OnBuyDishAgainListener,
+        FoodiePastOrdersTabFragment.OnWriteDishReviewListener,
         FoodiePendingOrdersTabFragment.OnViewCancelOrderListener,
         FoodieViewPastPendingOrderDetailsFragment.FragmentHomeUpButtonHandler,
-        FoodieViewPastPendingOrderDetailsFragment.OnPendingOrderCancelClickedListener {
+        FoodieViewPastPendingOrderDetailsFragment.OnPendingOrderCancelClickedListener,
+        FoodieViewPastPendingOrderDetailsFragment.OnBuyDishAgainListener,
+        FoodieViewPastPendingOrderDetailsFragment.OnWriteDishReviewListener {
 
     public static final int DISH_SECTION_EDIT_SINGLE = 0;
     public static final int DISH_SECTION_EDIT_ALL = 1;
@@ -844,5 +849,22 @@ public class HomePage extends AppCompatActivity implements
                 .setNegativeButton("NO", dialogCancelPendingOrderClickListener).show();
     }
 
+    public void OnBuyDishAgainClicked(DishOrder dishOrder) {
+        DishDescFragment fragment = new DishDescFragment();
+
+        if (fragment != null) {
+
+            Bundle args = new Bundle();
+            args.putParcelable("dish", dishOrder.getmDishOnSale());
+
+            fragment.setArguments(args);
+
+            replaceFragment(fragment);
+        }
+    }
+
+    public void OnWriteDishReviewClicked(DishOrder dishOrder) {
+
+    }
 
 }

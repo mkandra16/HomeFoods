@@ -100,7 +100,7 @@ public class FoodiePendingOrdersRVAdapter extends RecyclerView.Adapter<FoodiePen
         private TextView tvOrderedFromChefVal;
         private TextView tvOrderedPriceVal;
         private TextView tvDishOrderedOnVal;
-        private TextView tvDishOrderedDateVal;
+        private TextView tvDishDeliveryOnDateVal;
         private Button bViewCancelOrder;
 
         private ViewHolder(View parent) {
@@ -110,7 +110,7 @@ public class FoodiePendingOrdersRVAdapter extends RecyclerView.Adapter<FoodiePen
             tvOrderedFromChefVal = (TextView) parent.findViewById(R.id.tvOrderedFromChefVal);
             tvOrderedPriceVal = (TextView) parent.findViewById(R.id.tvOrderedPriceVal);
             tvDishOrderedOnVal = (TextView) parent.findViewById(R.id.tvDishOrderedOnVal);
-            tvDishOrderedDateVal = (TextView) parent.findViewById(R.id.tvDishOrderedDateVal);
+            tvDishDeliveryOnDateVal = (TextView) parent.findViewById(R.id.tvDishDeliveryOnDateVal);
             bViewCancelOrder = (Button) parent.findViewById(R.id.bViewCancelOrder);
         }
 
@@ -128,8 +128,9 @@ public class FoodiePendingOrdersRVAdapter extends RecyclerView.Adapter<FoodiePen
             }
             Utils.initTextView(tvOrderedFromChefVal, chefNames);
             Utils.initTextView(tvOrderedPriceVal, String.valueOf(order.getmTotal()));
-            Utils.initTextView(tvDishOrderedOnVal, order.getmOrderStatus().toString());
-            Utils.initTextView(tvDishOrderedDateVal, order.getmOrderedDate());
+            Utils.initTextView(tvDishOrderedOnVal, order.getmOrderedDate());
+            //TODO: get the delivery on date
+            Utils.initTextView(tvDishDeliveryOnDateVal, order.getmOrderedDate());
 
             bViewCancelOrder.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -1,6 +1,5 @@
 package com.apps.b3bytes.homefoods.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import android.widget.Toast;
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
-import com.apps.b3bytes.homefoods.models.ChefOrder;
 import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
 import com.apps.b3bytes.homefoods.utils.Utils;
@@ -22,24 +20,35 @@ import com.apps.b3bytes.homefoods.utils.Utils;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
 
 
 public class FoodiePastOrdersRVAdapter extends RecyclerView.Adapter<FoodiePastOrdersRVAdapter.ViewHolder> {
-    /* TODO: TEST DATA */
-    String[] dateArray = {"Apr 14, 2015", "Mar 09, 2015", "Aug 15, 2015", "Sep 01, 2015"};
-    String[] dishNameArray = {"Dish Name1", "Dish Name2", "Dish Name3", "Dish Name4"};
-    String[] chefNameArray = {"Chef Name1", "Chef Name2", "Chef Name3", "Chef Name4"};
-        /* TODO: END TEST DATA */
-
     onOrderDetailsClickListener orderDetailsClickListener;
+    OnBuyDishAgainClickListener buyDishAgainClickListener;
+    OnWriteDishReviewClickListener writeDishReviewClickListener;
 
     public interface onOrderDetailsClickListener {
         public void orderDetailsClicked(FoodieOrder foodieOrder);
     }
 
+    public interface OnBuyDishAgainClickListener {
+        public void buyDishAgainClicked(DishOrder dishOrder);
+    }
+
+    public interface OnWriteDishReviewClickListener {
+        public void writeDishReviewClicked(DishOrder dishOrder);
+    }
+
     public void setOnAddToCartClickListener(onOrderDetailsClickListener listener) {
         orderDetailsClickListener = listener;
+    }
+
+    public void setOnBuyDishAgainClickListener(OnBuyDishAgainClickListener listener) {
+        buyDishAgainClickListener = listener;
+    }
+
+    public void setOnWriteDishReviewClickListener(OnWriteDishReviewClickListener listener) {
+        writeDishReviewClickListener = listener;
     }
 
     public class DishLinkingFoodieOrder {
@@ -75,11 +84,6 @@ public class FoodiePastOrdersRVAdapter extends RecyclerView.Adapter<FoodiePastOr
                 }
             }
         });
-
-//        for (int i = 0; i < dishNameArray.length; i++) {
-//            FoodieOrder order = new FoodieOrder();
-//            items.add(order);
-//        }
     }
 
     public void SetOnItemClickListener(final ItemClickListener mItemClickListener) {
@@ -116,7 +120,6 @@ public class FoodiePastOrdersRVAdapter extends RecyclerView.Adapter<FoodiePastOr
         });
     }
 
-    // With the following method we check what type of view is being passed
     @Override
     public int getItemViewType(int position) {
         return position;
@@ -147,7 +150,7 @@ public class FoodiePastOrdersRVAdapter extends RecyclerView.Adapter<FoodiePastOr
         }
 
         public void bindView(DishLinkingFoodieOrder order) {
-            DishOrder dishOrder = order.dishOrder;
+            final DishOrder dishOrder = order.dishOrder;
             final FoodieOrder foodieOrder = order.foodieOrder;
 
             //TODO
@@ -157,6 +160,19 @@ public class FoodiePastOrdersRVAdapter extends RecyclerView.Adapter<FoodiePastOr
             Utils.initTextView(tvDishOrderedStatusVal, foodieOrder.getmOrderStatus().toString());
             Utils.initTextView(tvDishOrderedDateVal, foodieOrder.getmOrderedDate());
 
+            bBuyAgain.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    buyDishAgainClickListener.buyDishAgainClicked(dishOrder);
+                }
+            });
+
+            bWriteReview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    writeDishReviewClickListener.writeDishReviewClicked(dishOrder);
+                }
+            });
 
             bOrderDetails.setOnClickListener(new View.OnClickListener() {
                 @Override
