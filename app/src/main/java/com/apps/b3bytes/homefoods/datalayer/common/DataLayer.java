@@ -181,7 +181,7 @@ public class DataLayer {
         byte[] byteArray = stream.toByteArray();
 
         d.getmDish().setmChef(AppGlobalState.getmCurrentFoodie());
-        String fileName = d.getmDish().getmDishName() + d.getmDish().getmChef().getmTag();
+        String fileName = d.getmDish().getmDishName().replaceAll("\\s+", "") + d.getmDish().getmChef().getmTag();
         saveFile(byteArray, fileName, new DataLayer.SaveCallback() {
             @Override
             public void done(String objectId, Exception e) {

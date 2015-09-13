@@ -22,10 +22,11 @@ public class LogIn extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
-        Button bSignIn = (Button) findViewById(R.id.bSignIn);
+        final Button bSignIn = (Button) findViewById(R.id.bSignIn);
         bSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                bSignIn.setEnabled(false);
                 String uid = ((EditText) findViewById(R.id.etUserId)).getText().toString();
                 String password = ((EditText) findViewById(R.id.etPassword)).getText().toString();
                 AppGlobalState.signIn(uid, password, new DataLayer.SignInCallback() {

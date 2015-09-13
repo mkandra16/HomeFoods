@@ -276,6 +276,7 @@ public class ChefDishEditImageFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 readFields();
+                bDishImageSave.setEnabled(false);
                 mSaveCallback.onDishImageSaveSelected(mDish, mMode);
             }
         });
