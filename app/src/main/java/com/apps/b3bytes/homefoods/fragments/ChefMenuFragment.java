@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.activities.HomePage;
 import com.apps.b3bytes.homefoods.adapters.ChefMenuGridViewAdapter;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 
@@ -54,21 +55,14 @@ public class ChefMenuFragment extends Fragment {
 
     private ChefMenuGridViewAdapter aChefMenuGridView;
 
-    OnChefDishItemClickedListener mDishClickCallback;
-    OnChefDishItemAddListener mDishAddCallback;
+    fragment_action_request_handler mActionRequestCallback;
 
+    // Container Activity must implement this interface
+    public interface fragment_action_request_handler {
+        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
+    }
 
     public ChefMenuFragment() {
-    }
-
-    // Container Activity must implement this interface
-    public interface OnChefDishItemClickedListener {
-        public void onChefDishItemClicked(DishOnSale mDish);
-    }
-
-    // Container Activity must implement this interface
-    public interface OnChefDishItemAddListener {
-        public void onChefDishAddClicked();
     }
 
     @Override
@@ -96,19 +90,11 @@ public class ChefMenuFragment extends Fragment {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mDishClickCallback = (OnChefDishItemClickedListener) activity;
+            mActionRequestCallback = (fragment_action_request_handler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnChefDishItemClickedListener");
+                    + " must implement fragment_action_request_handler");
         }
-
-        try {
-            mDishAddCallback = (OnChefDishItemAddListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnChefDishItemAddListener");
-        }
-
     }
 
     @Override
@@ -152,14 +138,19 @@ public class ChefMenuFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 DishOnSale dish = aChefMenuGridView.getItem(position);
-                mDishClickCallback.onChefDishItemClicked(dish);
+                Bundle args = new Bundle();
+                args.putParcelable("dish", dish);
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefMenuFragment_ID,
+                        HomePage.ACTION_DISH_ITEM_CLICK_ChefMenuFragment_ID, args);
             }
         });
 
         fabAddDish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mDishAddCallback.onChefDishAddClicked();
+                Bundle args = new Bundle();
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefMenuFragment_ID,
+                        HomePage.ACTION_DISH_ADD_ChefMenuFragment_ID, args);
             }
         });
     }

@@ -32,14 +32,14 @@ public class FoodieHomeFragment extends Fragment implements FoodieResultsAdapter
     private RecyclerView.LayoutManager mLayoutManager;
     private Button bCartItemsCount;
 
-    OnCheckoutCartClickedListener mCheckoutCartCallback;
-
-    public FoodieHomeFragment() {
-    }
+    fragment_action_request_handler mActionRequestCallback;
 
     // Container Activity must implement this interface
-    public interface OnCheckoutCartClickedListener {
-        public void OnCheckoutCartClicked();
+    public interface fragment_action_request_handler {
+        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
+    }
+
+    public FoodieHomeFragment() {
     }
 
     @Override
@@ -68,10 +68,10 @@ public class FoodieHomeFragment extends Fragment implements FoodieResultsAdapter
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mCheckoutCartCallback = (OnCheckoutCartClickedListener) activity;
+            mActionRequestCallback = (fragment_action_request_handler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnCheckoutCartClickedListener");
+                    + " must implement fragment_action_request_handler");
         }
     }
 
@@ -156,7 +156,9 @@ public class FoodieHomeFragment extends Fragment implements FoodieResultsAdapter
         bCartItemsCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCheckoutCartCallback.OnCheckoutCartClicked();
+                Bundle args = new Bundle();
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieHomeFragment_ID,
+                        HomePage.ACTION_CHECKOUT_CART_FoodieHomeFragment_ID, args);
             }
         });
 
@@ -169,7 +171,7 @@ public class FoodieHomeFragment extends Fragment implements FoodieResultsAdapter
         switch (item.getItemId()) {
             // this is not getting invoked now. hence added a clicklistener to button
             case R.id.action_checkout_cart:
-                mCheckoutCartCallback.OnCheckoutCartClicked();
+                //mCheckoutCartCallback.OnCheckoutCartClicked();
                 return true;
             default:
                 break;

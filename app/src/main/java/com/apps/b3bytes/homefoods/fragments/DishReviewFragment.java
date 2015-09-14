@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.activities.HomePage;
 import com.apps.b3bytes.homefoods.adapters.DishReviewsRVAdapter;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.DishReview;
@@ -49,10 +50,11 @@ public class DishReviewFragment extends Fragment {
     private DishReviewsRVAdapter rvAdapter;
     private DishOnSale mDish;
 
-    FragmentHomeUpButtonHandler mHomeUpHandler;
+    fragment_action_request_handler mActionRequestCallback;
 
-    public interface FragmentHomeUpButtonHandler {
-        public void FragmentHomeUpButton(boolean who);
+    // Container Activity must implement this interface
+    public interface fragment_action_request_handler {
+        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
     }
 
     public DishReviewFragment() {
@@ -78,7 +80,10 @@ public class DishReviewFragment extends Fragment {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
         // Tell the Activity to let fragments handle the menu events
-        mHomeUpHandler.FragmentHomeUpButton(false);
+        Bundle args = new Bundle();
+        args.putBoolean("canActivityHandle", false);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_DishReviewFragment_ID,
+                HomePage.ACTION_HOMEUP_DishReviewFragment_ID, args);
 
         actionBar.setTitle("Reviews");
     }
@@ -93,10 +98,10 @@ public class DishReviewFragment extends Fragment {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mHomeUpHandler = (FragmentHomeUpButtonHandler) activity;
+            mActionRequestCallback = (fragment_action_request_handler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement FragmentHomeUpButtonHandler");
+                    + " must implement fragment_action_request_handler");
         }
     }
 
@@ -105,7 +110,10 @@ public class DishReviewFragment extends Fragment {
         super.onDetach();
 
         // Tell the Activity that it can now handle menu events once again
-        mHomeUpHandler.FragmentHomeUpButton(true);
+        Bundle args = new Bundle();
+        args.putBoolean("canActivityHandle", true);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_DishReviewFragment_ID,
+                HomePage.ACTION_HOMEUP_DishReviewFragment_ID, args);
     }
 
     @Override

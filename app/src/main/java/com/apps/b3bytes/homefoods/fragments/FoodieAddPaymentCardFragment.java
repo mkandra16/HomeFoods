@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.activities.HomePage;
 
 public class FoodieAddPaymentCardFragment extends Fragment {
     private FragmentActivity mContext;
@@ -31,20 +32,11 @@ public class FoodieAddPaymentCardFragment extends Fragment {
 
     private boolean mAlertDiscardChanges;
 
-    FragmentHomeUpButtonHandler mHomeUpHandler;
-    OnSaveCardSelectedListener mSaveCardCallback;
-    OnAddBillingAddressSelectedListener mAddBillingAddressCallback;
+    fragment_action_request_handler mActionRequestCallback;
 
-    public interface FragmentHomeUpButtonHandler {
-        public void FragmentHomeUpButton(boolean who);
-    }
-
-    public interface OnSaveCardSelectedListener {
-        public void OnSaveCardSelected();
-    }
-
-    public interface OnAddBillingAddressSelectedListener {
-        public void OnAddBillingAddressSelected();
+    // Container Activity must implement this interface
+    public interface fragment_action_request_handler {
+        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
     }
 
     public FoodieAddPaymentCardFragment() {
@@ -71,14 +63,18 @@ public class FoodieAddPaymentCardFragment extends Fragment {
         tvBillingAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAddBillingAddressCallback.OnAddBillingAddressSelected();
+                Bundle args = new Bundle();
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddPaymentCardFragment_ID,
+                        HomePage.ACTION_ADD_BILLING_ADDRESS_FoodieAddPaymentCardFragment_ID, args);
             }
         });
 
         bAddCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSaveCardCallback.OnSaveCardSelected();
+                Bundle args = new Bundle();
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddPaymentCardFragment_ID,
+                        HomePage.ACTION_SAVE_CARD_FoodieAddPaymentCardFragment_ID, args);
             }
         });
 
@@ -115,24 +111,10 @@ public class FoodieAddPaymentCardFragment extends Fragment {
         super.onAttach(activity);
 
         try {
-            mHomeUpHandler = (FragmentHomeUpButtonHandler) activity;
+            mActionRequestCallback = (fragment_action_request_handler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement FragmentHomeUpButtonHandler");
-        }
-
-        try {
-            mSaveCardCallback = (OnSaveCardSelectedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnSaveCardSelectedListener");
-        }
-
-        try {
-            mAddBillingAddressCallback = (OnAddBillingAddressSelectedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnAddBillingAddressSelectedListener");
+                    + " must implement fragment_action_request_handler");
         }
     }
 
@@ -141,7 +123,10 @@ public class FoodieAddPaymentCardFragment extends Fragment {
         super.onDetach();
 
         // Tell the Activity that it can now handle menu events once again
-        mHomeUpHandler.FragmentHomeUpButton(true);
+        Bundle args = new Bundle();
+        args.putBoolean("canActivityHandle", true);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddPaymentCardFragment_ID,
+                HomePage.ACTION_HOMEUP_FoodieAddPaymentCardFragment_ID, args);
     }
 
     @Override
@@ -165,8 +150,11 @@ public class FoodieAddPaymentCardFragment extends Fragment {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
         // Tell the Activity to let fragments handle the menu events
-        mHomeUpHandler.FragmentHomeUpButton(false);
-
+        Bundle args = new Bundle();
+        args.putBoolean("canActivityHandle", false);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddPaymentCardFragment_ID,
+                HomePage.ACTION_HOMEUP_FoodieAddPaymentCardFragment_ID, args);
+        
         actionBar.setTitle("Payment Method");
     }
 

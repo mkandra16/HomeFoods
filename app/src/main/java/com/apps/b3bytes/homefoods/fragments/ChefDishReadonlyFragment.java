@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.activities.HomePage;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 
 
@@ -62,20 +63,15 @@ public class ChefDishReadonlyFragment extends Fragment {
 
     private DishOnSale mDish;
 
-    OnDishReadOnlyEditSelectedListener mEditCallback;
-    FragmentHomeUpButtonHandler mHomeUpHandler;
-
-    public ChefDishReadonlyFragment(){
-        mDish = null;
-    }
+    fragment_action_request_handler mActionRequestCallback;
 
     // Container Activity must implement this interface
-    public interface OnDishReadOnlyEditSelectedListener {
-        public void OnDishReadOnlyEditSelected(DishOnSale mDish, int section);
+    public interface fragment_action_request_handler {
+        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
     }
 
-    public interface FragmentHomeUpButtonHandler {
-        public void FragmentHomeUpButton(boolean who);
+    public ChefDishReadonlyFragment() {
+        mDish = null;
     }
 
     @Override
@@ -96,7 +92,10 @@ public class ChefDishReadonlyFragment extends Fragment {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
         // Tell the Activity to let fragments handle the menu events
-        mHomeUpHandler.FragmentHomeUpButton(false);
+        Bundle args = new Bundle();
+        args.putBoolean("canActivityHandle", false);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishReadonlyFragment_ID,
+                HomePage.ACTION_HOMEUP_ChefDishReadonlyFragment_ID, args);
 
         actionBar.setTitle(mDish.getmDish().getmDishName());
     }
@@ -111,17 +110,10 @@ public class ChefDishReadonlyFragment extends Fragment {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mEditCallback = (OnDishReadOnlyEditSelectedListener) activity;
+            mActionRequestCallback = (fragment_action_request_handler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnDishReadOnlyEditSelectedListener");
-        }
-
-        try {
-            mHomeUpHandler = (FragmentHomeUpButtonHandler) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement FragmentHomeUpButtonHandler");
+                    + " must implement fragment_action_request_handler");
         }
     }
 
@@ -130,7 +122,10 @@ public class ChefDishReadonlyFragment extends Fragment {
         super.onDetach();
 
         // Tell the Activity that it can now handle menu events once again
-        mHomeUpHandler.FragmentHomeUpButton(true);
+        Bundle args = new Bundle();
+        args.putBoolean("canActivityHandle", true);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishReadonlyFragment_ID,
+                HomePage.ACTION_HOMEUP_ChefDishReadonlyFragment_ID, args);
     }
 
     @Override
@@ -139,67 +134,82 @@ public class ChefDishReadonlyFragment extends Fragment {
 
         rootView = inflater.inflate(R.layout.fragment_chef_dish_read_only, container, false);
 
-        rlDishInfo = (RelativeLayout)rootView.findViewById(R.id.rlDishInfo);
-        ivDishInfoEdit = (ImageView)rlDishInfo.findViewById(R.id.ivDishInfoEdit);
+        rlDishInfo = (RelativeLayout) rootView.findViewById(R.id.rlDishInfo);
+        ivDishInfoEdit = (ImageView) rlDishInfo.findViewById(R.id.ivDishInfoEdit);
         tvDishEditDishName = (TextView) rlDishInfo.findViewById(R.id.tvDishEditDishName);
         tvDishEditDishInfo = (TextView) rlDishInfo.findViewById(R.id.tvDishEditDishInfo);
         tvDishEditDishPrep = (TextView) rlDishInfo.findViewById(R.id.tvDishEditDishPrep);
         tvDishEditCuisine = (TextView) rlDishInfo.findViewById(R.id.tvDishEditCuisine);
         cbDishEditVegan = (CheckBox) rlDishInfo.findViewById(R.id.cbDishEditVegan);
 
-        rlDishPrice = (RelativeLayout)rootView.findViewById(R.id.rlDishPrice);
-        ivDishPriceEdit = (ImageView)rlDishPrice.findViewById(R.id.ivDishPriceEdit);
+        rlDishPrice = (RelativeLayout) rootView.findViewById(R.id.rlDishPrice);
+        ivDishPriceEdit = (ImageView) rlDishPrice.findViewById(R.id.ivDishPriceEdit);
         tvDishQtyPerUnit = (TextView) rlDishPrice.findViewById(R.id.tvDishQtyPerUnit);
         tvDishEditPrice = (TextView) rlDishPrice.findViewById(R.id.tvDishEditPrice);
         tvDishEditQuantity = (TextView) rlDishPrice.findViewById(R.id.tvDishEditQuantity);
 
-        rlDishAvil = (RelativeLayout)rootView.findViewById(R.id.rlDishAvil);
-        ivDishAvailEdit = (ImageView)rlDishAvil.findViewById(R.id.ivDishAvailEdit);
+        rlDishAvil = (RelativeLayout) rootView.findViewById(R.id.rlDishAvil);
+        ivDishAvailEdit = (ImageView) rlDishAvil.findViewById(R.id.ivDishAvailEdit);
         rlDishEditFromDatePicker = (RelativeLayout) rlDishAvil.findViewById(R.id.rlDishEditFromDatePicker);
-        tvDishEditFromDatePicker = (TextView)rlDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker);
-        tvDishEditFromTimePicker = (TextView)rlDishEditFromDatePicker.findViewById(R.id.tvDishEditTimePicker);
+        tvDishEditFromDatePicker = (TextView) rlDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker);
+        tvDishEditFromTimePicker = (TextView) rlDishEditFromDatePicker.findViewById(R.id.tvDishEditTimePicker);
         rlDishEditToDatePicker = (RelativeLayout) rlDishAvil.findViewById(R.id.rlDishEditToDatePicker);
-        tvDishEditToDatePicker = (TextView)rlDishEditToDatePicker.findViewById(R.id.tvDishEditDatePicker);
-        tvDishEditToTimePicker = (TextView)rlDishEditToDatePicker.findViewById(R.id.tvDishEditTimePicker);
+        tvDishEditToDatePicker = (TextView) rlDishEditToDatePicker.findViewById(R.id.tvDishEditDatePicker);
+        tvDishEditToTimePicker = (TextView) rlDishEditToDatePicker.findViewById(R.id.tvDishEditTimePicker);
         llDishEditPickupDelivery = (LinearLayout) rlDishAvil.findViewById(R.id.llDishEditPickupDelivery);
         cbDishEditPickUp = (CheckBox) llDishEditPickupDelivery.findViewById(R.id.cbDishEditPickUp);
         cbDishEditDelivery = (CheckBox) llDishEditPickupDelivery.findViewById(R.id.cbDishEditDelivery);
 
-        rlDishImage = (RelativeLayout)rootView.findViewById(R.id.rlDishImage);
-        ivDishImageEdit = (ImageView)rlDishImage.findViewById(R.id.ivDishImageEdit);
+        rlDishImage = (RelativeLayout) rootView.findViewById(R.id.rlDishImage);
+        ivDishImageEdit = (ImageView) rlDishImage.findViewById(R.id.ivDishImageEdit);
         ivDishEditDishImage = (ImageView) rlDishImage.findViewById(R.id.ivDishEditDishImage);
         tvDishAdditionalInfo = (TextView) rlDishImage.findViewById(R.id.tvDishAdditionalInfo);
 
         ivDishInfoEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mEditCallback.OnDishReadOnlyEditSelected(mDish, DISH_EDIT_SECTION_INFO);
+                Bundle args = new Bundle();
+                args.putParcelable("dish", mDish);
+                args.putInt("section", DISH_EDIT_SECTION_INFO);
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishReadonlyFragment_ID,
+                        HomePage.ACTION_EDIT_ChefDishReadonlyFragment_ID, args);
             }
         });
 
         ivDishPriceEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mEditCallback.OnDishReadOnlyEditSelected(mDish, DISH_EDIT_SECTION_PRICE);
+                Bundle args = new Bundle();
+                args.putParcelable("dish", mDish);
+                args.putInt("section", DISH_EDIT_SECTION_PRICE);
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishReadonlyFragment_ID,
+                        HomePage.ACTION_EDIT_ChefDishReadonlyFragment_ID, args);
             }
         });
 
         ivDishAvailEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mEditCallback.OnDishReadOnlyEditSelected(mDish, DISH_EDIT_SECTION_AVAIL);
+                Bundle args = new Bundle();
+                args.putParcelable("dish", mDish);
+                args.putInt("section", DISH_EDIT_SECTION_AVAIL);
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishReadonlyFragment_ID,
+                        HomePage.ACTION_EDIT_ChefDishReadonlyFragment_ID, args);
             }
         });
 
         ivDishImageEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mEditCallback.OnDishReadOnlyEditSelected(mDish, DISH_EDIT_SECTION_IMAGE);
+                Bundle args = new Bundle();
+                args.putParcelable("dish", mDish);
+                args.putInt("section", DISH_EDIT_SECTION_IMAGE);
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishReadonlyFragment_ID,
+                        HomePage.ACTION_EDIT_ChefDishReadonlyFragment_ID, args);
             }
         });
 
         updateFields(rootView);
-
 
 
         return rootView;

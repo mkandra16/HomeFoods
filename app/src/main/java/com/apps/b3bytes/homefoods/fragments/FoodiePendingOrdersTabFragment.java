@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.activities.HomePage;
 import com.apps.b3bytes.homefoods.adapters.FoodiePendingOrdersRVAdapter;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
 
@@ -21,11 +22,11 @@ public class FoodiePendingOrdersTabFragment extends Fragment implements FoodiePe
     private FoodiePendingOrdersRVAdapter adapter;
     private Context mContext;
 
-    OnViewCancelOrderListener mViewCancelOrderCallback;
+    fragment_action_request_handler mActionRequestCallback;
 
     // Container Activity must implement this interface
-    public interface OnViewCancelOrderListener {
-        public void OnViewCancelOrderClicked(FoodieOrder foodieOrder);
+    public interface fragment_action_request_handler {
+        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
     }
 
     @Override
@@ -41,13 +42,11 @@ public class FoodiePendingOrdersTabFragment extends Fragment implements FoodiePe
         mContext = activity;
         super.onAttach(activity);
 
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
         try {
-            mViewCancelOrderCallback = (OnViewCancelOrderListener) activity;
+            mActionRequestCallback = (fragment_action_request_handler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnViewCancelOrderListener");
+                    + " must implement fragment_action_request_handler");
         }
     }
 
@@ -70,6 +69,9 @@ public class FoodiePendingOrdersTabFragment extends Fragment implements FoodiePe
     }
 
     public void viewCancelOrderClicked(FoodieOrder foodieOrder) {
-        mViewCancelOrderCallback.OnViewCancelOrderClicked(foodieOrder);
+        Bundle args = new Bundle();
+        args.putParcelable("foodieOrder", foodieOrder);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodiePendingOrdersTabFragment_ID,
+                HomePage.ACTION_CANCEL_ORDER_FoodiePendingOrdersTabFragment_ID, args);
     }
 }

@@ -44,26 +44,11 @@ public class ChefDishEditInfoFragment extends Fragment {
     private Button bDishInfoNext;
     private Button bDishInfoSave;
 
-    OnDishInfoNextSelectedListener mNextCallback;
-    OnDishImageSaveSelectedListener mSaveCallback;
-    OnDishEditCancelSelectedListener mCancelCallback;
-    FragmentHomeUpButtonHandler mHomeUpHandler;
+    fragment_action_request_handler mActionRequestCallback;
 
     // Container Activity must implement this interface
-    public interface OnDishInfoNextSelectedListener {
-        public void onDishInfoNextSelected(DishOnSale mDish);
-    }
-
-    public interface OnDishImageSaveSelectedListener {
-        public void onDishImageSaveSelected(DishOnSale mDish, int mode);
-    }
-
-    public interface OnDishEditCancelSelectedListener {
-        public void OnDishEditCancelSelected(boolean changed, int mode);
-    }
-
-    public interface FragmentHomeUpButtonHandler {
-        public void FragmentHomeUpButton(boolean who);
+    public interface fragment_action_request_handler {
+        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
     }
 
     @Override
@@ -75,31 +60,10 @@ public class ChefDishEditInfoFragment extends Fragment {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mNextCallback = (OnDishInfoNextSelectedListener) activity;
+            mActionRequestCallback = (fragment_action_request_handler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnDishInfoNextSelectedListener");
-        }
-
-        try {
-            mSaveCallback = (OnDishImageSaveSelectedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnDishImageSaveSelectedListener");
-        }
-
-        try {
-            mCancelCallback = (OnDishEditCancelSelectedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnDishEditCancelSelectedListener");
-        }
-
-        try {
-            mHomeUpHandler = (FragmentHomeUpButtonHandler) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement FragmentHomeUpButtonHandler");
+                    + " must implement fragment_action_request_handler");
         }
     }
 
@@ -108,7 +72,10 @@ public class ChefDishEditInfoFragment extends Fragment {
         super.onDetach();
 
         // Tell the Activity that it can now handle menu events once again
-        mHomeUpHandler.FragmentHomeUpButton(true);
+        Bundle args = new Bundle();
+        args.putBoolean("canActivityHandle", true);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditInfoFragment_ID,
+                HomePage.ACTION_HOMEUP_ChefDishEditInfoFragment_ID, args);
     }
 
     @Override
@@ -130,10 +97,10 @@ public class ChefDishEditInfoFragment extends Fragment {
 
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         // Tell the Activity to let fragments handle the menu events
-        mHomeUpHandler.FragmentHomeUpButton(false);
-
-       // actionBar.setDisplayHomeAsUpEnabled(true);
-       // actionBar.setHomeButtonEnabled(true);
+        Bundle args = new Bundle();
+        args.putBoolean("canActivityHandle", false);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditInfoFragment_ID,
+                HomePage.ACTION_HOMEUP_ChefDishEditInfoFragment_ID, args);
 
         if (mMode == HomePage.DISH_SECTION_EDIT_ALL)
             actionBar.setTitle("Add Dish");
@@ -266,8 +233,12 @@ public class ChefDishEditInfoFragment extends Fragment {
             public void onClick(View view) {
                 readFields();
                 boolean gotAllData = checkForMustData();
-                if (gotAllData)
-                    mNextCallback.onDishInfoNextSelected(mDish);
+                if (gotAllData) {
+                    Bundle args = new Bundle();
+                    args.putParcelable("dish", mDish);
+                    mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditInfoFragment_ID,
+                            HomePage.ACTION_NEXT_ChefDishEditInfoFragment_ID, args);
+                }
             }
         });
 
@@ -276,8 +247,13 @@ public class ChefDishEditInfoFragment extends Fragment {
             public void onClick(View view) {
                 readFields();
                 boolean gotAllData = checkForMustData();
-                if (gotAllData)
-                    mSaveCallback.onDishImageSaveSelected(mDish, HomePage.DISH_SECTION_EDIT_SINGLE);
+                if (gotAllData) {
+                    Bundle args = new Bundle();
+                    args.putParcelable("dish", mDish);
+                    args.putInt("mode", HomePage.DISH_SECTION_EDIT_SINGLE);
+                    mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditInfoFragment_ID,
+                            HomePage.ACTION_NEXT_ChefDishEditInfoFragment_ID, args);
+                }
             }
         });
 
@@ -301,7 +277,11 @@ public class ChefDishEditInfoFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_cancel_edit:
-                mCancelCallback.OnDishEditCancelSelected(mAlertDiscardChanges, mMode);
+                Bundle args = new Bundle();
+                args.putBoolean("onChanged", mAlertDiscardChanges);
+                args.putInt("mode", mMode);
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditInfoFragment_ID,
+                        HomePage.ACTION_CANCEL_ChefDishEditInfoFragment_ID, args);
                 return true;
             default:
                 break;

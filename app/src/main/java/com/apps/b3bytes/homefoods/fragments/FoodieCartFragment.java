@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
+import com.apps.b3bytes.homefoods.activities.HomePage;
 import com.apps.b3bytes.homefoods.adapters.DishOrdersListAdapter;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.Foodie;
@@ -37,16 +38,11 @@ public class FoodieCartFragment extends Fragment implements DishOrdersListAdapte
 
     private int currentId;
 
-    OnProceedToPaymentSelectedListener mProceedToPaymentCallback;
-    FragmentHomeUpButtonHandler mHomeUpHandler;
+    fragment_action_request_handler mActionRequestCallback;
 
     // Container Activity must implement this interface
-    public interface OnProceedToPaymentSelectedListener {
-        public void OnProceedToPaymentSelected();
-    }
-
-    public interface FragmentHomeUpButtonHandler {
-        public void FragmentHomeUpButton(boolean who);
+    public interface fragment_action_request_handler {
+        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
     }
 
     public FoodieCartFragment() {
@@ -71,17 +67,10 @@ public class FoodieCartFragment extends Fragment implements DishOrdersListAdapte
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mProceedToPaymentCallback = (OnProceedToPaymentSelectedListener) activity;
+            mActionRequestCallback = (fragment_action_request_handler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnProceedToPaymentSelectedListener");
-        }
-
-        try {
-            mHomeUpHandler = (FragmentHomeUpButtonHandler) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement FragmentHomeUpButtonHandler");
+                    + " must implement fragment_action_request_handler");
         }
     }
 
@@ -90,7 +79,10 @@ public class FoodieCartFragment extends Fragment implements DishOrdersListAdapte
         super.onDetach();
 
         // Tell the Activity that it can now handle menu events once again
-        mHomeUpHandler.FragmentHomeUpButton(true);
+        Bundle args = new Bundle();
+        args.putBoolean("canActivityHandle", true);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCartFragment_ID,
+                HomePage.ACTION_HOMEUP_FoodieCartFragment_ID, args);
     }
 
     @Override
@@ -134,7 +126,9 @@ public class FoodieCartFragment extends Fragment implements DishOrdersListAdapte
         bCheckOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mProceedToPaymentCallback.OnProceedToPaymentSelected();
+                Bundle args = new Bundle();
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCartFragment_ID,
+                        HomePage.ACTION_PROCEED_PAYMENT_FoodieCartFragment_ID, args);
             }
         });
         return llOrderProceedToPayment;
@@ -194,7 +188,10 @@ public class FoodieCartFragment extends Fragment implements DishOrdersListAdapte
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
         // Tell the Activity to let fragments handle the menu events
-        mHomeUpHandler.FragmentHomeUpButton(false);
+        Bundle args = new Bundle();
+        args.putBoolean("canActivityHandle", false);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCartFragment_ID,
+                HomePage.ACTION_HOMEUP_FoodieCartFragment_ID, args);
 
         actionBar.setTitle("Cart");
     }

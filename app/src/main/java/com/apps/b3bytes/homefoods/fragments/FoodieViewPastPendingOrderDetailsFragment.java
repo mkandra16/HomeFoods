@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.activities.HomePage;
 import com.apps.b3bytes.homefoods.models.ChefOrder;
 import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
@@ -34,26 +35,11 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
 
     private int currentId;
 
-    FragmentHomeUpButtonHandler mHomeUpHandler;
-    OnPendingOrderCancelClickedListener mCancelOrderCallback;
-    OnBuyDishAgainListener mBuyDishAgainCallback;
-    OnWriteDishReviewListener mWriteDishReviewCallback;
+    fragment_action_request_handler mActionRequestCallback;
 
     // Container Activity must implement this interface
-    public interface OnBuyDishAgainListener {
-        public void OnBuyDishAgainClicked(DishOrder dishOrder);
-    }
-
-    public interface OnWriteDishReviewListener {
-        public void OnWriteDishReviewClicked(DishOrder dishOrder);
-    }
-
-    public interface FragmentHomeUpButtonHandler {
-        public void FragmentHomeUpButton(boolean who);
-    }
-
-    public interface OnPendingOrderCancelClickedListener {
-        public void OnPendingOrderCancelClicked(FoodieOrder foodieOrder);
+    public interface fragment_action_request_handler {
+        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
     }
 
     public FoodieViewPastPendingOrderDetailsFragment() {
@@ -75,34 +61,11 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
         mContext = (FragmentActivity) activity;
         super.onAttach(activity);
 
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
         try {
-            mHomeUpHandler = (FragmentHomeUpButtonHandler) activity;
+            mActionRequestCallback = (fragment_action_request_handler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement FragmentHomeUpButtonHandler");
-        }
-
-        try {
-            mCancelOrderCallback = (OnPendingOrderCancelClickedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnPendingOrderCancelClickedListener");
-        }
-
-        try {
-            mBuyDishAgainCallback = (OnBuyDishAgainListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnBuyDishAgainListener");
-        }
-
-        try {
-            mWriteDishReviewCallback = (OnWriteDishReviewListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnWriteDishReviewListener");
+                    + " must implement fragment_action_request_handler");
         }
     }
 
@@ -111,7 +74,10 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
         super.onDetach();
 
         // Tell the Activity that it can now handle menu events once again
-        mHomeUpHandler.FragmentHomeUpButton(true);
+        Bundle args = new Bundle();
+        args.putBoolean("canActivityHandle", true);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieViewPastPendingOrderDetailsFragment_ID,
+                HomePage.ACTION_HOMEUP_FoodieViewPastPendingOrderDetailsFragment_ID, args);
     }
 
     @Override
@@ -167,7 +133,10 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
         bCancelOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCancelOrderCallback.OnPendingOrderCancelClicked(mFoodieOrder);
+                Bundle args = new Bundle();
+                args.putParcelable("foodieOrder", mFoodieOrder);
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieViewPastPendingOrderDetailsFragment_ID,
+                        HomePage.ACTION_CANCEL_ORDER_FoodieViewPastPendingOrderDetailsFragment_ID, args);
             }
         });
 
@@ -193,14 +162,20 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
             bBuyAgain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mBuyDishAgainCallback.OnBuyDishAgainClicked(finalDishOrder);
+                    Bundle args = new Bundle();
+                    args.putParcelable("dishOrder", finalDishOrder);
+                    mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieViewPastPendingOrderDetailsFragment_ID,
+                            HomePage.ACTION_BUY_DISH_AGAIN_FoodieViewPastPendingOrderDetailsFragment_ID, args);
                 }
             });
 
             bWriteReview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mWriteDishReviewCallback.OnWriteDishReviewClicked(finalDishOrder);
+                    Bundle args = new Bundle();
+                    args.putParcelable("dishOrder", finalDishOrder);
+                    mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieViewPastPendingOrderDetailsFragment_ID,
+                            HomePage.ACTION_WRITE_DISH_REVIEW_FoodieViewPastPendingOrderDetailsFragment_ID, args);
                 }
             });
         } else {
@@ -235,7 +210,10 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
         // Tell the Activity to let fragments handle the menu events
-        mHomeUpHandler.FragmentHomeUpButton(false);
+        Bundle args = new Bundle();
+        args.putBoolean("canActivityHandle", false);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieViewPastPendingOrderDetailsFragment_ID,
+                HomePage.ACTION_HOMEUP_FoodieViewPastPendingOrderDetailsFragment_ID, args);
 
         actionBar.setTitle("Order Details");
     }

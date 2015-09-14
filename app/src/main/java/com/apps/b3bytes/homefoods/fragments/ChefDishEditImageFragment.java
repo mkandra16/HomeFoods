@@ -24,7 +24,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.activities.HomePage;
@@ -47,33 +46,17 @@ public class ChefDishEditImageFragment extends Fragment {
     private LinearLayout llDishImageSaveButtons;
     private Button bDishImageSaveOnly;
 
-    OnDishImageSaveSelectedListener mSaveCallback;
-    OnDishImageBackSelectedListener mBackCallback;
-    OnDishEditCancelSelectedListener mCancelCallback;
-    FragmentHomeUpButtonHandler mHomeUpHandler;
-
     private Uri outputFileUri;
     protected static final int CAMERA_REQUEST = 0;
     protected static final int GALLERY_PICTURE = 1;
     private Intent pictureActionIntent = null;
     private Uri selectedImageUri;
 
-    // Container Activity must implement this interface
-    public interface OnDishImageSaveSelectedListener {
-        public void onDishImageSaveSelected(DishOnSale mDish, int mode);
-    }
+    fragment_action_request_handler mActionRequestCallback;
 
     // Container Activity must implement this interface
-    public interface OnDishImageBackSelectedListener {
-        public void onDishImageBackSelected(DishOnSale mDish);
-    }
-
-    public interface OnDishEditCancelSelectedListener {
-        public void OnDishEditCancelSelected(boolean changed, int mode);
-    }
-
-    public interface FragmentHomeUpButtonHandler {
-        public void FragmentHomeUpButton(boolean who);
+    public interface fragment_action_request_handler {
+        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
     }
 
     @Override
@@ -85,31 +68,10 @@ public class ChefDishEditImageFragment extends Fragment {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mSaveCallback = (OnDishImageSaveSelectedListener) activity;
+            mActionRequestCallback = (fragment_action_request_handler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnDishImageSaveSelectedListener");
-        }
-
-        try {
-            mBackCallback = (OnDishImageBackSelectedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnDishImageBackSelectedListener");
-        }
-
-        try {
-            mCancelCallback = (OnDishEditCancelSelectedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnDishEditCancelSelectedListener");
-        }
-
-        try {
-            mHomeUpHandler = (FragmentHomeUpButtonHandler) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement FragmentHomeUpButtonHandler");
+                    + " must implement fragment_action_request_handler");
         }
     }
 
@@ -118,7 +80,10 @@ public class ChefDishEditImageFragment extends Fragment {
         super.onDetach();
 
         // Tell the Activity that it can now handle menu events once again
-        mHomeUpHandler.FragmentHomeUpButton(true);
+        Bundle args = new Bundle();
+        args.putBoolean("canActivityHandle", true);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditImageFragment_ID,
+                HomePage.ACTION_HOMEUP_ChefDishEditImageFragment_ID, args);
     }
 
     @Override
@@ -128,7 +93,10 @@ public class ChefDishEditImageFragment extends Fragment {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
         // Tell the Activity to let fragments handle the menu events
-        mHomeUpHandler.FragmentHomeUpButton(false);
+        Bundle args = new Bundle();
+        args.putBoolean("canActivityHandle", false);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditImageFragment_ID,
+                HomePage.ACTION_HOMEUP_ChefDishEditImageFragment_ID, args);
 
         if (mMode == HomePage.DISH_SECTION_EDIT_ALL)
             actionBar.setTitle("Add Dish");
@@ -276,7 +244,11 @@ public class ChefDishEditImageFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 readFields();
-                mSaveCallback.onDishImageSaveSelected(mDish, mMode);
+                Bundle args = new Bundle();
+                args.putParcelable("dish", mDish);
+                args.putInt("mode", HomePage.DISH_SECTION_EDIT_SINGLE);
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditImageFragment_ID,
+                        HomePage.ACTION_SAVE_ChefDishEditImageFragment_ID, args);
             }
         });
 
@@ -284,7 +256,10 @@ public class ChefDishEditImageFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 readFields();
-                mBackCallback.onDishImageBackSelected(mDish);
+                Bundle args = new Bundle();
+                args.putParcelable("dish", mDish);
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditImageFragment_ID,
+                        HomePage.ACTION_BACK_ChefDishEditImageFragment_ID, args);
             }
         });
 
@@ -292,7 +267,11 @@ public class ChefDishEditImageFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 readFields();
-                mSaveCallback.onDishImageSaveSelected(mDish, mMode);
+                Bundle args = new Bundle();
+                args.putParcelable("dish", mDish);
+                args.putInt("mode", mMode);
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditImageFragment_ID,
+                        HomePage.ACTION_SAVE_ChefDishEditImageFragment_ID, args);
             }
         });
 
@@ -333,7 +312,7 @@ public class ChefDishEditImageFragment extends Fragment {
         menu.findItem(R.id.action_settings).setVisible(false).setEnabled(false);
         return;
     }
-    
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -346,7 +325,11 @@ public class ChefDishEditImageFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_cancel_edit:
-                mCancelCallback.OnDishEditCancelSelected(mAlertDiscardChanges, mMode);
+                Bundle args = new Bundle();
+                args.putBoolean("onChanged", mAlertDiscardChanges);
+                args.putInt("mode", mMode);
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditImageFragment_ID,
+                        HomePage.ACTION_CANCEL_ChefDishEditImageFragment_ID, args);
                 return true;
             default:
                 break;

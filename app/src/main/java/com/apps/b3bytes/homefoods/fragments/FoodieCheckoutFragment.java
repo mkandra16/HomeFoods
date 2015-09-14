@@ -10,23 +10,12 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
-import com.apps.b3bytes.homefoods.State.AppGlobalState;
-import com.apps.b3bytes.homefoods.adapters.DishOrdersListAdapter;
-import com.apps.b3bytes.homefoods.models.DishOnSale;
-import com.apps.b3bytes.homefoods.models.Foodie;
-import com.apps.b3bytes.homefoods.utils.ListViewHelper;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.apps.b3bytes.homefoods.activities.HomePage;
 
 public class FoodieCheckoutFragment extends Fragment {
     private FragmentActivity mContext;
@@ -35,20 +24,11 @@ public class FoodieCheckoutFragment extends Fragment {
     private Button bPlaceOrder;
     private LayoutInflater mInflater;
 
-    FragmentHomeUpButtonHandler mHomeUpHandler;
-    OnAddCardSelectedListener mAddCardCallback;
-    OnPlaceOrderSelectedListener mPlaceOrderCallback;
+    fragment_action_request_handler mActionRequestCallback;
 
-    public interface FragmentHomeUpButtonHandler {
-        public void FragmentHomeUpButton(boolean who);
-    }
-
-    public interface OnAddCardSelectedListener {
-        public void OnAddCardSelected();
-    }
-
-    public interface OnPlaceOrderSelectedListener {
-        public void OnPlaceOrderSelected();
+    // Container Activity must implement this interface
+    public interface fragment_action_request_handler {
+        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
     }
 
     public FoodieCheckoutFragment() {
@@ -65,7 +45,9 @@ public class FoodieCheckoutFragment extends Fragment {
         tvAddPaymentMethod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAddCardCallback.OnAddCardSelected();
+                Bundle args = new Bundle();
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCheckoutFragment_ID,
+                        HomePage.ACTION_ADD_CARD_FoodieCheckoutFragment_ID, args);
             }
         });
 
@@ -73,7 +55,9 @@ public class FoodieCheckoutFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(mContext, "Placing Order", Toast.LENGTH_SHORT).show();
-                mPlaceOrderCallback.OnPlaceOrderSelected();
+                Bundle args = new Bundle();
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCheckoutFragment_ID,
+                        HomePage.ACTION_PLACE_ORDER_FoodieCheckoutFragment_ID, args);
             }
         });
         return rootView;
@@ -85,24 +69,10 @@ public class FoodieCheckoutFragment extends Fragment {
         super.onAttach(activity);
 
         try {
-            mHomeUpHandler = (FragmentHomeUpButtonHandler) activity;
+            mActionRequestCallback = (fragment_action_request_handler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement FragmentHomeUpButtonHandler");
-        }
-
-        try {
-            mAddCardCallback = (OnAddCardSelectedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnAddCardSelectedListener");
-        }
-
-        try {
-            mPlaceOrderCallback = (OnPlaceOrderSelectedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnPlaceOrderSelectedListener");
+                    + " must implement fragment_action_request_handler");
         }
     }
 
@@ -111,7 +81,10 @@ public class FoodieCheckoutFragment extends Fragment {
         super.onDetach();
 
         // Tell the Activity that it can now handle menu events once again
-        mHomeUpHandler.FragmentHomeUpButton(true);
+        Bundle args = new Bundle();
+        args.putBoolean("canActivityHandle", true);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCheckoutFragment_ID,
+                HomePage.ACTION_HOMEUP_FoodieCheckoutFragment_ID, args);
     }
 
     @Override
@@ -135,7 +108,10 @@ public class FoodieCheckoutFragment extends Fragment {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
         // Tell the Activity to let fragments handle the menu events
-        mHomeUpHandler.FragmentHomeUpButton(false);
+        Bundle args = new Bundle();
+        args.putBoolean("canActivityHandle", false);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCheckoutFragment_ID,
+                HomePage.ACTION_HOMEUP_FoodieCheckoutFragment_ID, args);
 
         actionBar.setTitle("Checkout");
     }

@@ -12,26 +12,14 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
-import com.apps.b3bytes.homefoods.State.AppGlobalState;
-import com.apps.b3bytes.homefoods.adapters.DishOrdersListAdapter;
-import com.apps.b3bytes.homefoods.models.DishOnSale;
+import com.apps.b3bytes.homefoods.activities.HomePage;
 import com.apps.b3bytes.homefoods.models.DishOrder;
-import com.apps.b3bytes.homefoods.models.Foodie;
-import com.apps.b3bytes.homefoods.utils.ListViewHelper;
 import com.apps.b3bytes.homefoods.utils.Utils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class FoodieGiveDishReviewFragment extends Fragment {
     private FragmentActivity mContext;
@@ -43,11 +31,11 @@ public class FoodieGiveDishReviewFragment extends Fragment {
     private EditText etDishDetailedReview;
     private RatingBar rbDishReviewRateVal;
 
-    FragmentHomeUpButtonHandler mHomeUpHandler;
+    fragment_action_request_handler mActionRequestCallback;
 
-
-    public interface FragmentHomeUpButtonHandler {
-        public void FragmentHomeUpButton(boolean who);
+    // Container Activity must implement this interface
+    public interface fragment_action_request_handler {
+        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
     }
 
     public FoodieGiveDishReviewFragment() {
@@ -81,13 +69,11 @@ public class FoodieGiveDishReviewFragment extends Fragment {
         mContext = (FragmentActivity) activity;
         super.onAttach(activity);
 
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
         try {
-            mHomeUpHandler = (FragmentHomeUpButtonHandler) activity;
+            mActionRequestCallback = (fragment_action_request_handler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement FragmentHomeUpButtonHandler");
+                    + " must implement fragment_action_request_handler");
         }
     }
 
@@ -114,7 +100,10 @@ public class FoodieGiveDishReviewFragment extends Fragment {
         super.onDetach();
 
         // Tell the Activity that it can now handle menu events once again
-        mHomeUpHandler.FragmentHomeUpButton(true);
+        Bundle args = new Bundle();
+        args.putBoolean("canActivityHandle", true);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieGiveDishReviewFragment_ID,
+                HomePage.ACTION_HOMEUP_FoodieGiveDishReviewFragment_ID, args);
     }
 
     @Override
@@ -148,7 +137,10 @@ public class FoodieGiveDishReviewFragment extends Fragment {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
         // Tell the Activity to let fragments handle the menu events
-        mHomeUpHandler.FragmentHomeUpButton(false);
+        Bundle args = new Bundle();
+        args.putBoolean("canActivityHandle", false);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieGiveDishReviewFragment_ID,
+                HomePage.ACTION_HOMEUP_FoodieGiveDishReviewFragment_ID, args);
 
         actionBar.setTitle("Dish Review");
     }

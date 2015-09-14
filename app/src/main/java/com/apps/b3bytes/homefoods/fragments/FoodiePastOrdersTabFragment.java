@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.activities.HomePage;
 import com.apps.b3bytes.homefoods.adapters.FoodiePastOrdersRVAdapter;
 import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
@@ -25,21 +26,11 @@ public class FoodiePastOrdersTabFragment extends Fragment implements
     private RecyclerView rvFoodiePastOrders;
     private FoodiePastOrdersRVAdapter adapter;
 
-    OnOrderDetailsListener mOrderDetailsCallback;
-    OnBuyDishAgainListener mBuyDishAgainCallback;
-    OnWriteDishReviewListener mWriteDishReviewCallback;
+    fragment_action_request_handler mActionRequestCallback;
 
     // Container Activity must implement this interface
-    public interface OnOrderDetailsListener {
-        public void OnOrderDetailsClicked(FoodieOrder foodieOrder);
-    }
-
-    public interface OnBuyDishAgainListener {
-        public void OnBuyDishAgainClicked(DishOrder dishOrder);
-    }
-
-    public interface OnWriteDishReviewListener {
-        public void OnWriteDishReviewClicked(DishOrder dishOrder);
+    public interface fragment_action_request_handler {
+        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
     }
 
     @Override
@@ -59,24 +50,10 @@ public class FoodiePastOrdersTabFragment extends Fragment implements
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mOrderDetailsCallback = (OnOrderDetailsListener) activity;
+            mActionRequestCallback = (fragment_action_request_handler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnOrderDetailsListener");
-        }
-
-        try {
-            mBuyDishAgainCallback = (OnBuyDishAgainListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnBuyDishAgainListener");
-        }
-
-        try {
-            mWriteDishReviewCallback = (OnWriteDishReviewListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnWriteDishReviewListener");
+                    + " must implement fragment_action_request_handler");
         }
     }
 
@@ -102,14 +79,23 @@ public class FoodiePastOrdersTabFragment extends Fragment implements
     }
 
     public void orderDetailsClicked(FoodieOrder foodieOrder) {
-        mOrderDetailsCallback.OnOrderDetailsClicked(foodieOrder);
+        Bundle args = new Bundle();
+        args.putParcelable("foodieOrder", foodieOrder);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodiePastOrdersTabFragment_ID,
+                HomePage.ACTION_ORDER_DETAILS_FoodiePastOrdersTabFragment_ID, args);
     }
 
     public void buyDishAgainClicked(DishOrder dishOrder) {
-        mBuyDishAgainCallback.OnBuyDishAgainClicked(dishOrder);
+        Bundle args = new Bundle();
+        args.putParcelable("dishOrder", dishOrder);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodiePastOrdersTabFragment_ID,
+                HomePage.ACTION_BUY_DISH_AGAIN_FoodiePastOrdersTabFragment_ID, args);
     }
 
     public void writeDishReviewClicked(DishOrder dishOrder) {
-        mWriteDishReviewCallback.OnWriteDishReviewClicked(dishOrder);
+        Bundle args = new Bundle();
+        args.putParcelable("dishOrder", dishOrder);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodiePastOrdersTabFragment_ID,
+                HomePage.ACTION_WRITE_DISH_REVIEW_FoodiePastOrdersTabFragment_ID, args);
     }
 }

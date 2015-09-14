@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
+import com.apps.b3bytes.homefoods.activities.HomePage;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 
 public class DishDescFragment extends Fragment {
@@ -43,24 +44,29 @@ public class DishDescFragment extends Fragment {
     private TextView tvDishNutritionTab;
     private Button bCartItemsCount;
 
-    OnCheckoutCartClickedListener mCheckoutCartCallback;
-    OnDishReviewsClickedListener mDishReviewsCallback;
-    FragmentHomeUpButtonHandler mHomeUpHandler;
+    fragment_action_request_handler mActionRequestCallback;
 
     // Container Activity must implement this interface
-    public interface OnCheckoutCartClickedListener {
-        public void OnCheckoutCartClicked();
-    }
-
-    public interface OnDishReviewsClickedListener {
-        public void OnDishReviewsClicked(DishOnSale dish);
-    }
-
-    public interface FragmentHomeUpButtonHandler {
-        public void FragmentHomeUpButton(boolean who);
+    public interface fragment_action_request_handler {
+        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
     }
 
     public DishDescFragment() {
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        mContext = (FragmentActivity) activity;
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mActionRequestCallback = (fragment_action_request_handler) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement fragment_action_request_handler");
+        }
     }
 
     @Override
@@ -108,39 +114,13 @@ public class DishDescFragment extends Fragment {
         tvDishReviews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mDishReviewsCallback.OnDishReviewsClicked(mDish);
+                Bundle args = new Bundle();
+                args.putParcelable("dish", mDish);
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_DishDescFragment_ID,
+                        HomePage.ACTION_CHECKOUT_CART_DishDescFragment_ID, args);
             }
         });
         return rootView;
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        mContext = (FragmentActivity) activity;
-        super.onAttach(activity);
-
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
-        try {
-            mCheckoutCartCallback = (OnCheckoutCartClickedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnCheckoutCartClickedListener");
-        }
-
-        try {
-            mDishReviewsCallback = (OnDishReviewsClickedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnDishReviewsClickedListener");
-        }
-
-        try {
-            mHomeUpHandler = (FragmentHomeUpButtonHandler) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement FragmentHomeUpButtonHandler");
-        }
     }
 
     private void initTextView(TextView tvView, String text) {
@@ -225,7 +205,10 @@ public class DishDescFragment extends Fragment {
         super.onResume();
 
         // Tell the Activity to let fragments handle the menu events
-        mHomeUpHandler.FragmentHomeUpButton(false);
+        Bundle args = new Bundle();
+        args.putBoolean("canActivityHandle", false);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_DishDescFragment_ID,
+                HomePage.ACTION_HOMEUP_DishDescFragment_ID, args);
 
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (mDish != null)
@@ -238,7 +221,10 @@ public class DishDescFragment extends Fragment {
         super.onDetach();
 
         // Tell the Activity that it can now handle menu events once again
-        mHomeUpHandler.FragmentHomeUpButton(true);
+        Bundle args = new Bundle();
+        args.putBoolean("canActivityHandle", true);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_DishDescFragment_ID,
+                HomePage.ACTION_HOMEUP_DishDescFragment_ID, args);
     }
 
     @Override
@@ -259,7 +245,9 @@ public class DishDescFragment extends Fragment {
         bCartItemsCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCheckoutCartCallback.OnCheckoutCartClicked();
+                Bundle args = new Bundle();
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_DishDescFragment_ID,
+                        HomePage.ACTION_CHECKOUT_CART_DishDescFragment_ID, args);
             }
         });
 
@@ -272,7 +260,7 @@ public class DishDescFragment extends Fragment {
         switch (item.getItemId()) {
             // this is not getting invoked now. hence added a clicklistener to button
             case R.id.action_checkout_cart:
-                mCheckoutCartCallback.OnCheckoutCartClicked();
+                //mCheckoutCartCallback.OnCheckoutCartClicked();
                 return true;
             default:
                 break;
