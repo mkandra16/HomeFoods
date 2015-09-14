@@ -3,6 +3,7 @@ package com.apps.b3bytes.homefoods.datalayer.common;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
@@ -176,8 +177,17 @@ public class DataLayer {
             Toast.makeText(mContext,"Couldn't convert URI to bitmap", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
+
+        if(Build.VERSION.SDK_INT >= 19) {
+            int ow = bitmap.getWidth();
+            int oh = bitmap.getHeight();
+            int nw = 1028;
+            int nh = (int) (((float) oh / (float) ow) * nw);
+            bitmap.reconfigure(nw, nh, bitmap.getConfig());
+        }
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 60, stream);
+
         byte[] byteArray = stream.toByteArray();
 
         d.getmDish().setmChef(AppGlobalState.getmCurrentFoodie());
