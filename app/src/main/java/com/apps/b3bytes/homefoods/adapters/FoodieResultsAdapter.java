@@ -75,6 +75,7 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
             mContext = context;
             mIVDishImage = (ImageView) v.findViewById(R.id.ivDishImage);
         }
+
         public void bindView(DishOnSale dishOnSale) {
             Dish dish = dishOnSale.getmDish();
             mTVDishName.setText(dish.getmDishName());
@@ -84,7 +85,7 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
             this.dishOnSale = dishOnSale;
 
             if ((dish.getmImageURL() != null) && (! dish.getmImageURL().isEmpty())) {
-                Toast.makeText(mContext, "Loading Image for Dish " + dish.getmDishName(), Toast.LENGTH_SHORT).show();
+                // Toast.makeText(mContext, "Loading Image for Dish " + dish.getmDishName(), Toast.LENGTH_SHORT).show();
                 mIVDishImage.setImageURI(null);
                 Picasso.with(mContext).load(dish.getmImageURL()).into(mIVDishImage);
             } else {
@@ -109,30 +110,12 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
     // Provide a suitable constructor (depends on the kind of dataset)
     public FoodieResultsAdapter(Context context) {
         mContext = context;
-        Toast.makeText(mContext, "Querying Dishes", Toast.LENGTH_SHORT).show();
         mdishes = new ArrayList<DishOnSale>();
-        // Fist query dishes from Parse
-        // After response display Foodie results page.
-        AppGlobalState.gDataLayer.getNearByDishes(10, new DataLayer.DishQueryCallback() {
-            @Override
-            public void done(ArrayList<DishOnSale> list, Exception e) {
-                if (e == null) {
-                    Toast t = Toast.makeText(mContext,
-                            "Received Dishes, count " + list.size(), Toast.LENGTH_LONG);
-                    t.show();
-                    for (DishOnSale d : list) {
-                        Toast.makeText(mContext, d.getmDish().getmDishName(), Toast.LENGTH_SHORT);
-                    }
-                    mdishes = list;
-                    notifyDataSetChanged();
-                } else {
-                    Toast t = Toast.makeText(mContext,
-                            "Failed to Retrieve dishes", Toast.LENGTH_LONG);
-                    t.show();
-                }
-            }
-        });
+    }
 
+    public void updateData(ArrayList<DishOnSale> dishes) {
+        mdishes = dishes;
+        notifyDataSetChanged();
     }
 
     // Create new views (invoked by the layout manager)

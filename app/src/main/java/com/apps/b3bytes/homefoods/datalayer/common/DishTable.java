@@ -11,6 +11,6 @@ import com.apps.b3bytes.homefoods.models.DishOnSale;
 public interface DishTable {
 
     public abstract  void addDishInBackground(Dish dish, DataLayer.PublishCallback c);
-    public abstract void getNearbyDishes(int radius, DataLayer.DishQueryCallback callback);
+    public abstract void getNearbyDishes(int radius, int skip, int count, DataLayer.DishQueryCallback callback);
     public abstract void putDishOnSale(DishOnSale dish, DataLayer.PublishCallback cb);
 }

@@ -118,7 +118,7 @@ public class ParseDishTable implements DishTable {
     }
 
     @Override
-    public void getNearbyDishes(int radius, final DataLayer.DishQueryCallback callback) {
+    public void getNearbyDishes(int radius, int skip, int count, final DataLayer.DishQueryCallback callback) {
         ParseGeoPoint loc = new ParseGeoPoint(40,50);
         ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Dish");
         innerQuery.whereWithinMiles("DeliveryLoc", loc, radius);
@@ -126,7 +126,8 @@ public class ParseDishTable implements DishTable {
         query.whereMatchesQuery("Dish", innerQuery);
         query.include("Dish");
         query.include("Dish.Chef");
-        query.setLimit(20);
+        query.setSkip(skip);
+        query.setLimit(count);
         query.findInBackground(new FindCallback<ParseObject>() {
                                    public void done(List<ParseObject> dishList, ParseException e) {
                                        if (e == null) {

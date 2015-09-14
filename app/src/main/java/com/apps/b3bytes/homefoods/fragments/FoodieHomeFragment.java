@@ -18,12 +18,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.activities.HomePage;
 import com.apps.b3bytes.homefoods.adapters.FoodieResultsAdapter;
+import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
+
+import java.util.ArrayList;
 
 public class FoodieHomeFragment extends Fragment implements FoodieResultsAdapter.onAddToCartClickListener {
     private FragmentActivity mContext;
@@ -31,8 +35,11 @@ public class FoodieHomeFragment extends Fragment implements FoodieResultsAdapter
     private FoodieResultsAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private Button bCartItemsCount;
-
+    private ArrayList<DishOnSale> mDishes;
     fragment_action_request_handler mActionRequestCallback;
+
+    private final int RADIUS = 10;
+    private final int COUNTPERQUERY = 20;
 
     // Container Activity must implement this interface
     public interface fragment_action_request_handler {
@@ -48,8 +55,37 @@ public class FoodieHomeFragment extends Fragment implements FoodieResultsAdapter
 
         getActivity().invalidateOptionsMenu();
         setHasOptionsMenu(true);
+        mAdapter = new FoodieResultsAdapter(mContext);
+        mDishes = new ArrayList<DishOnSale>();
+        // Do Parse query here, otherwise we endup querying over network every time fragment is refreshed.
+        getNextDishes();
     }
 
+    private void getNextDishes() {
+        Toast.makeText(mContext, "Querying Dishes", Toast.LENGTH_SHORT).show();
+        // Fist query dishes from Parse
+        // After response display Foodie results page.
+        AppGlobalState.gDataLayer.getNearByDishes(RADIUS, mDishes.size(), COUNTPERQUERY, new DataLayer.DishQueryCallback() {
+            @Override
+            public void done(ArrayList<DishOnSale> list, Exception e) {
+                if (e == null) {
+                    /*
+                    Toast t = Toast.makeText(mContext,
+                            "Received Dishes, count " + list.size(), Toast.LENGTH_LONG);
+                    t.show();
+                    for (DishOnSale d : list) {
+                        Toast.makeText(mContext, d.getmDish().getmDishName(), Toast.LENGTH_SHORT);
+                    }
+                    */
+                    mDishes = list;
+                    mAdapter.updateData(mDishes);
+                } else {
+                    Toast.makeText(mContext, "Failed to Retrieve dishes", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -89,8 +125,8 @@ public class FoodieHomeFragment extends Fragment implements FoodieResultsAdapter
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new FoodieResultsAdapter(mContext);
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.updateData(mDishes);
         mAdapter.setOnAddToCartClickListener(this);
         mAdapter.SetOnItemClickListener(new FoodieResultsAdapter.ItemClickListener() {
             @Override

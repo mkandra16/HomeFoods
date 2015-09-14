@@ -84,7 +84,7 @@ public class DataLayer {
 
     // Usage :  dataLayer.queryFewDishes_sample(getApplicationContext());
     public void queryFewDishes_sample(final Context context) {
-        getNearByDishes(10, new DataLayer.DishQueryCallback() {
+        getNearByDishes(10, 0, 20, new DataLayer.DishQueryCallback() {
             @Override
             public void done(ArrayList<DishOnSale> list, Exception e) {
                 if (e == null) {
@@ -214,8 +214,8 @@ public class DataLayer {
         });
     }
 
-    public void getNearByDishes(int radius, DishQueryCallback callback) {
-        mDishTable.getNearbyDishes(radius, callback);
+    public void getNearByDishes(int radius, int skip, int count, DishQueryCallback callback) {
+        mDishTable.getNearbyDishes(radius, skip, count, callback);
     }
 
     // getRelatedDishes(Dish d);
