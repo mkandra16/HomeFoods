@@ -45,8 +45,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/tvDishPrice"
                 android:adjustViewBounds="true"
-                android:background="@drawable/south_indian_breakfast_01"
                 android:scaleType="centerInside" />
+            <!--android:background="@drawable/south_indian_breakfast_01"-->
 
             <RelativeLayout
                 android:id="@+id/rlDishRatingsReviews_Add"

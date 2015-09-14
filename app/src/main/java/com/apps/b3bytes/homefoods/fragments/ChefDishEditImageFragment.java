@@ -244,9 +244,10 @@ public class ChefDishEditImageFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 readFields();
+                bDishImageSave.setEnabled(false);
                 Bundle args = new Bundle();
                 args.putParcelable("dish", mDish);
-                args.putInt("mode", HomePage.DISH_SECTION_EDIT_SINGLE);
+                args.putInt("mode", mMode);
                 mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditImageFragment_ID,
                         HomePage.ACTION_SAVE_ChefDishEditImageFragment_ID, args);
             }
