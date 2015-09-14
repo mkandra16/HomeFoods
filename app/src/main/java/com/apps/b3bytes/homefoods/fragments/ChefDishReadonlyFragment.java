@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.activities.HomePage;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
+import com.squareup.picasso.Picasso;
 
 
 public class ChefDishReadonlyFragment extends Fragment {
@@ -247,9 +248,10 @@ public class ChefDishReadonlyFragment extends Fragment {
             cbDishEditPickUp.setChecked(mDish.ismPickUp());
             cbDishEditDelivery.setChecked(mDish.ismDelivery());
 
-            // TODO: init the dish image
+            if(mDish.getmDish().hasImage()) {
+                mDish.getmDish().loadImage(getActivity()).into(ivDishEditDishImage);
+            }
             initTextView(tvDishAdditionalInfo, String.valueOf(mDish.getmDishAddInfo()));
         }
     }
-
 }

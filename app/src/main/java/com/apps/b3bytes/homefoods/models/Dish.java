@@ -1,12 +1,16 @@
 package com.apps.b3bytes.homefoods.models;
 
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.apps.b3bytes.homefoods.utils.Address;
 import com.apps.b3bytes.homefoods.utils.ContactDetails;
+import com.apps.b3bytes.homefoods.utils.Utils;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,6 +46,19 @@ public class Dish implements Parcelable {
     private Foodie mChef;
     private String mTag;
 
+    public boolean hasImage()
+    {
+        return ((getmImageUri()!= null) || (getmImageURL() != null));
+    }
+
+    public RequestCreator loadImage(Context context) {
+        Utils._assert(hasImage());
+        if (getmImageUri() != null) {
+            return Picasso.with(context).load(getmImageUri());
+        } else {
+            return Picasso.with(context).load(getmImageURL());
+        }
+    }
     public Uri getmImageUri() {
         return mImageUri;
     }
