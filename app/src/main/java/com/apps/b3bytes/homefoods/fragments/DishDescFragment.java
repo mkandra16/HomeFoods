@@ -23,6 +23,7 @@ import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.activities.HomePage;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
+import com.squareup.picasso.Picasso;
 
 public class DishDescFragment extends Fragment {
     private FragmentActivity mContext;
@@ -182,7 +183,13 @@ public class DishDescFragment extends Fragment {
             // TODO: display currency
             initTextView(tvDishPrice, "" + mDish.getmUnitPrice());
             // TODO: display image
-            //ivDishImage
+            if (mDish.getmDish().getmImageUri() != null) {
+                Picasso.with(getActivity()).load(mDish.getmDish().getmImageUri()).into(ivDishImage);
+               // ivDishImage.setImageURI(mDish.getmDish().getmImageUri());
+            } else if (mDish.getmDish().getmImageURL() != null) {
+                Picasso.with(getActivity()).load(mDish.getmDish().getmImageURL()).into(ivDishImage);
+            }
+
             initTextView(tvReviewsThumbsUp, "" + mDish.getmDish().getmThumbsUp());
             initTextView(tvReviewsThumbsDown, "" + mDish.getmDish().getmThumbsDown());
             // TODO: add number of reviews
