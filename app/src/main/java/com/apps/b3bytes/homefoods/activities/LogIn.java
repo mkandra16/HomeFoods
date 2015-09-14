@@ -32,7 +32,7 @@ public class LogIn extends ActionBarActivity {
                 AppGlobalState.signIn(uid, password, new DataLayer.SignInCallback() {
                     public void done(Foodie f, Exception e) {
                         if (e == null) {
-                            Intent i = new Intent(LogIn.this, WelcomeScreen.class);
+                            Intent i = new Intent(LogIn.this, HomePage.class);
                             LogIn.this.startActivity(i);
                         } else {
                             Toast t = Toast.makeText(getApplicationContext(), "SignIn failed", Toast.LENGTH_LONG);
@@ -41,6 +41,14 @@ public class LogIn extends ActionBarActivity {
 
                     }
                 });
+            }
+        });
+        final Button bRegister = (Button) findViewById(R.id.bRegister);
+        bRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LogIn.this, RegisterActivity.class);
+                LogIn.this.startActivity(i);
             }
         });
     }

@@ -37,9 +37,10 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        Button bRegister = (Button) findViewById(R.id.bRegister);
+        final Button bRegister = (Button) findViewById(R.id.bRegister);
         bRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                bRegister.setEnabled(false);
                 // Register Foodie
                 // Create Foodie
                 JSONObject addr =  new JSONObject();
@@ -80,7 +81,8 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void done(Foodie f, Exception e) {
                         Toast.makeText(getApplicationContext(), "Resgistered Foodie" + f.getmUserName(), Toast.LENGTH_LONG).show();
-                        AppGlobalState.gDataLayer.signOut();
+                        Intent i = new Intent(RegisterActivity.this, HomePage.class);
+                        RegisterActivity.this.startActivity(i);
                     }
                 });
             }
