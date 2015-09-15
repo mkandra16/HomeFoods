@@ -118,7 +118,7 @@ public class DishDescFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putParcelable("dish", mDish);
                 mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_DishDescFragment_ID,
-                        HomePage.ACTION_CHECKOUT_CART_DishDescFragment_ID, args);
+                        HomePage.ACTION_DISH_REVIEW_DishDescFragment_ID, args);
             }
         });
         return rootView;

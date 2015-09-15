@@ -356,11 +356,20 @@ public class HomePage extends AppCompatActivity implements
         });
     }
 
+    // http://stackoverflow.com/questions/18305945/how-to-resume-fragment-from-backstack-if-exists
+    private void superOnBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            finish();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     @Override
     public void onBackPressed() {
         if (mBackPressMode == 1) {
             mBackPressMode = 0;
-            super.onBackPressed();
+            superOnBackPressed();
             return;
         }
 
@@ -371,7 +380,7 @@ public class HomePage extends AppCompatActivity implements
                 builder.setMessage("Discard changes?").setPositiveButton("YES", dialogToolbarBackClickListener)
                         .setNegativeButton("NO", dialogToolbarBackClickListener).show();
             } else {
-                super.onBackPressed();
+                superOnBackPressed();
             }
         } else if (currentFragment instanceof ChefDishEditPriceFragment) {
             if ((mEditMode == DISH_SECTION_EDIT_SINGLE) && priceFragment.getmAlertDiscardChanges()) {
@@ -379,7 +388,7 @@ public class HomePage extends AppCompatActivity implements
                 builder.setMessage("Discard changes?").setPositiveButton("YES", dialogToolbarBackClickListener)
                         .setNegativeButton("NO", dialogToolbarBackClickListener).show();
             } else {
-                super.onBackPressed();
+                superOnBackPressed();
             }
         } else if (currentFragment instanceof ChefDishEditAvailFragment) {
             if ((mEditMode == DISH_SECTION_EDIT_SINGLE) && availFragment.getmAlertDiscardChanges()) {
@@ -387,7 +396,7 @@ public class HomePage extends AppCompatActivity implements
                 builder.setMessage("Discard changes?").setPositiveButton("YES", dialogToolbarBackClickListener)
                         .setNegativeButton("NO", dialogToolbarBackClickListener).show();
             } else {
-                super.onBackPressed();
+                superOnBackPressed();
             }
         } else if (currentFragment instanceof ChefDishEditImageFragment) {
             if ((mEditMode == DISH_SECTION_EDIT_SINGLE) && saveFragment.getmAlertDiscardChanges()) {
@@ -395,7 +404,7 @@ public class HomePage extends AppCompatActivity implements
                 builder.setMessage("Discard changes?").setPositiveButton("YES", dialogToolbarBackClickListener)
                         .setNegativeButton("NO", dialogToolbarBackClickListener).show();
             } else {
-                super.onBackPressed();
+                superOnBackPressed();
             }
         } else if (currentFragment instanceof FoodieGiveDishReviewFragment) {
             if (((FoodieGiveDishReviewFragment) currentFragment).getmAlertDiscardChanges()) {
@@ -403,7 +412,7 @@ public class HomePage extends AppCompatActivity implements
                 builder.setMessage("Discard changes?").setPositiveButton("YES", dialogToolbarBackClickListener)
                         .setNegativeButton("NO", dialogToolbarBackClickListener).show();
             } else {
-                super.onBackPressed();
+                superOnBackPressed();
             }
         } else if (currentFragment instanceof FoodieAddPaymentCardFragment) {
             if (((FoodieAddPaymentCardFragment) currentFragment).getmAlertDiscardChanges()) {
@@ -411,7 +420,7 @@ public class HomePage extends AppCompatActivity implements
                 builder.setMessage("Discard changes?").setPositiveButton("YES", dialogToolbarBackClickListener)
                         .setNegativeButton("NO", dialogToolbarBackClickListener).show();
             } else {
-                super.onBackPressed();
+                superOnBackPressed();
             }
         } else if (currentFragment instanceof FoodieAddBillingAddressFragment) {
             if (((FoodieAddBillingAddressFragment) currentFragment).getmAlertDiscardChanges()) {
@@ -419,10 +428,10 @@ public class HomePage extends AppCompatActivity implements
                 builder.setMessage("Discard changes?").setPositiveButton("YES", dialogToolbarBackClickListener)
                         .setNegativeButton("NO", dialogToolbarBackClickListener).show();
             } else {
-                super.onBackPressed();
+                superOnBackPressed();
             }
         } else {
-            super.onBackPressed();
+            superOnBackPressed();
         }
     }
 
