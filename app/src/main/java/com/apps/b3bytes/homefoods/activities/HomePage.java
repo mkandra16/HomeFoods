@@ -126,6 +126,7 @@ public class HomePage extends AppCompatActivity implements
     // FoodieHomeFragment IDs
     public static final int FRAGMENT_FoodieHomeFragment_ID = 6;
     public static final int ACTION_CHECKOUT_CART_FoodieHomeFragment_ID = 0;
+    public static final int ACTION_DISH_DESC_FoodieHomeFragment_ID = 1;
 
     // DishDescFragment IDs
     public static final int FRAGMENT_DishDescFragment_ID = 7;
@@ -676,6 +677,11 @@ public class HomePage extends AppCompatActivity implements
                 OnCheckoutCartClicked();
                 break;
             }
+            case ACTION_DISH_DESC_FoodieHomeFragment_ID: {
+                DishOnSale dish = (DishOnSale) bundle.getParcelable("dish");
+                OnDishDescClicked(dish);
+                break;
+            }
         }
     }
 
@@ -1209,6 +1215,16 @@ public class HomePage extends AppCompatActivity implements
                 }
             }
         });
+    }
+
+    public void OnDishDescClicked(DishOnSale dish) {
+        DishDescFragment dishDescFragment = new DishDescFragment();
+
+        Bundle args = new Bundle();
+        args.putParcelable("dish", dish);
+
+        dishDescFragment.setArguments(args);
+        replaceFragment(dishDescFragment);
     }
 
     public void OnDishReadOnlyEditSelected(DishOnSale dish, int section) {

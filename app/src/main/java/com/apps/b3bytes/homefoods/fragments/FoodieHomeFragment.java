@@ -144,25 +144,10 @@ public class FoodieHomeFragment extends Fragment implements FoodieResultsAdapter
      * Displaying fragment view for selected nav drawer list item
      */
     private void displayDishDesc(DishOnSale item, int position) {
-        // update the main content by replacing fragments
-        Fragment fragment = new DishDescFragment();
-
-        if (fragment != null) {
-            FragmentManager fragmentManager = mContext.getSupportFragmentManager();
-            Bundle args = new Bundle();
-            args.putParcelable("dish", item);
-            fragment.setArguments(args);
-            fragmentManager.beginTransaction()
-                    .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
-
-            // update selected item and title, then close the drawer
-/*            mDrawerList.setItemChecked(position, true);
-            mDrawerList.setSelection(position);*/
-            //setTitle(item.getmDish().getmDishName());
-        } else {
-            // error in creating fragment
-            Log.e("MainActivity", "Error in creating fragment");
-        }
+        Bundle args = new Bundle();
+        args.putParcelable("dish", item);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieHomeFragment_ID,
+                HomePage.ACTION_DISH_DESC_FoodieHomeFragment_ID, args);
     }
 
     @Override
