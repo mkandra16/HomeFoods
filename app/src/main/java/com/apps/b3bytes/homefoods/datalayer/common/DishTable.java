@@ -13,4 +13,6 @@ public interface DishTable {
     public abstract  void addDishInBackground(Dish dish, DataLayer.PublishCallback c);
     public abstract void getNearbyDishes(int radius, int skip, int count, DataLayer.DishQueryCallback callback);
     public abstract void putDishOnSale(DishOnSale dish, DataLayer.PublishCallback cb);
-}
+    public abstract void getChefPublishedDishes(DataLayer.GetListCallback<DishOnSale> cb);
+
+    }

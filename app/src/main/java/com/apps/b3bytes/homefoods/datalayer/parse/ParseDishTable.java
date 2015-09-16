@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by sindhu on 7/26/2015.
+ * Created by Pavan on 7/26/2015.
  */
 public class ParseDishTable implements DishTable {
     public static  Dish ParseObject2Dish(ParseObject object) {
@@ -136,6 +136,7 @@ public class ParseDishTable implements DishTable {
                                            callback.done(ParseList2DishOnSaleList(dishList), e);
                                        } else {
                                            Log.d("score", "Error: " + e.getMessage());
+                                           callback.done(new ArrayList<DishOnSale>(), e);
                                        }
                                    }
                                }
@@ -169,6 +170,29 @@ public class ParseDishTable implements DishTable {
                 }
             }
         });
+    }
+
+    @Override
+    public void getChefPublishedDishes(final DataLayer.GetListCallback<DishOnSale> cb) {
+        ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Dish");
+        innerQuery.whereEqualTo("Chef", ParseUser.getCurrentUser());
+        ParseQuery query = ParseQuery.getQuery("DishOnSale");
+        query.whereMatchesQuery("Dish", innerQuery);
+        query.include("Dish");
+        query.include("Dish.Chef");
+        query.findInBackground(new FindCallback<ParseObject>() {
+                                   public void done(List<ParseObject> dishList, ParseException e) {
+                                       if (e == null) {
+                                           Log.d("score", "Retrieved " + dishList.size() + " scores");
+
+                                           cb.done(ParseList2DishOnSaleList(dishList), e);
+                                       } else {
+                                           Log.d("score", "Error: " + e.getMessage());
+                                           cb.done(new ArrayList<DishOnSale>(), e);
+                                       }
+                                   }
+                               }
+        );
     }
 
 }

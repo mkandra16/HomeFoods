@@ -18,6 +18,7 @@ import com.apps.b3bytes.homefoods.models.Dish;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.Foodie;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
+import com.apps.b3bytes.homefoods.utils.Utils;
 import com.parse.Parse;
 import com.parse.ParseUser;
 
@@ -302,5 +303,14 @@ public class DataLayer {
 
     public void getFoodieOrders(EnumSet<FoodieOrder.OrderStatus> status, GetFoodieOrdersCallback cb) {
         mOrderTable.getFoodieOrders(status, cb);
+    }
+
+    public static abstract class GetListCallback<T> {
+        public abstract void done(ArrayList<T> results, Exception e);
+    }
+
+    public void getChefPublishedDishes(GetListCallback<DishOnSale> cb) {
+        Utils._assert(AppGlobalState.getmCurrentFoodie() != null);
+        mDishTable.getChefPublishedDishes(cb);
     }
 }
