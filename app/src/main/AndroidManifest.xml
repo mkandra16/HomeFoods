@@ -26,11 +26,6 @@
         <activity
             android:name=".activities.WelcomeScreen"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activities.HomePage"
@@ -48,9 +43,11 @@
             android:name=".activities.LogIn"
             android:label="@string/title_activity_log_in"
             android:parentActivityName=".activities.WelcomeScreen" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.apps.b3bytes.homefoods.activities.WelcomeScreen" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <meta-data
