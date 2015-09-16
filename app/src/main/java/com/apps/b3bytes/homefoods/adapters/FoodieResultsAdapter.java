@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
-import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.models.Dish;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.squareup.picasso.Picasso;
@@ -30,12 +29,17 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
     private ItemClickListener itemClickListener;
 
     onAddToCartClickListener addToCartClickListener;
+    onDishReviewClickListener dishReviewClickListener;
 
-    public void SetOnItemClickListener(final ItemClickListener mItemClickListener) {
-        this.itemClickListener = mItemClickListener;
+    public interface onDishReviewClickListener {
+        public void onDishReviewClicked(DishOnSale dish);
     }
 
-    public  interface onAddToCartClickListener {
+    public void setOnDishReviewClickListener(onDishReviewClickListener listener) {
+        dishReviewClickListener = listener;
+    }
+
+    public interface onAddToCartClickListener {
         public void addToCartClicked();
     }
 
@@ -45,6 +49,10 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
 
     public interface ItemClickListener {
         public void onItemClick(DishOnSale item, int position);
+    }
+
+    public void SetOnItemClickListener(final ItemClickListener mItemClickListener) {
+        this.itemClickListener = mItemClickListener;
     }
 
     // Provide a reference to the views for each data item
@@ -58,7 +66,8 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
         private TextView mThumbsUp;
         private TextView mThumbsDown;
         private Button mOrderButton;
-//        private View mView;
+        private TextView tvDishReviews;
+        //        private View mView;
         private DishOnSale dishOnSale;
         private Context mContext;
         private ImageView mIVDishImage;
@@ -70,6 +79,7 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
             mTVDishPrice = (TextView) v.findViewById(R.id.tvDishPrice);
             mThumbsUp = (TextView) v.findViewById(R.id.tvReviewsThumbsUp);
             mThumbsDown = (TextView) v.findViewById(R.id.tvReviewsThumbsDown);
+            tvDishReviews = (TextView) v.findViewById(R.id.tvDishReviews);
             mOrderButton = (Button) v.findViewById(R.id.bAddToBag);
 //            mView = v; // Save View to set tag later :)
             mContext = context;
@@ -84,7 +94,7 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
             mThumbsDown.setText(String.valueOf(dish.getmThumbsDown()));//
             this.dishOnSale = dishOnSale;
 
-            if ((dish.getmImageURL() != null) && (! dish.getmImageURL().isEmpty())) {
+            if ((dish.getmImageURL() != null) && (!dish.getmImageURL().isEmpty())) {
                 // Toast.makeText(mContext, "Loading Image for Dish " + dish.getmDishName(), Toast.LENGTH_SHORT).show();
                 mIVDishImage.setImageURI(null);
                 Picasso.with(mContext).load(dish.getmImageURL()).into(mIVDishImage);
@@ -98,6 +108,13 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
                     Toast.makeText(mContext, "Recived Click on Dish : " + DishViewHolder.this.dishOnSale.getmDish().getmDishName(), Toast.LENGTH_SHORT).show();
                     AppGlobalState.gCart.add_to_bag(DishViewHolder.this.dishOnSale);
                     addToCartClickListener.addToCartClicked();
+                }
+            });
+
+            tvDishReviews.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dishReviewClickListener.onDishReviewClicked(DishViewHolder.this.dishOnSale);
                 }
             });
         }
@@ -121,13 +138,13 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
     // Create new views (invoked by the layout manager)
     @Override
     public FoodieResultsAdapter.DishViewHolder onCreateViewHolder(ViewGroup viewGroup,
-                                                   int viewType) {
+                                                                  int viewType) {
         // create a new view
         View parent = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.foodie_result_card, viewGroup, false);
         // set the view's size, margins, paddings and layout parameters
 //http://stackoverflow.com/questions/24885223/why-doesnt-recyclerview-have-onitemclicklistener-and-how-recyclerview-is-dif
-        
+
         DishViewHolder vh = new DishViewHolder(parent, mContext);
         return vh;
     }
@@ -137,7 +154,7 @@ public class FoodieResultsAdapter extends RecyclerView.Adapter<FoodieResultsAdap
     public void onBindViewHolder(DishViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-    //    Dish dish = Dish.createDummyDish("Sambar", "Chennai Sambar", "boil water add powder", 150);
+        //    Dish dish = Dish.createDummyDish("Sambar", "Chennai Sambar", "boil water add powder", 150);
         final DishOnSale item = mdishes.get(position);
         final int pos = position;
         holder.bindView(item);

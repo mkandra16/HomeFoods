@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,7 +27,9 @@ import com.apps.b3bytes.homefoods.models.DishOnSale;
 
 import java.util.ArrayList;
 
-public class FoodieHomeFragment extends Fragment implements FoodieResultsAdapter.onAddToCartClickListener {
+public class FoodieHomeFragment extends Fragment implements
+        FoodieResultsAdapter.onAddToCartClickListener,
+        FoodieResultsAdapter.onDishReviewClickListener {
     private FragmentActivity mContext;
     private RecyclerView mRecyclerView;
     private FoodieResultsAdapter mAdapter;
@@ -86,6 +86,14 @@ public class FoodieHomeFragment extends Fragment implements FoodieResultsAdapter
         });
 
     }
+
+    public void onDishReviewClicked(DishOnSale dish) {
+        Bundle args = new Bundle();
+        args.putParcelable("dish", dish);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieHomeFragment_ID,
+                HomePage.ACTION_DISH_REVIEW_FoodieHomeFragment_ID, args);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -128,6 +136,7 @@ public class FoodieHomeFragment extends Fragment implements FoodieResultsAdapter
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.updateData(mDishes);
         mAdapter.setOnAddToCartClickListener(this);
+        mAdapter.setOnDishReviewClickListener(this);
         mAdapter.SetOnItemClickListener(new FoodieResultsAdapter.ItemClickListener() {
             @Override
             public void onItemClick(DishOnSale item, int position) {

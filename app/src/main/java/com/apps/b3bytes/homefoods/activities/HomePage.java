@@ -127,6 +127,7 @@ public class HomePage extends AppCompatActivity implements
     public static final int FRAGMENT_FoodieHomeFragment_ID = 6;
     public static final int ACTION_CHECKOUT_CART_FoodieHomeFragment_ID = 0;
     public static final int ACTION_DISH_DESC_FoodieHomeFragment_ID = 1;
+    public static final int ACTION_DISH_REVIEW_FoodieHomeFragment_ID = 2;
 
     // DishDescFragment IDs
     public static final int FRAGMENT_DishDescFragment_ID = 7;
@@ -680,6 +681,11 @@ public class HomePage extends AppCompatActivity implements
             case ACTION_DISH_DESC_FoodieHomeFragment_ID: {
                 DishOnSale dish = (DishOnSale) bundle.getParcelable("dish");
                 OnDishDescClicked(dish);
+                break;
+            }
+            case ACTION_DISH_REVIEW_FoodieHomeFragment_ID: {
+                DishOnSale dish = (DishOnSale) bundle.getParcelable("dish");
+                OnDishReviewsClicked(dish);
                 break;
             }
         }
