@@ -2,6 +2,7 @@ package com.apps.b3bytes.homefoods.datalayer.parse;
 
 import android.util.Log;
 
+import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.datalayer.common.OrderTable;
 import com.apps.b3bytes.homefoods.models.ChefOrder;
@@ -9,6 +10,7 @@ import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.Foodie;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
+import com.apps.b3bytes.homefoods.utils.Utils;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -148,6 +150,7 @@ public class ParseOrderTable implements OrderTable {
     }
         @Override
     public void getOrdersForChef(Foodie chef, final DataLayer.getChefOrdersCallback cb) {
+            Utils._assert(AppGlobalState.getmCurrentFoodie() != null);
         ParseQuery query = ParseQuery.getQuery("ChefOrder");
         query.include("DishOrders");
         query.include("DishOrders.DishOnSale");
@@ -156,7 +159,7 @@ public class ParseOrderTable implements OrderTable {
         query.include("DishOrders.Foodie");
         query.include("Foodie");
         query.include("Chef");
-        ParseObject chefObj = ParseUser.createWithoutData("_User", "WW2iTg5tqL");
+        ParseObject chefObj = ParseUser.createWithoutData("_User", AppGlobalState.getmCurrentFoodie().getmTag());
 //         ParseObject chefObj = ParseUser.createWithoutData("_User", "WW2iTg5pqr");
 
         query.whereEqualTo("Chef", chefObj);
