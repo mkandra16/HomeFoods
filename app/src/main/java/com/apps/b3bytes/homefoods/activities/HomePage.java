@@ -37,6 +37,7 @@ import com.apps.b3bytes.homefoods.fragments.ChefDishEditPriceFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefDishReadonlyFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefHomeFragment;
 import com.apps.b3bytes.homefoods.fragments.ChefMenuFragment;
+import com.apps.b3bytes.homefoods.fragments.ChefReviewFragment;
 import com.apps.b3bytes.homefoods.fragments.DishDescFragment;
 import com.apps.b3bytes.homefoods.fragments.DishReviewFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieAddBillingAddressFragment;
@@ -51,6 +52,7 @@ import com.apps.b3bytes.homefoods.fragments.FoodiePendingOrdersTabFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieViewPastPendingOrderDetailsFragment;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.DishOrder;
+import com.apps.b3bytes.homefoods.models.Foodie;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
 import com.apps.b3bytes.homefoods.models.NavDrawerItem;
 import com.apps.b3bytes.homefoods.widgets.DividerItemDecoration;
@@ -75,7 +77,8 @@ public class HomePage extends AppCompatActivity implements
         FoodiePastOrdersTabFragment.fragment_action_request_handler,
         FoodiePendingOrdersTabFragment.fragment_action_request_handler,
         FoodieViewPastPendingOrderDetailsFragment.fragment_action_request_handler,
-        FoodieGiveDishReviewFragment.fragment_action_request_handler {
+        FoodieGiveDishReviewFragment.fragment_action_request_handler,
+        ChefReviewFragment.fragment_action_request_handler {
 
     // These identifiers are used to communicate from fragment to activity.
     // there will be a common callback between fragment and activity
@@ -133,7 +136,8 @@ public class HomePage extends AppCompatActivity implements
     public static final int FRAGMENT_DishDescFragment_ID = 7;
     public static final int ACTION_CHECKOUT_CART_DishDescFragment_ID = 0;
     public static final int ACTION_DISH_REVIEW_DishDescFragment_ID = 1;
-    public static final int ACTION_HOMEUP_DishDescFragment_ID = 2;
+    public static final int ACTION_CHEF_REVIEW_DishDescFragment_ID = 2;
+    public static final int ACTION_HOMEUP_DishDescFragment_ID = 3;
 
     // DishReviewFragment IDs
     public static final int FRAGMENT_DishReviewFragment_ID = 8;
@@ -181,6 +185,10 @@ public class HomePage extends AppCompatActivity implements
     // FoodieGiveDishReviewFragment IDs
     public static final int FRAGMENT_FoodieGiveDishReviewFragment_ID = 16;
     public static final int ACTION_HOMEUP_FoodieGiveDishReviewFragment_ID = 0;
+
+    // ChefReviewFragment IDs
+    public static final int FRAGMENT_ChefReviewFragment_ID = 17;
+    public static final int ACTION_HOMEUP_ChefReviewFragment_ID = 0;
 
     public static final int DISH_SECTION_EDIT_SINGLE = 0;
     public static final int DISH_SECTION_EDIT_ALL = 1;
@@ -702,6 +710,11 @@ public class HomePage extends AppCompatActivity implements
                 OnDishReviewsClicked(dish);
                 break;
             }
+            case ACTION_CHEF_REVIEW_DishDescFragment_ID: {
+                Foodie chef = (Foodie) bundle.getParcelable("chef");
+                OnChefReviewsClicked(chef);
+                break;
+            }
             case ACTION_HOMEUP_DishDescFragment_ID: {
                 boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
                 FragmentHomeUpButton(canActivityHandle);
@@ -713,6 +726,16 @@ public class HomePage extends AppCompatActivity implements
     public void DishReviewFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
             case ACTION_HOMEUP_DishReviewFragment_ID: {
+                boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
+                FragmentHomeUpButton(canActivityHandle);
+                break;
+            }
+        }
+    }
+
+    public void ChefReviewFragmentRequestHandler(int action_id, Bundle bundle) {
+        switch (action_id) {
+            case ACTION_HOMEUP_ChefReviewFragment_ID: {
                 boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
                 FragmentHomeUpButton(canActivityHandle);
                 break;
@@ -917,6 +940,10 @@ public class HomePage extends AppCompatActivity implements
             }
             case FRAGMENT_FoodieGiveDishReviewFragment_ID: {
                 FoodieGiveDishReviewFragmentRequestHandler(action_id, bundle);
+                break;
+            }
+            case FRAGMENT_ChefReviewFragment_ID: {
+                ChefReviewFragmentRequestHandler(action_id, bundle);
                 break;
             }
         }
@@ -1287,6 +1314,16 @@ public class HomePage extends AppCompatActivity implements
 
         dishReviewFragment.setArguments(args);
         replaceFragment(dishReviewFragment);
+    }
+
+    public void OnChefReviewsClicked(Foodie chef) {
+        ChefReviewFragment chefReviewFragment = new ChefReviewFragment();
+
+        Bundle args = new Bundle();
+        args.putParcelable("chef", chef);
+
+        chefReviewFragment.setArguments(args);
+        replaceFragment(chefReviewFragment);
     }
 
     public void OnProceedToPaymentSelected() {

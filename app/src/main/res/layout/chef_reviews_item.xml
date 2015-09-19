@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlChefReviewsItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:background="#FFFFFF"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
+
+    <TextView
+        android:id="@+id/tvChefReviewOneline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="a short one line opinion"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
+
+    <RatingBar
+        android:id="@+id/rbChefReview"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvChefReviewOneline"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvChefReviewOneline"
+        android:layout_marginTop="5dp"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:stepSize="0.5" />
+
+    <TextView
+        android:id="@+id/tvChefReviewDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/rbChefReview"
+        android:layout_alignParentRight="true"
+        android:text="Sep 08, 2015"
+        android:textColor="@color/KPTheme_AdriftInDreams_colorAccent" />
+
+    <RelativeLayout
+        android:id="@+id/rlChefReviewDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/rbChefReview"
+        android:layout_marginTop="8dp"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/tvChefReviewDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="4"
+            android:text="details of the review. description with full details. can span multiple lines, though as an item will be limited to four lines. But the full description can be viewed by selecting the review item which will show in new page. To see complete review click on the review item."
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/black" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlChefReviewFoodieDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/rlChefReviewDetails"
+        android:layout_marginTop="8dp">
+
+        <ImageView
+            android:id="@+id/ivFoodie"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:background="@mipmap/ic_chef_image" />
+
+        <TextView
+            android:id="@+id/tvFoodieName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/ivFoodie"
+            android:text="Foodie Name"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/KPTheme_AdriftInDreams_colorAccent" />
+
+        <CheckBox
+            android:id="@+id/cbChefReviewUseful"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tvFoodieName"
+            android:layout_marginTop="3dp" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/cbChefReviewUseful"
+            android:layout_toLeftOf="@+id/cbChefReviewUseful"
+            android:text="Useful? "
+            android:textColor="@android:color/black"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

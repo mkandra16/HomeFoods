@@ -103,6 +103,17 @@ public class DishDescFragment extends Fragment {
         tvDishIngredientsTab = (TextView) rootView.findViewById(R.id.tvDishIngredientsTab);
         tvDishNutritionTab = (TextView) rootView.findViewById(R.id.tvDishNutritionTab);
 
+        // TODO: using ivChefImage to see the chef reviews for now.
+        ivChefImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                args.putParcelable("chef", mDish.getmDish().getmChef());
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_DishDescFragment_ID,
+                        HomePage.ACTION_CHEF_REVIEW_DishDescFragment_ID, args);
+            }
+        });
+
         bAddToBag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
