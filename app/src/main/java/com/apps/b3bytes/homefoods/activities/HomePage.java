@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
@@ -211,6 +212,7 @@ public class HomePage extends AppCompatActivity implements
     private LinearLayout llSliderMenu;
     private ActionBarDrawerToggle mDrawerToggle;
     private Switch swChefFoodie;
+    private TextView tvRegisterAsChef;
 
     // nav drawer title
     private CharSequence mDrawerTitle;
@@ -286,8 +288,40 @@ public class HomePage extends AppCompatActivity implements
         mRecyclerView.addItemDecoration(itemDecoration);
         llSliderMenu = (LinearLayout) findViewById(R.id.llSliderMenu);
         swChefFoodie = (Switch) findViewById(R.id.swChefFoodie);
+        tvRegisterAsChef = (TextView) findViewById(R.id.tvRegisterAsChef);
 
-        chefMode = swChefFoodie.isChecked();
+
+        tvRegisterAsChef.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Display Registration Page",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Foodie user = AppGlobalState.getmCurrentFoodie();
+        if (user == null) {
+            // unregistered user
+            tvRegisterAsChef.setVisibility(View.VISIBLE);
+            swChefFoodie.setVisibility(View.INVISIBLE);
+            chefMode = false;
+        } else if (user.getmChef() == null) {
+            // Fooide
+            tvRegisterAsChef.setVisibility(View.VISIBLE);
+            swChefFoodie.setVisibility(View.INVISIBLE);
+            chefMode = false;
+        } else {
+            // Chef
+            swChefFoodie.setVisibility(View.VISIBLE);
+            tvRegisterAsChef.setVisibility(View.INVISIBLE);
+            chefMode = swChefFoodie.isChecked();
+        }
+
+        // swChefFoodie is in general invisible
+        // default tvRegisterAsChef is visible - for unregistered user
+        // if the user is registered only as foodie, tvRegisterAsChef is visible
+        // if the user is registered as chef, tvRegisterAsChef is gone and swChefFoodie is visible
+
         swChefFoodie.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {

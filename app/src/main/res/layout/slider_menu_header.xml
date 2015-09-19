@@ -3,6 +3,7 @@
     android:layout_width="240dp"
     android:layout_height="180dp"
     android:layout_gravity="start"
+    android:clickable="true"
     android:background="@color/nav_drawer_profile_background">
 
     <ImageView
@@ -40,6 +41,19 @@
         android:textColor="@android:color/black"
         android:textSize="12sp" />
 
+    <TextView
+        android:id="@+id/tvRegisterAsChef"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ivUserProfile"
+        android:layout_alignParentBottom="true"
+        android:clickable="true"
+        android:layout_marginBottom="8dp"
+        android:text="Register as Chef"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
     <Switch
         android:id="@+id/swChefFoodie"
         android:layout_width="wrap_content"
@@ -47,6 +61,7 @@
         android:layout_alignLeft="@+id/ivUserProfile"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="8dp"
+        android:visibility="invisible"
         android:textOff="Foodie"
         android:textOn="Chef" />
 </RelativeLayout>
