@@ -242,6 +242,9 @@ public class HomePage extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
+        // This is first Screen, initialize global state of the App.
+        AppGlobalState.initialize(getApplicationContext());
+
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolBar);
         getSupportActionBar().setTitle("Chef Home");

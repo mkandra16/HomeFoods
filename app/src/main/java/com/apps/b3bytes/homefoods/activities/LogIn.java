@@ -20,8 +20,6 @@ public class LogIn extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // This is first Screen, initialize global state of the App.
-        AppGlobalState.initialize(getApplicationContext());
 
         setContentView(R.layout.activity_log_in);
 
