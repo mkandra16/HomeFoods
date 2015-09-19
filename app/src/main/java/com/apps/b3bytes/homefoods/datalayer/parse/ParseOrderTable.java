@@ -2,6 +2,7 @@ package com.apps.b3bytes.homefoods.datalayer.parse;
 
 import android.util.Log;
 
+import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.datalayer.common.OrderTable;
 import com.apps.b3bytes.homefoods.models.ChefOrder;
@@ -9,6 +10,7 @@ import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.Foodie;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
+import com.apps.b3bytes.homefoods.utils.Utils;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -16,6 +18,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -148,6 +151,7 @@ public class ParseOrderTable implements OrderTable {
     }
         @Override
     public void getOrdersForChef(Foodie chef, final DataLayer.getChefOrdersCallback cb) {
+            Utils._assert(AppGlobalState.getmCurrentFoodie() != null);
         ParseQuery query = ParseQuery.getQuery("ChefOrder");
         query.include("DishOrders");
         query.include("DishOrders.DishOnSale");
@@ -156,7 +160,7 @@ public class ParseOrderTable implements OrderTable {
         query.include("DishOrders.Foodie");
         query.include("Foodie");
         query.include("Chef");
-        ParseObject chefObj = ParseUser.createWithoutData("_User", "WW2iTg5tqL");
+        ParseObject chefObj = ParseUser.createWithoutData("_User", AppGlobalState.getmCurrentFoodie().getmTag());
 //         ParseObject chefObj = ParseUser.createWithoutData("_User", "WW2iTg5pqr");
 
         query.whereEqualTo("Chef", chefObj);
@@ -180,7 +184,7 @@ public class ParseOrderTable implements OrderTable {
     }
 
     @Override
-    public void getFoodieOrder(String orderId, final DataLayer.GetFoodieOrderCallback cb) {
+    public void getFoodieOrder(final String orderId, final DataLayer.GetFoodieOrderCallback cb) {
         ParseQuery query = ParseQuery.getQuery("FoodieOrder");
         query.include("ChefOrders");
         query.include("ChefOrders.Chef");
@@ -193,13 +197,16 @@ public class ParseOrderTable implements OrderTable {
         query.whereEqualTo("objectId", orderId);
         query.findInBackground(new FindCallback<ParseObject>() {
                                    public void done(List<ParseObject> foodieOrder, ParseException e) {
+                                       if ((e == null) && (foodieOrder.size() == 0)) {
+                                           e = new ParseException(ParseException.INVALID_QUERY, "Invalid OrderId : " + orderId);
+                                       }
+
                                        if (e == null) {
-                                           assert foodieOrder.size() == 1;
-                                           Log.d("Retrieved Foodie Order", "Retrieved " + foodieOrder.size() + " orders");
-                                           FoodieOrder order = ParseObj2FoodieOrder(foodieOrder.get(0));
-                                           cb.done(order, e);
+                                               Log.d("Retrieve Foodie Order", "Retrieved " + foodieOrder.size() + " orders");
+                                               FoodieOrder order = ParseObj2FoodieOrder(foodieOrder.get(0));
+                                               cb.done(order, e);
                                        } else {
-                                           Log.d("score", "Error: " + e.getMessage());
+                                           Log.d("Retrieve Foodie Order", "Error: " + e.getMessage());
                                            FoodieOrder order = new FoodieOrder();
                                            cb.done(order, e);
                                        }
