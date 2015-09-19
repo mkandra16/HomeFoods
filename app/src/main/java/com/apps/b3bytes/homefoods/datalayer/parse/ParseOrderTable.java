@@ -18,6 +18,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -183,7 +184,7 @@ public class ParseOrderTable implements OrderTable {
     }
 
     @Override
-    public void getFoodieOrder(String orderId, final DataLayer.GetFoodieOrderCallback cb) {
+    public void getFoodieOrder(final String orderId, final DataLayer.GetFoodieOrderCallback cb) {
         ParseQuery query = ParseQuery.getQuery("FoodieOrder");
         query.include("ChefOrders");
         query.include("ChefOrders.Chef");
@@ -196,13 +197,16 @@ public class ParseOrderTable implements OrderTable {
         query.whereEqualTo("objectId", orderId);
         query.findInBackground(new FindCallback<ParseObject>() {
                                    public void done(List<ParseObject> foodieOrder, ParseException e) {
+                                       if ((e == null) && (foodieOrder.size() == 0)) {
+                                           e = new ParseException(ParseException.INVALID_QUERY, "Invalid OrderId : " + orderId);
+                                       }
+
                                        if (e == null) {
-                                           assert foodieOrder.size() == 1;
-                                           Log.d("Retrieved Foodie Order", "Retrieved " + foodieOrder.size() + " orders");
-                                           FoodieOrder order = ParseObj2FoodieOrder(foodieOrder.get(0));
-                                           cb.done(order, e);
+                                               Log.d("Retrieve Foodie Order", "Retrieved " + foodieOrder.size() + " orders");
+                                               FoodieOrder order = ParseObj2FoodieOrder(foodieOrder.get(0));
+                                               cb.done(order, e);
                                        } else {
-                                           Log.d("score", "Error: " + e.getMessage());
+                                           Log.d("Retrieve Foodie Order", "Error: " + e.getMessage());
                                            FoodieOrder order = new FoodieOrder();
                                            cb.done(order, e);
                                        }

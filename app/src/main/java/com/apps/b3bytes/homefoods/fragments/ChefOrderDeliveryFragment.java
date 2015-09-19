@@ -83,6 +83,7 @@ public class ChefOrderDeliveryFragment extends Fragment {
             @Override
             public void done(final FoodieOrder foodieOrder, Exception e) {
                 if (e != null) {
+                    bChefDeliveryDone.setEnabled(false);
                     Toast.makeText(mContext, "Failed to retrie foodie order " + e.toString(),
                             Toast.LENGTH_SHORT).show();
                 } else {
