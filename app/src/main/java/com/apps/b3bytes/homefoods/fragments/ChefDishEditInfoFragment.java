@@ -1,14 +1,11 @@
 package com.apps.b3bytes.homefoods.fragments;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.internal.view.ContextThemeWrapper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -44,12 +41,9 @@ public class ChefDishEditInfoFragment extends Fragment {
     private Button bDishInfoNext;
     private Button bDishInfoSave;
 
-    fragment_action_request_handler mActionRequestCallback;
+    FragmentActionRequestHandler mActionRequestCallback;
 
-    // Container Activity must implement this interface
-    public interface fragment_action_request_handler {
-        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
-    }
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -60,7 +54,7 @@ public class ChefDishEditInfoFragment extends Fragment {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mActionRequestCallback = (fragment_action_request_handler) activity;
+            mActionRequestCallback = (FragmentActionRequestHandler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement fragment_action_request_handler");
@@ -74,7 +68,7 @@ public class ChefDishEditInfoFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditInfoFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditInfoFragment_ID,
                 HomePage.ACTION_HOMEUP_ChefDishEditInfoFragment_ID, args);
     }
 
@@ -99,7 +93,7 @@ public class ChefDishEditInfoFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditInfoFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditInfoFragment_ID,
                 HomePage.ACTION_HOMEUP_ChefDishEditInfoFragment_ID, args);
 
         if (mMode == HomePage.DISH_SECTION_EDIT_ALL)
@@ -236,7 +230,7 @@ public class ChefDishEditInfoFragment extends Fragment {
                 if (gotAllData) {
                     Bundle args = new Bundle();
                     args.putParcelable("dish", mDish);
-                    mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditInfoFragment_ID,
+                    mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditInfoFragment_ID,
                             HomePage.ACTION_NEXT_ChefDishEditInfoFragment_ID, args);
                 }
             }
@@ -251,7 +245,7 @@ public class ChefDishEditInfoFragment extends Fragment {
                     Bundle args = new Bundle();
                     args.putParcelable("dish", mDish);
                     args.putInt("mode", HomePage.DISH_SECTION_EDIT_SINGLE);
-                    mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditInfoFragment_ID,
+                    mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditInfoFragment_ID,
                             HomePage.ACTION_NEXT_ChefDishEditInfoFragment_ID, args);
                 }
             }
@@ -280,7 +274,7 @@ public class ChefDishEditInfoFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putBoolean("onChanged", mAlertDiscardChanges);
                 args.putInt("mode", mMode);
-                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditInfoFragment_ID,
+                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditInfoFragment_ID,
                         HomePage.ACTION_CANCEL_ChefDishEditInfoFragment_ID, args);
                 return true;
             default:

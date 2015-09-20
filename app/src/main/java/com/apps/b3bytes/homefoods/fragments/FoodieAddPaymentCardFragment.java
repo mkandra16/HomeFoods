@@ -32,12 +32,7 @@ public class FoodieAddPaymentCardFragment extends Fragment {
 
     private boolean mAlertDiscardChanges;
 
-    fragment_action_request_handler mActionRequestCallback;
-
-    // Container Activity must implement this interface
-    public interface fragment_action_request_handler {
-        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
-    }
+    FragmentActionRequestHandler mActionRequestCallback;
 
     public FoodieAddPaymentCardFragment() {
     }
@@ -64,7 +59,7 @@ public class FoodieAddPaymentCardFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddPaymentCardFragment_ID,
+                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddPaymentCardFragment_ID,
                         HomePage.ACTION_ADD_BILLING_ADDRESS_FoodieAddPaymentCardFragment_ID, args);
             }
         });
@@ -73,7 +68,7 @@ public class FoodieAddPaymentCardFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddPaymentCardFragment_ID,
+                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddPaymentCardFragment_ID,
                         HomePage.ACTION_SAVE_CARD_FoodieAddPaymentCardFragment_ID, args);
             }
         });
@@ -111,7 +106,7 @@ public class FoodieAddPaymentCardFragment extends Fragment {
         super.onAttach(activity);
 
         try {
-            mActionRequestCallback = (fragment_action_request_handler) activity;
+            mActionRequestCallback = (FragmentActionRequestHandler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement fragment_action_request_handler");
@@ -125,7 +120,7 @@ public class FoodieAddPaymentCardFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddPaymentCardFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddPaymentCardFragment_ID,
                 HomePage.ACTION_HOMEUP_FoodieAddPaymentCardFragment_ID, args);
     }
 
@@ -152,7 +147,7 @@ public class FoodieAddPaymentCardFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddPaymentCardFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddPaymentCardFragment_ID,
                 HomePage.ACTION_HOMEUP_FoodieAddPaymentCardFragment_ID, args);
         
         actionBar.setTitle("Payment Method");

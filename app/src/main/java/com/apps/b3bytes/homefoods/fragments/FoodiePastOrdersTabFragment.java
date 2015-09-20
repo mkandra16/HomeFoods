@@ -26,12 +26,7 @@ public class FoodiePastOrdersTabFragment extends Fragment implements
     private RecyclerView rvFoodiePastOrders;
     private FoodiePastOrdersRVAdapter adapter;
 
-    fragment_action_request_handler mActionRequestCallback;
-
-    // Container Activity must implement this interface
-    public interface fragment_action_request_handler {
-        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
-    }
+    FragmentActionRequestHandler mActionRequestCallback;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,7 +45,7 @@ public class FoodiePastOrdersTabFragment extends Fragment implements
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mActionRequestCallback = (fragment_action_request_handler) activity;
+            mActionRequestCallback = (FragmentActionRequestHandler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement fragment_action_request_handler");
@@ -81,21 +76,21 @@ public class FoodiePastOrdersTabFragment extends Fragment implements
     public void orderDetailsClicked(FoodieOrder foodieOrder) {
         Bundle args = new Bundle();
         args.putParcelable("foodieOrder", foodieOrder);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodiePastOrdersTabFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodiePastOrdersTabFragment_ID,
                 HomePage.ACTION_ORDER_DETAILS_FoodiePastOrdersTabFragment_ID, args);
     }
 
     public void buyDishAgainClicked(DishOrder dishOrder) {
         Bundle args = new Bundle();
         args.putParcelable("dishOrder", dishOrder);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodiePastOrdersTabFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodiePastOrdersTabFragment_ID,
                 HomePage.ACTION_BUY_DISH_AGAIN_FoodiePastOrdersTabFragment_ID, args);
     }
 
     public void writeDishReviewClicked(DishOrder dishOrder) {
         Bundle args = new Bundle();
         args.putParcelable("dishOrder", dishOrder);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodiePastOrdersTabFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodiePastOrdersTabFragment_ID,
                 HomePage.ACTION_WRITE_DISH_REVIEW_FoodiePastOrdersTabFragment_ID, args);
     }
 }

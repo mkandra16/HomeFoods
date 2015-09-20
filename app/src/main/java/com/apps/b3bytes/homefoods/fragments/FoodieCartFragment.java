@@ -38,12 +38,7 @@ public class FoodieCartFragment extends Fragment implements DishOrdersListAdapte
 
     private int currentId;
 
-    fragment_action_request_handler mActionRequestCallback;
-
-    // Container Activity must implement this interface
-    public interface fragment_action_request_handler {
-        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
-    }
+    FragmentActionRequestHandler mActionRequestCallback;
 
     public FoodieCartFragment() {
     }
@@ -67,7 +62,7 @@ public class FoodieCartFragment extends Fragment implements DishOrdersListAdapte
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mActionRequestCallback = (fragment_action_request_handler) activity;
+            mActionRequestCallback = (FragmentActionRequestHandler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement fragment_action_request_handler");
@@ -81,7 +76,7 @@ public class FoodieCartFragment extends Fragment implements DishOrdersListAdapte
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCartFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCartFragment_ID,
                 HomePage.ACTION_HOMEUP_FoodieCartFragment_ID, args);
     }
 
@@ -127,7 +122,7 @@ public class FoodieCartFragment extends Fragment implements DishOrdersListAdapte
             @Override
             public void onClick(View v) {
                 Bundle args = new Bundle();
-                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCartFragment_ID,
+                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCartFragment_ID,
                         HomePage.ACTION_PROCEED_PAYMENT_FoodieCartFragment_ID, args);
             }
         });
@@ -190,7 +185,7 @@ public class FoodieCartFragment extends Fragment implements DishOrdersListAdapte
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCartFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCartFragment_ID,
                 HomePage.ACTION_HOMEUP_FoodieCartFragment_ID, args);
 
         actionBar.setTitle("Cart");

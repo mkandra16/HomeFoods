@@ -45,12 +45,7 @@ public class ChefDishEditPriceFragment extends Fragment {
     private LinearLayout llDishPriceSaveButtons;
     private Button bDishPriceSave;
 
-    fragment_action_request_handler mActionRequestCallback;
-
-    // Container Activity must implement this interface
-    public interface fragment_action_request_handler {
-        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
-    }
+    FragmentActionRequestHandler mActionRequestCallback;
 
     @Override
     public void onAttach(Activity activity) {
@@ -61,7 +56,7 @@ public class ChefDishEditPriceFragment extends Fragment {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mActionRequestCallback = (fragment_action_request_handler) activity;
+            mActionRequestCallback = (FragmentActionRequestHandler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement fragment_action_request_handler");
@@ -75,7 +70,7 @@ public class ChefDishEditPriceFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditPriceFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditPriceFragment_ID,
                 HomePage.ACTION_HOMEUP_ChefDishEditPriceFragment_ID, args);
     }
 
@@ -88,7 +83,7 @@ public class ChefDishEditPriceFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditPriceFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditPriceFragment_ID,
                 HomePage.ACTION_HOMEUP_ChefDishEditPriceFragment_ID, args);
 
         if (mMode == HomePage.DISH_SECTION_EDIT_ALL)
@@ -291,7 +286,7 @@ public class ChefDishEditPriceFragment extends Fragment {
                 if (gotAllData) {
                     Bundle args = new Bundle();
                     args.putParcelable("dish", mDish);
-                    mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditPriceFragment_ID,
+                    mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditPriceFragment_ID,
                             HomePage.ACTION_NEXT_ChefDishEditPriceFragment_ID, args);
                 }
             }
@@ -303,7 +298,7 @@ public class ChefDishEditPriceFragment extends Fragment {
                 readFields();
                 Bundle args = new Bundle();
                 args.putParcelable("dish", mDish);
-                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditPriceFragment_ID,
+                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditPriceFragment_ID,
                         HomePage.ACTION_BACK_ChefDishEditPriceFragment_ID, args);
             }
         });
@@ -317,7 +312,7 @@ public class ChefDishEditPriceFragment extends Fragment {
                     Bundle args = new Bundle();
                     args.putParcelable("dish", mDish);
                     args.putInt("mode", HomePage.DISH_SECTION_EDIT_SINGLE);
-                    mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditPriceFragment_ID,
+                    mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditPriceFragment_ID,
                             HomePage.ACTION_SAVE_ChefDishEditPriceFragment_ID, args);
                 }
             }
@@ -346,7 +341,7 @@ public class ChefDishEditPriceFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putBoolean("onChanged", mAlertDiscardChanges);
                 args.putInt("mode", mMode);
-                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditPriceFragment_ID,
+                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditPriceFragment_ID,
                         HomePage.ACTION_CANCEL_ChefDishEditPriceFragment_ID, args);
                 return true;
             default:

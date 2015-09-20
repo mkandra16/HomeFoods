@@ -36,15 +36,10 @@ public class FoodieHomeFragment extends Fragment implements
     private RecyclerView.LayoutManager mLayoutManager;
     private Button bCartItemsCount;
     private ArrayList<DishOnSale> mDishes;
-    fragment_action_request_handler mActionRequestCallback;
+    FragmentActionRequestHandler mActionRequestCallback;
 
     private final int RADIUS = 10;
     private final int COUNTPERQUERY = 20;
-
-    // Container Activity must implement this interface
-    public interface fragment_action_request_handler {
-        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
-    }
 
     public FoodieHomeFragment() {
     }
@@ -90,7 +85,7 @@ public class FoodieHomeFragment extends Fragment implements
     public void onDishReviewClicked(DishOnSale dish) {
         Bundle args = new Bundle();
         args.putParcelable("dish", dish);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieHomeFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieHomeFragment_ID,
                 HomePage.ACTION_DISH_REVIEW_FoodieHomeFragment_ID, args);
     }
 
@@ -112,7 +107,7 @@ public class FoodieHomeFragment extends Fragment implements
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mActionRequestCallback = (fragment_action_request_handler) activity;
+            mActionRequestCallback = (FragmentActionRequestHandler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement fragment_action_request_handler");
@@ -155,7 +150,7 @@ public class FoodieHomeFragment extends Fragment implements
     private void displayDishDesc(DishOnSale item, int position) {
         Bundle args = new Bundle();
         args.putParcelable("dish", item);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieHomeFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieHomeFragment_ID,
                 HomePage.ACTION_DISH_DESC_FoodieHomeFragment_ID, args);
     }
 
@@ -187,7 +182,7 @@ public class FoodieHomeFragment extends Fragment implements
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieHomeFragment_ID,
+                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieHomeFragment_ID,
                         HomePage.ACTION_CHECKOUT_CART_FoodieHomeFragment_ID, args);
             }
         });

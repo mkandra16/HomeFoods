@@ -24,12 +24,7 @@ public class FoodieCheckoutFragment extends Fragment {
     private Button bPlaceOrder;
     private LayoutInflater mInflater;
 
-    fragment_action_request_handler mActionRequestCallback;
-
-    // Container Activity must implement this interface
-    public interface fragment_action_request_handler {
-        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
-    }
+    FragmentActionRequestHandler mActionRequestCallback;
 
     public FoodieCheckoutFragment() {
     }
@@ -46,7 +41,7 @@ public class FoodieCheckoutFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCheckoutFragment_ID,
+                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCheckoutFragment_ID,
                         HomePage.ACTION_ADD_CARD_FoodieCheckoutFragment_ID, args);
             }
         });
@@ -56,7 +51,7 @@ public class FoodieCheckoutFragment extends Fragment {
             public void onClick(View view) {
                 Toast.makeText(mContext, "Placing Order", Toast.LENGTH_SHORT).show();
                 Bundle args = new Bundle();
-                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCheckoutFragment_ID,
+                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCheckoutFragment_ID,
                         HomePage.ACTION_PLACE_ORDER_FoodieCheckoutFragment_ID, args);
             }
         });
@@ -69,7 +64,7 @@ public class FoodieCheckoutFragment extends Fragment {
         super.onAttach(activity);
 
         try {
-            mActionRequestCallback = (fragment_action_request_handler) activity;
+            mActionRequestCallback = (FragmentActionRequestHandler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement fragment_action_request_handler");
@@ -83,7 +78,7 @@ public class FoodieCheckoutFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCheckoutFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCheckoutFragment_ID,
                 HomePage.ACTION_HOMEUP_FoodieCheckoutFragment_ID, args);
     }
 
@@ -110,7 +105,7 @@ public class FoodieCheckoutFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCheckoutFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCheckoutFragment_ID,
                 HomePage.ACTION_HOMEUP_FoodieCheckoutFragment_ID, args);
 
         actionBar.setTitle("Checkout");

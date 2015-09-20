@@ -50,12 +50,7 @@ public class ChefReviewFragment extends Fragment {
     private ChefReviewsRVAdapter rvAdapter;
     private Foodie mChef;
 
-    fragment_action_request_handler mActionRequestCallback;
-
-    // Container Activity must implement this interface
-    public interface fragment_action_request_handler {
-        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
-    }
+    FragmentActionRequestHandler mActionRequestCallback;
 
     public ChefReviewFragment() {
         mChef = null;
@@ -82,7 +77,7 @@ public class ChefReviewFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefReviewFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefReviewFragment_ID,
                 HomePage.ACTION_HOMEUP_ChefReviewFragment_ID, args);
 
         actionBar.setTitle(mChef.getmUserName() + " Reviews");
@@ -98,7 +93,7 @@ public class ChefReviewFragment extends Fragment {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mActionRequestCallback = (fragment_action_request_handler) activity;
+            mActionRequestCallback = (FragmentActionRequestHandler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement fragment_action_request_handler");
@@ -112,7 +107,7 @@ public class ChefReviewFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefReviewFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefReviewFragment_ID,
                 HomePage.ACTION_HOMEUP_ChefReviewFragment_ID, args);
     }
 

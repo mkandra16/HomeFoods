@@ -45,12 +45,7 @@ public class DishDescFragment extends Fragment {
     private TextView tvDishNutritionTab;
     private Button bCartItemsCount;
 
-    fragment_action_request_handler mActionRequestCallback;
-
-    // Container Activity must implement this interface
-    public interface fragment_action_request_handler {
-        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
-    }
+    FragmentActionRequestHandler mActionRequestCallback;
 
     public DishDescFragment() {
     }
@@ -63,10 +58,10 @@ public class DishDescFragment extends Fragment {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mActionRequestCallback = (fragment_action_request_handler) activity;
+            mActionRequestCallback = (FragmentActionRequestHandler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement fragment_action_request_handler");
+                    + " must implement FragmentActionRequestHandler");
         }
     }
 
@@ -109,7 +104,7 @@ public class DishDescFragment extends Fragment {
             public void onClick(View view) {
                 Bundle args = new Bundle();
                 args.putParcelable("chef", mDish.getmDish().getmChef());
-                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_DishDescFragment_ID,
+                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_DishDescFragment_ID,
                         HomePage.ACTION_CHEF_REVIEW_DishDescFragment_ID, args);
             }
         });
@@ -128,7 +123,7 @@ public class DishDescFragment extends Fragment {
             public void onClick(View view) {
                 Bundle args = new Bundle();
                 args.putParcelable("dish", mDish);
-                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_DishDescFragment_ID,
+                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_DishDescFragment_ID,
                         HomePage.ACTION_DISH_REVIEW_DishDescFragment_ID, args);
             }
         });
@@ -225,7 +220,7 @@ public class DishDescFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_DishDescFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_DishDescFragment_ID,
                 HomePage.ACTION_HOMEUP_DishDescFragment_ID, args);
 
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
@@ -241,7 +236,7 @@ public class DishDescFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_DishDescFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_DishDescFragment_ID,
                 HomePage.ACTION_HOMEUP_DishDescFragment_ID, args);
     }
 
@@ -264,7 +259,7 @@ public class DishDescFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_DishDescFragment_ID,
+                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_DishDescFragment_ID,
                         HomePage.ACTION_CHECKOUT_CART_DishDescFragment_ID, args);
             }
         });

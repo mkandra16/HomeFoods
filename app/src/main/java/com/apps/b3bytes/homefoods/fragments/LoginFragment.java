@@ -29,12 +29,7 @@ public class LoginFragment extends Fragment {
     private EditText etUserId;
     private EditText etPassword;
 
-    fragment_action_request_handler mActionRequestCallback;
-
-    // Container Activity must implement this interface
-    public interface fragment_action_request_handler {
-        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
-    }
+    FragmentActionRequestHandler mActionRequestCallback;
 
     public LoginFragment() {
 
@@ -57,7 +52,7 @@ public class LoginFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_LoginFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_LoginFragment_ID,
                 HomePage.ACTION_HOMEUP_LoginFragment_ID, args);
 
         //actionBar.setTitle("Register");
@@ -73,7 +68,7 @@ public class LoginFragment extends Fragment {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mActionRequestCallback = (fragment_action_request_handler) activity;
+            mActionRequestCallback = (FragmentActionRequestHandler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement fragment_action_request_handler");
@@ -88,7 +83,7 @@ public class LoginFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_LoginFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_LoginFragment_ID,
                 HomePage.ACTION_HOMEUP_LoginFragment_ID, args);
     }
 
@@ -144,7 +139,7 @@ public class LoginFragment extends Fragment {
                     Bundle args = new Bundle();
                     args.putString("username", etUserId.getText().toString());
                     args.putString("password", etPassword.getText().toString());
-                    mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_LoginFragment_ID,
+                    mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_LoginFragment_ID,
                             HomePage.ACTION_SIGN_IN_LoginFragment_ID, args);
                 }
             }
@@ -154,7 +149,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_LoginFragment_ID,
+                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_LoginFragment_ID,
                         HomePage.ACTION_REGISTER_LoginFragment_ID, args);
             }
         });

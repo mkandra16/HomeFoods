@@ -55,12 +55,7 @@ public class ChefMenuFragment extends Fragment {
 
     private ChefMenuGridViewAdapter aChefMenuGridView;
 
-    fragment_action_request_handler mActionRequestCallback;
-
-    // Container Activity must implement this interface
-    public interface fragment_action_request_handler {
-        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
-    }
+    FragmentActionRequestHandler mActionRequestCallback;
 
     public ChefMenuFragment() {
     }
@@ -90,7 +85,7 @@ public class ChefMenuFragment extends Fragment {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mActionRequestCallback = (fragment_action_request_handler) activity;
+            mActionRequestCallback = (FragmentActionRequestHandler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement fragment_action_request_handler");
@@ -140,7 +135,7 @@ public class ChefMenuFragment extends Fragment {
                 DishOnSale dish = aChefMenuGridView.getItem(position);
                 Bundle args = new Bundle();
                 args.putParcelable("dish", dish);
-                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefMenuFragment_ID,
+                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefMenuFragment_ID,
                         HomePage.ACTION_DISH_ITEM_CLICK_ChefMenuFragment_ID, args);
             }
         });
@@ -149,7 +144,7 @@ public class ChefMenuFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_ChefMenuFragment_ID,
+                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefMenuFragment_ID,
                         HomePage.ACTION_DISH_ADD_ChefMenuFragment_ID, args);
             }
         });

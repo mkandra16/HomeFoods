@@ -35,12 +35,7 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
 
     private int currentId;
 
-    fragment_action_request_handler mActionRequestCallback;
-
-    // Container Activity must implement this interface
-    public interface fragment_action_request_handler {
-        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
-    }
+    FragmentActionRequestHandler mActionRequestCallback;
 
     public FoodieViewPastPendingOrderDetailsFragment() {
     }
@@ -62,7 +57,7 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
         super.onAttach(activity);
 
         try {
-            mActionRequestCallback = (fragment_action_request_handler) activity;
+            mActionRequestCallback = (FragmentActionRequestHandler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement fragment_action_request_handler");
@@ -76,7 +71,7 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieViewPastPendingOrderDetailsFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieViewPastPendingOrderDetailsFragment_ID,
                 HomePage.ACTION_HOMEUP_FoodieViewPastPendingOrderDetailsFragment_ID, args);
     }
 
@@ -135,7 +130,7 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
             public void onClick(View view) {
                 Bundle args = new Bundle();
                 args.putParcelable("foodieOrder", mFoodieOrder);
-                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieViewPastPendingOrderDetailsFragment_ID,
+                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieViewPastPendingOrderDetailsFragment_ID,
                         HomePage.ACTION_CANCEL_ORDER_FoodieViewPastPendingOrderDetailsFragment_ID, args);
             }
         });
@@ -164,7 +159,7 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
                 public void onClick(View view) {
                     Bundle args = new Bundle();
                     args.putParcelable("dishOrder", finalDishOrder);
-                    mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieViewPastPendingOrderDetailsFragment_ID,
+                    mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieViewPastPendingOrderDetailsFragment_ID,
                             HomePage.ACTION_BUY_DISH_AGAIN_FoodieViewPastPendingOrderDetailsFragment_ID, args);
                 }
             });
@@ -174,7 +169,7 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
                 public void onClick(View view) {
                     Bundle args = new Bundle();
                     args.putParcelable("dishOrder", finalDishOrder);
-                    mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieViewPastPendingOrderDetailsFragment_ID,
+                    mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieViewPastPendingOrderDetailsFragment_ID,
                             HomePage.ACTION_WRITE_DISH_REVIEW_FoodieViewPastPendingOrderDetailsFragment_ID, args);
                 }
             });
@@ -212,7 +207,7 @@ public class FoodieViewPastPendingOrderDetailsFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieViewPastPendingOrderDetailsFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieViewPastPendingOrderDetailsFragment_ID,
                 HomePage.ACTION_HOMEUP_FoodieViewPastPendingOrderDetailsFragment_ID, args);
 
         actionBar.setTitle("Order Details");

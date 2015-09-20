@@ -34,12 +34,7 @@ public class FoodieAddBillingAddressFragment extends Fragment {
 
     private boolean mAlertDiscardChanges;
 
-    fragment_action_request_handler mActionRequestCallback;
-
-    // Container Activity must implement this interface
-    public interface fragment_action_request_handler {
-        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
-    }
+    FragmentActionRequestHandler mActionRequestCallback;
 
     public FoodieAddBillingAddressFragment() {
     }
@@ -101,7 +96,7 @@ public class FoodieAddBillingAddressFragment extends Fragment {
         super.onAttach(activity);
 
         try {
-            mActionRequestCallback = (fragment_action_request_handler) activity;
+            mActionRequestCallback = (FragmentActionRequestHandler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement fragment_action_request_handler");
@@ -115,7 +110,7 @@ public class FoodieAddBillingAddressFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddBillingAddressFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddBillingAddressFragment_ID,
                 HomePage.ACTION_HOMEUP_FoodieAddBillingAddressFragment_ID, args);
     }
 
@@ -142,7 +137,7 @@ public class FoodieAddBillingAddressFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddBillingAddressFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddBillingAddressFragment_ID,
                 HomePage.ACTION_HOMEUP_FoodieAddBillingAddressFragment_ID, args);
 
         actionBar.setTitle("Billing Address");
@@ -168,7 +163,7 @@ public class FoodieAddBillingAddressFragment extends Fragment {
             case R.id.action_save_addr:
                 Bundle args = new Bundle();
                 args.putBoolean("canActivityHandle", true);
-                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddBillingAddressFragment_ID,
+                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddBillingAddressFragment_ID,
                         HomePage.ACTION_SAVE_BILLING_ADDRESS_FoodieAddPaymentCardFragment_ID, args);
                 return true;
             default:

@@ -22,12 +22,7 @@ public class FoodiePendingOrdersTabFragment extends Fragment implements FoodiePe
     private FoodiePendingOrdersRVAdapter adapter;
     private Context mContext;
 
-    fragment_action_request_handler mActionRequestCallback;
-
-    // Container Activity must implement this interface
-    public interface fragment_action_request_handler {
-        public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
-    }
+    FragmentActionRequestHandler mActionRequestCallback;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,7 +38,7 @@ public class FoodiePendingOrdersTabFragment extends Fragment implements FoodiePe
         super.onAttach(activity);
 
         try {
-            mActionRequestCallback = (fragment_action_request_handler) activity;
+            mActionRequestCallback = (FragmentActionRequestHandler) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement fragment_action_request_handler");
@@ -71,7 +66,7 @@ public class FoodiePendingOrdersTabFragment extends Fragment implements FoodiePe
     public void viewCancelOrderClicked(FoodieOrder foodieOrder) {
         Bundle args = new Bundle();
         args.putParcelable("foodieOrder", foodieOrder);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_FoodiePendingOrdersTabFragment_ID,
+        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodiePendingOrdersTabFragment_ID,
                 HomePage.ACTION_CANCEL_ORDER_FoodiePendingOrdersTabFragment_ID, args);
     }
 }

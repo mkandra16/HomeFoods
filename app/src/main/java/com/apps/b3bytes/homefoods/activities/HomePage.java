@@ -51,6 +51,7 @@ import com.apps.b3bytes.homefoods.fragments.FoodieOrderHistoryFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodiePastOrdersTabFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodiePendingOrdersTabFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieViewPastPendingOrderDetailsFragment;
+import com.apps.b3bytes.homefoods.fragments.FragmentActionRequestHandler;
 import com.apps.b3bytes.homefoods.fragments.LoginFragment;
 import com.apps.b3bytes.homefoods.fragments.RegisterNameFragment;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
@@ -63,33 +64,14 @@ import com.apps.b3bytes.homefoods.widgets.DividerItemDecoration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomePage extends AppCompatActivity implements
-        ChefDishEditInfoFragment.fragment_action_request_handler,
-        ChefDishEditPriceFragment.fragment_action_request_handler,
-        ChefDishEditAvailFragment.fragment_action_request_handler,
-        ChefDishEditImageFragment.fragment_action_request_handler,
-        ChefMenuFragment.fragment_action_request_handler,
-        ChefDishReadonlyFragment.fragment_action_request_handler,
-        FoodieHomeFragment.fragment_action_request_handler,
-        DishDescFragment.fragment_action_request_handler,
-        DishReviewFragment.fragment_action_request_handler,
-        FoodieCartFragment.fragment_action_request_handler,
-        FoodieCheckoutFragment.fragment_action_request_handler,
-        FoodieAddPaymentCardFragment.fragment_action_request_handler,
-        FoodieAddBillingAddressFragment.fragment_action_request_handler,
-        FoodiePastOrdersTabFragment.fragment_action_request_handler,
-        FoodiePendingOrdersTabFragment.fragment_action_request_handler,
-        FoodieViewPastPendingOrderDetailsFragment.fragment_action_request_handler,
-        FoodieGiveDishReviewFragment.fragment_action_request_handler,
-        ChefReviewFragment.fragment_action_request_handler,
-        RegisterNameFragment.fragment_action_request_handler,
-        LoginFragment.fragment_action_request_handler {
+public class HomePage extends AppCompatActivity implements FragmentActionRequestHandler
+{
 
     // These identifiers are used to communicate from fragment to activity.
     // there will be a common callback between fragment and activity
     // which fragment is calling and whats the purpose of callback will
     // be known by these identifiers. The common interface will be
-    // FragmentActionRequestHandler(fragment_id, action_id, bundle);
+    // fragmentActionRequestHandler(fragment_id, action_id, bundle);
 
     // ChefDishEditInfoFragment IDs
     public static final int FRAGMENT_ChefDishEditInfoFragment_ID = 0;
@@ -1050,7 +1032,7 @@ public class HomePage extends AppCompatActivity implements
         }
     }
 
-    public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle) {
+    public void fragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle) {
         switch (fragment_id) {
             case FRAGMENT_ChefDishEditInfoFragment_ID: {
                 ChefDishEditInfoFragmentRequestHandler(action_id, bundle);
