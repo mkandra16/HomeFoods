@@ -64,6 +64,7 @@ public class ParseFoodieTable implements FoodieTable {
 
     public static Foodie parseUser2Foodie(ParseUser obj) {
         Foodie f = new Foodie(parseUser2JSONObject(obj));
+        f.getmContact().setmEmailVerified(obj.getBoolean("emailVerified"));
         return f;
     }
     @Override
@@ -73,7 +74,7 @@ public class ParseFoodieTable implements FoodieTable {
             public void done(ParseUser parseUser, com.parse.ParseException e) {
                 if (e == null) {
 
-                    Foodie f = new Foodie(parseUser2JSONObject(parseUser));
+                    Foodie f = parseUser2Foodie(parseUser);
                     f.setmTag(parseUser.getObjectId());
                     callback.done(f, null);
                 } else {

@@ -14,6 +14,15 @@ public class ContactDetails implements Parcelable {
     private String mOfficePh;
     private String mMoblie;
     private String mEmailId;
+    private boolean mEmailVerified;
+
+    public boolean ismEmailVerified() {
+        return mEmailVerified;
+    }
+
+    public void setmEmailVerified(boolean mEmailVerified) {
+        this.mEmailVerified = mEmailVerified;
+    }
 
     public ContactDetails(JSONObject cd) {
         try {
