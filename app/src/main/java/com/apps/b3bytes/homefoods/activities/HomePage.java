@@ -2,6 +2,7 @@ package com.apps.b3bytes.homefoods.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -57,6 +58,7 @@ import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.Foodie;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
 import com.apps.b3bytes.homefoods.models.NavDrawerItem;
+import com.apps.b3bytes.homefoods.utils.Utils;
 import com.apps.b3bytes.homefoods.widgets.DividerItemDecoration;
 
 import java.util.ArrayList;
@@ -83,6 +85,29 @@ public class HomePage extends AppCompatActivity implements
         ChefReviewFragment.fragment_action_request_handler,
         RegisterNameFragment.fragment_action_request_handler {
 
+    class OnActiivtyResultResp {
+        public OnActiivtyResultResp(int requestCode, int respCode, Intent data) {
+            this.requestCode = requestCode;
+            this.respCode = respCode;
+            this.data = data;
+        }
+
+        public int getRequestCode() {
+            return requestCode;
+        }
+        public int getRespCode() {
+            return respCode;
+        }
+        public Intent getData() {
+            return data;
+        }
+
+        private int requestCode;
+        private int respCode;
+        private Intent data;
+    }
+
+    private OnActiivtyResultResp onActiivtyResultResp;
     // These identifiers are used to communicate from fragment to activity.
     // there will be a common callback between fragment and activity
     // which fragment is calling and whats the purpose of callback will
@@ -794,7 +819,12 @@ public class HomePage extends AppCompatActivity implements
     public void FoodieCartFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
             case ACTION_PROCEED_PAYMENT_FoodieCartFragment_ID: {
-                OnProceedToPaymentSelected();
+                if(AppGlobalState.getmCurrentFoodie() != null) {
+                    OnProceedToPaymentSelected();
+                } else {
+                    Intent i = new Intent(HomePage.this, LogIn.class);
+                    HomePage.this.startActivityForResult(i, ACTION_PROCEED_PAYMENT_FoodieCartFragment_ID);
+                }
                 break;
             }
             case ACTION_HOMEUP_FoodieCartFragment_ID: {
@@ -803,6 +833,31 @@ public class HomePage extends AppCompatActivity implements
                 break;
             }
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Utils._assert(onActiivtyResultResp == null);
+        onActiivtyResultResp = new OnActiivtyResultResp(requestCode, resultCode, data);
+        // onPostResume() will take care of processing this result.
+    }
+
+    @Override
+    protected void onPostResume() {
+        if (onActiivtyResultResp != null) {
+            if (onActiivtyResultResp.getRequestCode() == ACTION_PROCEED_PAYMENT_FoodieCartFragment_ID) {
+                if (onActiivtyResultResp.getRespCode() == RESULT_OK) {
+                    FoodieCartFragmentRequestHandler(onActiivtyResultResp.getRequestCode(), new Bundle());
+                } else {
+                    OnCheckoutCartClicked();
+                }
+
+            } else {
+                Utils.notReached();
+            }
+            onActiivtyResultResp = null;
+        }
+        super.onPostResume();
     }
 
     public void FoodieCheckoutFragmentRequestHandler(int action_id, Bundle bundle) {
@@ -1419,9 +1474,9 @@ public class HomePage extends AppCompatActivity implements
     }
 
     public void OnPlaceOrderSelected() {
-        AppGlobalState.checkOutCart();
-        //TODO (clear the cart)
-        displayFoodieView(0);
+            AppGlobalState.checkOutCart();
+            //TODO (clear the cart)
+            displayFoodieView(0);
     }
 
     public void OnOrderDetailsClicked(FoodieOrder foodieOrder) {
