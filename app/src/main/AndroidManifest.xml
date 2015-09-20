@@ -36,10 +36,6 @@
             android:name=".activities.RegisterActivity"
             android:label="@string/title_activity_register">
         </activity>
-        <activity
-            android:name=".activities.LogIn"
-            android:label="@string/title_activity_log_in">
-        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"

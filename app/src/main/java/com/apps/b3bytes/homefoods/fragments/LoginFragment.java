@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.activities.HomePage;
 
 
@@ -116,11 +117,21 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.activity_log_in, container, false);
+        rootView = inflater.inflate(R.layout.fragment_log_in, container, false);
         bSignIn = (Button) rootView.findViewById(R.id.bSignIn);
         bRegister = (Button) rootView.findViewById(R.id.bRegister);
         etUserId = (EditText) rootView.findViewById(R.id.etUserId);
         etPassword = (EditText) rootView.findViewById(R.id.etPassword);
+
+        // when we are navigating back, after the sign in,
+        // display the fields as disabled, as the user is
+        // not needed to enter the information again.
+        if (AppGlobalState.getmCurrentFoodie() != null) {
+            bSignIn.setEnabled(false);
+            bRegister.setEnabled(false);
+            etUserId.setEnabled(false);
+            etPassword.setEnabled(false);
+        }
 
         bSignIn.setOnClickListener(new View.OnClickListener() {
             @Override

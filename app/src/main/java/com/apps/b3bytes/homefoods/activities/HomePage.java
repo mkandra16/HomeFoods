@@ -88,31 +88,6 @@ public class HomePage extends AppCompatActivity implements
         RegisterNameFragment.fragment_action_request_handler,
         LoginFragment.fragment_action_request_handler {
 
-    class OnActiivtyResultResp {
-        public OnActiivtyResultResp(int requestCode, int respCode, Intent data) {
-            this.requestCode = requestCode;
-            this.respCode = respCode;
-            this.data = data;
-        }
-
-        public int getRequestCode() {
-            return requestCode;
-        }
-
-        public int getRespCode() {
-            return respCode;
-        }
-
-        public Intent getData() {
-            return data;
-        }
-
-        private int requestCode;
-        private int respCode;
-        private Intent data;
-    }
-
-    private OnActiivtyResultResp onActiivtyResultResp;
     // These identifiers are used to communicate from fragment to activity.
     // there will be a common callback between fragment and activity
     // which fragment is calling and whats the purpose of callback will
@@ -839,8 +814,6 @@ public class HomePage extends AppCompatActivity implements
                     loginSuccessFragment = new FoodieCheckoutFragment();
                     loginFragment = new LoginFragment();
                     replaceFragment(loginFragment);
-//                    Intent i = new Intent(HomePage.this, LogIn.class);
-//                    HomePage.this.startActivityForResult(i, ACTION_PROCEED_PAYMENT_FoodieCartFragment_ID);
                 }
                 break;
             }
@@ -852,30 +825,6 @@ public class HomePage extends AppCompatActivity implements
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Utils._assert(onActiivtyResultResp == null);
-        onActiivtyResultResp = new OnActiivtyResultResp(requestCode, resultCode, data);
-        // onPostResume() will take care of processing this result.
-    }
-
-    @Override
-    protected void onPostResume() {
-        if (onActiivtyResultResp != null) {
-            if (onActiivtyResultResp.getRequestCode() == ACTION_PROCEED_PAYMENT_FoodieCartFragment_ID) {
-                if (onActiivtyResultResp.getRespCode() == RESULT_OK) {
-                    FoodieCartFragmentRequestHandler(onActiivtyResultResp.getRequestCode(), new Bundle());
-                } else {
-                    OnCheckoutCartClicked();
-                }
-
-            } else {
-                Utils.notReached();
-            }
-            onActiivtyResultResp = null;
-        }
-        super.onPostResume();
-    }
 
     public void FoodieCheckoutFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
@@ -1015,20 +964,21 @@ public class HomePage extends AppCompatActivity implements
                     public void done(Foodie f, Exception e) {
                         if (e == null) {
                             // login successful
-                            replaceFragment(loginSuccessFragment);
+                            if (loginSuccessFragment != null)
+                                replaceFragment(loginSuccessFragment);
                             getSupportActionBar().show();
                         } else {
                             Toast t = Toast.makeText(getApplicationContext(), "SignIn failed", Toast.LENGTH_LONG);
                             t.show();
                             loginFragment.enableSignInButton();
                         }
-
                     }
                 });
                 break;
             }
             case ACTION_REGISTER_LoginFragment_ID: {
-
+                RegisterNameFragment registerNameFragment = new RegisterNameFragment();
+                replaceFragment(registerNameFragment);
                 break;
             }
             case ACTION_HOMEUP_LoginFragment_ID: {
