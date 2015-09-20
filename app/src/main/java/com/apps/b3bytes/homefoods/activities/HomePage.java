@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -52,6 +53,7 @@ import com.apps.b3bytes.homefoods.fragments.FoodieOrderHistoryFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodiePastOrdersTabFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodiePendingOrdersTabFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieViewPastPendingOrderDetailsFragment;
+import com.apps.b3bytes.homefoods.fragments.LoginFragment;
 import com.apps.b3bytes.homefoods.fragments.RegisterNameFragment;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.DishOrder;
@@ -83,7 +85,8 @@ public class HomePage extends AppCompatActivity implements
         FoodieViewPastPendingOrderDetailsFragment.fragment_action_request_handler,
         FoodieGiveDishReviewFragment.fragment_action_request_handler,
         ChefReviewFragment.fragment_action_request_handler,
-        RegisterNameFragment.fragment_action_request_handler {
+        RegisterNameFragment.fragment_action_request_handler,
+        LoginFragment.fragment_action_request_handler {
 
     class OnActiivtyResultResp {
         public OnActiivtyResultResp(int requestCode, int respCode, Intent data) {
@@ -95,9 +98,11 @@ public class HomePage extends AppCompatActivity implements
         public int getRequestCode() {
             return requestCode;
         }
+
         public int getRespCode() {
             return respCode;
         }
+
         public Intent getData() {
             return data;
         }
@@ -223,6 +228,12 @@ public class HomePage extends AppCompatActivity implements
     public static final int ACTION_NEXT_RegisterNameFragment_ID = 0;
     public static final int ACTION_HOMEUP_RegisterNameFragment_ID = 1;
 
+    // LoginFragment IDs
+    public static final int FRAGMENT_LoginFragment_ID = 19;
+    public static final int ACTION_SIGN_IN_LoginFragment_ID = 0;
+    public static final int ACTION_REGISTER_LoginFragment_ID = 1;
+    public static final int ACTION_HOMEUP_LoginFragment_ID = 2;
+
     public static final int DISH_SECTION_EDIT_SINGLE = 0;
     public static final int DISH_SECTION_EDIT_ALL = 1;
 
@@ -237,6 +248,10 @@ public class HomePage extends AppCompatActivity implements
     private FoodieCheckoutFragment checkoutFragment;
     private FoodieAddPaymentCardFragment addPaymentCardFragment;
     private FoodieAddBillingAddressFragment addBillingAddressFragment;
+    private Fragment loginFailFragment;
+    private Fragment loginSuccessFragment;
+    private FoodieCartFragment foodieCartFragment;
+    private LoginFragment loginFragment;
 
     Context context = this;
     private boolean chefMode = false;
@@ -439,6 +454,7 @@ public class HomePage extends AppCompatActivity implements
         });
     }
 
+
     // http://stackoverflow.com/questions/18305945/how-to-resume-fragment-from-backstack-if-exists
     private void superOnBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
@@ -546,9 +562,6 @@ public class HomePage extends AppCompatActivity implements
                 fragment = new FoodieHomeFragment();
                 break;
             case 1:
-                fragment = new FoodieCartFragment();
-                break;
-            case 2:
                 fragment = new FoodieOrderHistoryFragment();
                 break;
             default:
@@ -819,11 +832,15 @@ public class HomePage extends AppCompatActivity implements
     public void FoodieCartFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
             case ACTION_PROCEED_PAYMENT_FoodieCartFragment_ID: {
-                if(AppGlobalState.getmCurrentFoodie() != null) {
+                if (AppGlobalState.getmCurrentFoodie() != null) {
                     OnProceedToPaymentSelected();
                 } else {
-                    Intent i = new Intent(HomePage.this, LogIn.class);
-                    HomePage.this.startActivityForResult(i, ACTION_PROCEED_PAYMENT_FoodieCartFragment_ID);
+                    loginFailFragment = new FoodieCartFragment();
+                    loginSuccessFragment = new FoodieCheckoutFragment();
+                    loginFragment = new LoginFragment();
+                    replaceFragment(loginFragment);
+//                    Intent i = new Intent(HomePage.this, LogIn.class);
+//                    HomePage.this.startActivityForResult(i, ACTION_PROCEED_PAYMENT_FoodieCartFragment_ID);
                 }
                 break;
             }
@@ -989,6 +1006,39 @@ public class HomePage extends AppCompatActivity implements
         }
     }
 
+    private void LoginFragmentRequestHandler(int action_id, Bundle bundle) {
+        switch (action_id) {
+            case ACTION_SIGN_IN_LoginFragment_ID: {
+                String uid = bundle.getString("username");
+                String password = bundle.getString("password");
+                AppGlobalState.signIn(uid, password, new DataLayer.SignInCallback() {
+                    public void done(Foodie f, Exception e) {
+                        if (e == null) {
+                            // login successful
+                            replaceFragment(loginSuccessFragment);
+                            getSupportActionBar().show();
+                        } else {
+                            Toast t = Toast.makeText(getApplicationContext(), "SignIn failed", Toast.LENGTH_LONG);
+                            t.show();
+                            loginFragment.enableSignInButton();
+                        }
+
+                    }
+                });
+                break;
+            }
+            case ACTION_REGISTER_LoginFragment_ID: {
+
+                break;
+            }
+            case ACTION_HOMEUP_LoginFragment_ID: {
+                boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
+                FragmentHomeUpButton(canActivityHandle);
+                break;
+            }
+        }
+    }
+
     public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle) {
         switch (fragment_id) {
             case FRAGMENT_ChefDishEditInfoFragment_ID: {
@@ -1065,6 +1115,10 @@ public class HomePage extends AppCompatActivity implements
             }
             case FRAGMENT_RegisterNameFragment_ID: {
                 RegisterNameFragmentRequestHandler(action_id, bundle);
+                break;
+            }
+            case FRAGMENT_LoginFragment_ID: {
+                LoginFragmentRequestHandler(action_id, bundle);
                 break;
             }
         }
@@ -1424,7 +1478,8 @@ public class HomePage extends AppCompatActivity implements
     }
 
     public void OnCheckoutCartClicked() {
-        displayFoodieView(1);
+        FoodieCartFragment fragment = new FoodieCartFragment();
+        replaceFragment(fragment);
     }
 
     public void OnDishReviewsClicked(DishOnSale dish) {
@@ -1474,18 +1529,18 @@ public class HomePage extends AppCompatActivity implements
     }
 
     public void OnPlaceOrderSelected() {
-            AppGlobalState.checkOutCart(new DataLayer.SaveCallback() {
-                @Override
-                public void done(String OrderId, Exception e) {
-                    if (e == null) {
-                        Toast.makeText(getApplicationContext(), "Placed order : " + OrderId, Toast.LENGTH_SHORT).show();
-                        displayFoodieView(0);
-                        AppGlobalState.gCart.clear();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Failed to place order", Toast.LENGTH_SHORT).show();
-                    }
+        AppGlobalState.checkOutCart(new DataLayer.SaveCallback() {
+            @Override
+            public void done(String OrderId, Exception e) {
+                if (e == null) {
+                    Toast.makeText(getApplicationContext(), "Placed order : " + OrderId, Toast.LENGTH_SHORT).show();
+                    displayFoodieView(0);
+                    AppGlobalState.gCart.clear();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Failed to place order", Toast.LENGTH_SHORT).show();
                 }
-            });
+            }
+        });
     }
 
     public void OnOrderDetailsClicked(FoodieOrder foodieOrder) {
@@ -1519,7 +1574,7 @@ public class HomePage extends AppCompatActivity implements
                 case DialogInterface.BUTTON_POSITIVE:
                     //Yes button clicked
                     //TODO: cancel the order. update in database. inform related chefs. any other actions
-                    displayFoodieView(2); // display FoodieOrderHistoryFragment
+                    displayFoodieView(1); // display FoodieOrderHistoryFragment
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:

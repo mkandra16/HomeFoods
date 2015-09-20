@@ -36,7 +36,7 @@ public class LogIn extends ActionBarActivity {
                             finish();
                         } else {
                             bSignIn.setEnabled(true);
-                            Toast t = Toast.makeText(getApplicationContext(), "SignIn failed", Toast.LENGTH_LONG);
+                            Toast t = Toast.makeText(getApplicationContext(), "SignIn failed 2", Toast.LENGTH_LONG);
                             t.show();
                         }
 

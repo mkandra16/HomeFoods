@@ -11,14 +11,22 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.activities.HomePage;
 
 
-public class RegisterNameFragment extends Fragment {
+public class LoginFragment extends Fragment {
     private FragmentActivity mContext;
     private View rootView;
+
+    private Button bSignIn;
+    private Button bRegister;
+    private EditText etUserId;
+    private EditText etPassword;
 
     fragment_action_request_handler mActionRequestCallback;
 
@@ -27,7 +35,7 @@ public class RegisterNameFragment extends Fragment {
         public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle);
     }
 
-    public RegisterNameFragment() {
+    public LoginFragment() {
 
     }
 
@@ -35,11 +43,7 @@ public class RegisterNameFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        Bundle bundle = getArguments();
-//        if (bundle != null)
-//            mChef = (Foodie) bundle.getParcelable("chef");
-
-       // getActivity().invalidateOptionsMenu();
+        // getActivity().invalidateOptionsMenu();
         //setHasOptionsMenu(true);
     }
 
@@ -52,8 +56,8 @@ public class RegisterNameFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_RegisterNameFragment_ID,
-                HomePage.ACTION_HOMEUP_RegisterNameFragment_ID, args);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_LoginFragment_ID,
+                HomePage.ACTION_HOMEUP_LoginFragment_ID, args);
 
         //actionBar.setTitle("Register");
     }
@@ -83,16 +87,64 @@ public class RegisterNameFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_RegisterNameFragment_ID,
-                HomePage.ACTION_HOMEUP_RegisterNameFragment_ID, args);
+        mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_LoginFragment_ID,
+                HomePage.ACTION_HOMEUP_LoginFragment_ID, args);
+    }
+
+    private boolean checkForMustData() {
+        String name = etUserId.getText().toString();
+        String pass = etPassword.getText().toString();
+
+        if (name == null || name.isEmpty()) {
+            Toast.makeText(mContext, "Please Enter User Name", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (pass == null || pass.isEmpty()) {
+            Toast.makeText(mContext, "Please Enter Password", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
+    public void enableSignInButton() {
+        bSignIn.setEnabled(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_chef_register_name, container, false);
+        rootView = inflater.inflate(R.layout.activity_log_in, container, false);
+        bSignIn = (Button) rootView.findViewById(R.id.bSignIn);
+        bRegister = (Button) rootView.findViewById(R.id.bRegister);
+        etUserId = (EditText) rootView.findViewById(R.id.etUserId);
+        etPassword = (EditText) rootView.findViewById(R.id.etPassword);
 
+        bSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean gotAllData = checkForMustData();
+                if (gotAllData) {
+                    bSignIn.setEnabled(false);
+                    Bundle args = new Bundle();
+                    args.putString("username", etUserId.getText().toString());
+                    args.putString("password", etPassword.getText().toString());
+                    mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_LoginFragment_ID,
+                            HomePage.ACTION_SIGN_IN_LoginFragment_ID, args);
+                }
+            }
+        });
+
+        bRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_LoginFragment_ID,
+                        HomePage.ACTION_REGISTER_LoginFragment_ID, args);
+            }
+        });
 
         return rootView;
     }

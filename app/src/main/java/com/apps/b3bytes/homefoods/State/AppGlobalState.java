@@ -53,6 +53,7 @@ public final class AppGlobalState {
                 } else {
                     Toast t = Toast.makeText(mContext, "SignIn failed", Toast.LENGTH_LONG);
                     t.show();
+                    cb.done(f, e);
                 }
             }
         });
