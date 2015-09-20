@@ -53,6 +53,7 @@ import com.apps.b3bytes.homefoods.fragments.FoodiePendingOrdersTabFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieViewPastPendingOrderDetailsFragment;
 import com.apps.b3bytes.homefoods.fragments.FragmentActionRequestHandler;
 import com.apps.b3bytes.homefoods.fragments.LoginFragment;
+import com.apps.b3bytes.homefoods.fragments.RegisterImageFragment;
 import com.apps.b3bytes.homefoods.fragments.RegisterNameFragment;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.DishOrder;
@@ -66,7 +67,6 @@ import java.util.List;
 
 public class HomePage extends AppCompatActivity implements FragmentActionRequestHandler
 {
-
     // These identifiers are used to communicate from fragment to activity.
     // there will be a common callback between fragment and activity
     // which fragment is calling and whats the purpose of callback will
@@ -970,6 +970,8 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
         // TODO: send to server.
         // wait for email verification. display verification page or progress bar.
         // For now, go to next page
+        RegisterImageFragment registerImageFragment = new RegisterImageFragment();
+        replaceFragment(registerImageFragment);
     }
 
     private void RegisterNameFragmentRequestHandler(int action_id, Bundle bundle) {

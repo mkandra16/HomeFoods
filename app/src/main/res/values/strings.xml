@@ -75,5 +75,10 @@
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
     <string name="title_activity_maps">Map</string>
+    <string name="tvDisplayNameRule">Please note that display name is one time choosable. Once registered, it can\'t be changed.</string>
+    <string name="tvCancel">X</string>
+    <string name="etDisplayNameHint">Display Name</string>
+    <string name="bRegisterImageNext">Next</string>
+    <string name="etPhoneNumberHint">Phone Number</string>
 
 </resources>

@@ -21,7 +21,10 @@
              which is used to tint widgets -->
         <item name="colorAccent">@color/KPTheme_AdriftInDreams_colorAccent</item>
         <item name="bAddToBag">@style/KPTheme_AdriftInDreams_Button_AddToBag</item>
+        <item name="circularImageViewStyle">@style/Widget.ImageButton.Custom</item>
     </style>
+
+    <style name="Widget.ImageButton.Custom" parent="android:style/Widget.ImageButton"></style>
 
     <color name="button_text">#0B486B</color>
 
