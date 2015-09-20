@@ -80,8 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void done(Foodie f, Exception e) {
                         Toast.makeText(getApplicationContext(), "Resgistered Foodie" + f.getmUserName(), Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(RegisterActivity.this, HomePage.class);
-                        RegisterActivity.this.startActivity(i);
+                        finish();
                     }
                 });
             }

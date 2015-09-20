@@ -59,17 +59,7 @@ public final class AppGlobalState {
 
     }
 
-    public static void checkOutCart() {
-        gDataLayer.checkOutCart(gCart, new DataLayer.SaveCallback() {
-            @Override
-            public void done(String OrderId, Exception e) {
-                if (e == null) {
-                    Toast.makeText(mContext, "Placed order : " + OrderId, Toast.LENGTH_SHORT).show();
-                    //gCart.clear();
-                } else {
-                    Toast.makeText(mContext, "Failed to place order", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+    public static void checkOutCart(final DataLayer.SaveCallback cb) {
+        gDataLayer.checkOutCart(gCart, cb);
     }
 }

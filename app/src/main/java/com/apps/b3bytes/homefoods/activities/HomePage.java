@@ -1474,9 +1474,18 @@ public class HomePage extends AppCompatActivity implements
     }
 
     public void OnPlaceOrderSelected() {
-            AppGlobalState.checkOutCart();
-            //TODO (clear the cart)
-            displayFoodieView(0);
+            AppGlobalState.checkOutCart(new DataLayer.SaveCallback() {
+                @Override
+                public void done(String OrderId, Exception e) {
+                    if (e == null) {
+                        Toast.makeText(getApplicationContext(), "Placed order : " + OrderId, Toast.LENGTH_SHORT).show();
+                        displayFoodieView(0);
+                        AppGlobalState.gCart.clear();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Failed to place order", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
     }
 
     public void OnOrderDetailsClicked(FoodieOrder foodieOrder) {
