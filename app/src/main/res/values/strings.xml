@@ -62,7 +62,6 @@
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_foodie_items">
         <item>Home</item>
-        <item>Checkout</item>
         <item>Order history</item>
     </string-array>
 
@@ -70,7 +69,6 @@
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_foodie_icons">
         <item>@mipmap/ic_home</item>
-        <item>@mipmap/ic_action_cart</item>
         <item>@mipmap/ic_history</item>
     </array>
 
