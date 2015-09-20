@@ -33,9 +33,9 @@ public class LogIn extends ActionBarActivity {
                 AppGlobalState.signIn(uid, password, new DataLayer.SignInCallback() {
                     public void done(Foodie f, Exception e) {
                         if (e == null) {
-                            Intent i = new Intent(LogIn.this, HomePage.class);
-                            LogIn.this.startActivity(i);
+                            finish();
                         } else {
+                            bSignIn.setEnabled(true);
                             Toast t = Toast.makeText(getApplicationContext(), "SignIn failed", Toast.LENGTH_LONG);
                             t.show();
                         }
@@ -52,6 +52,12 @@ public class LogIn extends ActionBarActivity {
                 LogIn.this.startActivity(i);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 
     @Override
