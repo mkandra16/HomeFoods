@@ -1033,10 +1033,12 @@ public class HomePage extends AppCompatActivity implements
             }
             case ACTION_REGISTER_LoginFragment_ID: {
                 RegisterNameFragment registerNameFragment = new RegisterNameFragment();
+
                 mFoodie = new Foodie();
                 Bundle args = new Bundle();
                 args.putParcelable("foodie", mFoodie);
                 registerNameFragment.setArguments(args);
+
                 replaceFragment(registerNameFragment);
                 break;
             }
