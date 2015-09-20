@@ -51,6 +51,7 @@ import com.apps.b3bytes.homefoods.fragments.FoodieOrderHistoryFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodiePastOrdersTabFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodiePendingOrdersTabFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieViewPastPendingOrderDetailsFragment;
+import com.apps.b3bytes.homefoods.fragments.RegisterNameFragment;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.Foodie;
@@ -79,7 +80,8 @@ public class HomePage extends AppCompatActivity implements
         FoodiePendingOrdersTabFragment.fragment_action_request_handler,
         FoodieViewPastPendingOrderDetailsFragment.fragment_action_request_handler,
         FoodieGiveDishReviewFragment.fragment_action_request_handler,
-        ChefReviewFragment.fragment_action_request_handler {
+        ChefReviewFragment.fragment_action_request_handler,
+        RegisterNameFragment.fragment_action_request_handler {
 
     // These identifiers are used to communicate from fragment to activity.
     // there will be a common callback between fragment and activity
@@ -191,6 +193,11 @@ public class HomePage extends AppCompatActivity implements
     public static final int FRAGMENT_ChefReviewFragment_ID = 17;
     public static final int ACTION_HOMEUP_ChefReviewFragment_ID = 0;
 
+    // ChefReviewFragment IDs
+    public static final int FRAGMENT_RegisterNameFragment_ID = 18;
+    public static final int ACTION_NEXT_RegisterNameFragment_ID = 0;
+    public static final int ACTION_HOMEUP_RegisterNameFragment_ID = 1;
+
     public static final int DISH_SECTION_EDIT_SINGLE = 0;
     public static final int DISH_SECTION_EDIT_ALL = 1;
 
@@ -299,6 +306,10 @@ public class HomePage extends AppCompatActivity implements
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Display Registration Page",
                         Toast.LENGTH_SHORT).show();
+                RegisterNameFragment registerNameFragment = new RegisterNameFragment();
+                replaceFragment(registerNameFragment);
+                setTitle("Register");
+                mDrawerLayout.closeDrawer(llSliderMenu);
             }
         });
 
@@ -909,6 +920,20 @@ public class HomePage extends AppCompatActivity implements
         }
     }
 
+    private void RegisterNameFragmentRequestHandler(int action_id, Bundle bundle) {
+        switch (action_id) {
+            case ACTION_NEXT_RegisterNameFragment_ID: {
+
+                break;
+            }
+            case ACTION_HOMEUP_RegisterNameFragment_ID: {
+                boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
+                FragmentHomeUpButton(canActivityHandle);
+                break;
+            }
+        }
+    }
+
     public void FragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle) {
         switch (fragment_id) {
             case FRAGMENT_ChefDishEditInfoFragment_ID: {
@@ -981,6 +1006,10 @@ public class HomePage extends AppCompatActivity implements
             }
             case FRAGMENT_ChefReviewFragment_ID: {
                 ChefReviewFragmentRequestHandler(action_id, bundle);
+                break;
+            }
+            case FRAGMENT_RegisterNameFragment_ID: {
+                RegisterNameFragmentRequestHandler(action_id, bundle);
                 break;
             }
         }
