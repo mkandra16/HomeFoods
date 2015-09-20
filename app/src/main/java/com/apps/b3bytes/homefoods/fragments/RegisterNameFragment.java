@@ -6,19 +6,34 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.activities.HomePage;
+import com.apps.b3bytes.homefoods.models.Foodie;
 
 
 public class RegisterNameFragment extends Fragment {
     private FragmentActivity mContext;
     private View rootView;
+    private Foodie mFoodie;
+    private TextView tvCancel;
+    private EditText etFirstName;
+    private EditText etLastName;
+    private EditText etEmail;
+    private EditText etPassword;
+    private Button bRegister;
+    private boolean mAlertDiscardChanges;
 
     fragment_action_request_handler mActionRequestCallback;
 
@@ -35,11 +50,11 @@ public class RegisterNameFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        Bundle bundle = getArguments();
-//        if (bundle != null)
-//            mChef = (Foodie) bundle.getParcelable("chef");
+        Bundle bundle = getArguments();
+        if (bundle != null)
+            mFoodie = (Foodie) bundle.getParcelable("foodie");
 
-       // getActivity().invalidateOptionsMenu();
+        // getActivity().invalidateOptionsMenu();
         //setHasOptionsMenu(true);
     }
 
@@ -91,12 +106,105 @@ public class RegisterNameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_chef_register_name, container, false);
+        rootView = inflater.inflate(R.layout.fragment_register_name, container, false);
+        tvCancel = (TextView) rootView.findViewById(R.id.tvCancel);
+        etFirstName = (EditText) rootView.findViewById(R.id.etFirstName);
+        etLastName = (EditText) rootView.findViewById(R.id.etLastName);
+        etEmail = (EditText) rootView.findViewById(R.id.etEmail);
+        etPassword = (EditText) rootView.findViewById(R.id.etPassword);
+        bRegister = (Button) rootView.findViewById(R.id.bRegister);
 
+        etFirstName.addTextChangedListener(textWatcher);
+        etLastName.addTextChangedListener(textWatcher);
+        etEmail.addTextChangedListener(textWatcher);
+        etPassword.addTextChangedListener(textWatcher);
+
+        bRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean gotAllData = checkForMustData();
+                if (gotAllData) {
+                    Bundle args = new Bundle();
+                    args.putParcelable("foodie", mFoodie);
+                    mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_RegisterNameFragment_ID,
+                            HomePage.ACTION_REGISTER_RegisterNameFragment_ID, args);
+                }
+            }
+        });
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                args.putBoolean("onChanged", mAlertDiscardChanges);
+                mActionRequestCallback.FragmentActionRequestHandler(HomePage.FRAGMENT_RegisterNameFragment_ID,
+                        HomePage.ACTION_CANCEL_RegisterNameFragment_ID, args);
+            }
+        });
 
         return rootView;
     }
 
+    private boolean checkForMustData() {
+        String firstName = etFirstName.getText().toString();
+        String lastName = etLastName.getText().toString();
+        String email = etEmail.getText().toString();
+        String password = etPassword.getText().toString();
+
+        if (firstName == null || firstName.isEmpty()) {
+            Toast.makeText(mContext, "Please Enter First Name", Toast.LENGTH_SHORT).show();
+            etFirstName.requestFocus();
+            return false;
+        }
+        mFoodie.setmFirstName(firstName);
+
+        if (lastName == null || lastName.isEmpty()) {
+            Toast.makeText(mContext, "Please Enter Last Name", Toast.LENGTH_SHORT).show();
+            etLastName.requestFocus();
+            return false;
+        }
+        mFoodie.setmLastName(lastName);
+
+        // TODO: check for proper email format
+        if (email == null || email.isEmpty()) {
+            Toast.makeText(mContext, "Please Enter Email", Toast.LENGTH_SHORT).show();
+            etEmail.requestFocus();
+            return false;
+        }
+        mFoodie.getmContact().setmEmailId(email);
+
+        // TODO: enforce password requirements
+        if (password == null || password.isEmpty()) {
+            Toast.makeText(mContext, "Please Enter Password", Toast.LENGTH_SHORT).show();
+            etPassword.requestFocus();
+            return false;
+        }
+        mFoodie.setmPassword(password);
+
+        return true;
+    }
+
+    public boolean getmAlertDiscardChanges() {
+        return mAlertDiscardChanges;
+    }
+
+    private TextWatcher textWatcher = new TextWatcher() {
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            mAlertDiscardChanges = true;
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {

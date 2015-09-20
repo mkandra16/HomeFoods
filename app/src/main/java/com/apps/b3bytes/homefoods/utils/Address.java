@@ -18,6 +18,9 @@ public class Address implements Parcelable {
     private String mState;
     private String mCountry;
 
+    public Address() {
+    }
+
     public Address(JSONObject addr) {
         try {
             mCity = addr.getString("AddrLine2");

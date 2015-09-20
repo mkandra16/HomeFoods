@@ -1,13 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/tvCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="5dp"
+        android:clickable="true"
+        android:text="X"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@android:color/black" />
+
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tvCancel">
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
@@ -94,7 +107,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                android:id="@+id/bSubmit"
+                android:id="@+id/bRegister"
                 style="?bAddToBag"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -104,4 +117,4 @@
 
         </RelativeLayout>
     </ScrollView>
-</LinearLayout>
+</RelativeLayout>

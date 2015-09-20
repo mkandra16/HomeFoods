@@ -2,7 +2,6 @@ package com.apps.b3bytes.homefoods.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -60,7 +58,6 @@ import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.Foodie;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
 import com.apps.b3bytes.homefoods.models.NavDrawerItem;
-import com.apps.b3bytes.homefoods.utils.Utils;
 import com.apps.b3bytes.homefoods.widgets.DividerItemDecoration;
 
 import java.util.ArrayList;
@@ -88,31 +85,6 @@ public class HomePage extends AppCompatActivity implements
         RegisterNameFragment.fragment_action_request_handler,
         LoginFragment.fragment_action_request_handler {
 
-    class OnActiivtyResultResp {
-        public OnActiivtyResultResp(int requestCode, int respCode, Intent data) {
-            this.requestCode = requestCode;
-            this.respCode = respCode;
-            this.data = data;
-        }
-
-        public int getRequestCode() {
-            return requestCode;
-        }
-
-        public int getRespCode() {
-            return respCode;
-        }
-
-        public Intent getData() {
-            return data;
-        }
-
-        private int requestCode;
-        private int respCode;
-        private Intent data;
-    }
-
-    private OnActiivtyResultResp onActiivtyResultResp;
     // These identifiers are used to communicate from fragment to activity.
     // there will be a common callback between fragment and activity
     // which fragment is calling and whats the purpose of callback will
@@ -225,8 +197,9 @@ public class HomePage extends AppCompatActivity implements
 
     // ChefReviewFragment IDs
     public static final int FRAGMENT_RegisterNameFragment_ID = 18;
-    public static final int ACTION_NEXT_RegisterNameFragment_ID = 0;
-    public static final int ACTION_HOMEUP_RegisterNameFragment_ID = 1;
+    public static final int ACTION_REGISTER_RegisterNameFragment_ID = 0;
+    public static final int ACTION_CANCEL_RegisterNameFragment_ID = 1;
+    public static final int ACTION_HOMEUP_RegisterNameFragment_ID = 2;
 
     // LoginFragment IDs
     public static final int FRAGMENT_LoginFragment_ID = 19;
@@ -237,8 +210,7 @@ public class HomePage extends AppCompatActivity implements
     public static final int DISH_SECTION_EDIT_SINGLE = 0;
     public static final int DISH_SECTION_EDIT_ALL = 1;
 
-    private int mEditMode;
-    private DishOnSale mDish;
+
     private ChefDishEditInfoFragment infoFragment;
     private ChefDishEditPriceFragment priceFragment;
     private ChefDishEditAvailFragment availFragment;
@@ -260,7 +232,9 @@ public class HomePage extends AppCompatActivity implements
     private ActionBarDrawerToggle mDrawerToggle;
     private Switch swChefFoodie;
     private TextView tvRegisterAsChef;
-
+    private int mEditMode;
+    private DishOnSale mDish;
+    private Foodie mFoodie;
     // nav drawer title
     private CharSequence mDrawerTitle;
 
@@ -347,7 +321,14 @@ public class HomePage extends AppCompatActivity implements
                 Toast.makeText(getApplicationContext(), "Display Registration Page",
                         Toast.LENGTH_SHORT).show();
                 RegisterNameFragment registerNameFragment = new RegisterNameFragment();
+                if (mFoodie == null)
+                    mFoodie = new Foodie();
+
+                Bundle args = new Bundle();
+                args.putParcelable("foodie", mFoodie);
+                registerNameFragment.setArguments(args);
                 replaceFragment(registerNameFragment);
+
                 setTitle("Register");
                 mDrawerLayout.closeDrawer(llSliderMenu);
             }
@@ -526,6 +507,14 @@ public class HomePage extends AppCompatActivity implements
                 AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(HomePage.this, R.style.myDialog));
                 builder.setMessage("Discard changes?").setPositiveButton("YES", dialogToolbarBackClickListener)
                         .setNegativeButton("NO", dialogToolbarBackClickListener).show();
+            } else {
+                superOnBackPressed();
+            }
+        } else if (currentFragment instanceof RegisterNameFragment) {
+            if (((RegisterNameFragment) currentFragment).getmAlertDiscardChanges()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
+                builder.setMessage("Cancel Registration?").setPositiveButton("YES", dialogRegisterCancelListener)
+                        .setNegativeButton("NO", dialogClickListener).show();
             } else {
                 superOnBackPressed();
             }
@@ -839,8 +828,6 @@ public class HomePage extends AppCompatActivity implements
                     loginSuccessFragment = new FoodieCheckoutFragment();
                     loginFragment = new LoginFragment();
                     replaceFragment(loginFragment);
-//                    Intent i = new Intent(HomePage.this, LogIn.class);
-//                    HomePage.this.startActivityForResult(i, ACTION_PROCEED_PAYMENT_FoodieCartFragment_ID);
                 }
                 break;
             }
@@ -852,30 +839,6 @@ public class HomePage extends AppCompatActivity implements
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Utils._assert(onActiivtyResultResp == null);
-        onActiivtyResultResp = new OnActiivtyResultResp(requestCode, resultCode, data);
-        // onPostResume() will take care of processing this result.
-    }
-
-    @Override
-    protected void onPostResume() {
-        if (onActiivtyResultResp != null) {
-            if (onActiivtyResultResp.getRequestCode() == ACTION_PROCEED_PAYMENT_FoodieCartFragment_ID) {
-                if (onActiivtyResultResp.getRespCode() == RESULT_OK) {
-                    FoodieCartFragmentRequestHandler(onActiivtyResultResp.getRequestCode(), new Bundle());
-                } else {
-                    OnCheckoutCartClicked();
-                }
-
-            } else {
-                Utils.notReached();
-            }
-            onActiivtyResultResp = null;
-        }
-        super.onPostResume();
-    }
 
     public void FoodieCheckoutFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
@@ -992,10 +955,51 @@ public class HomePage extends AppCompatActivity implements
         }
     }
 
+    DialogInterface.OnClickListener dialogRegisterCancelListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    //Yes button clicked
+                    // Display the last fragment that invoked the register fragment
+                    superOnBackPressed();
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        }
+    };
+
+    private void OnRegisterCancelSelected(boolean isChanged) {
+        if (isChanged) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
+            builder.setMessage("Cancel Registration?").setPositiveButton("YES", dialogRegisterCancelListener)
+                    .setNegativeButton("NO", dialogClickListener).show();
+        } else {
+            // Display the last fragment that invoked the register fragment
+            superOnBackPressed();
+        }
+
+    }
+
+    private void OnRegisterRegisterSelected() {
+        // TODO: send to server.
+        // wait for email verification. display verification page or progress bar.
+        // For now, go to next page
+    }
+
     private void RegisterNameFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
-            case ACTION_NEXT_RegisterNameFragment_ID: {
-
+            case ACTION_REGISTER_RegisterNameFragment_ID: {
+                mFoodie = bundle.getParcelable("foodie");
+                OnRegisterRegisterSelected();
+                break;
+            }
+            case ACTION_CANCEL_RegisterNameFragment_ID: {
+                boolean onChanged = bundle.getBoolean("onChanged");
+                OnRegisterCancelSelected(onChanged);
                 break;
             }
             case ACTION_HOMEUP_RegisterNameFragment_ID: {
@@ -1015,20 +1019,25 @@ public class HomePage extends AppCompatActivity implements
                     public void done(Foodie f, Exception e) {
                         if (e == null) {
                             // login successful
-                            replaceFragment(loginSuccessFragment);
+                            if (loginSuccessFragment != null)
+                                replaceFragment(loginSuccessFragment);
                             getSupportActionBar().show();
                         } else {
                             Toast t = Toast.makeText(getApplicationContext(), "SignIn failed", Toast.LENGTH_LONG);
                             t.show();
                             loginFragment.enableSignInButton();
                         }
-
                     }
                 });
                 break;
             }
             case ACTION_REGISTER_LoginFragment_ID: {
-
+                RegisterNameFragment registerNameFragment = new RegisterNameFragment();
+                mFoodie = new Foodie();
+                Bundle args = new Bundle();
+                args.putParcelable("foodie", mFoodie);
+                registerNameFragment.setArguments(args);
+                replaceFragment(registerNameFragment);
                 break;
             }
             case ACTION_HOMEUP_LoginFragment_ID: {

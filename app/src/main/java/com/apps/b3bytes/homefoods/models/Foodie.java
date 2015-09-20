@@ -38,6 +38,12 @@ public class Foodie implements Parcelable {
         this.mTag = mTag;
     }
 
+    public Foodie() {
+        mAddr = new Address();
+        mContact = new ContactDetails();
+        mChef = new Chef();
+    }
+
     @Override
     public boolean equals(Object other) {
         if (!(other instanceof Foodie)) {

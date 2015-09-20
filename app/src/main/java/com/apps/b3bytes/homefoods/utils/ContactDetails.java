@@ -24,6 +24,9 @@ public class ContactDetails implements Parcelable {
         this.mEmailVerified = mEmailVerified;
     }
 
+    public ContactDetails() {
+    }
+
     public ContactDetails(JSONObject cd) {
         try {
             mHomePh = cd.getString("HomePh");
