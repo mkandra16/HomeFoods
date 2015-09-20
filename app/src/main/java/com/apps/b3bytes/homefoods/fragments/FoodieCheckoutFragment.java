@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
-import com.apps.b3bytes.homefoods.activities.HomePage;
+import com.apps.b3bytes.homefoods.State.Constants;
 
 public class FoodieCheckoutFragment extends Fragment {
     private FragmentActivity mContext;
@@ -41,8 +41,8 @@ public class FoodieCheckoutFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCheckoutFragment_ID,
-                        HomePage.ACTION_ADD_CARD_FoodieCheckoutFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_FoodieCheckoutFragment_ID,
+                        Constants.ACTION_ADD_CARD_FoodieCheckoutFragment_ID, args);
             }
         });
 
@@ -51,8 +51,8 @@ public class FoodieCheckoutFragment extends Fragment {
             public void onClick(View view) {
                 Toast.makeText(mContext, "Placing Order", Toast.LENGTH_SHORT).show();
                 Bundle args = new Bundle();
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCheckoutFragment_ID,
-                        HomePage.ACTION_PLACE_ORDER_FoodieCheckoutFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_FoodieCheckoutFragment_ID,
+                        Constants.ACTION_PLACE_ORDER_FoodieCheckoutFragment_ID, args);
             }
         });
         return rootView;
@@ -78,8 +78,8 @@ public class FoodieCheckoutFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCheckoutFragment_ID,
-                HomePage.ACTION_HOMEUP_FoodieCheckoutFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_FoodieCheckoutFragment_ID,
+                Constants.ACTION_HOMEUP_FoodieCheckoutFragment_ID, args);
     }
 
     @Override
@@ -105,8 +105,8 @@ public class FoodieCheckoutFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCheckoutFragment_ID,
-                HomePage.ACTION_HOMEUP_FoodieCheckoutFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_FoodieCheckoutFragment_ID,
+                Constants.ACTION_HOMEUP_FoodieCheckoutFragment_ID, args);
 
         actionBar.setTitle("Checkout");
     }

@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
-import com.apps.b3bytes.homefoods.activities.HomePage;
+import com.apps.b3bytes.homefoods.State.Constants;
 
 
 public class LoginFragment extends Fragment {
@@ -52,8 +52,8 @@ public class LoginFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_LoginFragment_ID,
-                HomePage.ACTION_HOMEUP_LoginFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_LoginFragment_ID,
+                Constants.ACTION_HOMEUP_LoginFragment_ID, args);
 
         //actionBar.setTitle("Register");
     }
@@ -83,8 +83,8 @@ public class LoginFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_LoginFragment_ID,
-                HomePage.ACTION_HOMEUP_LoginFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_LoginFragment_ID,
+                Constants.ACTION_HOMEUP_LoginFragment_ID, args);
     }
 
     private boolean checkForMustData() {
@@ -139,8 +139,8 @@ public class LoginFragment extends Fragment {
                     Bundle args = new Bundle();
                     args.putString("username", etUserId.getText().toString());
                     args.putString("password", etPassword.getText().toString());
-                    mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_LoginFragment_ID,
-                            HomePage.ACTION_SIGN_IN_LoginFragment_ID, args);
+                    mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_LoginFragment_ID,
+                            Constants.ACTION_SIGN_IN_LoginFragment_ID, args);
                 }
             }
         });
@@ -149,8 +149,8 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_LoginFragment_ID,
-                        HomePage.ACTION_REGISTER_LoginFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_LoginFragment_ID,
+                        Constants.ACTION_REGISTER_LoginFragment_ID, args);
             }
         });
 

@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
-import com.apps.b3bytes.homefoods.activities.HomePage;
+import com.apps.b3bytes.homefoods.State.Constants;
 import com.apps.b3bytes.homefoods.adapters.FoodieResultsAdapter;
 import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
@@ -85,8 +85,8 @@ public class FoodieHomeFragment extends Fragment implements
     public void onDishReviewClicked(DishOnSale dish) {
         Bundle args = new Bundle();
         args.putParcelable("dish", dish);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieHomeFragment_ID,
-                HomePage.ACTION_DISH_REVIEW_FoodieHomeFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_FoodieHomeFragment_ID,
+                Constants.ACTION_DISH_REVIEW_FoodieHomeFragment_ID, args);
     }
 
     @Override
@@ -150,8 +150,8 @@ public class FoodieHomeFragment extends Fragment implements
     private void displayDishDesc(DishOnSale item, int position) {
         Bundle args = new Bundle();
         args.putParcelable("dish", item);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieHomeFragment_ID,
-                HomePage.ACTION_DISH_DESC_FoodieHomeFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_FoodieHomeFragment_ID,
+                Constants.ACTION_DISH_DESC_FoodieHomeFragment_ID, args);
     }
 
     @Override
@@ -182,8 +182,8 @@ public class FoodieHomeFragment extends Fragment implements
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieHomeFragment_ID,
-                        HomePage.ACTION_CHECKOUT_CART_FoodieHomeFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_FoodieHomeFragment_ID,
+                        Constants.ACTION_CHECKOUT_CART_FoodieHomeFragment_ID, args);
             }
         });
 

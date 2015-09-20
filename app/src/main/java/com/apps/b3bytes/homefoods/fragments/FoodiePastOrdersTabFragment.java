@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.apps.b3bytes.homefoods.R;
-import com.apps.b3bytes.homefoods.activities.HomePage;
+import com.apps.b3bytes.homefoods.State.Constants;
 import com.apps.b3bytes.homefoods.adapters.FoodiePastOrdersRVAdapter;
 import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
@@ -76,21 +76,21 @@ public class FoodiePastOrdersTabFragment extends Fragment implements
     public void orderDetailsClicked(FoodieOrder foodieOrder) {
         Bundle args = new Bundle();
         args.putParcelable("foodieOrder", foodieOrder);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodiePastOrdersTabFragment_ID,
-                HomePage.ACTION_ORDER_DETAILS_FoodiePastOrdersTabFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_FoodiePastOrdersTabFragment_ID,
+                Constants.ACTION_ORDER_DETAILS_FoodiePastOrdersTabFragment_ID, args);
     }
 
     public void buyDishAgainClicked(DishOrder dishOrder) {
         Bundle args = new Bundle();
         args.putParcelable("dishOrder", dishOrder);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodiePastOrdersTabFragment_ID,
-                HomePage.ACTION_BUY_DISH_AGAIN_FoodiePastOrdersTabFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_FoodiePastOrdersTabFragment_ID,
+                Constants.ACTION_BUY_DISH_AGAIN_FoodiePastOrdersTabFragment_ID, args);
     }
 
     public void writeDishReviewClicked(DishOrder dishOrder) {
         Bundle args = new Bundle();
         args.putParcelable("dishOrder", dishOrder);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodiePastOrdersTabFragment_ID,
-                HomePage.ACTION_WRITE_DISH_REVIEW_FoodiePastOrdersTabFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_FoodiePastOrdersTabFragment_ID,
+                Constants.ACTION_WRITE_DISH_REVIEW_FoodiePastOrdersTabFragment_ID, args);
     }
 }

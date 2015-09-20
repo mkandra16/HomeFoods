@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.apps.b3bytes.homefoods.R;
-import com.apps.b3bytes.homefoods.activities.HomePage;
+import com.apps.b3bytes.homefoods.State.Constants;
 
 public class FoodieAddBillingAddressFragment extends Fragment {
     private FragmentActivity mContext;
@@ -110,8 +110,8 @@ public class FoodieAddBillingAddressFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddBillingAddressFragment_ID,
-                HomePage.ACTION_HOMEUP_FoodieAddBillingAddressFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_FoodieAddBillingAddressFragment_ID,
+                Constants.ACTION_HOMEUP_FoodieAddBillingAddressFragment_ID, args);
     }
 
     @Override
@@ -137,8 +137,8 @@ public class FoodieAddBillingAddressFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddBillingAddressFragment_ID,
-                HomePage.ACTION_HOMEUP_FoodieAddBillingAddressFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_FoodieAddBillingAddressFragment_ID,
+                Constants.ACTION_HOMEUP_FoodieAddBillingAddressFragment_ID, args);
 
         actionBar.setTitle("Billing Address");
     }
@@ -163,8 +163,8 @@ public class FoodieAddBillingAddressFragment extends Fragment {
             case R.id.action_save_addr:
                 Bundle args = new Bundle();
                 args.putBoolean("canActivityHandle", true);
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddBillingAddressFragment_ID,
-                        HomePage.ACTION_SAVE_BILLING_ADDRESS_FoodieAddPaymentCardFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_FoodieAddBillingAddressFragment_ID,
+                        Constants.ACTION_SAVE_BILLING_ADDRESS_FoodieAddPaymentCardFragment_ID, args);
                 return true;
             default:
                 break;

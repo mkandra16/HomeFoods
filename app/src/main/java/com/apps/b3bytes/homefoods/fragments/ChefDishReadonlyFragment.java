@@ -16,9 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
-import com.apps.b3bytes.homefoods.activities.HomePage;
+import com.apps.b3bytes.homefoods.State.Constants;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
-import com.squareup.picasso.Picasso;
 
 
 public class ChefDishReadonlyFragment extends Fragment {
@@ -90,8 +89,8 @@ public class ChefDishReadonlyFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishReadonlyFragment_ID,
-                HomePage.ACTION_HOMEUP_ChefDishReadonlyFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishReadonlyFragment_ID,
+                Constants.ACTION_HOMEUP_ChefDishReadonlyFragment_ID, args);
 
         actionBar.setTitle(mDish.getmDish().getmDishName());
     }
@@ -120,8 +119,8 @@ public class ChefDishReadonlyFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishReadonlyFragment_ID,
-                HomePage.ACTION_HOMEUP_ChefDishReadonlyFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishReadonlyFragment_ID,
+                Constants.ACTION_HOMEUP_ChefDishReadonlyFragment_ID, args);
     }
 
     @Override
@@ -167,8 +166,8 @@ public class ChefDishReadonlyFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putParcelable("dish", mDish);
                 args.putInt("section", DISH_EDIT_SECTION_INFO);
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishReadonlyFragment_ID,
-                        HomePage.ACTION_EDIT_ChefDishReadonlyFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishReadonlyFragment_ID,
+                        Constants.ACTION_EDIT_ChefDishReadonlyFragment_ID, args);
             }
         });
 
@@ -178,8 +177,8 @@ public class ChefDishReadonlyFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putParcelable("dish", mDish);
                 args.putInt("section", DISH_EDIT_SECTION_PRICE);
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishReadonlyFragment_ID,
-                        HomePage.ACTION_EDIT_ChefDishReadonlyFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishReadonlyFragment_ID,
+                        Constants.ACTION_EDIT_ChefDishReadonlyFragment_ID, args);
             }
         });
 
@@ -189,8 +188,8 @@ public class ChefDishReadonlyFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putParcelable("dish", mDish);
                 args.putInt("section", DISH_EDIT_SECTION_AVAIL);
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishReadonlyFragment_ID,
-                        HomePage.ACTION_EDIT_ChefDishReadonlyFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishReadonlyFragment_ID,
+                        Constants.ACTION_EDIT_ChefDishReadonlyFragment_ID, args);
             }
         });
 
@@ -200,8 +199,8 @@ public class ChefDishReadonlyFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putParcelable("dish", mDish);
                 args.putInt("section", DISH_EDIT_SECTION_IMAGE);
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishReadonlyFragment_ID,
-                        HomePage.ACTION_EDIT_ChefDishReadonlyFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishReadonlyFragment_ID,
+                        Constants.ACTION_EDIT_ChefDishReadonlyFragment_ID, args);
             }
         });
 

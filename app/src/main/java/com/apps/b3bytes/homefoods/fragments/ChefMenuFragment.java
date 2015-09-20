@@ -12,7 +12,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.apps.b3bytes.homefoods.R;
-import com.apps.b3bytes.homefoods.activities.HomePage;
+import com.apps.b3bytes.homefoods.State.Constants;
 import com.apps.b3bytes.homefoods.adapters.ChefMenuGridViewAdapter;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 
@@ -135,8 +135,8 @@ public class ChefMenuFragment extends Fragment {
                 DishOnSale dish = aChefMenuGridView.getItem(position);
                 Bundle args = new Bundle();
                 args.putParcelable("dish", dish);
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefMenuFragment_ID,
-                        HomePage.ACTION_DISH_ITEM_CLICK_ChefMenuFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefMenuFragment_ID,
+                        Constants.ACTION_DISH_ITEM_CLICK_ChefMenuFragment_ID, args);
             }
         });
 
@@ -144,8 +144,8 @@ public class ChefMenuFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefMenuFragment_ID,
-                        HomePage.ACTION_DISH_ADD_ChefMenuFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefMenuFragment_ID,
+                        Constants.ACTION_DISH_ADD_ChefMenuFragment_ID, args);
             }
         });
     }

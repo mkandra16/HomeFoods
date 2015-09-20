@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.State.Constants;
 import com.apps.b3bytes.homefoods.activities.HomePage;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 
@@ -77,8 +78,8 @@ public class ChefDishEditImageFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditImageFragment_ID,
-                HomePage.ACTION_HOMEUP_ChefDishEditImageFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishEditImageFragment_ID,
+                Constants.ACTION_HOMEUP_ChefDishEditImageFragment_ID, args);
     }
 
     @Override
@@ -90,8 +91,8 @@ public class ChefDishEditImageFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditImageFragment_ID,
-                HomePage.ACTION_HOMEUP_ChefDishEditImageFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishEditImageFragment_ID,
+                Constants.ACTION_HOMEUP_ChefDishEditImageFragment_ID, args);
 
         if (mMode == HomePage.DISH_SECTION_EDIT_ALL)
             actionBar.setTitle("Add Dish");
@@ -243,8 +244,8 @@ public class ChefDishEditImageFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putParcelable("dish", mDish);
                 args.putInt("mode", mMode);
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditImageFragment_ID,
-                        HomePage.ACTION_SAVE_ChefDishEditImageFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishEditImageFragment_ID,
+                        Constants.ACTION_SAVE_ChefDishEditImageFragment_ID, args);
             }
         });
 
@@ -254,8 +255,8 @@ public class ChefDishEditImageFragment extends Fragment {
                 readFields();
                 Bundle args = new Bundle();
                 args.putParcelable("dish", mDish);
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditImageFragment_ID,
-                        HomePage.ACTION_BACK_ChefDishEditImageFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishEditImageFragment_ID,
+                        Constants.ACTION_BACK_ChefDishEditImageFragment_ID, args);
             }
         });
 
@@ -266,8 +267,8 @@ public class ChefDishEditImageFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putParcelable("dish", mDish);
                 args.putInt("mode", mMode);
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditImageFragment_ID,
-                        HomePage.ACTION_SAVE_ChefDishEditImageFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishEditImageFragment_ID,
+                        Constants.ACTION_SAVE_ChefDishEditImageFragment_ID, args);
             }
         });
 
@@ -324,8 +325,8 @@ public class ChefDishEditImageFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putBoolean("onChanged", mAlertDiscardChanges);
                 args.putInt("mode", mMode);
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditImageFragment_ID,
-                        HomePage.ACTION_CANCEL_ChefDishEditImageFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishEditImageFragment_ID,
+                        Constants.ACTION_CANCEL_ChefDishEditImageFragment_ID, args);
                 return true;
             default:
                 break;

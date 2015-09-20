@@ -16,11 +16,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
-import com.apps.b3bytes.homefoods.activities.HomePage;
+import com.apps.b3bytes.homefoods.State.Constants;
 import com.apps.b3bytes.homefoods.adapters.DishOrdersListAdapter;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.models.Foodie;
@@ -76,8 +75,8 @@ public class FoodieCartFragment extends Fragment implements DishOrdersListAdapte
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCartFragment_ID,
-                HomePage.ACTION_HOMEUP_FoodieCartFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_FoodieCartFragment_ID,
+                Constants.ACTION_HOMEUP_FoodieCartFragment_ID, args);
     }
 
     @Override
@@ -122,8 +121,8 @@ public class FoodieCartFragment extends Fragment implements DishOrdersListAdapte
             @Override
             public void onClick(View v) {
                 Bundle args = new Bundle();
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCartFragment_ID,
-                        HomePage.ACTION_PROCEED_PAYMENT_FoodieCartFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_FoodieCartFragment_ID,
+                        Constants.ACTION_PROCEED_PAYMENT_FoodieCartFragment_ID, args);
             }
         });
         return llOrderProceedToPayment;
@@ -185,8 +184,8 @@ public class FoodieCartFragment extends Fragment implements DishOrdersListAdapte
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieCartFragment_ID,
-                HomePage.ACTION_HOMEUP_FoodieCartFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_FoodieCartFragment_ID,
+                Constants.ACTION_HOMEUP_FoodieCartFragment_ID, args);
 
         actionBar.setTitle("Cart");
     }

@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
-import com.apps.b3bytes.homefoods.activities.HomePage;
+import com.apps.b3bytes.homefoods.State.Constants;
 import com.apps.b3bytes.homefoods.models.Foodie;
 
 
@@ -62,8 +62,8 @@ public class RegisterNameFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_RegisterNameFragment_ID,
-                HomePage.ACTION_HOMEUP_RegisterNameFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterNameFragment_ID,
+                Constants.ACTION_HOMEUP_RegisterNameFragment_ID, args);
 
         //actionBar.setTitle("Register");
     }
@@ -93,8 +93,8 @@ public class RegisterNameFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_RegisterNameFragment_ID,
-                HomePage.ACTION_HOMEUP_RegisterNameFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterNameFragment_ID,
+                Constants.ACTION_HOMEUP_RegisterNameFragment_ID, args);
     }
 
     @Override
@@ -121,8 +121,8 @@ public class RegisterNameFragment extends Fragment {
                 if (gotAllData) {
                     Bundle args = new Bundle();
                     args.putParcelable("foodie", mFoodie);
-                    mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_RegisterNameFragment_ID,
-                            HomePage.ACTION_REGISTER_RegisterNameFragment_ID, args);
+                    mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterNameFragment_ID,
+                            Constants.ACTION_REGISTER_RegisterNameFragment_ID, args);
                 }
             }
         });
@@ -132,8 +132,8 @@ public class RegisterNameFragment extends Fragment {
             public void onClick(View view) {
                 Bundle args = new Bundle();
                 args.putBoolean("onChanged", mAlertDiscardChanges);
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_RegisterNameFragment_ID,
-                        HomePage.ACTION_CANCEL_RegisterNameFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterNameFragment_ID,
+                        Constants.ACTION_CANCEL_RegisterNameFragment_ID, args);
             }
         });
 

@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
-import com.apps.b3bytes.homefoods.activities.HomePage;
+import com.apps.b3bytes.homefoods.State.Constants;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.squareup.picasso.Picasso;
 
@@ -104,8 +104,8 @@ public class DishDescFragment extends Fragment {
             public void onClick(View view) {
                 Bundle args = new Bundle();
                 args.putParcelable("chef", mDish.getmDish().getmChef());
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_DishDescFragment_ID,
-                        HomePage.ACTION_CHEF_REVIEW_DishDescFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_DishDescFragment_ID,
+                        Constants.ACTION_CHEF_REVIEW_DishDescFragment_ID, args);
             }
         });
 
@@ -123,8 +123,8 @@ public class DishDescFragment extends Fragment {
             public void onClick(View view) {
                 Bundle args = new Bundle();
                 args.putParcelable("dish", mDish);
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_DishDescFragment_ID,
-                        HomePage.ACTION_DISH_REVIEW_DishDescFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_DishDescFragment_ID,
+                        Constants.ACTION_DISH_REVIEW_DishDescFragment_ID, args);
             }
         });
         return rootView;
@@ -220,8 +220,8 @@ public class DishDescFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_DishDescFragment_ID,
-                HomePage.ACTION_HOMEUP_DishDescFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_DishDescFragment_ID,
+                Constants.ACTION_HOMEUP_DishDescFragment_ID, args);
 
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (mDish != null)
@@ -236,8 +236,8 @@ public class DishDescFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_DishDescFragment_ID,
-                HomePage.ACTION_HOMEUP_DishDescFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_DishDescFragment_ID,
+                Constants.ACTION_HOMEUP_DishDescFragment_ID, args);
     }
 
     @Override
@@ -259,8 +259,8 @@ public class DishDescFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_DishDescFragment_ID,
-                        HomePage.ACTION_CHECKOUT_CART_DishDescFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_DishDescFragment_ID,
+                        Constants.ACTION_CHECKOUT_CART_DishDescFragment_ID, args);
             }
         });
 

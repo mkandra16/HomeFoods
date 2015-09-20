@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.State.Constants;
 import com.apps.b3bytes.homefoods.activities.HomePage;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 
@@ -70,8 +71,8 @@ public class ChefDishEditPriceFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditPriceFragment_ID,
-                HomePage.ACTION_HOMEUP_ChefDishEditPriceFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishEditPriceFragment_ID,
+                Constants.ACTION_HOMEUP_ChefDishEditPriceFragment_ID, args);
     }
 
     @Override
@@ -83,8 +84,8 @@ public class ChefDishEditPriceFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditPriceFragment_ID,
-                HomePage.ACTION_HOMEUP_ChefDishEditPriceFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishEditPriceFragment_ID,
+                Constants.ACTION_HOMEUP_ChefDishEditPriceFragment_ID, args);
 
         if (mMode == HomePage.DISH_SECTION_EDIT_ALL)
             actionBar.setTitle("Add Dish");
@@ -286,8 +287,8 @@ public class ChefDishEditPriceFragment extends Fragment {
                 if (gotAllData) {
                     Bundle args = new Bundle();
                     args.putParcelable("dish", mDish);
-                    mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditPriceFragment_ID,
-                            HomePage.ACTION_NEXT_ChefDishEditPriceFragment_ID, args);
+                    mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishEditPriceFragment_ID,
+                            Constants.ACTION_NEXT_ChefDishEditPriceFragment_ID, args);
                 }
             }
         });
@@ -298,8 +299,8 @@ public class ChefDishEditPriceFragment extends Fragment {
                 readFields();
                 Bundle args = new Bundle();
                 args.putParcelable("dish", mDish);
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditPriceFragment_ID,
-                        HomePage.ACTION_BACK_ChefDishEditPriceFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishEditPriceFragment_ID,
+                        Constants.ACTION_BACK_ChefDishEditPriceFragment_ID, args);
             }
         });
 
@@ -312,8 +313,8 @@ public class ChefDishEditPriceFragment extends Fragment {
                     Bundle args = new Bundle();
                     args.putParcelable("dish", mDish);
                     args.putInt("mode", HomePage.DISH_SECTION_EDIT_SINGLE);
-                    mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditPriceFragment_ID,
-                            HomePage.ACTION_SAVE_ChefDishEditPriceFragment_ID, args);
+                    mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishEditPriceFragment_ID,
+                            Constants.ACTION_SAVE_ChefDishEditPriceFragment_ID, args);
                 }
             }
         });
@@ -341,8 +342,8 @@ public class ChefDishEditPriceFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putBoolean("onChanged", mAlertDiscardChanges);
                 args.putInt("mode", mMode);
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefDishEditPriceFragment_ID,
-                        HomePage.ACTION_CANCEL_ChefDishEditPriceFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishEditPriceFragment_ID,
+                        Constants.ACTION_CANCEL_ChefDishEditPriceFragment_ID, args);
                 return true;
             default:
                 break;

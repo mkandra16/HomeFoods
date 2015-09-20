@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.AppGlobalState;
+import com.apps.b3bytes.homefoods.State.Constants;
 import com.apps.b3bytes.homefoods.adapters.NavDrawerRVAdapter;
 import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.fragments.ChefDeliveryFragment;
@@ -48,8 +49,6 @@ import com.apps.b3bytes.homefoods.fragments.FoodieCheckoutFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieGiveDishReviewFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieHomeFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieOrderHistoryFragment;
-import com.apps.b3bytes.homefoods.fragments.FoodiePastOrdersTabFragment;
-import com.apps.b3bytes.homefoods.fragments.FoodiePendingOrdersTabFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieViewPastPendingOrderDetailsFragment;
 import com.apps.b3bytes.homefoods.fragments.FragmentActionRequestHandler;
 import com.apps.b3bytes.homefoods.fragments.LoginFragment;
@@ -67,128 +66,6 @@ import java.util.List;
 
 public class HomePage extends AppCompatActivity implements FragmentActionRequestHandler
 {
-    // These identifiers are used to communicate from fragment to activity.
-    // there will be a common callback between fragment and activity
-    // which fragment is calling and whats the purpose of callback will
-    // be known by these identifiers. The common interface will be
-    // fragmentActionRequestHandler(fragment_id, action_id, bundle);
-
-    // ChefDishEditInfoFragment IDs
-    public static final int FRAGMENT_ChefDishEditInfoFragment_ID = 0;
-    public static final int ACTION_NEXT_ChefDishEditInfoFragment_ID = 0;
-    public static final int ACTION_SAVE_ChefDishEditInfoFragment_ID = 1;
-    public static final int ACTION_CANCEL_ChefDishEditInfoFragment_ID = 2;
-    public static final int ACTION_HOMEUP_ChefDishEditInfoFragment_ID = 3;
-
-    // ChefDishEditPriceFragment IDs
-    public static final int FRAGMENT_ChefDishEditPriceFragment_ID = 1;
-    public static final int ACTION_NEXT_ChefDishEditPriceFragment_ID = 0;
-    public static final int ACTION_BACK_ChefDishEditPriceFragment_ID = 1;
-    public static final int ACTION_SAVE_ChefDishEditPriceFragment_ID = 2;
-    public static final int ACTION_CANCEL_ChefDishEditPriceFragment_ID = 3;
-    public static final int ACTION_HOMEUP_ChefDishEditPriceFragment_ID = 4;
-
-    // ChefDishEditAvailFragment IDs
-    public static final int FRAGMENT_ChefDishEditAvailFragment_ID = 2;
-    public static final int ACTION_NEXT_ChefDishEditAvailFragment_ID = 0;
-    public static final int ACTION_BACK_ChefDishEditAvailFragment_ID = 1;
-    public static final int ACTION_SAVE_ChefDishEditAvailFragment_ID = 2;
-    public static final int ACTION_CANCEL_ChefDishEditAvailFragment_ID = 3;
-    public static final int ACTION_HOMEUP_ChefDishEditAvailFragment_ID = 4;
-
-    // ChefDishEditImageFragment IDs
-    public static final int FRAGMENT_ChefDishEditImageFragment_ID = 3;
-    public static final int ACTION_BACK_ChefDishEditImageFragment_ID = 0;
-    public static final int ACTION_SAVE_ChefDishEditImageFragment_ID = 1;
-    public static final int ACTION_CANCEL_ChefDishEditImageFragment_ID = 2;
-    public static final int ACTION_HOMEUP_ChefDishEditImageFragment_ID = 3;
-
-    // ChefMenuFragment IDs
-    public static final int FRAGMENT_ChefMenuFragment_ID = 4;
-    public static final int ACTION_DISH_ITEM_CLICK_ChefMenuFragment_ID = 0;
-    public static final int ACTION_DISH_ADD_ChefMenuFragment_ID = 1;
-
-    // ChefDishReadonlyFragment IDs
-    public static final int FRAGMENT_ChefDishReadonlyFragment_ID = 5;
-    public static final int ACTION_EDIT_ChefDishReadonlyFragment_ID = 0;
-    public static final int ACTION_HOMEUP_ChefDishReadonlyFragment_ID = 1;
-
-    // FoodieHomeFragment IDs
-    public static final int FRAGMENT_FoodieHomeFragment_ID = 6;
-    public static final int ACTION_CHECKOUT_CART_FoodieHomeFragment_ID = 0;
-    public static final int ACTION_DISH_DESC_FoodieHomeFragment_ID = 1;
-    public static final int ACTION_DISH_REVIEW_FoodieHomeFragment_ID = 2;
-
-    // DishDescFragment IDs
-    public static final int FRAGMENT_DishDescFragment_ID = 7;
-    public static final int ACTION_CHECKOUT_CART_DishDescFragment_ID = 0;
-    public static final int ACTION_DISH_REVIEW_DishDescFragment_ID = 1;
-    public static final int ACTION_CHEF_REVIEW_DishDescFragment_ID = 2;
-    public static final int ACTION_HOMEUP_DishDescFragment_ID = 3;
-
-    // DishReviewFragment IDs
-    public static final int FRAGMENT_DishReviewFragment_ID = 8;
-    public static final int ACTION_HOMEUP_DishReviewFragment_ID = 0;
-
-    // FoodieCartFragment IDs
-    public static final int FRAGMENT_FoodieCartFragment_ID = 9;
-    public static final int ACTION_PROCEED_PAYMENT_FoodieCartFragment_ID = 0;
-    public static final int ACTION_HOMEUP_FoodieCartFragment_ID = 1;
-
-    // FoodieCheckoutFragment IDs
-    public static final int FRAGMENT_FoodieCheckoutFragment_ID = 10;
-    public static final int ACTION_ADD_CARD_FoodieCheckoutFragment_ID = 0;
-    public static final int ACTION_PLACE_ORDER_FoodieCheckoutFragment_ID = 1;
-    public static final int ACTION_HOMEUP_FoodieCheckoutFragment_ID = 2;
-
-    // FoodieAddPaymentCardFragment IDs
-    public static final int FRAGMENT_FoodieAddPaymentCardFragment_ID = 11;
-    public static final int ACTION_SAVE_CARD_FoodieAddPaymentCardFragment_ID = 0;
-    public static final int ACTION_ADD_BILLING_ADDRESS_FoodieAddPaymentCardFragment_ID = 1;
-    public static final int ACTION_HOMEUP_FoodieAddPaymentCardFragment_ID = 2;
-
-    // FoodieAddBillingAddressFragment IDs
-    public static final int FRAGMENT_FoodieAddBillingAddressFragment_ID = 12;
-    public static final int ACTION_SAVE_BILLING_ADDRESS_FoodieAddPaymentCardFragment_ID = 0;
-    public static final int ACTION_HOMEUP_FoodieAddBillingAddressFragment_ID = 1;
-
-    // FoodiePastOrdersTabFragment IDs
-    public static final int FRAGMENT_FoodiePastOrdersTabFragment_ID = 13;
-    public static final int ACTION_ORDER_DETAILS_FoodiePastOrdersTabFragment_ID = 0;
-    public static final int ACTION_BUY_DISH_AGAIN_FoodiePastOrdersTabFragment_ID = 1;
-    public static final int ACTION_WRITE_DISH_REVIEW_FoodiePastOrdersTabFragment_ID = 2;
-
-    // FoodiePendingOrdersTabFragment IDs
-    public static final int FRAGMENT_FoodiePendingOrdersTabFragment_ID = 14;
-    public static final int ACTION_CANCEL_ORDER_FoodiePendingOrdersTabFragment_ID = 0;
-
-    // FoodieViewPastPendingOrderDetailsFragment IDs
-    public static final int FRAGMENT_FoodieViewPastPendingOrderDetailsFragment_ID = 15;
-    public static final int ACTION_CANCEL_ORDER_FoodieViewPastPendingOrderDetailsFragment_ID = 0;
-    public static final int ACTION_BUY_DISH_AGAIN_FoodieViewPastPendingOrderDetailsFragment_ID = 1;
-    public static final int ACTION_WRITE_DISH_REVIEW_FoodieViewPastPendingOrderDetailsFragment_ID = 2;
-    public static final int ACTION_HOMEUP_FoodieViewPastPendingOrderDetailsFragment_ID = 3;
-
-    // FoodieGiveDishReviewFragment IDs
-    public static final int FRAGMENT_FoodieGiveDishReviewFragment_ID = 16;
-    public static final int ACTION_HOMEUP_FoodieGiveDishReviewFragment_ID = 0;
-
-    // ChefReviewFragment IDs
-    public static final int FRAGMENT_ChefReviewFragment_ID = 17;
-    public static final int ACTION_HOMEUP_ChefReviewFragment_ID = 0;
-
-    // ChefReviewFragment IDs
-    public static final int FRAGMENT_RegisterNameFragment_ID = 18;
-    public static final int ACTION_REGISTER_RegisterNameFragment_ID = 0;
-    public static final int ACTION_CANCEL_RegisterNameFragment_ID = 1;
-    public static final int ACTION_HOMEUP_RegisterNameFragment_ID = 2;
-
-    // LoginFragment IDs
-    public static final int FRAGMENT_LoginFragment_ID = 19;
-    public static final int ACTION_SIGN_IN_LoginFragment_ID = 0;
-    public static final int ACTION_REGISTER_LoginFragment_ID = 1;
-    public static final int ACTION_HOMEUP_LoginFragment_ID = 2;
-
     public static final int DISH_SECTION_EDIT_SINGLE = 0;
     public static final int DISH_SECTION_EDIT_ALL = 1;
 
@@ -590,24 +467,24 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void ChefDishEditImageFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
-            case ACTION_BACK_ChefDishEditImageFragment_ID: {
+            case Constants.ACTION_BACK_ChefDishEditImageFragment_ID: {
                 DishOnSale dish = (DishOnSale) bundle.getParcelable("dish");
                 onDishImageBackSelected(dish);
                 break;
             }
-            case ACTION_SAVE_ChefDishEditImageFragment_ID: {
+            case Constants.ACTION_SAVE_ChefDishEditImageFragment_ID: {
                 DishOnSale dish = (DishOnSale) bundle.getParcelable("dish");
                 int mode = bundle.getInt("mode");
                 onDishImageSaveSelected(dish, mode);
                 break;
             }
-            case ACTION_CANCEL_ChefDishEditImageFragment_ID: {
+            case Constants.ACTION_CANCEL_ChefDishEditImageFragment_ID: {
                 boolean onChanged = bundle.getBoolean("onChanged");
                 int mode = bundle.getInt("mode");
                 OnDishEditCancelSelected(onChanged, mode);
                 break;
             }
-            case ACTION_HOMEUP_ChefDishEditImageFragment_ID: {
+            case Constants.ACTION_HOMEUP_ChefDishEditImageFragment_ID: {
                 boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
                 FragmentHomeUpButton(canActivityHandle);
                 break;
@@ -617,24 +494,24 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void ChefDishEditInfoFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
-            case ACTION_NEXT_ChefDishEditInfoFragment_ID: {
+            case Constants.ACTION_NEXT_ChefDishEditInfoFragment_ID: {
                 DishOnSale dish = (DishOnSale) bundle.getParcelable("dish");
                 onDishInfoNextSelected(dish);
                 break;
             }
-            case ACTION_SAVE_ChefDishEditInfoFragment_ID: {
+            case Constants.ACTION_SAVE_ChefDishEditInfoFragment_ID: {
                 DishOnSale dish = (DishOnSale) bundle.getParcelable("dish");
                 int mode = bundle.getInt("mode");
                 onDishImageSaveSelected(dish, mode);
                 break;
             }
-            case ACTION_CANCEL_ChefDishEditInfoFragment_ID: {
+            case Constants.ACTION_CANCEL_ChefDishEditInfoFragment_ID: {
                 boolean onChanged = bundle.getBoolean("onChanged");
                 int mode = bundle.getInt("mode");
                 OnDishEditCancelSelected(onChanged, mode);
                 break;
             }
-            case ACTION_HOMEUP_ChefDishEditInfoFragment_ID: {
+            case Constants.ACTION_HOMEUP_ChefDishEditInfoFragment_ID: {
                 boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
                 FragmentHomeUpButton(canActivityHandle);
                 break;
@@ -644,29 +521,29 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void ChefDishEditPriceFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
-            case ACTION_NEXT_ChefDishEditPriceFragment_ID: {
+            case Constants.ACTION_NEXT_ChefDishEditPriceFragment_ID: {
                 DishOnSale dish = (DishOnSale) bundle.getParcelable("dish");
                 onDishPriceNextSelected(dish);
                 break;
             }
-            case ACTION_BACK_ChefDishEditPriceFragment_ID: {
+            case Constants.ACTION_BACK_ChefDishEditPriceFragment_ID: {
                 DishOnSale dish = (DishOnSale) bundle.getParcelable("dish");
                 onDishPriceBackSelected(dish);
                 break;
             }
-            case ACTION_SAVE_ChefDishEditPriceFragment_ID: {
+            case Constants.ACTION_SAVE_ChefDishEditPriceFragment_ID: {
                 DishOnSale dish = (DishOnSale) bundle.getParcelable("dish");
                 int mode = bundle.getInt("mode");
                 onDishImageSaveSelected(dish, mode);
                 break;
             }
-            case ACTION_CANCEL_ChefDishEditPriceFragment_ID: {
+            case Constants.ACTION_CANCEL_ChefDishEditPriceFragment_ID: {
                 boolean onChanged = bundle.getBoolean("onChanged");
                 int mode = bundle.getInt("mode");
                 OnDishEditCancelSelected(onChanged, mode);
                 break;
             }
-            case ACTION_HOMEUP_ChefDishEditPriceFragment_ID: {
+            case Constants.ACTION_HOMEUP_ChefDishEditPriceFragment_ID: {
                 boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
                 FragmentHomeUpButton(canActivityHandle);
                 break;
@@ -676,29 +553,29 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void ChefDishEditAvailFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
-            case ACTION_NEXT_ChefDishEditAvailFragment_ID: {
+            case Constants.ACTION_NEXT_ChefDishEditAvailFragment_ID: {
                 DishOnSale dish = (DishOnSale) bundle.getParcelable("dish");
                 onDishAvailNextSelected(dish);
                 break;
             }
-            case ACTION_BACK_ChefDishEditAvailFragment_ID: {
+            case Constants.ACTION_BACK_ChefDishEditAvailFragment_ID: {
                 DishOnSale dish = (DishOnSale) bundle.getParcelable("dish");
                 onDishAvailBackSelected(dish);
                 break;
             }
-            case ACTION_SAVE_ChefDishEditAvailFragment_ID: {
+            case Constants.ACTION_SAVE_ChefDishEditAvailFragment_ID: {
                 DishOnSale dish = (DishOnSale) bundle.getParcelable("dish");
                 int mode = bundle.getInt("mode");
                 onDishImageSaveSelected(dish, mode);
                 break;
             }
-            case ACTION_CANCEL_ChefDishEditAvailFragment_ID: {
+            case Constants.ACTION_CANCEL_ChefDishEditAvailFragment_ID: {
                 boolean onChanged = bundle.getBoolean("onChanged");
                 int mode = bundle.getInt("mode");
                 OnDishEditCancelSelected(onChanged, mode);
                 break;
             }
-            case ACTION_HOMEUP_ChefDishEditAvailFragment_ID: {
+            case Constants.ACTION_HOMEUP_ChefDishEditAvailFragment_ID: {
                 boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
                 FragmentHomeUpButton(canActivityHandle);
                 break;
@@ -708,12 +585,12 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void ChefMenuFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
-            case ACTION_DISH_ITEM_CLICK_ChefMenuFragment_ID: {
+            case Constants.ACTION_DISH_ITEM_CLICK_ChefMenuFragment_ID: {
                 DishOnSale dish = (DishOnSale) bundle.getParcelable("dish");
                 onChefDishItemClicked(dish);
                 break;
             }
-            case ACTION_DISH_ADD_ChefMenuFragment_ID: {
+            case Constants.ACTION_DISH_ADD_ChefMenuFragment_ID: {
                 onChefDishAddClicked();
                 break;
             }
@@ -723,13 +600,13 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void ChefDishReadonlyFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
-            case ACTION_EDIT_ChefDishReadonlyFragment_ID: {
+            case Constants.ACTION_EDIT_ChefDishReadonlyFragment_ID: {
                 DishOnSale dish = (DishOnSale) bundle.getParcelable("dish");
                 int section = bundle.getInt("section");
                 OnDishReadOnlyEditSelected(dish, section);
                 break;
             }
-            case ACTION_HOMEUP_ChefDishReadonlyFragment_ID: {
+            case Constants.ACTION_HOMEUP_ChefDishReadonlyFragment_ID: {
                 boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
                 FragmentHomeUpButton(canActivityHandle);
                 break;
@@ -739,16 +616,16 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void FoodieHomeFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
-            case ACTION_CHECKOUT_CART_FoodieHomeFragment_ID: {
+            case Constants.ACTION_CHECKOUT_CART_FoodieHomeFragment_ID: {
                 OnCheckoutCartClicked();
                 break;
             }
-            case ACTION_DISH_DESC_FoodieHomeFragment_ID: {
+            case Constants.ACTION_DISH_DESC_FoodieHomeFragment_ID: {
                 DishOnSale dish = (DishOnSale) bundle.getParcelable("dish");
                 OnDishDescClicked(dish);
                 break;
             }
-            case ACTION_DISH_REVIEW_FoodieHomeFragment_ID: {
+            case Constants.ACTION_DISH_REVIEW_FoodieHomeFragment_ID: {
                 DishOnSale dish = (DishOnSale) bundle.getParcelable("dish");
                 OnDishReviewsClicked(dish);
                 break;
@@ -758,21 +635,21 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void DishDescFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
-            case ACTION_CHECKOUT_CART_DishDescFragment_ID: {
+            case Constants.ACTION_CHECKOUT_CART_DishDescFragment_ID: {
                 OnCheckoutCartClicked();
                 break;
             }
-            case ACTION_DISH_REVIEW_DishDescFragment_ID: {
+            case Constants.ACTION_DISH_REVIEW_DishDescFragment_ID: {
                 DishOnSale dish = (DishOnSale) bundle.getParcelable("dish");
                 OnDishReviewsClicked(dish);
                 break;
             }
-            case ACTION_CHEF_REVIEW_DishDescFragment_ID: {
+            case Constants.ACTION_CHEF_REVIEW_DishDescFragment_ID: {
                 Foodie chef = (Foodie) bundle.getParcelable("chef");
                 OnChefReviewsClicked(chef);
                 break;
             }
-            case ACTION_HOMEUP_DishDescFragment_ID: {
+            case Constants.ACTION_HOMEUP_DishDescFragment_ID: {
                 boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
                 FragmentHomeUpButton(canActivityHandle);
                 break;
@@ -782,7 +659,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void DishReviewFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
-            case ACTION_HOMEUP_DishReviewFragment_ID: {
+            case Constants.ACTION_HOMEUP_DishReviewFragment_ID: {
                 boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
                 FragmentHomeUpButton(canActivityHandle);
                 break;
@@ -792,7 +669,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void ChefReviewFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
-            case ACTION_HOMEUP_ChefReviewFragment_ID: {
+            case Constants.ACTION_HOMEUP_ChefReviewFragment_ID: {
                 boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
                 FragmentHomeUpButton(canActivityHandle);
                 break;
@@ -802,7 +679,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void FoodieCartFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
-            case ACTION_PROCEED_PAYMENT_FoodieCartFragment_ID: {
+            case Constants.ACTION_PROCEED_PAYMENT_FoodieCartFragment_ID: {
                 if (AppGlobalState.getmCurrentFoodie() != null) {
                     OnProceedToPaymentSelected();
                 } else {
@@ -813,7 +690,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
                 }
                 break;
             }
-            case ACTION_HOMEUP_FoodieCartFragment_ID: {
+            case Constants.ACTION_HOMEUP_FoodieCartFragment_ID: {
                 boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
                 FragmentHomeUpButton(canActivityHandle);
                 break;
@@ -824,15 +701,15 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void FoodieCheckoutFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
-            case ACTION_ADD_CARD_FoodieCheckoutFragment_ID: {
+            case Constants.ACTION_ADD_CARD_FoodieCheckoutFragment_ID: {
                 OnAddCardSelected();
                 break;
             }
-            case ACTION_PLACE_ORDER_FoodieCheckoutFragment_ID: {
+            case Constants.ACTION_PLACE_ORDER_FoodieCheckoutFragment_ID: {
                 OnPlaceOrderSelected();
                 break;
             }
-            case ACTION_HOMEUP_FoodieCheckoutFragment_ID: {
+            case Constants.ACTION_HOMEUP_FoodieCheckoutFragment_ID: {
                 boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
                 FragmentHomeUpButton(canActivityHandle);
                 break;
@@ -842,15 +719,15 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void FoodieAddPaymentCardFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
-            case ACTION_SAVE_CARD_FoodieAddPaymentCardFragment_ID: {
+            case Constants.ACTION_SAVE_CARD_FoodieAddPaymentCardFragment_ID: {
                 OnSaveCardSelected();
                 break;
             }
-            case ACTION_ADD_BILLING_ADDRESS_FoodieAddPaymentCardFragment_ID: {
+            case Constants.ACTION_ADD_BILLING_ADDRESS_FoodieAddPaymentCardFragment_ID: {
                 OnAddBillingAddressSelected();
                 break;
             }
-            case ACTION_HOMEUP_FoodieAddPaymentCardFragment_ID: {
+            case Constants.ACTION_HOMEUP_FoodieAddPaymentCardFragment_ID: {
                 boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
                 FragmentHomeUpButton(canActivityHandle);
                 break;
@@ -860,11 +737,11 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void FoodieAddBillingAddressFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
-            case ACTION_SAVE_BILLING_ADDRESS_FoodieAddPaymentCardFragment_ID: {
+            case Constants.ACTION_SAVE_BILLING_ADDRESS_FoodieAddPaymentCardFragment_ID: {
                 OnSaveBillingAddressSelected();
                 break;
             }
-            case ACTION_HOMEUP_FoodieAddBillingAddressFragment_ID: {
+            case Constants.ACTION_HOMEUP_FoodieAddBillingAddressFragment_ID: {
                 boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
                 FragmentHomeUpButton(canActivityHandle);
                 break;
@@ -874,17 +751,17 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void FoodiePastOrdersTabFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
-            case ACTION_ORDER_DETAILS_FoodiePastOrdersTabFragment_ID: {
+            case Constants.ACTION_ORDER_DETAILS_FoodiePastOrdersTabFragment_ID: {
                 FoodieOrder foodieOrder = (FoodieOrder) bundle.getParcelable("foodieOrder");
                 OnOrderDetailsClicked(foodieOrder);
                 break;
             }
-            case ACTION_BUY_DISH_AGAIN_FoodiePastOrdersTabFragment_ID: {
+            case Constants.ACTION_BUY_DISH_AGAIN_FoodiePastOrdersTabFragment_ID: {
                 DishOrder dishOrder = (DishOrder) bundle.getParcelable("dishOrder");
                 OnBuyDishAgainClicked(dishOrder);
                 break;
             }
-            case ACTION_WRITE_DISH_REVIEW_FoodiePastOrdersTabFragment_ID: {
+            case Constants.ACTION_WRITE_DISH_REVIEW_FoodiePastOrdersTabFragment_ID: {
                 DishOrder dishOrder = (DishOrder) bundle.getParcelable("dishOrder");
                 OnWriteDishReviewClicked(dishOrder);
                 break;
@@ -894,7 +771,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void FoodiePendingOrdersTabFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
-            case ACTION_CANCEL_ORDER_FoodiePendingOrdersTabFragment_ID: {
+            case Constants.ACTION_CANCEL_ORDER_FoodiePendingOrdersTabFragment_ID: {
                 FoodieOrder foodieOrder = (FoodieOrder) bundle.getParcelable("foodieOrder");
                 OnViewCancelOrderClicked(foodieOrder);
                 break;
@@ -904,22 +781,22 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void FoodieViewPastPendingOrderDetailsFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
-            case ACTION_CANCEL_ORDER_FoodieViewPastPendingOrderDetailsFragment_ID: {
+            case Constants.ACTION_CANCEL_ORDER_FoodieViewPastPendingOrderDetailsFragment_ID: {
                 FoodieOrder foodieOrder = (FoodieOrder) bundle.getParcelable("foodieOrder");
                 OnPendingOrderCancelClicked(foodieOrder);
                 break;
             }
-            case ACTION_BUY_DISH_AGAIN_FoodieViewPastPendingOrderDetailsFragment_ID: {
+            case Constants.ACTION_BUY_DISH_AGAIN_FoodieViewPastPendingOrderDetailsFragment_ID: {
                 DishOrder dishOrder = (DishOrder) bundle.getParcelable("dishOrder");
                 OnBuyDishAgainClicked(dishOrder);
                 break;
             }
-            case ACTION_WRITE_DISH_REVIEW_FoodieViewPastPendingOrderDetailsFragment_ID: {
+            case Constants.ACTION_WRITE_DISH_REVIEW_FoodieViewPastPendingOrderDetailsFragment_ID: {
                 DishOrder dishOrder = (DishOrder) bundle.getParcelable("dishOrder");
                 OnWriteDishReviewClicked(dishOrder);
                 break;
             }
-            case ACTION_HOMEUP_FoodieViewPastPendingOrderDetailsFragment_ID: {
+            case Constants.ACTION_HOMEUP_FoodieViewPastPendingOrderDetailsFragment_ID: {
                 boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
                 FragmentHomeUpButton(canActivityHandle);
                 break;
@@ -929,7 +806,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void FoodieGiveDishReviewFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
-            case ACTION_HOMEUP_FoodieGiveDishReviewFragment_ID: {
+            case Constants.ACTION_HOMEUP_FoodieGiveDishReviewFragment_ID: {
                 boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
                 FragmentHomeUpButton(canActivityHandle);
                 break;
@@ -976,17 +853,17 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     private void RegisterNameFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
-            case ACTION_REGISTER_RegisterNameFragment_ID: {
+            case Constants.ACTION_REGISTER_RegisterNameFragment_ID: {
                 mFoodie = bundle.getParcelable("foodie");
                 OnRegisterRegisterSelected();
                 break;
             }
-            case ACTION_CANCEL_RegisterNameFragment_ID: {
+            case Constants.ACTION_CANCEL_RegisterNameFragment_ID: {
                 boolean onChanged = bundle.getBoolean("onChanged");
                 OnRegisterCancelSelected(onChanged);
                 break;
             }
-            case ACTION_HOMEUP_RegisterNameFragment_ID: {
+            case Constants.ACTION_HOMEUP_RegisterNameFragment_ID: {
                 boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
                 FragmentHomeUpButton(canActivityHandle);
                 break;
@@ -996,7 +873,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     private void LoginFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
-            case ACTION_SIGN_IN_LoginFragment_ID: {
+            case Constants.ACTION_SIGN_IN_LoginFragment_ID: {
                 String uid = bundle.getString("username");
                 String password = bundle.getString("password");
                 AppGlobalState.signIn(uid, password, new DataLayer.SignInCallback() {
@@ -1015,7 +892,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
                 });
                 break;
             }
-            case ACTION_REGISTER_LoginFragment_ID: {
+            case Constants.ACTION_REGISTER_LoginFragment_ID: {
                 RegisterNameFragment registerNameFragment = new RegisterNameFragment();
 
                 mFoodie = new Foodie();
@@ -1026,7 +903,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
                 replaceFragment(registerNameFragment);
                 break;
             }
-            case ACTION_HOMEUP_LoginFragment_ID: {
+            case Constants.ACTION_HOMEUP_LoginFragment_ID: {
                 boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
                 FragmentHomeUpButton(canActivityHandle);
                 break;
@@ -1036,83 +913,83 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void fragmentActionRequestHandler(int fragment_id, int action_id, Bundle bundle) {
         switch (fragment_id) {
-            case FRAGMENT_ChefDishEditInfoFragment_ID: {
+            case Constants.FRAGMENT_ChefDishEditInfoFragment_ID: {
                 ChefDishEditInfoFragmentRequestHandler(action_id, bundle);
                 break;
             }
-            case FRAGMENT_ChefDishEditPriceFragment_ID: {
+            case Constants.FRAGMENT_ChefDishEditPriceFragment_ID: {
                 ChefDishEditPriceFragmentRequestHandler(action_id, bundle);
                 break;
             }
-            case FRAGMENT_ChefDishEditAvailFragment_ID: {
+            case Constants.FRAGMENT_ChefDishEditAvailFragment_ID: {
                 ChefDishEditAvailFragmentRequestHandler(action_id, bundle);
                 break;
             }
-            case FRAGMENT_ChefDishEditImageFragment_ID: {
+            case Constants.FRAGMENT_ChefDishEditImageFragment_ID: {
                 ChefDishEditImageFragmentRequestHandler(action_id, bundle);
                 break;
             }
-            case FRAGMENT_ChefMenuFragment_ID: {
+            case Constants.FRAGMENT_ChefMenuFragment_ID: {
                 ChefMenuFragmentRequestHandler(action_id, bundle);
                 break;
             }
-            case FRAGMENT_ChefDishReadonlyFragment_ID: {
+            case Constants.FRAGMENT_ChefDishReadonlyFragment_ID: {
                 ChefDishReadonlyFragmentRequestHandler(action_id, bundle);
                 break;
             }
-            case FRAGMENT_FoodieHomeFragment_ID: {
+            case Constants.FRAGMENT_FoodieHomeFragment_ID: {
                 FoodieHomeFragmentRequestHandler(action_id, bundle);
                 break;
             }
-            case FRAGMENT_DishDescFragment_ID: {
+            case Constants.FRAGMENT_DishDescFragment_ID: {
                 DishDescFragmentRequestHandler(action_id, bundle);
                 break;
             }
-            case FRAGMENT_DishReviewFragment_ID: {
+            case Constants.FRAGMENT_DishReviewFragment_ID: {
                 DishReviewFragmentRequestHandler(action_id, bundle);
                 break;
             }
-            case FRAGMENT_FoodieCartFragment_ID: {
+            case Constants.FRAGMENT_FoodieCartFragment_ID: {
                 FoodieCartFragmentRequestHandler(action_id, bundle);
                 break;
             }
-            case FRAGMENT_FoodieCheckoutFragment_ID: {
+            case Constants.FRAGMENT_FoodieCheckoutFragment_ID: {
                 FoodieCheckoutFragmentRequestHandler(action_id, bundle);
                 break;
             }
-            case FRAGMENT_FoodieAddPaymentCardFragment_ID: {
+            case Constants.FRAGMENT_FoodieAddPaymentCardFragment_ID: {
                 FoodieAddPaymentCardFragmentRequestHandler(action_id, bundle);
                 break;
             }
-            case FRAGMENT_FoodieAddBillingAddressFragment_ID: {
+            case Constants.FRAGMENT_FoodieAddBillingAddressFragment_ID: {
                 FoodieAddBillingAddressFragmentRequestHandler(action_id, bundle);
                 break;
             }
-            case FRAGMENT_FoodiePastOrdersTabFragment_ID: {
+            case Constants.FRAGMENT_FoodiePastOrdersTabFragment_ID: {
                 FoodiePastOrdersTabFragmentRequestHandler(action_id, bundle);
                 break;
             }
-            case FRAGMENT_FoodiePendingOrdersTabFragment_ID: {
+            case Constants.FRAGMENT_FoodiePendingOrdersTabFragment_ID: {
                 FoodiePendingOrdersTabFragmentRequestHandler(action_id, bundle);
                 break;
             }
-            case FRAGMENT_FoodieViewPastPendingOrderDetailsFragment_ID: {
+            case Constants.FRAGMENT_FoodieViewPastPendingOrderDetailsFragment_ID: {
                 FoodieViewPastPendingOrderDetailsFragmentRequestHandler(action_id, bundle);
                 break;
             }
-            case FRAGMENT_FoodieGiveDishReviewFragment_ID: {
+            case Constants.FRAGMENT_FoodieGiveDishReviewFragment_ID: {
                 FoodieGiveDishReviewFragmentRequestHandler(action_id, bundle);
                 break;
             }
-            case FRAGMENT_ChefReviewFragment_ID: {
+            case Constants.FRAGMENT_ChefReviewFragment_ID: {
                 ChefReviewFragmentRequestHandler(action_id, bundle);
                 break;
             }
-            case FRAGMENT_RegisterNameFragment_ID: {
+            case Constants.FRAGMENT_RegisterNameFragment_ID: {
                 RegisterNameFragmentRequestHandler(action_id, bundle);
                 break;
             }
-            case FRAGMENT_LoginFragment_ID: {
+            case Constants.FRAGMENT_LoginFragment_ID: {
                 LoginFragmentRequestHandler(action_id, bundle);
                 break;
             }

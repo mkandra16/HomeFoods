@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
-import com.apps.b3bytes.homefoods.activities.HomePage;
+import com.apps.b3bytes.homefoods.State.Constants;
 import com.apps.b3bytes.homefoods.adapters.ChefReviewsRVAdapter;
 import com.apps.b3bytes.homefoods.models.ChefReview;
 import com.apps.b3bytes.homefoods.models.Foodie;
@@ -77,8 +77,8 @@ public class ChefReviewFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefReviewFragment_ID,
-                HomePage.ACTION_HOMEUP_ChefReviewFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefReviewFragment_ID,
+                Constants.ACTION_HOMEUP_ChefReviewFragment_ID, args);
 
         actionBar.setTitle(mChef.getmUserName() + " Reviews");
     }
@@ -107,8 +107,8 @@ public class ChefReviewFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_ChefReviewFragment_ID,
-                HomePage.ACTION_HOMEUP_ChefReviewFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefReviewFragment_ID,
+                Constants.ACTION_HOMEUP_ChefReviewFragment_ID, args);
     }
 
     @Override

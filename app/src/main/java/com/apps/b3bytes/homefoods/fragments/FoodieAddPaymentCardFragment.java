@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
-import com.apps.b3bytes.homefoods.activities.HomePage;
+import com.apps.b3bytes.homefoods.State.Constants;
 
 public class FoodieAddPaymentCardFragment extends Fragment {
     private FragmentActivity mContext;
@@ -59,8 +59,8 @@ public class FoodieAddPaymentCardFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddPaymentCardFragment_ID,
-                        HomePage.ACTION_ADD_BILLING_ADDRESS_FoodieAddPaymentCardFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_FoodieAddPaymentCardFragment_ID,
+                        Constants.ACTION_ADD_BILLING_ADDRESS_FoodieAddPaymentCardFragment_ID, args);
             }
         });
 
@@ -68,8 +68,8 @@ public class FoodieAddPaymentCardFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddPaymentCardFragment_ID,
-                        HomePage.ACTION_SAVE_CARD_FoodieAddPaymentCardFragment_ID, args);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_FoodieAddPaymentCardFragment_ID,
+                        Constants.ACTION_SAVE_CARD_FoodieAddPaymentCardFragment_ID, args);
             }
         });
 
@@ -120,8 +120,8 @@ public class FoodieAddPaymentCardFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddPaymentCardFragment_ID,
-                HomePage.ACTION_HOMEUP_FoodieAddPaymentCardFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_FoodieAddPaymentCardFragment_ID,
+                Constants.ACTION_HOMEUP_FoodieAddPaymentCardFragment_ID, args);
     }
 
     @Override
@@ -147,8 +147,8 @@ public class FoodieAddPaymentCardFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodieAddPaymentCardFragment_ID,
-                HomePage.ACTION_HOMEUP_FoodieAddPaymentCardFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_FoodieAddPaymentCardFragment_ID,
+                Constants.ACTION_HOMEUP_FoodieAddPaymentCardFragment_ID, args);
         
         actionBar.setTitle("Payment Method");
     }

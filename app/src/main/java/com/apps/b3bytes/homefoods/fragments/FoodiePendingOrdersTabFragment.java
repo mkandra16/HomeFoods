@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.apps.b3bytes.homefoods.R;
-import com.apps.b3bytes.homefoods.activities.HomePage;
+import com.apps.b3bytes.homefoods.State.Constants;
 import com.apps.b3bytes.homefoods.adapters.FoodiePendingOrdersRVAdapter;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
 
@@ -66,7 +66,7 @@ public class FoodiePendingOrdersTabFragment extends Fragment implements FoodiePe
     public void viewCancelOrderClicked(FoodieOrder foodieOrder) {
         Bundle args = new Bundle();
         args.putParcelable("foodieOrder", foodieOrder);
-        mActionRequestCallback.fragmentActionRequestHandler(HomePage.FRAGMENT_FoodiePendingOrdersTabFragment_ID,
-                HomePage.ACTION_CANCEL_ORDER_FoodiePendingOrdersTabFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_FoodiePendingOrdersTabFragment_ID,
+                Constants.ACTION_CANCEL_ORDER_FoodiePendingOrdersTabFragment_ID, args);
     }
 }
