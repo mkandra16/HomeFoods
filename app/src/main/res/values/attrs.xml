@@ -3,4 +3,15 @@
 
     <attr name="bAddToBag" format="reference" />
 
+    <declare-styleable name="CircularImageView">
+        <attr name="border" format="boolean" />
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+        <attr name="shadow" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="circularImage">
+        <attr name="circularImageViewStyle" format="reference" />
+    </declare-styleable>
+
 </resources>
