@@ -69,6 +69,12 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
     public static final int DISH_SECTION_EDIT_SINGLE = 0;
     public static final int DISH_SECTION_EDIT_ALL = 1;
 
+    // Will be set from integers.xml file dynamically.
+    private int DRAWER_LOC_CHEF_HOME;
+    private int DRAWER_LOC_CHEF_MENU;
+    private int DRAWER_LOC_CHEF_DELIVER;
+    private int DRAWER_LOC_FOODIE_HOME;
+    private int DRAWER_LOC_FOODIE_ORDER_HISTORY;
 
     private ChefDishEditInfoFragment infoFragment;
     private ChefDishEditPriceFragment priceFragment;
@@ -144,6 +150,11 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
         for (int i = 0; i < navChefMenuTitles.length; i++) {
             navChefDrawerItems.add(new NavDrawerItem(navChefMenuTitles[i], navChefMenuIcons.getResourceId(i, -1)));
         }
+        // Expected Chef menu items
+        DRAWER_LOC_CHEF_HOME = getResources().getInteger(R.integer.chef_home);
+        DRAWER_LOC_CHEF_MENU = getResources().getInteger(R.integer.chef_menu);
+        DRAWER_LOC_CHEF_DELIVER = getResources().getInteger(R.integer.chef_deliver);
+
         // Recycle the typed array
         navChefMenuIcons.recycle();
 
@@ -157,6 +168,10 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
         for (int i = 0; i < navFoodieMenuTitles.length; i++) {
             navFoodieDrawerItems.add(new NavDrawerItem(navFoodieMenuTitles[i], navFoodieMenuIcons.getResourceId(i, -1)));
         }
+        // Expected Chef menu items
+        DRAWER_LOC_FOODIE_HOME = getResources().getInteger(R.integer.foodie_home);
+        DRAWER_LOC_FOODIE_ORDER_HISTORY = getResources().getInteger(R.integer.foodie_order_history);
+
         // Recycle the typed array
         navFoodieMenuIcons.recycle();
 
@@ -225,12 +240,12 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
                     //do stuff when Switch is ON
                     chefMode = true;
                     mRecyclerView.swapAdapter(chefAdapter, false);
-                    displayView(0);
+                    displayView(DRAWER_LOC_CHEF_HOME);
                 } else {
                     //do stuff when Switch if OFF
                     chefMode = false;
                     mRecyclerView.swapAdapter(foodieAdapter, false);
-                    displayFoodieView(0);
+                    displayFoodieView(DRAWER_LOC_FOODIE_HOME);
                 }
             }
         });
@@ -280,9 +295,9 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
         if (savedInstanceState == null) {
             // on first time display view for first nav item
             if (chefMode == true)
-                displayView(0);
+                displayView(DRAWER_LOC_CHEF_HOME);
             else
-                displayFoodieView(0);
+                displayFoodieView(DRAWER_LOC_FOODIE_HOME);
         }
 
         mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
@@ -405,15 +420,10 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
     private void displayFoodieView(int position) {
         // update the main content by replacing fragments
         Fragment fragment = null;
-        switch (position) {
-            case 0:
-                fragment = new FoodieHomeFragment();
-                break;
-            case 1:
-                fragment = new FoodieOrderHistoryFragment();
-                break;
-            default:
-                break;
+        if (position == DRAWER_LOC_FOODIE_HOME) {
+            fragment = new FoodieHomeFragment();
+        } else if (position == DRAWER_LOC_FOODIE_ORDER_HISTORY) {
+            fragment = new FoodieOrderHistoryFragment();
         }
 
         if (fragment != null) {
@@ -436,20 +446,13 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
     private void displayView(int position) {
         // update the main content by replacing fragments
         Fragment fragment = null;
-        switch (position) {
-            case 0:
+            if (position == DRAWER_LOC_CHEF_HOME) {
                 fragment = new ChefHomeFragment();
-                break;
-            case 1:
+            } else if (position == DRAWER_LOC_CHEF_MENU) {
                 fragment = new ChefMenuFragment();
-                break;
-            case 2:
+            } else if (position == DRAWER_LOC_CHEF_DELIVER) {
                 fragment = new ChefDeliveryFragment();
-                break;
-
-            default:
-                break;
-        }
+            }
 
         if (fragment != null) {
             replaceFragment(fragment);
@@ -1087,7 +1090,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
                 case DialogInterface.BUTTON_POSITIVE:
                     //Yes button clicked
                     if (mEditMode == DISH_SECTION_EDIT_ALL)
-                        displayView(1);
+                        displayView(DRAWER_LOC_CHEF_MENU);
                     else {
                         Bundle args = readFragment.getArguments();
                         //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
@@ -1117,7 +1120,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
                     .setNegativeButton("NO", dialogClickListener).show();
         } else {
             if (mode == DISH_SECTION_EDIT_ALL)
-                displayView(1);
+                displayView(DRAWER_LOC_CHEF_MENU);
             else {
                 Bundle args = readFragment.getArguments();
                 //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
@@ -1291,7 +1294,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
                     replaceFragment(readFragment);
                 } else {
                     // display the menu view
-                    displayView(1);
+                    displayView(DRAWER_LOC_CHEF_MENU);
                 }
             }
         });
@@ -1406,7 +1409,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
             public void done(String OrderId, Exception e) {
                 if (e == null) {
                     Toast.makeText(getApplicationContext(), "Placed order : " + OrderId, Toast.LENGTH_SHORT).show();
-                    displayFoodieView(0);
+                    displayFoodieView(DRAWER_LOC_FOODIE_HOME);
                     AppGlobalState.gCart.clear();
                 } else {
                     Toast.makeText(getApplicationContext(), "Failed to place order", Toast.LENGTH_SHORT).show();
@@ -1446,7 +1449,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
                 case DialogInterface.BUTTON_POSITIVE:
                     //Yes button clicked
                     //TODO: cancel the order. update in database. inform related chefs. any other actions
-                    displayFoodieView(1); // display FoodieOrderHistoryFragment
+                    displayFoodieView(DRAWER_LOC_FOODIE_ORDER_HISTORY); // display FoodieOrderHistoryFragment
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:
