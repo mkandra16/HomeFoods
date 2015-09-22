@@ -78,6 +78,7 @@
 
                 <TextView
                     android:layout_width="75dp"
+                    android:id="@+id/tvChangeProfileImage"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/ivProfileImage"
                     android:layout_alignLeft="@id/ivProfileImage"
@@ -99,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:hint="@string/etPhoneNumberHint"
-                    android:inputType="textPersonName"
+                    android:inputType="phone"
                     android:singleLine="true"
                     android:textColor="@android:color/holo_blue_dark"
                     android:textSize="16sp" />

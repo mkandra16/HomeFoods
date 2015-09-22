@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,11 +30,14 @@ public class RegisterImageFragment extends Fragment {
     private View rootView;
     private Foodie mFoodie;
     private TextView tvCancel;
-    private EditText etFirstName;
-    private EditText etLastName;
-    private EditText etEmail;
-    private EditText etPassword;
-    private Button bRegister;
+    private TextView tvDisplayNameRule;
+    private EditText etDisplayName;
+    private RelativeLayout rlProfileImage;
+    private ImageView ivProfileImage;
+    private TextView tvChangeProfileImage;
+    private EditText etPhoneNumber;
+    private Button bRegisterImageNext;
+
     private boolean mAlertDiscardChanges;
 
     FragmentActionRequestHandler mActionRequestCallback;
@@ -103,46 +108,42 @@ public class RegisterImageFragment extends Fragment {
 
         rootView = inflater.inflate(R.layout.fragment_register_image_info, container, false);
         tvCancel = (TextView) rootView.findViewById(R.id.tvCancel);
+        tvDisplayNameRule = (TextView) rootView.findViewById(R.id.tvDisplayNameRule);
+        etDisplayName = (EditText) rootView.findViewById(R.id.etDisplayName);
+        rlProfileImage = (RelativeLayout) rootView.findViewById(R.id.rlProfileImage);
+        ivProfileImage = (ImageView) rootView.findViewById(R.id.ivProfileImage);
+        tvChangeProfileImage = (TextView) rootView.findViewById(R.id.tvChangeProfileImage);
+        etPhoneNumber = (EditText) rootView.findViewById(R.id.etPhoneNumber);
+        bRegisterImageNext = (Button) rootView.findViewById(R.id.bRegisterImageNext);
 
-
+        etDisplayName.addTextChangedListener(textWatcher);
+        etPhoneNumber.addTextChangedListener(textWatcher);
+        //ivProfileImage.
         return rootView;
     }
 
     private boolean checkForMustData() {
-        String firstName = etFirstName.getText().toString();
-        String lastName = etLastName.getText().toString();
-        String email = etEmail.getText().toString();
-        String password = etPassword.getText().toString();
+        String displayName = etDisplayName.getText().toString();
+        String phoneNumber = etPhoneNumber.getText().toString();
 
-        if (firstName == null || firstName.isEmpty()) {
-            Toast.makeText(mContext, "Please Enter First Name", Toast.LENGTH_SHORT).show();
-            etFirstName.requestFocus();
+        if (displayName == null || displayName.isEmpty()) {
+            Toast.makeText(mContext, "Please choose a Display Name", Toast.LENGTH_SHORT).show();
+            etDisplayName.requestFocus();
             return false;
         }
-        mFoodie.setmFirstName(firstName);
+        mFoodie.setmUserName(displayName);
 
-        if (lastName == null || lastName.isEmpty()) {
-            Toast.makeText(mContext, "Please Enter Last Name", Toast.LENGTH_SHORT).show();
-            etLastName.requestFocus();
+        // TODO: check for valid phone number
+        if (phoneNumber == null || phoneNumber.isEmpty()) {
+            Toast.makeText(mContext, "Please Enter a valid phone number", Toast.LENGTH_SHORT).show();
+            etPhoneNumber.requestFocus();
             return false;
         }
-        mFoodie.setmLastName(lastName);
+        mFoodie.getmContact().setmMoblie(phoneNumber);
 
-        // TODO: check for proper email format
-        if (email == null || email.isEmpty()) {
-            Toast.makeText(mContext, "Please Enter Email", Toast.LENGTH_SHORT).show();
-            etEmail.requestFocus();
-            return false;
-        }
-        mFoodie.getmContact().setmEmailId(email);
-
-        // TODO: enforce password requirements
-        if (password == null || password.isEmpty()) {
-            Toast.makeText(mContext, "Please Enter Password", Toast.LENGTH_SHORT).show();
-            etPassword.requestFocus();
-            return false;
-        }
-        mFoodie.setmPassword(password);
+        // TODO
+        // if (ivProfileImage.)
+        // mFoodie.setmImageURL();
 
         return true;
     }
