@@ -44,7 +44,8 @@
     <string name="bSignIn">Sign In</string>
     <string name="title_activity_log_in">LogIn</string>
 
-    <!-- Nav Drawer Menu Items -->
+    <!-- Nav Drawer Menu Items.
+         If you modify Menu items, modify corresponding Integers.xml values as well -->
     <string-array name="nav_drawer_chef_items">
         <item>Home</item>
         <item>Menu</item>
@@ -59,7 +60,9 @@
         <item>@mipmap/ic_menu</item>
     </array>
 
-    <!-- Nav Drawer Menu Items -->
+    <!-- Nav Drawer Menu Items.
+         If you modify Menu items, modify corresponding Integers.xml values as well -->
+
     <string-array name="nav_drawer_foodie_items">
         <item>Home</item>
         <item>Order history</item>

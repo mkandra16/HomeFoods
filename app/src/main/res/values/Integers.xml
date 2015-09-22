@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Specifies location of field in Chef drawable items-->
+    <integer name="chef_home">0</integer>
+    <integer name="chef_menu">1</integer>
+    <integer name="chef_deliver">2</integer>
+
+    <!-- Specifies location of field in Foodie drawable items-->
+    <integer name="foodie_home">0</integer>
+    <integer name="foodie_order_history">1</integer>
+
+</resources>
