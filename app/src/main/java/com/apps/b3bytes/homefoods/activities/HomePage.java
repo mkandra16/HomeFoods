@@ -59,6 +59,7 @@ import com.apps.b3bytes.homefoods.models.DishOrder;
 import com.apps.b3bytes.homefoods.models.Foodie;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
 import com.apps.b3bytes.homefoods.models.NavDrawerItem;
+import com.apps.b3bytes.homefoods.utils.Utils;
 import com.apps.b3bytes.homefoods.widgets.DividerItemDecoration;
 
 import java.util.ArrayList;
@@ -97,6 +98,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
     private ActionBarDrawerToggle mDrawerToggle;
     private Switch swChefFoodie;
     private TextView tvRegisterAsChef;
+    private TextView tvSignIn;
     private int mEditMode;
     private DishOnSale mDish;
     private Foodie mFoodie;
@@ -122,6 +124,40 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
     private RecyclerView.LayoutManager mLayoutManager;
 
     private int mBackPressMode = 0;
+
+    enum User{
+        UNKOWN, ANONYMOUS, FOOODIE, CHEF;
+    };
+
+    private User currentUser;
+    public void moveToUser(User s) {
+        tvRegisterAsChef.setVisibility(View.INVISIBLE);
+        swChefFoodie.setVisibility(View.INVISIBLE);
+        tvSignIn.setVisibility(View.INVISIBLE);
+        chefMode = false;
+        switch(s) {
+            case ANONYMOUS:
+                // unregistered user
+                tvSignIn.setVisibility(View.VISIBLE);
+                // go back to Anonymous home page.
+                displayFoodieView(DRAWER_LOC_FOODIE_HOME);
+                break;
+            case FOOODIE:
+                Utils._assert(currentUser == User.ANONYMOUS);
+                tvRegisterAsChef.setVisibility(View.VISIBLE);
+                // Add LogOut button
+                break;
+            case CHEF:
+                Utils._assert(currentUser == User.ANONYMOUS || currentUser == User.FOOODIE);
+                swChefFoodie.setVisibility(View.VISIBLE);
+                chefMode = swChefFoodie.isChecked();
+                break;
+            default:
+                Utils.notReached();
+                break;
+        }
+        currentUser = s;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,7 +214,6 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
         chefAdapter = new NavDrawerRVAdapter(navChefDrawerItems);
         foodieAdapter = new NavDrawerRVAdapter(navFoodieDrawerItems);
 
-
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_slidermenu);
         RecyclerView.ItemDecoration itemDecoration =
@@ -187,7 +222,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
         llSliderMenu = (LinearLayout) findViewById(R.id.llSliderMenu);
         swChefFoodie = (Switch) findViewById(R.id.swChefFoodie);
         tvRegisterAsChef = (TextView) findViewById(R.id.tvRegisterAsChef);
-
+        tvSignIn = (TextView) findViewById(R.id.tvSignIn);
 
         tvRegisterAsChef.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,28 +243,29 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
             }
         });
 
+        tvSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // We just want to come to current fragment.
+                loginFailFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
+                loginSuccessFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
+                loginFragment = new LoginFragment();
+                replaceFragment(loginFragment);
+                mDrawerLayout.closeDrawer(llSliderMenu);
+            }
+        });
+
         Foodie user = AppGlobalState.getmCurrentFoodie();
         if (user == null) {
-            // unregistered user
-            tvRegisterAsChef.setVisibility(View.VISIBLE);
-            swChefFoodie.setVisibility(View.INVISIBLE);
-            chefMode = false;
+            // anonymous user
+            moveToUser(User.ANONYMOUS);
         } else if (user.getmChef() == null) {
             // Fooide
-            tvRegisterAsChef.setVisibility(View.VISIBLE);
-            swChefFoodie.setVisibility(View.INVISIBLE);
-            chefMode = false;
+            moveToUser(User.FOOODIE);
         } else {
             // Chef
-            swChefFoodie.setVisibility(View.VISIBLE);
-            tvRegisterAsChef.setVisibility(View.INVISIBLE);
-            chefMode = swChefFoodie.isChecked();
+            moveToUser(User.CHEF);
         }
-
-        // swChefFoodie is in general invisible
-        // default tvRegisterAsChef is visible - for unregistered user
-        // if the user is registered only as foodie, tvRegisterAsChef is visible
-        // if the user is registered as chef, tvRegisterAsChef is gone and swChefFoodie is visible
 
         swChefFoodie.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -885,6 +921,12 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
                             // login successful
                             if (loginSuccessFragment != null)
                                 replaceFragment(loginSuccessFragment);
+                            Foodie foodie = AppGlobalState.getmCurrentFoodie();
+                            if (foodie.getmChef() != null) {
+                                moveToUser(User.CHEF);
+                            } else {
+                                moveToUser(User.FOOODIE);
+                            }
                             getSupportActionBar().show();
                         } else {
                             Toast t = Toast.makeText(getApplicationContext(), "SignIn failed", Toast.LENGTH_LONG);
