@@ -28,9 +28,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
             android:layout_margin="16dp"
-            android:src="@mipmap/ic_add"
-            app:layout_anchor="@id/gvChefMenu"
-            app:layout_anchorGravity="bottom|right|end" />
+            android:layout_alignParentBottom="true"
+            android:src="@mipmap/ic_add" />
+<!--        app:layout_anchor="@id/gvChefMenu"
+              app:layout_anchorGravity="bottom|right|end"-->
 
 
     </android.support.design.widget.CoordinatorLayout>
