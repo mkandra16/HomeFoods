@@ -162,6 +162,9 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
                 }
                 break;
             case FOOODIE:
+                //temporary
+                swChefFoodie.setVisibility(View.VISIBLE);
+
                 Utils._assert(currentUser == User.ANONYMOUS);
                 tvRegisterAsChef.setVisibility(View.VISIBLE);
                 // Add LogOut button

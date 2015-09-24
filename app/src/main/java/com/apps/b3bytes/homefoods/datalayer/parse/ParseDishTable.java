@@ -194,5 +194,4 @@ public class ParseDishTable implements DishTable {
                                }
         );
     }
-
 }

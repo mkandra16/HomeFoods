@@ -10,43 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
+import com.apps.b3bytes.homefoods.State.AppGlobalState;
 import com.apps.b3bytes.homefoods.State.Constants;
 import com.apps.b3bytes.homefoods.adapters.ChefMenuGridViewAdapter;
+import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChefMenuFragment extends Fragment {
-    /* TODO: TEST DATA */
-    //Info
-    String[] dishNamesArray = {"Roti Paratha", "Curd Rice", "South Indian Breakfast", "Salad", "Chicken Tikka", "Biryani", "Pizza", "Cupcakes", "Sandwhich", "Burger", "PanCake"};
-    String[] dishInfosArray = {"Roti Paratha", "Curd Rice", "South Indian Breakfast", "Salad", "Chicken Tikka", "Biryani", "Pizza", "Cupcakes", "Sandwhich", "Burger", "PanCake"};
-    String[] dishPrepsArray = {"Roti Paratha", "Curd Rice", "South Indian Breakfast", "Salad", "Chicken Tikka", "Biryani", "Pizza", "Cupcakes", "Sandwhich", "Burger", "PanCake"};
-    String[] dishCuisineArray = {"Roti Paratha", "Curd Rice", "South Indian Breakfast", "Salad", "Chicken Tikka", "Biryani", "Pizza", "Cupcakes", "Sandwhich", "Burger", "PanCake"};
-    boolean[] dishVeganArray = {true, true, true, true, false, false, false, true, false, false, true};
-
-    //Price
-    String[] dishMeasureArray = {"Grams", "Grams", "Grams", "Grams", "Grams", "Grams", "Grams", "Grams", "Grams", "Grams", "Grams"};
-    double[] dishQtyPerUnit = {75, 120, 175, 90, 125, 150, 250, 25, 75, 80, 40};
-    int[] dishQuantitiesArray = {2, 1, 3, 1, 2, 4, 1, 12, 3, 4, 10};
-    double[] dishUnitPriceArray = {75, 120, 175, 90, 125, 150, 250, 25, 75, 80, 40};
-
-    //Availability
-    String[] dishFromDateArray = {"08/30/2015", "08/30/2015", "08/30/2015", "08/30/2015", "08/30/2015", "08/30/2015", "08/30/2015", "08/30/2015", "08/30/2015", "08/30/2015", "08/30/2015"};
-    String[] dishFromTimeArray = {"11:00 AM", "11:00 AM", "11:00 AM", "11:00 AM", "11:00 AM", "11:00 AM", "11:00 AM", "11:00 AM", "11:00 AM", "11:00 AM", "11:00 AM"};
-    String[] dishToDateArray = {"09/25/2015", "09/25/2015", "09/25/2015", "09/25/2015", "09/25/2015", "09/25/2015", "09/25/2015", "09/25/2015", "09/25/2015", "09/25/2015", "09/25/2015"};
-    String[] dishToTimeArray = {"09:00 PM", "09:00 PM", "09:00 PM", "09:00 PM", "09:00 PM", "09:00 PM", "09:00 PM", "09:00 PM", "09:00 PM", "09:00 PM", "09:00 PM"};
-    boolean[] dishPickupArray = {true, true, true, true, false, false, false, true, false, false, true};
-    boolean[] dishDeliveryArray = {true, true, true, true, false, false, false, true, false, false, true};
-
-    //Image and misc
-    String[] dishAddInfoArray = {"Roti Paratha", "Curd Rice", "South Indian Breakfast", "Salad", "Chicken Tikka", "Biryani", "Pizza", "Cupcakes", "Sandwhich", "Burger", "PanCake"};
-
-    /* TODO: END TEST DATA */
-
     private FragmentActivity mContext;
     private View rootView;
 
@@ -96,34 +72,19 @@ public class ChefMenuFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        List<DishOnSale> list = new ArrayList<DishOnSale>();
-        int numDishes = dishNamesArray.length;
-        for (int i = 0; i < numDishes; i++) {
-
-            DishOnSale dish = new DishOnSale();
-
-            dish.getmDish().setmDishName(dishNamesArray[i]);
-            dish.getmDish().setmDishInfo(dishInfosArray[i]);
-            dish.getmDish().setmPrepMethod(dishPrepsArray[i]);
-            dish.getmDish().setmCusine(dishCuisineArray[i]);
-            dish.getmDish().setmVegan(dishVeganArray[i]);
-
-            dish.setmMeasure(dishMeasureArray[i]);
-            dish.setmQtyPerUnit(dishQtyPerUnit[i]);
-            dish.setmUnitPrice(dishUnitPriceArray[i]);
-            dish.setmUnitsOnSale(dishQuantitiesArray[i]);
-
-            dish.setmFromDate(dishFromDateArray[i]);
-            dish.setmFromTime(dishFromTimeArray[i]);
-            dish.setmToDate(dishToDateArray[i]);
-            dish.setmToTime(dishToTimeArray[i]);
-            dish.setmPickUp(dishPickupArray[i]);
-            dish.setmDelivery(dishDeliveryArray[i]);
-
-            dish.setmDishAddInfo(dishAddInfoArray[i]);
-
-            list.add(dish);
-        }
+        final List<DishOnSale> list = new ArrayList<DishOnSale>();
+        // Query Backend for data.
+        AppGlobalState.gDataLayer.getChefPublishedDishes(new DataLayer.GetListCallback<DishOnSale>() {
+            @Override
+            public void done(ArrayList<DishOnSale> results, Exception e) {
+                if (e == null) {
+                    list.addAll(results);
+                    aChefMenuGridView.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getActivity(), "Failed to retrieve Chef published dishes", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         aChefMenuGridView = new ChefMenuGridViewAdapter(mContext, list, gvChefMenu);
         gvChefMenu.setAdapter(aChefMenuGridView);
