@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -72,12 +73,11 @@ public class ChefMenuGridViewAdapter extends ArrayAdapter<DishOnSale> {
         ViewHolder holder = (ViewHolder) view.getTag();
 
         holder.tvMenuGridDishName.setText(list.get(position).getmDish().getmDishName());
-        holder.tvMenuGridDishQuantityPosted.setText("Posted " + list.get(position).getmQtyPerUnit());
+        holder.tvMenuGridDishQuantityPosted.setText("Posted " + list.get(position).getmUnitsOnSale());
         holder.tvMenuGridDishQuantityDelivered.setText("Delivered " + list.get(position).getmUnitsDelivered());
         holder.tvMenuGridDishQuantityPending.setText("Pending " + list.get(position).getmUnitsOrdered());
         holder.tvMenuGridDishPrice.setText(context.getString(R.string.Rs) + " " + (list.get(position).getmUnitPrice()));
-        holder.ivMenuGridDishImage.setImageResource(R.drawable.south_indian_breakfast_01);
-
+        list.get(position).getmDish().loadImage(context).into(holder.ivMenuGridDishImage);
         return view;
     }
 

@@ -22,7 +22,6 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/tvMenuGridDishName"
         android:adjustViewBounds="true"
-        android:background="@drawable/south_indian_breakfast_01"
         android:scaleType="centerCrop" />
 
     <TextView
@@ -31,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/ivMenuGridDishImage"
         android:layout_below="@+id/ivMenuGridDishImage"
-        android:text="Posted 25"
+        android:text="Posted"
         android:textColor="@android:color/black"
         android:textSize="12sp"
         android:textStyle="bold" />
@@ -43,7 +42,7 @@
         android:layout_alignStart="@+id/tvMenuGridDishQuantityPosted"
         android:layout_below="@+id/tvMenuGridDishQuantityPosted"
         android:layout_marginTop="3dp"
-        android:text="Delivered 12"
+        android:text="Delivered"
         android:textColor="@color/KPTheme_AdriftInDreams_colorAccent"
         android:textSize="12sp"
         android:textStyle="bold" />
@@ -55,7 +54,7 @@
         android:layout_alignStart="@+id/tvMenuGridDishQuantityDelivered"
         android:layout_below="@+id/tvMenuGridDishQuantityDelivered"
         android:layout_marginTop="3dp"
-        android:text="Pending 13"
+        android:text="Pending"
         android:textColor="@color/KPTheme_AdriftInDreams_colorPrimaryDark"
         android:textSize="12sp"
         android:textStyle="bold" />
