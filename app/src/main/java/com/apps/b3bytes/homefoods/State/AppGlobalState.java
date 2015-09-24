@@ -59,7 +59,10 @@ public final class AppGlobalState {
         });
 
     }
-
+    public static void signOut() {
+        gDataLayer.signOut();
+        mCurrentFoodie = null;
+    }
     public static void checkOutCart(final DataLayer.SaveCallback cb) {
         gDataLayer.checkOutCart(gCart, cb);
     }

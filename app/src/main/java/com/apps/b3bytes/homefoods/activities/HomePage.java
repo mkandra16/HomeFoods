@@ -74,8 +74,10 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
     private int DRAWER_LOC_CHEF_HOME;
     private int DRAWER_LOC_CHEF_MENU;
     private int DRAWER_LOC_CHEF_DELIVER;
+    private int DRAWER_LOC_CHEF_SIGN_OUT = -1;
     private int DRAWER_LOC_FOODIE_HOME;
     private int DRAWER_LOC_FOODIE_ORDER_HISTORY;
+    private int DRAWER_LOC_FOODIE_SIGN_OUT = -1;
 
     private ChefDishEditInfoFragment infoFragment;
     private ChefDishEditPriceFragment priceFragment;
@@ -129,7 +131,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
         UNKOWN, ANONYMOUS, FOOODIE, CHEF;
     };
 
-    private User currentUser;
+    private User currentUser = User.UNKOWN;
     public void moveToUser(User s) {
         tvRegisterAsChef.setVisibility(View.INVISIBLE);
         swChefFoodie.setVisibility(View.INVISIBLE);
@@ -141,16 +143,35 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
                 tvSignIn.setVisibility(View.VISIBLE);
                 // go back to Anonymous home page.
                 displayFoodieView(DRAWER_LOC_FOODIE_HOME);
+                // Remove SignOut from foodie and chef drawer
+                if (currentUser != User.UNKOWN) {
+                    if (DRAWER_LOC_FOODIE_SIGN_OUT != -1) {
+                        navFoodieDrawerItems.remove(DRAWER_LOC_FOODIE_SIGN_OUT);
+                        DRAWER_LOC_FOODIE_SIGN_OUT = -1;
+                        foodieAdapter.notifyDataSetChanged();
+                    }
+                    if (DRAWER_LOC_CHEF_SIGN_OUT != -1) {
+                        navChefDrawerItems.remove(DRAWER_LOC_CHEF_SIGN_OUT);
+                        DRAWER_LOC_CHEF_SIGN_OUT = -1;
+                        chefAdapter.notifyDataSetChanged();
+                    }
+                }
                 break;
             case FOOODIE:
                 Utils._assert(currentUser == User.ANONYMOUS);
                 tvRegisterAsChef.setVisibility(View.VISIBLE);
                 // Add LogOut button
+                navFoodieDrawerItems.add(new NavDrawerItem(getResources().getString(R.string.sign_out), R.mipmap.ic_back));
+                DRAWER_LOC_FOODIE_SIGN_OUT = navFoodieDrawerItems.size() -1;
+                foodieAdapter.notifyDataSetChanged();
                 break;
             case CHEF:
                 Utils._assert(currentUser == User.ANONYMOUS || currentUser == User.FOOODIE);
                 swChefFoodie.setVisibility(View.VISIBLE);
                 chefMode = swChefFoodie.isChecked();
+                navChefDrawerItems.add(new NavDrawerItem(getResources().getString(R.string.sign_out), R.mipmap.ic_back));
+                DRAWER_LOC_CHEF_SIGN_OUT = navChefDrawerItems.size() -1;
+                chefAdapter.notifyDataSetChanged();
                 break;
             default:
                 Utils.notReached();
@@ -460,6 +481,12 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
             fragment = new FoodieHomeFragment();
         } else if (position == DRAWER_LOC_FOODIE_ORDER_HISTORY) {
             fragment = new FoodieOrderHistoryFragment();
+        } else if (position == DRAWER_LOC_FOODIE_SIGN_OUT) {
+            // We want to switch to FOODIE_HOME modify position accordingly
+            position = DRAWER_LOC_FOODIE_HOME;
+            fragment = new FoodieHomeFragment();
+            AppGlobalState.signOut();
+            moveToUser(User.ANONYMOUS);
         }
 
         if (fragment != null) {
@@ -482,13 +509,19 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
     private void displayView(int position) {
         // update the main content by replacing fragments
         Fragment fragment = null;
-            if (position == DRAWER_LOC_CHEF_HOME) {
-                fragment = new ChefHomeFragment();
-            } else if (position == DRAWER_LOC_CHEF_MENU) {
-                fragment = new ChefMenuFragment();
-            } else if (position == DRAWER_LOC_CHEF_DELIVER) {
-                fragment = new ChefDeliveryFragment();
-            }
+        if (position == DRAWER_LOC_CHEF_HOME) {
+            fragment = new ChefHomeFragment();
+        } else if (position == DRAWER_LOC_CHEF_MENU) {
+            fragment = new ChefMenuFragment();
+        } else if (position == DRAWER_LOC_CHEF_DELIVER) {
+            fragment = new ChefDeliveryFragment();
+        } else if (position == DRAWER_LOC_CHEF_SIGN_OUT) {
+            // We want to switch to CHEF_HOME modify position accordingly
+            position = DRAWER_LOC_CHEF_HOME;
+            fragment = new ChefHomeFragment();
+            AppGlobalState.signOut();
+            moveToUser(User.ANONYMOUS);
+        }
 
         if (fragment != null) {
             replaceFragment(fragment);
