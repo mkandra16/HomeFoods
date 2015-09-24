@@ -53,6 +53,7 @@ import com.apps.b3bytes.homefoods.fragments.FoodieViewPastPendingOrderDetailsFra
 import com.apps.b3bytes.homefoods.fragments.FragmentActionRequestHandler;
 import com.apps.b3bytes.homefoods.fragments.LoginFragment;
 import com.apps.b3bytes.homefoods.fragments.RegisterContactInfoFragment;
+import com.apps.b3bytes.homefoods.fragments.RegisterHobbiesFragment;
 import com.apps.b3bytes.homefoods.fragments.RegisterImageFragment;
 import com.apps.b3bytes.homefoods.fragments.RegisterNameFragment;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
@@ -61,6 +62,9 @@ import com.apps.b3bytes.homefoods.models.Foodie;
 import com.apps.b3bytes.homefoods.models.FoodieOrder;
 import com.apps.b3bytes.homefoods.models.NavDrawerItem;
 import com.apps.b3bytes.homefoods.widgets.DividerItemDecoration;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -907,7 +911,11 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
     }
 
     private void OnRegisterContactInfoNextSelected() {
-        //TODO
+        RegisterHobbiesFragment registerHobbiesFragment = new RegisterHobbiesFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("foodie", mFoodie);
+        registerHobbiesFragment.setArguments(args);
+        replaceFragment(registerHobbiesFragment);
     }
 
     private void RegisterContactInfoFragmentRequestHandler(int action_id, Bundle bundle) {
@@ -923,6 +931,75 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
                 break;
             }
             case Constants.ACTION_HOMEUP_RegisterContactInfoFragment_ID: {
+                boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
+                FragmentHomeUpButton(canActivityHandle);
+                break;
+            }
+        }
+    }
+
+    private void OnRegisterHobbiesSubmitSelected() {
+        JSONObject addr = new JSONObject();
+
+        try {
+            addr.put("AddrLine1", mFoodie.getmAddr().getmLine1())
+                    .put("AddrZip", mFoodie.getmAddr().getmZip())
+                    .put("AddrState", mFoodie.getmAddr().getmState())
+                    .put("AddrCountry", mFoodie.getmAddr().getmCountry());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JSONObject contact = new JSONObject();
+        try {
+            contact.put("HomePh", mFoodie.getmContact().getmMoblie())
+                    .put("Mobile", mFoodie.getmContact().getmMoblie()) /* support for home phone */
+                    .put("EmailId", mFoodie.getmContact().getmEmailId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JSONObject foodie = new JSONObject();
+        try {
+            foodie.put("FoodieId", -1)
+                    .put("FirstName", mFoodie.getmFirstName())
+                    .put("LastName", mFoodie.getmLastName())
+                    .put("UserName", mFoodie.getmUserName())
+                    .put("Password", mFoodie.getmPassword())
+                    .put("Address", addr)
+                    .put("ContactDetails", contact)
+                    .put("FavoriteFoods", mFoodie.getmFavFoods());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Foodie f = new Foodie(foodie);
+        AppGlobalState.gDataLayer.registerFoodie(f, new DataLayer.RegistrationCallback() {
+            @Override
+            public void done(Foodie f, Exception e) {
+                Toast.makeText(getApplicationContext(), "Resgistered Foodie" + f.getmUserName(), Toast.LENGTH_LONG).show();
+                //TODO: go to chef home page?
+                // hence goto home page
+                swChefFoodie.setVisibility(View.VISIBLE);
+                tvRegisterAsChef.setVisibility(View.INVISIBLE);
+                swChefFoodie.setChecked(true);
+                chefMode = swChefFoodie.isChecked();
+                //displayView(DRAWER_LOC_CHEF_HOME); this is crashing now
+                //displayFoodieView(DRAWER_LOC_FOODIE_HOME);
+            }
+        });
+    }
+
+    private void RegisterHobbiesFragmentRequestHandler(int action_id, Bundle bundle) {
+        switch (action_id) {
+            case Constants.ACTION_SUBMIT_RegisterHobbiesFragment_ID: {
+                mFoodie = bundle.getParcelable("foodie");
+                OnRegisterHobbiesSubmitSelected();
+                break;
+            }
+            case Constants.ACTION_CANCEL_RegisterHobbiesFragment_ID: {
+                boolean onChanged = bundle.getBoolean("onChanged");
+                OnRegisterCancelSelected(onChanged);
+                break;
+            }
+            case Constants.ACTION_HOMEUP_RegisterHobbiesFragment_ID: {
                 boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
                 FragmentHomeUpButton(canActivityHandle);
                 break;
@@ -1054,6 +1131,10 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
             }
             case Constants.FRAGMENT_RegisterContactInfoFragment_ID: {
                 RegisterContactInfoFragmentRequestHandler(action_id, bundle);
+                break;
+            }
+            case Constants.FRAGMENT_RegisterHobbiesFragment_ID: {
+                RegisterHobbiesFragmentRequestHandler(action_id, bundle);
                 break;
             }
             case Constants.FRAGMENT_LoginFragment_ID: {

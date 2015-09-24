@@ -116,4 +116,10 @@ public class Constants {
     public static final int ACTION_NEXT_RegisterContactInfoFragment_ID = 0;
     public static final int ACTION_CANCEL_RegisterContactInfoFragment_ID = 1;
     public static final int ACTION_HOMEUP_RegisterContactInfoFragment_ID = 2;
+    // RegisterHobbiesFragment IDs
+    public static final int FRAGMENT_RegisterHobbiesFragment_ID = 22;
+    public static final int ACTION_SUBMIT_RegisterHobbiesFragment_ID = 0;
+    public static final int ACTION_CANCEL_RegisterHobbiesFragment_ID = 1;
+    public static final int ACTION_HOMEUP_RegisterHobbiesFragment_ID = 2;
 }
+

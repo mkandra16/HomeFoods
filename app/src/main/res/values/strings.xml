@@ -89,5 +89,9 @@
     <string name="etStateHint">State</string>
     <string name="etZipCodeHint">ZIP code</string>
     <string name="etCountryHint">Country</string>
+    <string name="etFavoriteFoodsHint">Favorite Foods</string>
+    <string name="etSpecialitiesHint">Specialities: what are you special at?</string>
+    <string name="etHobbiesHint">What are your hobbies?</string>
+    <string name="bRegisterSubmit">Submit</string>
 
 </resources>
