@@ -15,8 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,24 +23,23 @@ import com.apps.b3bytes.homefoods.State.Constants;
 import com.apps.b3bytes.homefoods.models.Foodie;
 
 
-public class RegisterImageFragment extends Fragment {
+public class RegisterContactInfoFragment extends Fragment {
     private FragmentActivity mContext;
     private View rootView;
     private Foodie mFoodie;
     private TextView tvCancel;
-    private TextView tvDisplayNameRule;
-    private EditText etDisplayName;
-    private RelativeLayout rlProfileImage;
-    private ImageView ivProfileImage;
-    private TextView tvChangeProfileImage;
-    private EditText etPhoneNumber;
-    private Button bRegisterImageNext;
-
+    private EditText etAddress1;
+    private EditText etAddress2;
+    private EditText etCity;
+    private EditText etState;
+    private EditText etZipCode;
+    private EditText etCountry;
+    private Button bRegisterContactInfoNext;
     private boolean mAlertDiscardChanges;
 
     FragmentActionRequestHandler mActionRequestCallback;
 
-    public RegisterImageFragment() {
+    public RegisterContactInfoFragment() {
 
     }
 
@@ -67,8 +64,8 @@ public class RegisterImageFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterImageFragment_ID,
-                Constants.ACTION_HOMEUP_RegisterImageFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterContactInfoFragment_ID,
+                Constants.ACTION_HOMEUP_RegisterContactInfoFragment_ID, args);
 
         //actionBar.setTitle("Register");
     }
@@ -98,75 +95,106 @@ public class RegisterImageFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterImageFragment_ID,
-                Constants.ACTION_HOMEUP_RegisterImageFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterContactInfoFragment_ID,
+                Constants.ACTION_HOMEUP_RegisterContactInfoFragment_ID, args);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_register_image_info, container, false);
+        rootView = inflater.inflate(R.layout.fragment_register_contact_info, container, false);
         tvCancel = (TextView) rootView.findViewById(R.id.tvCancel);
-        tvDisplayNameRule = (TextView) rootView.findViewById(R.id.tvDisplayNameRule);
-        etDisplayName = (EditText) rootView.findViewById(R.id.etDisplayName);
-        rlProfileImage = (RelativeLayout) rootView.findViewById(R.id.rlProfileImage);
-        ivProfileImage = (ImageView) rootView.findViewById(R.id.ivProfileImage);
-        tvChangeProfileImage = (TextView) rootView.findViewById(R.id.tvChangeProfileImage);
-        etPhoneNumber = (EditText) rootView.findViewById(R.id.etPhoneNumber);
-        bRegisterImageNext = (Button) rootView.findViewById(R.id.bRegisterImageNext);
+        etAddress1 = (EditText) rootView.findViewById(R.id.etAddress1);
+        etAddress2 = (EditText) rootView.findViewById(R.id.etAddress2);
+        etCity = (EditText) rootView.findViewById(R.id.etCity);
+        etState = (EditText) rootView.findViewById(R.id.etState);
+        etZipCode = (EditText) rootView.findViewById(R.id.etZipCode);
+        etCountry = (EditText) rootView.findViewById(R.id.etCountry);
+        bRegisterContactInfoNext = (Button) rootView.findViewById(R.id.bRegisterContactInfoNext);
 
-        etDisplayName.addTextChangedListener(textWatcher);
-        etPhoneNumber.addTextChangedListener(textWatcher);
-        //ivProfileImage.
+        etAddress1.addTextChangedListener(textWatcher);
+        etAddress2.addTextChangedListener(textWatcher);
+        etCity.addTextChangedListener(textWatcher);
+        etState.addTextChangedListener(textWatcher);
+        etZipCode.addTextChangedListener(textWatcher);
+        etCountry.addTextChangedListener(textWatcher);
 
-        tvCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle args = new Bundle();
-                args.putBoolean("onChanged", mAlertDiscardChanges);
-                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterImageFragment_ID,
-                        Constants.ACTION_CANCEL_RegisterImageFragment_ID, args);
-            }
-        });
-
-        bRegisterImageNext.setOnClickListener(new View.OnClickListener() {
+        bRegisterContactInfoNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 boolean gotAllData = checkForMustData();
                 if (gotAllData) {
                     Bundle args = new Bundle();
                     args.putParcelable("foodie", mFoodie);
-                    mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterImageFragment_ID,
-                            Constants.ACTION_NEXT_RegisterImageFragment_ID, args);
+                    mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterContactInfoFragment_ID,
+                            Constants.ACTION_NEXT_RegisterContactInfoFragment_ID, args);
                 }
             }
         });
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                args.putBoolean("onChanged", mAlertDiscardChanges);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterContactInfoFragment_ID,
+                        Constants.ACTION_CANCEL_RegisterContactInfoFragment_ID, args);
+            }
+        });
+
         return rootView;
     }
 
     private boolean checkForMustData() {
-        String displayName = etDisplayName.getText().toString();
-        String phoneNumber = etPhoneNumber.getText().toString();
+        String addr1 = etAddress1.getText().toString();
+        String addr2 = etAddress2.getText().toString();
+        String city = etCity.getText().toString();
+        String state = etState.getText().toString();
+        String zip = etZipCode.getText().toString();
+        String country = etCountry.getText().toString();
 
-        if (displayName == null || displayName.isEmpty()) {
-            Toast.makeText(mContext, "Please choose a Display Name", Toast.LENGTH_SHORT).show();
-            etDisplayName.requestFocus();
+        if (addr1 == null || addr1.isEmpty()) {
+            Toast.makeText(mContext, "Please Enter Street/Home number", Toast.LENGTH_SHORT).show();
+            etAddress1.requestFocus();
             return false;
         }
-        mFoodie.setmUserName(displayName);
+        mFoodie.getmAddr().setmLine1(addr1);
 
-        // TODO: check for valid phone number
-        if (phoneNumber == null || phoneNumber.isEmpty()) {
-            Toast.makeText(mContext, "Please Enter a valid phone number", Toast.LENGTH_SHORT).show();
-            etPhoneNumber.requestFocus();
+        // address 2 optional if address 1 is provided
+        if (addr2 != null && !addr2.isEmpty()) {
+            //TODO support for addr2
+            //mFoodie.getmAddr().setmLine2(addr2);
+        }
+
+        // TODO: validate city and state, country
+        if (city == null || city.isEmpty()) {
+            Toast.makeText(mContext, "Please Enter City", Toast.LENGTH_SHORT).show();
+            etCity.requestFocus();
             return false;
         }
-        mFoodie.getmContact().setmMoblie(phoneNumber);
+        mFoodie.getmAddr().setmCity(city);
 
-        // TODO
-        // if (ivProfileImage.)
-        // mFoodie.setmImageURL();
+        if (state == null || state.isEmpty()) {
+            Toast.makeText(mContext, "Please Enter State", Toast.LENGTH_SHORT).show();
+            etState.requestFocus();
+            return false;
+        }
+        mFoodie.getmAddr().setmState(state);
+
+        if (zip == null || zip.isEmpty()) {
+            Toast.makeText(mContext, "Please Enter Zip code", Toast.LENGTH_SHORT).show();
+            etZipCode.requestFocus();
+            return false;
+        }
+        mFoodie.getmAddr().setmZip(Integer.parseInt(zip));
+
+        if (country == null || country.isEmpty()) {
+            Toast.makeText(mContext, "Please Enter Country", Toast.LENGTH_SHORT).show();
+            etCountry.requestFocus();
+            return false;
+        }
+        mFoodie.getmAddr().setmCountry(country);
 
         return true;
     }

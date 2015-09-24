@@ -96,7 +96,7 @@ public class Constants {
     // ChefReviewFragment IDs
     public static final int FRAGMENT_ChefReviewFragment_ID = 17;
     public static final int ACTION_HOMEUP_ChefReviewFragment_ID = 0;
-    // ChefReviewFragment IDs
+    // RegisterNameFragment IDs
     public static final int FRAGMENT_RegisterNameFragment_ID = 18;
     public static final int ACTION_REGISTER_RegisterNameFragment_ID = 0;
     public static final int ACTION_CANCEL_RegisterNameFragment_ID = 1;
@@ -106,4 +106,20 @@ public class Constants {
     public static final int ACTION_SIGN_IN_LoginFragment_ID = 0;
     public static final int ACTION_REGISTER_LoginFragment_ID = 1;
     public static final int ACTION_HOMEUP_LoginFragment_ID = 2;
+    // RegisterImageFragment IDs
+    public static final int FRAGMENT_RegisterImageFragment_ID = 20;
+    public static final int ACTION_NEXT_RegisterImageFragment_ID = 0;
+    public static final int ACTION_CANCEL_RegisterImageFragment_ID = 1;
+    public static final int ACTION_HOMEUP_RegisterImageFragment_ID = 2;
+    // RegisterContactInfoFragment IDs
+    public static final int FRAGMENT_RegisterContactInfoFragment_ID = 21;
+    public static final int ACTION_NEXT_RegisterContactInfoFragment_ID = 0;
+    public static final int ACTION_CANCEL_RegisterContactInfoFragment_ID = 1;
+    public static final int ACTION_HOMEUP_RegisterContactInfoFragment_ID = 2;
+    // RegisterHobbiesFragment IDs
+    public static final int FRAGMENT_RegisterHobbiesFragment_ID = 22;
+    public static final int ACTION_SUBMIT_RegisterHobbiesFragment_ID = 0;
+    public static final int ACTION_CANCEL_RegisterHobbiesFragment_ID = 1;
+    public static final int ACTION_HOMEUP_RegisterHobbiesFragment_ID = 2;
 }
+

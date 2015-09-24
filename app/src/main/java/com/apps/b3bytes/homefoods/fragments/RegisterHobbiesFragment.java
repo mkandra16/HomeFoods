@@ -15,34 +15,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.Constants;
 import com.apps.b3bytes.homefoods.models.Foodie;
 
 
-public class RegisterImageFragment extends Fragment {
+public class RegisterHobbiesFragment extends Fragment {
     private FragmentActivity mContext;
     private View rootView;
     private Foodie mFoodie;
     private TextView tvCancel;
-    private TextView tvDisplayNameRule;
-    private EditText etDisplayName;
-    private RelativeLayout rlProfileImage;
-    private ImageView ivProfileImage;
-    private TextView tvChangeProfileImage;
-    private EditText etPhoneNumber;
-    private Button bRegisterImageNext;
-
+    private EditText etFavoriteFoods;
+    private EditText etSpecialities;
+    private EditText etHobbies;
+    private Button bRegisterSubmit;
     private boolean mAlertDiscardChanges;
 
     FragmentActionRequestHandler mActionRequestCallback;
 
-    public RegisterImageFragment() {
+    public RegisterHobbiesFragment() {
 
     }
 
@@ -67,8 +60,8 @@ public class RegisterImageFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterImageFragment_ID,
-                Constants.ACTION_HOMEUP_RegisterImageFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterHobbiesFragment_ID,
+                Constants.ACTION_HOMEUP_RegisterHobbiesFragment_ID, args);
 
         //actionBar.setTitle("Register");
     }
@@ -98,75 +91,73 @@ public class RegisterImageFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterImageFragment_ID,
-                Constants.ACTION_HOMEUP_RegisterImageFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterHobbiesFragment_ID,
+                Constants.ACTION_HOMEUP_RegisterHobbiesFragment_ID, args);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_register_image_info, container, false);
+        rootView = inflater.inflate(R.layout.fragment_register_hobbies, container, false);
         tvCancel = (TextView) rootView.findViewById(R.id.tvCancel);
-        tvDisplayNameRule = (TextView) rootView.findViewById(R.id.tvDisplayNameRule);
-        etDisplayName = (EditText) rootView.findViewById(R.id.etDisplayName);
-        rlProfileImage = (RelativeLayout) rootView.findViewById(R.id.rlProfileImage);
-        ivProfileImage = (ImageView) rootView.findViewById(R.id.ivProfileImage);
-        tvChangeProfileImage = (TextView) rootView.findViewById(R.id.tvChangeProfileImage);
-        etPhoneNumber = (EditText) rootView.findViewById(R.id.etPhoneNumber);
-        bRegisterImageNext = (Button) rootView.findViewById(R.id.bRegisterImageNext);
+        etFavoriteFoods = (EditText) rootView.findViewById(R.id.etFavoriteFoods);
+        etSpecialities = (EditText) rootView.findViewById(R.id.etSpecialities);
+        etHobbies = (EditText) rootView.findViewById(R.id.etHobbies);
+        bRegisterSubmit = (Button) rootView.findViewById(R.id.bRegisterSubmit);
 
-        etDisplayName.addTextChangedListener(textWatcher);
-        etPhoneNumber.addTextChangedListener(textWatcher);
-        //ivProfileImage.
+        etFavoriteFoods.addTextChangedListener(textWatcher);
+        etSpecialities.addTextChangedListener(textWatcher);
+        etHobbies.addTextChangedListener(textWatcher);
 
-        tvCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle args = new Bundle();
-                args.putBoolean("onChanged", mAlertDiscardChanges);
-                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterImageFragment_ID,
-                        Constants.ACTION_CANCEL_RegisterImageFragment_ID, args);
-            }
-        });
-
-        bRegisterImageNext.setOnClickListener(new View.OnClickListener() {
+        bRegisterSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 boolean gotAllData = checkForMustData();
                 if (gotAllData) {
                     Bundle args = new Bundle();
                     args.putParcelable("foodie", mFoodie);
-                    mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterImageFragment_ID,
-                            Constants.ACTION_NEXT_RegisterImageFragment_ID, args);
+                    mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterHobbiesFragment_ID,
+                            Constants.ACTION_SUBMIT_RegisterHobbiesFragment_ID, args);
                 }
             }
         });
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                args.putBoolean("onChanged", mAlertDiscardChanges);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterHobbiesFragment_ID,
+                        Constants.ACTION_CANCEL_RegisterHobbiesFragment_ID, args);
+            }
+        });
+
         return rootView;
     }
 
     private boolean checkForMustData() {
-        String displayName = etDisplayName.getText().toString();
-        String phoneNumber = etPhoneNumber.getText().toString();
+        String favFoods = etFavoriteFoods.getText().toString();
+        String specials = etSpecialities.getText().toString();
+        String hobbies = etHobbies.getText().toString();
 
-        if (displayName == null || displayName.isEmpty()) {
-            Toast.makeText(mContext, "Please choose a Display Name", Toast.LENGTH_SHORT).show();
-            etDisplayName.requestFocus();
-            return false;
+        //Not making any of the fields as mandatory
+        if (favFoods != null || !favFoods.isEmpty()) {
+            //Toast.makeText(mContext, "Please Enter your favorite foods", Toast.LENGTH_SHORT).show();
+            //etFavoriteFoods.requestFocus();
+            //return false;
+            mFoodie.setmFavFoods(favFoods);
         }
-        mFoodie.setmUserName(displayName);
 
-        // TODO: check for valid phone number
-        if (phoneNumber == null || phoneNumber.isEmpty()) {
-            Toast.makeText(mContext, "Please Enter a valid phone number", Toast.LENGTH_SHORT).show();
-            etPhoneNumber.requestFocus();
-            return false;
+        // TODO: support for specialities and hobbies
+        // address 2 optional if address 1 is provided
+        if (specials != null && !specials.isEmpty()) {
+            //mFoodie.getmAddr().setmLine2(addr2);
         }
-        mFoodie.getmContact().setmMoblie(phoneNumber);
 
-        // TODO
-        // if (ivProfileImage.)
-        // mFoodie.setmImageURL();
+        if (hobbies != null || !hobbies.isEmpty()) {
+            //mFoodie.getmAddr().setmCity(city);
+        }
 
         return true;
     }
