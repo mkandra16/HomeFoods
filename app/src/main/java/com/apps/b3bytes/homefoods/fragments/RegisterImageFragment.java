@@ -67,8 +67,8 @@ public class RegisterImageFragment extends Fragment {
         // Tell the Activity to let fragments handle the menu events
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterNameFragment_ID,
-                Constants.ACTION_HOMEUP_RegisterNameFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterImageFragment_ID,
+                Constants.ACTION_HOMEUP_RegisterImageFragment_ID, args);
 
         //actionBar.setTitle("Register");
     }
@@ -98,8 +98,8 @@ public class RegisterImageFragment extends Fragment {
         // Tell the Activity that it can now handle menu events once again
         Bundle args = new Bundle();
         args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterNameFragment_ID,
-                Constants.ACTION_HOMEUP_RegisterNameFragment_ID, args);
+        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterImageFragment_ID,
+                Constants.ACTION_HOMEUP_RegisterImageFragment_ID, args);
     }
 
     @Override
@@ -119,6 +119,29 @@ public class RegisterImageFragment extends Fragment {
         etDisplayName.addTextChangedListener(textWatcher);
         etPhoneNumber.addTextChangedListener(textWatcher);
         //ivProfileImage.
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                args.putBoolean("onChanged", mAlertDiscardChanges);
+                mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterImageFragment_ID,
+                        Constants.ACTION_CANCEL_RegisterImageFragment_ID, args);
+            }
+        });
+
+        bRegisterImageNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean gotAllData = checkForMustData();
+                if (gotAllData) {
+                    Bundle args = new Bundle();
+                    args.putParcelable("foodie", mFoodie);
+                    mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_RegisterImageFragment_ID,
+                            Constants.ACTION_NEXT_RegisterImageFragment_ID, args);
+                }
+            }
+        });
         return rootView;
     }
 

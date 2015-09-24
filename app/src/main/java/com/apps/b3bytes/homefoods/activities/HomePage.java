@@ -851,6 +851,9 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
         // wait for email verification. display verification page or progress bar.
         // For now, go to next page
         RegisterImageFragment registerImageFragment = new RegisterImageFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("foodie", mFoodie);
+        registerImageFragment.setArguments(args);
         replaceFragment(registerImageFragment);
     }
 
@@ -867,6 +870,30 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
                 break;
             }
             case Constants.ACTION_HOMEUP_RegisterNameFragment_ID: {
+                boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
+                FragmentHomeUpButton(canActivityHandle);
+                break;
+            }
+        }
+    }
+
+    private void OnRegisterImageNextrSelected() {
+
+    }
+
+    private void RegisterImageFragmentRequestHandler(int action_id, Bundle bundle) {
+        switch (action_id) {
+            case Constants.ACTION_NEXT_RegisterImageFragment_ID: {
+                mFoodie = bundle.getParcelable("foodie");
+                OnRegisterImageNextrSelected();
+                break;
+            }
+            case Constants.ACTION_CANCEL_RegisterImageFragment_ID: {
+                boolean onChanged = bundle.getBoolean("onChanged");
+                OnRegisterCancelSelected(onChanged);
+                break;
+            }
+            case Constants.ACTION_HOMEUP_RegisterImageFragment_ID: {
                 boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
                 FragmentHomeUpButton(canActivityHandle);
                 break;
@@ -990,6 +1017,10 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
             }
             case Constants.FRAGMENT_RegisterNameFragment_ID: {
                 RegisterNameFragmentRequestHandler(action_id, bundle);
+                break;
+            }
+            case Constants.FRAGMENT_RegisterImageFragment_ID: {
+                RegisterImageFragmentRequestHandler(action_id, bundle);
                 break;
             }
             case Constants.FRAGMENT_LoginFragment_ID: {
