@@ -52,6 +52,7 @@ import com.apps.b3bytes.homefoods.fragments.FoodieOrderHistoryFragment;
 import com.apps.b3bytes.homefoods.fragments.FoodieViewPastPendingOrderDetailsFragment;
 import com.apps.b3bytes.homefoods.fragments.FragmentActionRequestHandler;
 import com.apps.b3bytes.homefoods.fragments.LoginFragment;
+import com.apps.b3bytes.homefoods.fragments.RegisterContactInfoFragment;
 import com.apps.b3bytes.homefoods.fragments.RegisterImageFragment;
 import com.apps.b3bytes.homefoods.fragments.RegisterNameFragment;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
@@ -64,8 +65,7 @@ import com.apps.b3bytes.homefoods.widgets.DividerItemDecoration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomePage extends AppCompatActivity implements FragmentActionRequestHandler
-{
+public class HomePage extends AppCompatActivity implements FragmentActionRequestHandler {
     public static final int DISH_SECTION_EDIT_SINGLE = 0;
     public static final int DISH_SECTION_EDIT_ALL = 1;
 
@@ -446,13 +446,13 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
     private void displayView(int position) {
         // update the main content by replacing fragments
         Fragment fragment = null;
-            if (position == DRAWER_LOC_CHEF_HOME) {
-                fragment = new ChefHomeFragment();
-            } else if (position == DRAWER_LOC_CHEF_MENU) {
-                fragment = new ChefMenuFragment();
-            } else if (position == DRAWER_LOC_CHEF_DELIVER) {
-                fragment = new ChefDeliveryFragment();
-            }
+        if (position == DRAWER_LOC_CHEF_HOME) {
+            fragment = new ChefHomeFragment();
+        } else if (position == DRAWER_LOC_CHEF_MENU) {
+            fragment = new ChefMenuFragment();
+        } else if (position == DRAWER_LOC_CHEF_DELIVER) {
+            fragment = new ChefDeliveryFragment();
+        }
 
         if (fragment != null) {
             replaceFragment(fragment);
@@ -835,6 +835,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
     };
 
     private void OnRegisterCancelSelected(boolean isChanged) {
+        //TODO: display the last fragment from cancel registration from any page
         if (isChanged) {
             AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
             builder.setMessage("Cancel Registration?").setPositiveButton("YES", dialogRegisterCancelListener)
@@ -877,15 +878,19 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
         }
     }
 
-    private void OnRegisterImageNextrSelected() {
-
+    private void OnRegisterImageNextSelected() {
+        RegisterContactInfoFragment registerContactInfoFragment = new RegisterContactInfoFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("foodie", mFoodie);
+        registerContactInfoFragment.setArguments(args);
+        replaceFragment(registerContactInfoFragment);
     }
 
     private void RegisterImageFragmentRequestHandler(int action_id, Bundle bundle) {
         switch (action_id) {
             case Constants.ACTION_NEXT_RegisterImageFragment_ID: {
                 mFoodie = bundle.getParcelable("foodie");
-                OnRegisterImageNextrSelected();
+                OnRegisterImageNextSelected();
                 break;
             }
             case Constants.ACTION_CANCEL_RegisterImageFragment_ID: {
@@ -894,6 +899,30 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
                 break;
             }
             case Constants.ACTION_HOMEUP_RegisterImageFragment_ID: {
+                boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
+                FragmentHomeUpButton(canActivityHandle);
+                break;
+            }
+        }
+    }
+
+    private void OnRegisterContactInfoNextSelected() {
+        //TODO
+    }
+
+    private void RegisterContactInfoFragmentRequestHandler(int action_id, Bundle bundle) {
+        switch (action_id) {
+            case Constants.ACTION_NEXT_RegisterContactInfoFragment_ID: {
+                mFoodie = bundle.getParcelable("foodie");
+                OnRegisterContactInfoNextSelected();
+                break;
+            }
+            case Constants.ACTION_CANCEL_RegisterContactInfoFragment_ID: {
+                boolean onChanged = bundle.getBoolean("onChanged");
+                OnRegisterCancelSelected(onChanged);
+                break;
+            }
+            case Constants.ACTION_HOMEUP_RegisterContactInfoFragment_ID: {
                 boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
                 FragmentHomeUpButton(canActivityHandle);
                 break;
@@ -1021,6 +1050,10 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
             }
             case Constants.FRAGMENT_RegisterImageFragment_ID: {
                 RegisterImageFragmentRequestHandler(action_id, bundle);
+                break;
+            }
+            case Constants.FRAGMENT_RegisterContactInfoFragment_ID: {
+                RegisterContactInfoFragmentRequestHandler(action_id, bundle);
                 break;
             }
             case Constants.FRAGMENT_LoginFragment_ID: {

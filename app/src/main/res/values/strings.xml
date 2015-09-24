@@ -83,5 +83,11 @@
     <string name="etDisplayNameHint">Display Name</string>
     <string name="bRegisterImageNext">Next</string>
     <string name="etPhoneNumberHint">Phone Number</string>
+    <string name="etAdress1Hint">Address 1</string>
+    <string name="etAddress2Hint">Address 2</string>
+    <string name="etCityHint">City/Town</string>
+    <string name="etStateHint">State</string>
+    <string name="etZipCodeHint">ZIP code</string>
+    <string name="etCountryHint">Country</string>
 
 </resources>

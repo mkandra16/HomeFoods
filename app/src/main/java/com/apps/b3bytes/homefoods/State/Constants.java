@@ -111,4 +111,9 @@ public class Constants {
     public static final int ACTION_NEXT_RegisterImageFragment_ID = 0;
     public static final int ACTION_CANCEL_RegisterImageFragment_ID = 1;
     public static final int ACTION_HOMEUP_RegisterImageFragment_ID = 2;
+    // RegisterContactInfoFragment IDs
+    public static final int FRAGMENT_RegisterContactInfoFragment_ID = 21;
+    public static final int ACTION_NEXT_RegisterContactInfoFragment_ID = 0;
+    public static final int ACTION_CANCEL_RegisterContactInfoFragment_ID = 1;
+    public static final int ACTION_HOMEUP_RegisterContactInfoFragment_ID = 2;
 }
