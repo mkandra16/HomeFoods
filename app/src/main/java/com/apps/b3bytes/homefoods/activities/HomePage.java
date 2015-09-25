@@ -1053,8 +1053,8 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
                 tvRegisterAsChef.setVisibility(View.INVISIBLE);
                 swChefFoodie.setChecked(true);
                 chefMode = swChefFoodie.isChecked();
-                //displayView(DRAWER_LOC_CHEF_HOME); this is crashing now
-                //displayFoodieView(DRAWER_LOC_FOODIE_HOME);
+                //displayView(DRAWER_LOC_CHEF_HOME);
+                displayFoodieView(DRAWER_LOC_FOODIE_HOME);
             }
         });
     }
