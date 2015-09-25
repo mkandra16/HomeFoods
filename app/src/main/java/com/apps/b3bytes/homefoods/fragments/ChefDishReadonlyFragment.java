@@ -19,6 +19,8 @@ import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.Constants;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 
+import java.text.SimpleDateFormat;
+
 
 public class ChefDishReadonlyFragment extends Fragment {
     public static final int DISH_EDIT_SECTION_INFO = 0;
@@ -233,11 +235,19 @@ public class ChefDishReadonlyFragment extends Fragment {
             initTextView(tvDishQtyPerUnit, String.valueOf(mDish.getmQtyPerUnit()));
             initTextView(tvDishEditPrice, String.valueOf(mDish.getmUnitPrice()));
             initTextView(tvDishEditQuantity, String.valueOf(mDish.getmUnitsOnSale()));
-
-            initTextView(tvDishEditFromDatePicker, String.valueOf(mDish.getmFromDate()));
-            initTextView(tvDishEditFromTimePicker, String.valueOf(mDish.getmFromTime()));
-            initTextView(tvDishEditToDatePicker, String.valueOf(mDish.getmToDate()));
-            initTextView(tvDishEditToTimePicker, String.valueOf(mDish.getmToTime()));
+            SimpleDateFormat dateFormat = new SimpleDateFormat("E, MMM d, yyyy");
+            SimpleDateFormat timeFormat = new SimpleDateFormat("h : mm a");
+            if (mDish.getmToDate_date() != null) {
+                initTextView(tvDishEditFromDatePicker, dateFormat.format(mDish.getmFromDate_date()));
+                initTextView(tvDishEditFromTimePicker, timeFormat.format(mDish.getmFromDate_date()));
+                initTextView(tvDishEditToDatePicker, dateFormat.format(mDish.getmToDate_date()));
+                initTextView(tvDishEditToTimePicker, timeFormat.format(mDish.getmToDate_date()));
+            } else {
+                initTextView(tvDishEditFromDatePicker, String.valueOf(mDish.getmFromDate()));
+                initTextView(tvDishEditFromTimePicker, String.valueOf(mDish.getmFromTime()));
+                initTextView(tvDishEditToDatePicker, String.valueOf(mDish.getmToDate()));
+                initTextView(tvDishEditToTimePicker, String.valueOf(mDish.getmToTime()));
+            }
             //TODO: On Emulator, sometimes the checkbox won't display false as unchecked.
             cbDishEditPickUp.setChecked(mDish.ismPickUp());
             cbDishEditDelivery.setChecked(mDish.ismDelivery());

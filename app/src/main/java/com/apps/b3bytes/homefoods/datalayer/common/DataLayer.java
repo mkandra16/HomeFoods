@@ -172,47 +172,62 @@ public class DataLayer {
         // 2. Publish Dish
         // 3. Put Dish on Sale.
         Bitmap bitmap = null;
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), d.getmDish().getmImageUri());
-        } catch (IOException e) {
-            Toast.makeText(mContext,"Couldn't convert URI to bitmap", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-
-        if(Build.VERSION.SDK_INT >= 19) {
-            int ow = bitmap.getWidth();
-            int oh = bitmap.getHeight();
-            int nw = 1028;
-            int nh = (int) (((float) oh / (float) ow) * nw);
-            bitmap.reconfigure(nw, nh, bitmap.getConfig());
-        }
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 60, stream);
-
-        byte[] byteArray = stream.toByteArray();
-
-        d.getmDish().setmChef(AppGlobalState.getmCurrentFoodie());
-        String fileName = d.getmDish().getmDishName().replaceAll("\\s+", "") + d.getmDish().getmChef().getmTag();
-        saveFile(byteArray, fileName, new DataLayer.SaveCallback() {
-            @Override
-            public void done(String objectId, Exception e) {
-                if (e == null) {
-                    d.getmDish().setmImageURL(objectId);
-                    publishDish(d.getmDish(), new com.apps.b3bytes.homefoods.datalayer.common.DataLayer.PublishCallback() {
-                        @Override
-                        public void done(Exception e) {
-                            if (e == null) {
-                                mDishTable.putDishOnSale(d, cb);
-                            } else {
-                                cb.done(e);
-                            }
-                        }
-                    });
-                } else {
-                    cb.done(e);
-                }
+        if (d.getmDish().getmImageUri() != null) {
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), d.getmDish().getmImageUri());
+            } catch (IOException e) {
+                Toast.makeText(mContext, "Couldn't convert URI to bitmap", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
             }
-        });
+
+            if (Build.VERSION.SDK_INT >= 19) {
+                int ow = bitmap.getWidth();
+                int oh = bitmap.getHeight();
+                int nw = 1028;
+                int nh = (int) (((float) oh / (float) ow) * nw);
+                bitmap.reconfigure(nw, nh, bitmap.getConfig());
+            }
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 60, stream);
+
+            byte[] byteArray = stream.toByteArray();
+
+            d.getmDish().setmChef(AppGlobalState.getmCurrentFoodie());
+            String fileName = d.getmDish().getmDishName().replaceAll("\\s+", "") + d.getmDish().getmChef().getmTag();
+            saveFile(byteArray, fileName, new DataLayer.SaveCallback() {
+                @Override
+                public void done(String objectId, Exception e) {
+                    if (e == null) {
+                        d.getmDish().setmImageURL(objectId);
+                        publishDish(d.getmDish(), new com.apps.b3bytes.homefoods.datalayer.common.DataLayer.PublishCallback() {
+                            @Override
+                            public void done(Exception e) {
+                                if (e == null) {
+                                    mDishTable.putDishOnSale(d, cb);
+                                } else {
+                                    cb.done(e);
+                                }
+                            }
+                        });
+                    } else {
+                        cb.done(e);
+                    }
+                }
+            });
+        } else {
+            // Image is mandatory, This can happen only when we are saving edited dish
+            Utils._assert(d.getmDish().hasImage(), "Unexpected, Dish should have image");
+            publishDish(d.getmDish(), new com.apps.b3bytes.homefoods.datalayer.common.DataLayer.PublishCallback() {
+                @Override
+                public void done(Exception e) {
+                    if (e == null) {
+                        mDishTable.putDishOnSale(d, cb);
+                    } else {
+                        cb.done(e);
+                    }
+                }
+            });
+        }
     }
 
     public void getNearByDishes(int radius, int skip, int count, DishQueryCallback callback) {

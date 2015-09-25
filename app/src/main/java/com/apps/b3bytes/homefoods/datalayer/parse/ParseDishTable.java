@@ -103,6 +103,7 @@ public class ParseDishTable implements DishTable {
         DishOnSale dos = new DishOnSale();
         dos.setmTag(object.getObjectId());
         dos.setmMeasure(object.getString("Measure"));
+        dos.setmToDate(object.getString("ToDate"));
         dos.setmToTime(object.getString("ToTime"));
         dos.setmQtyPerUnit(object.getDouble("QtyPerUnit"));
         dos.setmUnitPrice(object.getDouble("UnitPrice"));

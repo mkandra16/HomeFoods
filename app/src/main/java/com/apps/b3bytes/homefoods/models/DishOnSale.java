@@ -3,6 +3,10 @@ package com.apps.b3bytes.homefoods.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.apps.b3bytes.homefoods.utils.Utils;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DishOnSale implements Parcelable {
@@ -249,6 +253,11 @@ public class DishOnSale implements Parcelable {
         dest.writeString(getmToDate());
         dest.writeString(getmToTime());
         dest.writeString(getmDishAddInfo());
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy h : mm a");
+        dest.writeString(dateFormat.format(getmFromDate_date()));
+        dest.writeString(dateFormat.format(getmToDate_date()));
+
     }
 
     public static final Parcelable.Creator<DishOnSale> CREATOR = new Parcelable.Creator<DishOnSale>() {
@@ -278,6 +287,21 @@ public class DishOnSale implements Parcelable {
         setmToDate(in.readString());
         setmToTime(in.readString());
         setmDishAddInfo(in.readString());
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy h : mm a");
+        try {
+            setmFromDate_date(dateFormat.parse(in.readString()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Utils.notReached(e.getMessage());
+        }
+
+        try {
+            setmToDate_date(dateFormat.parse(in.readString()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Utils.notReached(e.getMessage());
+        }
     }
 
 }
