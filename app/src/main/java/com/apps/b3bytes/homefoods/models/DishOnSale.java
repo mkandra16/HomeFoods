@@ -3,6 +3,8 @@ package com.apps.b3bytes.homefoods.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Date;
+
 public class DishOnSale implements Parcelable {
     public enum Measure {Grams, Liters};
     private Dish mDish;
@@ -18,9 +20,27 @@ public class DishOnSale implements Parcelable {
     private boolean mDelivery;
     private String mFromDate;
     private String mFromTime;
+    private Date mFromDate_date;
+    private Date mToDate_date;
     private String mToDate;
     private String mToTime;
     private String mDishAddInfo;
+
+    public Date getmFromDate_date() {
+        return mFromDate_date;
+    }
+
+    public void setmFromDate_date(Date mFromDate_date) {
+        this.mFromDate_date = mFromDate_date;
+    }
+
+    public Date getmToDate_date() {
+        return mToDate_date;
+    }
+
+    public void setmToDate_date(Date mToDate_date) {
+        this.mToDate_date = mToDate_date;
+    }
 
     public Measure getmMeasure() {
         return mMeasure;

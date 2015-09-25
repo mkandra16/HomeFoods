@@ -30,46 +30,28 @@ public class ParseDishTable implements DishTable {
         dish.setmDishName(object.getString("DishName"));
         dish.setmDishInfo(object.getString("DishInfo"));
         dish.setmImageURL(object.getString("ImageURL"));
+        if (object.getString("PrepMethod") != null) {
+            dish.setmPrepMethod(object.getString("PrepMethod"));
+        }
 //        dish.setmQty(object.getInt("Qty"));
      //   dish.setmMeasure(object.getString("Measure"));
 //        dish.setmPrice(object.getDouble("Price"));
         dish.setmThumbsUp(object.getInt("ThumbsUp"));
         dish.setmThumbsDown(object.getInt("ThumbsDown"));
         dish.setmCusineId(object.getInt("CusineId"));
+        dish.setmCusine(object.getString("Cusine"));
+        dish.setmGlutenFree(object.getBoolean("GlutenFree"));
+        dish.setmRedMeat(object.getBoolean("RedMeat"));
+        dish.setmVegan(object.getBoolean("Vegan"));
+        dish.setmVegitarian(object.getBoolean("Vegitarian"));
+
         dish.setmChefId(object.getInt("ChefId"));
-        if (object.getString("PrepMethod") != null) {
-            dish.setmPrepMethod(object.getString("PrepMethod"));
-        }
         dish.setmTag(object.getObjectId());
-        dish.setmImageURL(object.getString("ImageURL"));
+
         Foodie f = new Foodie(ParseFoodieTable.parseUser2JSONObject(chef));
         f.setmTag(chef.getObjectId());
         dish.setmChef(f);
         return dish;
-    }
-    public static DishOnSale ParseObject2DishOnSale(ParseObject object) {
-        DishOnSale dos = new DishOnSale();
-        dos.setmTag(object.getObjectId());
-        dos.setmMeasure(object.getString("Measure"));
-        dos.setmToTime(object.getString("ToTime"));
-        dos.setmQtyPerUnit(object.getDouble("QtyPerUnit"));
-        dos.setmUnitPrice(object.getDouble("UnitPrice"));
-        dos.setmPickUp(object.getBoolean("PickUp"));
-        dos.setmUnitsOnSale(object.getInt("QtyOnSale"));
-        dos.setmUnitsOrdered(object.getInt("UnitsOrdered"));
-        dos.setmUnitsDelivered(object.getInt("UnitsDelivered"));
-        dos.setmDelivery(object.getBoolean("Delivery"));
-        dos.setmPickUp(object.getBoolean("PickUp"));
-        dos.setmDish(ParseObject2Dish(object.getParseObject("Dish")));
-        return dos;
-    }
-    public static ArrayList<DishOnSale> ParseList2DishOnSaleList(List<ParseObject> list) {
-        ArrayList<DishOnSale> al = new ArrayList<DishOnSale>();
-        for(ParseObject o : list) {
-            DishOnSale d = ParseObject2DishOnSale(o);
-            al.add(d);
-        }
-        return al;
     }
 
     @Override
@@ -117,6 +99,64 @@ public class ParseDishTable implements DishTable {
         });
     }
 
+    public static DishOnSale ParseObject2DishOnSale(ParseObject object) {
+        DishOnSale dos = new DishOnSale();
+        dos.setmTag(object.getObjectId());
+        dos.setmMeasure(object.getString("Measure"));
+        dos.setmToTime(object.getString("ToTime"));
+        dos.setmQtyPerUnit(object.getDouble("QtyPerUnit"));
+        dos.setmUnitPrice(object.getDouble("UnitPrice"));
+        dos.setmUnitsOnSale(object.getInt("QtyOnSale"));
+        dos.setmUnitsOrdered(object.getInt("UnitsOrdered"));
+        dos.setmUnitsDelivered(object.getInt("UnitsDelivered"));
+        dos.setmPickUp(object.getBoolean("PickUp"));
+        dos.setmDelivery(object.getBoolean("Delivery"));
+        dos.setmDish(ParseObject2Dish(object.getParseObject("Dish")));
+        if (object.getDate("AvailableFrom") != null) {
+            dos.setmFromDate_date(object.getDate("AvailableFrom"));
+            dos.setmToDate_date(object.getDate("AvailableUntil"));
+        }
+        return dos;
+    }
+    public static ArrayList<DishOnSale> ParseList2DishOnSaleList(List<ParseObject> list) {
+        ArrayList<DishOnSale> al = new ArrayList<DishOnSale>();
+        for(ParseObject o : list) {
+            DishOnSale d = ParseObject2DishOnSale(o);
+            al.add(d);
+        }
+        return al;
+    }
+
+    @Override
+    public void putDishOnSale(final DishOnSale dishOnSale, final DataLayer.PublishCallback cb) {
+        final ParseObject dishOnSaleObj = new ParseObject("DishOnSale");
+        assert ! dishOnSale.getmDish().getmTag().isEmpty();
+        dishOnSaleObj.put("Dish", ParseObject.createWithoutData("Dish",dishOnSale.getmDish().getmTag()));
+        dishOnSaleObj.put("Measure", dishOnSale.getmMeasure().toString());
+        dishOnSaleObj.put("QtyPerUnit", dishOnSale.getmQtyPerUnit());
+        dishOnSaleObj.put("UnitPrice", dishOnSale.getmUnitPrice());
+        dishOnSaleObj.put("QtyOnSale", dishOnSale.getmUnitsOnSale());
+        dishOnSaleObj.put("PickUp", dishOnSale.ismPickUp());
+        dishOnSaleObj.put("Delivery", dishOnSale.ismDelivery());
+        dishOnSaleObj.put("ToDate", dishOnSale.getmToDate());
+        dishOnSaleObj.put("ToTime", dishOnSale.getmToTime());
+
+        dishOnSaleObj.put("AvailableFrom", dishOnSale.getmFromDate_date());
+        dishOnSaleObj.put("AvailableUntil", dishOnSale.getmToDate_date());
+        dishOnSaleObj.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    dishOnSale.setmTag(dishOnSaleObj.getObjectId());
+                    cb.done(e);
+                } else {
+                    Log.d("ParseDishOnSale", "Error: " + e.getMessage());
+                    cb.done(e);
+                }
+            }
+        });
+    }
+
     @Override
     public void getNearbyDishes(int radius, int skip, int count, final DataLayer.DishQueryCallback callback) {
         ParseGeoPoint loc = new ParseGeoPoint(40,50);
@@ -141,35 +181,6 @@ public class ParseDishTable implements DishTable {
                                    }
                                }
         );
-    }
-
-    @Override
-    public void putDishOnSale(final DishOnSale dishOnSale, final DataLayer.PublishCallback cb) {
-        final ParseObject dishOnSaleObj = new ParseObject("DishOnSale");
-        assert ! dishOnSale.getmDish().getmTag().isEmpty();
-        dishOnSaleObj.put("Dish", ParseObject.createWithoutData("Dish",dishOnSale.getmDish().getmTag()));
-        dishOnSaleObj.put("Measure", dishOnSale.getmMeasure().toString());
-        dishOnSaleObj.put("QtyPerUnit", dishOnSale.getmQtyPerUnit());
-        dishOnSaleObj.put("UnitPrice", dishOnSale.getmUnitPrice());
-        dishOnSaleObj.put("QtyOnSale", dishOnSale.getmUnitsOnSale());
-        dishOnSaleObj.put("PickUp", dishOnSale.ismPickUp());
-        dishOnSaleObj.put("Delivery", dishOnSale.ismDelivery());
-        dishOnSaleObj.put("ToDate", dishOnSale.getmToDate());
-        dishOnSaleObj.put("ToTime", dishOnSale.getmToTime());
-
-
-        dishOnSaleObj.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    dishOnSale.setmTag(dishOnSaleObj.getObjectId());
-                    cb.done(e);
-                } else {
-                    Log.d("ParseDishOnSale", "Error: " + e.getMessage());
-                    cb.done(e);
-                }
-            }
-        });
     }
 
     @Override

@@ -30,9 +30,13 @@ import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.Constants;
 import com.apps.b3bytes.homefoods.activities.HomePage;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
+import com.apps.b3bytes.homefoods.utils.Utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class ChefDishEditAvailFragment extends Fragment {
     private FragmentActivity mContext;
@@ -125,7 +129,6 @@ public class ChefDishEditAvailFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_chef_dish_edit_avail, container, false);
-
         rlDishEditFromDatePicker = (RelativeLayout) rootView.findViewById(R.id.rlDishEditFromDatePicker);
         tvDishEditFromDatePicker = (TextView) (rlDishEditFromDatePicker.findViewById(R.id.tvDishEditDatePicker));
         tvDishEditFromTimePicker = (TextView) (rlDishEditFromDatePicker.findViewById(R.id.tvDishEditTimePicker));
@@ -222,6 +225,30 @@ public class ChefDishEditAvailFragment extends Fragment {
             mDish.setmFromTime(tvDishEditFromTimePicker.getText().toString());
             mDish.setmToDate(tvDishEditToDatePicker.getText().toString());
             mDish.setmToTime(tvDishEditToTimePicker.getText().toString());
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy h : mm a");
+            TimeZone tz = TimeZone.getDefault();
+            dateFormat.setTimeZone(TimeZone.getDefault());
+            String fromDateStr = tvDishEditFromDatePicker.getText().toString()
+                    + " " + tvDishEditFromTimePicker.getText().toString();
+            try {
+                Date fromDate = dateFormat.parse(fromDateStr);
+                mDish.setmFromDate_date(fromDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Utils.notReached(e.getMessage());
+            }
+
+            String toDateStr = tvDishEditToDatePicker.getText().toString() + " "
+                    + tvDishEditToTimePicker.getText().toString();
+            try {
+                Date toDate = dateFormat.parse(fromDateStr);
+                mDish.setmToDate_date(toDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Utils.notReached(e.getMessage());
+            }
+
             mDish.setmPickUp(cbDishEditPickUp.isChecked());
             mDish.setmDelivery(cbDishEditDelivery.isChecked());
         }
