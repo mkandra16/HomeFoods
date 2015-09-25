@@ -1043,18 +1043,21 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
             e.printStackTrace();
         }
         Foodie f = new Foodie(foodie);
-        AppGlobalState.gDataLayer.registerFoodie(f, new DataLayer.RegistrationCallback() {
+        AppGlobalState.registerFoodie(f, new DataLayer.RegistrationCallback() {
             @Override
             public void done(Foodie f, Exception e) {
-                Toast.makeText(getApplicationContext(), "Resgistered Foodie" + f.getmUserName(), Toast.LENGTH_LONG).show();
-                //TODO: go to chef home page?
-                // hence goto home page
-                swChefFoodie.setVisibility(View.VISIBLE);
-                tvRegisterAsChef.setVisibility(View.INVISIBLE);
-                swChefFoodie.setChecked(true);
-                chefMode = swChefFoodie.isChecked();
-                //displayView(DRAWER_LOC_CHEF_HOME);
-                displayFoodieView(DRAWER_LOC_FOODIE_HOME);
+                if (e == null) {
+                    Toast.makeText(getApplicationContext(), "Resgistered Foodie" + f.getmUserName(), Toast.LENGTH_LONG).show();
+                    Utils._assert(f.equals(AppGlobalState.getmCurrentFoodie()), "f != AppGlobalState.getmCurrentFoodie()");
+                    if (f.getmChef() == null) {
+                        moveToUser(User.FOOODIE);
+                    } else {
+                        moveToUser(User.CHEF);
+                    }
+                    displayFoodieView(DRAWER_LOC_FOODIE_HOME);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Failed to Resgistered Foodie" + f.getmUserName(), Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

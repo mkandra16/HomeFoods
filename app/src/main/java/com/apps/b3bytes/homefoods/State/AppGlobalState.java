@@ -6,6 +6,7 @@ import android.widget.Toast;
 import com.apps.b3bytes.homefoods.datalayer.common.DataLayer;
 import com.apps.b3bytes.homefoods.models.Cart;
 import com.apps.b3bytes.homefoods.models.Foodie;
+import com.apps.b3bytes.homefoods.utils.Utils;
 
 import java.util.HashMap;
 import java.util.Vector;
@@ -57,7 +58,20 @@ public final class AppGlobalState {
                 }
             }
         });
+    }
 
+    public static void registerFoodie(Foodie f, final DataLayer.RegistrationCallback cb) {
+        gDataLayer.registerFoodie(f, new DataLayer.RegistrationCallback() {
+            @Override
+            public void done(Foodie f, Exception e) {
+                if (e == null) {
+                    Utils._assert(mCurrentFoodie == null, "mCurrentFoodie should have cleared on signOut");
+                    mCurrentFoodie = f;
+                }
+                cb.done(f, e);
+
+            }
+        });
     }
     public static void signOut() {
         gDataLayer.signOut();
