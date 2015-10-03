@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.Constants;
+import com.apps.b3bytes.homefoods.activities.ChefDishDesc;
 import com.apps.b3bytes.homefoods.activities.HomePage;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 
@@ -183,7 +184,7 @@ public class ChefDishEditPriceFragment extends Fragment {
         if (mMode == HomePage.DISH_SECTION_EDIT_ALL) {
             llDishPriceNavigationButtons.setVisibility(View.VISIBLE);
             llDishPriceSaveButtons.setVisibility(View.GONE);
-        } else if (mMode == HomePage.DISH_SECTION_EDIT_SINGLE) {
+        } else if (mMode == ChefDishDesc.DISH_SECTION_EDIT_SINGLE) {
             llDishPriceSaveButtons.setVisibility(View.VISIBLE);
             llDishPriceNavigationButtons.setVisibility(View.GONE);
         }
@@ -312,7 +313,7 @@ public class ChefDishEditPriceFragment extends Fragment {
                 if (gotAllData) {
                     Bundle args = new Bundle();
                     args.putParcelable("dish", mDish);
-                    args.putInt("mode", HomePage.DISH_SECTION_EDIT_SINGLE);
+                    args.putInt("mode", ChefDishDesc.DISH_SECTION_EDIT_SINGLE);
                     mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishEditPriceFragment_ID,
                             Constants.ACTION_SAVE_ChefDishEditPriceFragment_ID, args);
                 }
@@ -323,7 +324,7 @@ public class ChefDishEditPriceFragment extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.action_settings).setVisible(false).setEnabled(false);
+   //     menu.findItem(R.id.action_settings).setVisible(false).setEnabled(false);
         return;
     }
 

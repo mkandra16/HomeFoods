@@ -94,5 +94,6 @@
     <string name="etSpecialitiesHint">Specialities: what are you special at?</string>
     <string name="etHobbiesHint">What are your hobbies?</string>
     <string name="bRegisterSubmit">Submit</string>
+    <string name="title_activity_chef_dish_desc1">ChefDishDesc1</string>
 
 </resources>

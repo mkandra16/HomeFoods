@@ -24,8 +24,10 @@ import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.Constants;
+import com.apps.b3bytes.homefoods.activities.ChefDishDesc;
 import com.apps.b3bytes.homefoods.activities.HomePage;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
+import com.apps.b3bytes.homefoods.utils.Utils;
 
 public class ChefDishEditInfoFragment extends Fragment {
     private FragmentActivity mContext;
@@ -45,7 +47,6 @@ public class ChefDishEditInfoFragment extends Fragment {
     FragmentActionRequestHandler mActionRequestCallback;
 
 
-
     @Override
     public void onAttach(Activity activity) {
         mContext = (FragmentActivity) activity;
@@ -60,17 +61,6 @@ public class ChefDishEditInfoFragment extends Fragment {
             throw new ClassCastException(activity.toString()
                     + " must implement fragment_action_request_handler");
         }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
-        // Tell the Activity that it can now handle menu events once again
-        Bundle args = new Bundle();
-        args.putBoolean("canActivityHandle", true);
-        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishEditInfoFragment_ID,
-                Constants.ACTION_HOMEUP_ChefDishEditInfoFragment_ID, args);
     }
 
     @Override
@@ -91,11 +81,6 @@ public class ChefDishEditInfoFragment extends Fragment {
         super.onResume();
 
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        // Tell the Activity to let fragments handle the menu events
-        Bundle args = new Bundle();
-        args.putBoolean("canActivityHandle", false);
-        mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishEditInfoFragment_ID,
-                Constants.ACTION_HOMEUP_ChefDishEditInfoFragment_ID, args);
 
         if (mMode == HomePage.DISH_SECTION_EDIT_ALL)
             actionBar.setTitle("Add Dish");
@@ -146,25 +131,13 @@ public class ChefDishEditInfoFragment extends Fragment {
         }
     };
 
-    private void initAutoCompleteTextView(AutoCompleteTextView acTvView, String text) {
-        if (text != null && !text.isEmpty()) {
-            acTvView.setText(text);
-        }
-    }
-
-    private void initEditTextView(EditText etView, String text) {
-        if (text != null && !text.isEmpty()) {
-            etView.setText(text);
-        }
-    }
-
     private void initFields() {
         //populate  fields if applicable. i.e. mDish != null
         if (mDish != null) {
-            initEditTextView(etDishEditDishName, mDish.getmDish().getmDishName());
-            initEditTextView(etDishEditDishInfo, mDish.getmDish().getmDishInfo());
-            initEditTextView(etDishEditDishPrepMethod, mDish.getmDish().getmPrepMethod());
-            initAutoCompleteTextView(acTvDishEditCuisine, mDish.getmDish().getmCusine());
+            Utils.initEditTextView(etDishEditDishName, mDish.getmDish().getmDishName());
+            Utils.initEditTextView(etDishEditDishInfo, mDish.getmDish().getmDishInfo());
+            Utils.initEditTextView(etDishEditDishPrepMethod, mDish.getmDish().getmPrepMethod());
+            Utils.initAutoCompleteTextView(acTvDishEditCuisine, mDish.getmDish().getmCusine());
             cbDishEditVegan.setChecked(mDish.getmDish().ismVegan());
         }
 
@@ -182,7 +155,7 @@ public class ChefDishEditInfoFragment extends Fragment {
         if (mMode == HomePage.DISH_SECTION_EDIT_ALL) {
             bDishInfoNext.setVisibility(View.VISIBLE);
             bDishInfoSave.setVisibility(View.GONE);
-        } else if (mMode == HomePage.DISH_SECTION_EDIT_SINGLE) {
+        } else if (mMode == ChefDishDesc.DISH_SECTION_EDIT_SINGLE) {
             bDishInfoSave.setVisibility(View.VISIBLE);
             bDishInfoNext.setVisibility(View.GONE);
         }
@@ -245,9 +218,9 @@ public class ChefDishEditInfoFragment extends Fragment {
                 if (gotAllData) {
                     Bundle args = new Bundle();
                     args.putParcelable("dish", mDish);
-                    args.putInt("mode", HomePage.DISH_SECTION_EDIT_SINGLE);
+                    args.putInt("mode", ChefDishDesc.DISH_SECTION_EDIT_SINGLE);
                     mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishEditInfoFragment_ID,
-                            Constants.ACTION_NEXT_ChefDishEditInfoFragment_ID, args);
+                            Constants.ACTION_SAVE_ChefDishEditInfoFragment_ID, args);
                 }
             }
         });
@@ -256,7 +229,7 @@ public class ChefDishEditInfoFragment extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.action_settings).setVisible(false).setEnabled(false);
+//        menu.findItem(R.id.action_settings).setVisible(false).setEnabled(false);
         return;
     }
 
