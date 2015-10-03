@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.Constants;
+import com.apps.b3bytes.homefoods.activities.ChefDishDesc;
 import com.apps.b3bytes.homefoods.activities.HomePage;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 
@@ -177,7 +178,7 @@ public class ChefDishEditImageFragment extends Fragment {
         if (mMode == HomePage.DISH_SECTION_EDIT_ALL) {
             llDishImageNavigationButtons.setVisibility(View.VISIBLE);
             llDishImageSaveButtons.setVisibility(View.GONE);
-        } else if (mMode == HomePage.DISH_SECTION_EDIT_SINGLE) {
+        } else if (mMode == ChefDishDesc.DISH_SECTION_EDIT_SINGLE) {
             llDishImageSaveButtons.setVisibility(View.VISIBLE);
             llDishImageNavigationButtons.setVisibility(View.GONE);
         }
@@ -306,7 +307,7 @@ public class ChefDishEditImageFragment extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.action_settings).setVisible(false).setEnabled(false);
+ //       menu.findItem(R.id.action_settings).setVisible(false).setEnabled(false);
         return;
     }
 

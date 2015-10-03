@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.apps.b3bytes.homefoods.R;
 import com.apps.b3bytes.homefoods.State.Constants;
+import com.apps.b3bytes.homefoods.activities.ChefDishDesc;
 import com.apps.b3bytes.homefoods.activities.HomePage;
 import com.apps.b3bytes.homefoods.models.DishOnSale;
 import com.apps.b3bytes.homefoods.utils.Utils;
@@ -213,7 +214,7 @@ public class ChefDishEditAvailFragment extends Fragment {
         if (mMode == HomePage.DISH_SECTION_EDIT_ALL) {
             llDishAvailNavigationButtons.setVisibility(View.VISIBLE);
             llDishAvailSaveButtons.setVisibility(View.GONE);
-        } else if (mMode == HomePage.DISH_SECTION_EDIT_SINGLE) {
+        } else if (mMode == ChefDishDesc.DISH_SECTION_EDIT_SINGLE) {
             llDishAvailSaveButtons.setVisibility(View.VISIBLE);
             llDishAvailNavigationButtons.setVisibility(View.GONE);
         }
@@ -418,7 +419,7 @@ public class ChefDishEditAvailFragment extends Fragment {
                 if (gotAllData) {
                     Bundle args = new Bundle();
                     args.putParcelable("dish", mDish);
-                    args.putInt("mode", HomePage.DISH_SECTION_EDIT_SINGLE);
+                    args.putInt("mode", ChefDishDesc.DISH_SECTION_EDIT_SINGLE);
                     mActionRequestCallback.fragmentActionRequestHandler(Constants.FRAGMENT_ChefDishEditAvailFragment_ID,
                             Constants.ACTION_SAVE_ChefDishEditAvailFragment_ID, args);
                 }
@@ -429,7 +430,7 @@ public class ChefDishEditAvailFragment extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.action_settings).setVisible(false).setEnabled(false);
+//        menu.findItem(R.id.action_settings).setVisible(false).setEnabled(false);
         return;
     }
 

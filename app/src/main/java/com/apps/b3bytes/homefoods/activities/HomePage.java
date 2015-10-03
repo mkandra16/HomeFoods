@@ -2,6 +2,7 @@ package com.apps.b3bytes.homefoods.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -71,7 +72,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomePage extends AppCompatActivity implements FragmentActionRequestHandler {
-    public static final int DISH_SECTION_EDIT_SINGLE = 0;
     public static final int DISH_SECTION_EDIT_ALL = 1;
 
     // Will be set from integers.xml file dynamically.
@@ -83,10 +83,6 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
     private int DRAWER_LOC_FOODIE_ORDER_HISTORY;
     private int DRAWER_LOC_FOODIE_SIGN_OUT = -1;
 
-    private ChefDishEditInfoFragment infoFragment;
-    private ChefDishEditPriceFragment priceFragment;
-    private ChefDishEditAvailFragment availFragment;
-    private ChefDishEditImageFragment saveFragment;
     private ChefDishReadonlyFragment readFragment;
     private DishReviewFragment dishReviewFragment;
     private FoodieCheckoutFragment checkoutFragment;
@@ -131,17 +127,20 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     private int mBackPressMode = 0;
 
-    enum User{
+    enum User {
         UNKOWN, ANONYMOUS, FOOODIE, CHEF;
-    };
+    }
+
+    ;
 
     private User currentUser = User.UNKOWN;
+
     public void moveToUser(User s) {
         tvRegisterAsChef.setVisibility(View.INVISIBLE);
         swChefFoodie.setVisibility(View.INVISIBLE);
         tvSignIn.setVisibility(View.INVISIBLE);
         chefMode = false;
-        switch(s) {
+        switch (s) {
             case ANONYMOUS:
                 // unregistered user
                 tvSignIn.setVisibility(View.VISIBLE);
@@ -169,7 +168,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
                 tvRegisterAsChef.setVisibility(View.VISIBLE);
                 // Add LogOut button
                 navFoodieDrawerItems.add(new NavDrawerItem(getResources().getString(R.string.sign_out), R.mipmap.ic_back));
-                DRAWER_LOC_FOODIE_SIGN_OUT = navFoodieDrawerItems.size() -1;
+                DRAWER_LOC_FOODIE_SIGN_OUT = navFoodieDrawerItems.size() - 1;
                 foodieAdapter.notifyDataSetChanged();
                 break;
             case CHEF:
@@ -177,7 +176,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
                 swChefFoodie.setVisibility(View.VISIBLE);
                 chefMode = swChefFoodie.isChecked();
                 navChefDrawerItems.add(new NavDrawerItem(getResources().getString(R.string.sign_out), R.mipmap.ic_back));
-                DRAWER_LOC_CHEF_SIGN_OUT = navChefDrawerItems.size() -1;
+                DRAWER_LOC_CHEF_SIGN_OUT = navChefDrawerItems.size() - 1;
                 chefAdapter.notifyDataSetChanged();
                 break;
             default:
@@ -392,39 +391,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
         }
 
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
-        if (currentFragment instanceof ChefDishEditInfoFragment) {
-            if (infoFragment.getmAlertDiscardChanges()) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(HomePage.this, R.style.myDialog));
-                builder.setMessage("Discard changes?").setPositiveButton("YES", dialogToolbarBackClickListener)
-                        .setNegativeButton("NO", dialogToolbarBackClickListener).show();
-            } else {
-                superOnBackPressed();
-            }
-        } else if (currentFragment instanceof ChefDishEditPriceFragment) {
-            if ((mEditMode == DISH_SECTION_EDIT_SINGLE) && priceFragment.getmAlertDiscardChanges()) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(HomePage.this, R.style.myDialog));
-                builder.setMessage("Discard changes?").setPositiveButton("YES", dialogToolbarBackClickListener)
-                        .setNegativeButton("NO", dialogToolbarBackClickListener).show();
-            } else {
-                superOnBackPressed();
-            }
-        } else if (currentFragment instanceof ChefDishEditAvailFragment) {
-            if ((mEditMode == DISH_SECTION_EDIT_SINGLE) && availFragment.getmAlertDiscardChanges()) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(HomePage.this, R.style.myDialog));
-                builder.setMessage("Discard changes?").setPositiveButton("YES", dialogToolbarBackClickListener)
-                        .setNegativeButton("NO", dialogToolbarBackClickListener).show();
-            } else {
-                superOnBackPressed();
-            }
-        } else if (currentFragment instanceof ChefDishEditImageFragment) {
-            if ((mEditMode == DISH_SECTION_EDIT_SINGLE) && saveFragment.getmAlertDiscardChanges()) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(HomePage.this, R.style.myDialog));
-                builder.setMessage("Discard changes?").setPositiveButton("YES", dialogToolbarBackClickListener)
-                        .setNegativeButton("NO", dialogToolbarBackClickListener).show();
-            } else {
-                superOnBackPressed();
-            }
-        } else if (currentFragment instanceof FoodieGiveDishReviewFragment) {
+        if (currentFragment instanceof FoodieGiveDishReviewFragment) {
             if (((FoodieGiveDishReviewFragment) currentFragment).getmAlertDiscardChanges()) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(HomePage.this, R.style.myDialog));
                 builder.setMessage("Discard changes?").setPositiveButton("YES", dialogToolbarBackClickListener)
@@ -528,7 +495,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
             fragment = new ChefHomeFragment();
             AppGlobalState.signOut();
             moveToUser(User.ANONYMOUS);
-    }
+        }
 
         if (fragment != null) {
             replaceFragment(fragment);
@@ -671,23 +638,6 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
             }
             case Constants.ACTION_DISH_ADD_ChefMenuFragment_ID: {
                 onChefDishAddClicked();
-                break;
-            }
-        }
-    }
-
-
-    public void ChefDishReadonlyFragmentRequestHandler(int action_id, Bundle bundle) {
-        switch (action_id) {
-            case Constants.ACTION_EDIT_ChefDishReadonlyFragment_ID: {
-                DishOnSale dish = (DishOnSale) bundle.getParcelable("dish");
-                int section = bundle.getInt("section");
-                OnDishReadOnlyEditSelected(dish, section);
-                break;
-            }
-            case Constants.ACTION_HOMEUP_ChefDishReadonlyFragment_ID: {
-                boolean canActivityHandle = bundle.getBoolean("canActivityHandle");
-                FragmentHomeUpButton(canActivityHandle);
                 break;
             }
         }
@@ -1150,10 +1100,6 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
                 ChefMenuFragmentRequestHandler(action_id, bundle);
                 break;
             }
-            case Constants.FRAGMENT_ChefDishReadonlyFragment_ID: {
-                ChefDishReadonlyFragmentRequestHandler(action_id, bundle);
-                break;
-            }
             case Constants.FRAGMENT_FoodieHomeFragment_ID: {
                 FoodieHomeFragmentRequestHandler(action_id, bundle);
                 break;
@@ -1363,28 +1309,31 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
     }
 
     public void onChefDishItemClicked(DishOnSale dish) {
-        mDish = dish;
-        readFragment = new ChefDishReadonlyFragment();
-
-        Bundle args = readFragment.getArguments();
-        //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
-        if (args == null) {
-            args = new Bundle();
-            args.putParcelable("dish", dish);
-            readFragment.setArguments(args);
-        } else {
-            args.putParcelable("dish", dish);
-        }
-        replaceFragment(readFragment);
+//        mDish = dish;
+//        readFragment = new ChefDishReadonlyFragment();
+//
+//        Bundle args = readFragment.getArguments();
+//        //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
+//        if (args == null) {
+//            args = new Bundle();
+//            args.putParcelable("dish", dish);
+//            readFragment.setArguments(args);
+//        } else {
+//            args.putParcelable("dish", dish);
+//        }
+//        replaceFragment(readFragment);
+        Intent chefDishDescIntent = new Intent(HomePage.this, ChefDishDesc.class);
+        Bundle args = new Bundle();
+        args.putParcelable("dish", dish);
+        chefDishDescIntent.putExtras(args);
+        startActivityForResult(chefDishDescIntent, 100);
     }
 
     public void onChefDishAddClicked() {
         mEditMode = DISH_SECTION_EDIT_ALL;
         mDish = new DishOnSale();
-        infoFragment = new ChefDishEditInfoFragment();
-        priceFragment = new ChefDishEditPriceFragment();
-        availFragment = new ChefDishEditAvailFragment();
-        saveFragment = new ChefDishEditImageFragment();
+        ChefDishEditInfoFragment infoFragment = new ChefDishEditInfoFragment();
+        ChefDishEditAvailFragment availFragment = new ChefDishEditAvailFragment();
 
         Bundle args = new Bundle();
         args.putParcelable("dish", mDish);
@@ -1396,6 +1345,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void onDishInfoNextSelected(DishOnSale dish) {
         mDish = dish;
+        ChefDishEditPriceFragment priceFragment = new ChefDishEditPriceFragment();
 
         Bundle args = priceFragment.getArguments();
         //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
@@ -1413,6 +1363,8 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void onDishPriceBackSelected(DishOnSale dish) {
         mDish = dish;
+        ChefDishEditInfoFragment infoFragment = new ChefDishEditInfoFragment();
+
         Bundle args = infoFragment.getArguments();
         //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
         if (args == null) {
@@ -1429,6 +1381,8 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void onDishPriceNextSelected(DishOnSale dish) {
         mDish = dish;
+        ChefDishEditAvailFragment availFragment = new ChefDishEditAvailFragment();
+
         Bundle args = availFragment.getArguments();
         //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
         if (args == null) {
@@ -1445,6 +1399,8 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void onDishAvailBackSelected(DishOnSale dish) {
         mDish = dish;
+        ChefDishEditPriceFragment priceFragment = new ChefDishEditPriceFragment();
+
         Bundle args = priceFragment.getArguments();
         //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
         if (args == null) {
@@ -1461,6 +1417,8 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void onDishAvailNextSelected(DishOnSale dish) {
         mDish = dish;
+        ChefDishEditImageFragment saveFragment = new ChefDishEditImageFragment();
+
         Bundle args = saveFragment.getArguments();
         //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
         if (args == null) {
@@ -1477,6 +1435,8 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
     public void onDishImageBackSelected(DishOnSale dish) {
         mDish = dish;
+        ChefDishEditAvailFragment availFragment = new ChefDishEditAvailFragment();
+
         Bundle args = availFragment.getArguments();
         //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
         if (args == null) {
@@ -1507,7 +1467,7 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
                             Toast.LENGTH_SHORT).show();
                 }
 
-                if (saveMode == HomePage.DISH_SECTION_EDIT_SINGLE) {
+                if (saveMode == ChefDishDesc.DISH_SECTION_EDIT_SINGLE) {
                     Bundle args = readFragment.getArguments();
                     //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
                     if (args == null) {
@@ -1534,48 +1494,6 @@ public class HomePage extends AppCompatActivity implements FragmentActionRequest
 
         dishDescFragment.setArguments(args);
         replaceFragment(dishDescFragment);
-    }
-
-    public void OnDishReadOnlyEditSelected(DishOnSale dish, int section) {
-        mEditMode = DISH_SECTION_EDIT_SINGLE;
-        mDish = dish;
-
-        Fragment fragment = null;
-
-        switch (section) {
-            case ChefDishReadonlyFragment.DISH_EDIT_SECTION_INFO:
-                fragment = new ChefDishEditInfoFragment();
-                infoFragment = (ChefDishEditInfoFragment) fragment;
-                break;
-            case ChefDishReadonlyFragment.DISH_EDIT_SECTION_PRICE:
-                fragment = new ChefDishEditPriceFragment();
-                priceFragment = (ChefDishEditPriceFragment) fragment;
-                break;
-            case ChefDishReadonlyFragment.DISH_EDIT_SECTION_AVAIL:
-                fragment = new ChefDishEditAvailFragment();
-                availFragment = (ChefDishEditAvailFragment) fragment;
-                break;
-            case ChefDishReadonlyFragment.DISH_EDIT_SECTION_IMAGE:
-                fragment = new ChefDishEditImageFragment();
-                saveFragment = (ChefDishEditImageFragment) fragment;
-                break;
-            default:
-        }
-
-        if (fragment != null) {
-            Bundle args = fragment.getArguments();
-            //http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
-            if (args == null) {
-                args = new Bundle();
-                args.putParcelable("dish", mDish);
-                args.putInt("mode", DISH_SECTION_EDIT_SINGLE);
-                fragment.setArguments(args);
-            } else {
-                args.putInt("mode", DISH_SECTION_EDIT_SINGLE);
-                args.putParcelable("dish", mDish);
-            }
-            replaceFragment(fragment);
-        }
     }
 
     public void OnCheckoutCartClicked() {
